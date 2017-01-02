@@ -1,0 +1,6 @@
+framework module Pods_FlaintartistUITests {
+  umbrella header "Pods-FlaintartistUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

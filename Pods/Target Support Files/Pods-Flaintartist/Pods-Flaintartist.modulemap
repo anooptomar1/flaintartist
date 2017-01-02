@@ -1,0 +1,6 @@
+framework module Pods_Flaintartist {
+  umbrella header "Pods-Flaintartist-umbrella.h"
+
+  export *
+  module * { export * }
+}

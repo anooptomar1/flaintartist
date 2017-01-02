@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="HelveticaNeue.ttc">
+            <string>HelveticaNeue</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CaptureDetailsVC" customModule="Flaintartist" customModuleProvider="target">
+            <connections>
+                <outlet property="heightLbl" destination="DgM-Lm-bUX" id="qAO-hY-Oal"/>
+                <outlet property="heightSlider" destination="Mq8-ev-PtS" id="jId-hd-b5e"/>
+                <outlet property="widthLbl" destination="txu-zL-Zky" id="3YR-bx-jg6"/>
+                <outlet property="widthSlider" destination="gk2-Dq-0CU" id="INA-2z-lcK"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="kYf-0L-FQf">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <slider opaque="NO" multipleTouchEnabled="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="gk2-Dq-0CU">
+                    <rect key="frame" x="30" y="104" width="315" height="27"/>
+                    <color key="minimumTrackTintColor" red="0.42655369640000002" green="0.475846082" blue="0.4802647531" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <action selector="SliderValueChanged:" destination="-1" eventType="valueChanged" id="vH8-aI-yC1"/>
+                    </connections>
+                </slider>
+                <slider opaque="NO" multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Mq8-ev-PtS">
+                    <rect key="frame" x="30" y="35" width="315" height="41"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="HSf-vX-IjO"/>
+                    </constraints>
+                    <color key="minimumTrackTintColor" red="0.42655369640000002" green="0.475846082" blue="0.4802647531" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <action selector="SliderValueChanged:" destination="-1" eventType="valueChanged" id="NTF-TF-Yh1"/>
+                    </connections>
+                </slider>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Height" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DgM-Lm-bUX">
+                    <rect key="frame" x="47" y="0.0" width="120" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="120" id="ZC3-IW-dbS"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
+                    <color key="textColor" red="0.12637259070000001" green="0.12639245390000001" blue="0.1263653636" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Width" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="txu-zL-Zky">
+                    <rect key="frame" x="208" y="0.0" width="120" height="20"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
+                    <color key="textColor" red="0.12637259070000001" green="0.12639245390000001" blue="0.1263653636" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <constraints>
+                <constraint firstItem="Mq8-ev-PtS" firstAttribute="centerX" secondItem="kYf-0L-FQf" secondAttribute="centerX" id="JHA-Ek-GGX"/>
+                <constraint firstItem="Mq8-ev-PtS" firstAttribute="top" secondItem="DgM-Lm-bUX" secondAttribute="bottom" constant="15" id="Kb7-YP-dtb"/>
+                <constraint firstItem="gk2-Dq-0CU" firstAttribute="top" secondItem="Mq8-ev-PtS" secondAttribute="bottom" constant="29" id="LGm-UW-aO4"/>
+                <constraint firstAttribute="trailing" secondItem="txu-zL-Zky" secondAttribute="trailing" constant="47" id="Nrq-KP-kjF"/>
+                <constraint firstItem="Mq8-ev-PtS" firstAttribute="leading" secondItem="kYf-0L-FQf" secondAttribute="leading" constant="32" id="OC8-5r-kwm"/>
+                <constraint firstItem="Mq8-ev-PtS" firstAttribute="leading" secondItem="gk2-Dq-0CU" secondAttribute="leading" id="Rxa-zR-Ujf"/>
+                <constraint firstItem="gk2-Dq-0CU" firstAttribute="centerY" secondItem="kYf-0L-FQf" secondAttribute="centerY" constant="17" id="VJ0-6r-eoe"/>
+                <constraint firstItem="DgM-Lm-bUX" firstAttribute="baseline" secondItem="txu-zL-Zky" secondAttribute="baseline" id="bQq-2x-I6r"/>
+                <constraint firstItem="DgM-Lm-bUX" firstAttribute="top" secondItem="kYf-0L-FQf" secondAttribute="top" id="dVD-kY-2Fm"/>
+                <constraint firstItem="DgM-Lm-bUX" firstAttribute="leading" secondItem="kYf-0L-FQf" secondAttribute="leading" constant="47" id="fpG-Sf-3BB"/>
+                <constraint firstItem="Mq8-ev-PtS" firstAttribute="trailing" secondItem="gk2-Dq-0CU" secondAttribute="trailing" id="mfy-sl-qSR"/>
+                <constraint firstItem="txu-zL-Zky" firstAttribute="leading" secondItem="DgM-Lm-bUX" secondAttribute="trailing" constant="41" id="rHD-kp-69A"/>
+                <constraint firstItem="DgM-Lm-bUX" firstAttribute="firstBaseline" secondItem="txu-zL-Zky" secondAttribute="firstBaseline" id="w95-x2-1ZL"/>
+                <constraint firstItem="Mq8-ev-PtS" firstAttribute="top" secondItem="kYf-0L-FQf" secondAttribute="top" constant="35" id="yqo-UF-y96"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-94.5" y="40"/>
+        </view>
+    </objects>
+</document>

@@ -7,40 +7,124 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseDatabase
+import FirebaseInstanceID
+import FirebaseMessaging
+import SwiftyUserDefaults
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
+        
+        
+        FIRApp.configure()
+        FIRDatabase.database().persistenceEnabled = true
+        
+        userIsLoggedIn()
+        
+        
+        if #available(iOS 8.0, *) {
+            if #available(iOS 10.0, *) {
+                UNUserNotificationCenter.current().requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
+                    if granted {
+                        UIApplication.shared.registerForRemoteNotifications()
+                    }
+                }
+            } else {
+                
+            }
+        } else {
+            let types: UIRemoteNotificationType = [.alert, .badge, .sound]
+            application.registerForRemoteNotifications(matching: types)
+        }
 
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.tokenRefreshNotification(notification:)), name: NSNotification.Name.firInstanceIDTokenRefresh, object: nil)
+        
+        //FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        if !UserDefaults.standard.bool(forKey: "FirstTime") {
+            UserDefaults.standard.set(false, forKey: "FirstTime")
+        }
+        
+        if UserDefaults.standard.bool(forKey: "FirstTime") {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let initialViewController = storyboard.instantiateViewController(withIdentifier: "ChooseAccountTypeNav")
+            self.window?.rootViewController = initialViewController
+            self.window?.makeKeyAndVisible()
+        } else {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let initialViewController = storyboard.instantiateViewController(withIdentifier: "LogInNav")
+            self.window?.rootViewController = initialViewController
+            self.window?.makeKeyAndVisible()
+        }
+        
+        UITabBar.appearance().tintColor = UIColor.flatBlack()
         return true
     }
-
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
-
+    
     func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        FIRMessaging.messaging().disconnect()
     }
-
+    
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
-
+    
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        //FBSDKAppEvents.activateApp()
+        connectToFCM()
+        
     }
-
+    
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
+    
+    
+    func userIsLoggedIn() {
+        if let uid = Defaults[.key_uid] {
+            let usersRef = FIRDatabase.database().reference().child("users").child(uid)
+            if !uid.isEmpty {
+                usersRef.observe(.value, with: { snapshot in
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        let initialViewController = storyboard.instantiateViewController(withIdentifier: "TabBarVC") as! TabBarVC
+                        self.window?.rootViewController = initialViewController
+                        self.window?.makeKeyAndVisible()
+                    
+                    if ( snapshot.value is NSNull ) {
+                        print(" CAN'T LOG IN: snapshot not found)")
+                    }
+                })
+            }
+        }
+    }
+    
+    
+    func tokenRefreshNotification(notification: NSNotification) {
+        let refreshedToken = FIRInstanceID.instanceID().token()
+        print("InstanceID token: \(refreshedToken)")
+        connectToFCM()
+    }
+    
+    func connectToFCM() {
+        FIRMessaging.messaging().connect { (error) in
+            
+            if (error != nil) {
+                print("Unable to connect to FCM \(error)")
+            } else {
+                print("Connected to FCM")
+            }
+        }
+    }
 }
-
