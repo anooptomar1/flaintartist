@@ -78,6 +78,8 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
         let tapProfileGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.tapProfilePicture))
         profileImg.addGestureRecognizer(tapProfileGesture)
         profileImg.configure(UIColor.flatWhite(), width: 0.5)
+        self.gradientView.backgroundColor = UIColor(gradientStyle: UIGradientStyle.topToBottom, withFrame: CGRect(x:0 , y: 100, width: self.view.frame.width, height: 172) , andColors: [UIColor.flatWhite(), UIColor.white])
+        carouselView.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: CGRect(x: 0, y: 0, width: self.carouselView.frame.width, height:  437) , andColors: [  UIColor.white, UIColor.flatWhite()])
         
         refreshControl = UIRefreshControl()
         refreshControl.tintColor = UIColor.flatBlack()
@@ -89,7 +91,7 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
         super.viewWillAppear(animated)
         navigationItem.hidesBackButton = true
         self.navigationController?.setToolbarHidden(true, animated: false)
-        self.navigationController?.navigationBar.tintColor = UIColor.flatSkyBlue()
+        self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
         if editInfo.isEmpty == false {
             if let img = editInfo[0] as? UIImage, let backImg = editInfo[1] as? UIImage, let name = editInfo[2] as? String {
                 profileImg.image = img
@@ -129,10 +131,8 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
     func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
         if (view == nil) {
             let post = posts[index]
-            artView = UIView(frame: CGRect(x: 0, y: 0, width: 250, height: 250))
-            carouselView.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: CGRect(x: 0, y: 0, width: self.carouselView.frame.width, height:  self.carouselView.frame.height) , andColors: [UIColor.flatWhite(),  UIColor.white])
-            
-            artImgView = FXImageView(frame: CGRect(x: 0, y: 0, width: 250, height: 250))
+            artView = UIView(frame: CGRect(x: 0, y: 0, width: 350, height: 350))
+            artImgView = FXImageView(frame: CGRect(x: 0, y: 0, width: 350, height: 350))
             artImgView.image = UIImage(named:"White")
             artImgView.contentMode = .scaleAspectFit
             artImgView.isAsynchronous = true
@@ -289,10 +289,7 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
                     if let color = (snapshot.value as? NSDictionary)?["color"] as! String?  {
                         let profileColor = UIColor(hexString: color, withAlpha: 0.9) as UIColor
                         self.profilePicColor = profileColor
-                        self.gradientView.backgroundColor = UIColor(gradientStyle: UIGradientStyle.topToBottom, withFrame: CGRect(x:0 , y: 100, width: self.view.frame.width, height: 206) , andColors: [UIColor.flatWhite(), UIColor.white])
-                        //self.scrollView.backgroundColor = profileColor
                         self.nameLbl.textColor = profileColor
-                        
                     }
                     self.artCountLbl.text = "\(self.posts.count)"
                 }

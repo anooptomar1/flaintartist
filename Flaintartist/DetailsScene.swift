@@ -15,8 +15,9 @@ class DetailsScene: SCNScene {
     var geometry = SCNBox()
     var boxnode = SCNNode()
     var heightPlane = SCNPlane()
-    let txt = SCNText()
+    var newText = SCNText()
     var post: ArtModel!
+    var height:Float = 0.0
     
     convenience init(create: Bool) {
         self.init()
@@ -55,6 +56,17 @@ class DetailsScene: SCNScene {
         backMat.diffuse.contents = UIColor.gray
         self.geometry.materials = [material, borderMat, backMat, borderMat, borderMat]
         
+        //newText = SCNText(string: "test", extrusionDepth: 0)
+        newText.firstMaterial!.diffuse.contents = UIColor.flatBlack()
+        newText.font = UIFont.systemFont(ofSize: 0.2)
+        //newText.firstMaterial!.specular.contents = UIColor.white
+        
+        let textNode = SCNNode(geometry: newText)
+        textNode.position = SCNVector3Make( Float(self.geometry.width - 2), Float(self.geometry.height - 1), Float(2/2))
+        
+        self.rootNode.addChildNode(textNode)
+        
     }
+
 }
 

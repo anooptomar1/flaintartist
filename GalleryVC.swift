@@ -72,7 +72,9 @@
             }
             
             profileImg.configure(UIColor.flatWhite(), width: 0.5)
-            carouselView.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: CGRect(x: 0, y: 0, width: self.carouselView.frame.width, height:  342) , andColors: [UIColor.white, UIColor.flatWhite()])
+            self.gradientView.backgroundColor = UIColor(gradientStyle: UIGradientStyle.topToBottom, withFrame: CGRect(x:0 , y: 100, width: self.view.frame.width, height: 236) , andColors: [UIColor.flatWhite(), UIColor.white])
+            carouselView.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: CGRect(x: 0, y: 0, width: self.carouselView.frame.width, height:  427) , andColors: [  UIColor.white, UIColor.flatWhite()])
+            
             refreshControl = UIRefreshControl()
             refreshControl.addTarget(self, action: #selector(GalleryVC.refresh(sender:)) , for: UIControlEvents.valueChanged)
             scrollView.addSubview(refreshControl)
@@ -82,10 +84,7 @@
         
         override func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(animated)
-            
-            self.navigationController?.navigationBar.tintColor = UIColor.flatSkyBlue()
             self.navigationController?.setToolbarHidden(true, animated: false)
-            
         }
         
         func refresh(sender:AnyObject) {
@@ -103,8 +102,8 @@
         func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
             if (view == nil) {
                 let post = posts[index]
-                artView = UIView(frame: CGRect(x: 0, y: 0, width: 250, height: 250))
-                artImgView = FXImageView(frame: CGRect(x: 0, y: 20, width: 250, height: 250))
+                artView = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
+                artImgView = FXImageView(frame: CGRect(x: 0, y: 20, width: 300, height: 300))
                 artImgView.image = UIImage(named:"White")
                 artImgView.contentMode = .scaleAspectFit
                 artImgView.isUserInteractionEnabled = true
@@ -272,8 +271,6 @@
                         
                         if let color = (snapshot.value as? NSDictionary)?["color"] as! String?  {
                             let backColor = UIColor(hexString: color, withAlpha: 0.9) as UIColor
-                            self.backgroundPicColor = backColor
-                            self.gradientView.backgroundColor = UIColor(gradientStyle: UIGradientStyle.topToBottom, withFrame: CGRect(x:0 , y: 100, width: self.view.frame.width, height: 206) , andColors: [ backColor, UIColor.white])
                             self.nameLbl.textColor = backColor
                         }
                     }
