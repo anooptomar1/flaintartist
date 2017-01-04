@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "27340DEBDCEB52909CF975B73DB255EED9030B45",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "27340DEBDCEB52909CF975B73DB255EED9030B45" : 9223372036854775807,
+    "C06AFE2785F319E8C3BD7EFEABC3830E51D6AFFC" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "91A73A4B-10D1-477E-9DF7-CAA629279598",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "27340DEBDCEB52909CF975B73DB255EED9030B45" : "Flaintartist\/",
+    "C06AFE2785F319E8C3BD7EFEABC3830E51D6AFFC" : "Medici\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Flaintartist",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Flaintartist.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:Jkurbs\/flaintartist.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "27340DEBDCEB52909CF975B73DB255EED9030B45"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:Jkurbs\/Medici.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C06AFE2785F319E8C3BD7EFEABC3830E51D6AFFC"
+    }
+  ]
+}

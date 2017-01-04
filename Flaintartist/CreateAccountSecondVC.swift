@@ -127,15 +127,11 @@ class CreateArtistSecondVC: UIViewController, UIImagePickerControllerDelegate, U
     func addImgLbl() {
         if profileImg.image != nil {
             UIView.animate(withDuration: 3.0, animations: {
-                self.profileImg.layer.borderWidth = 0.0
                 self.addProfilePicLbl.alpha = 0.0
-                self.nameStackView.alpha = 1.0
-                self.doneBtn.isHidden = false
-                
             })
         }
     }
-
+    
     
     func alert(title: String, message: String ) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
