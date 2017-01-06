@@ -11,7 +11,7 @@ import FirebaseDatabase
 import FirebaseStorage
 import FirebaseAuth
 
-class ArtModel {
+class Art {
     
     fileprivate var _artID: String!
     fileprivate var _imgUrl: String!

@@ -14,7 +14,7 @@ class ArtRoomScene: SCNScene {
     
     var artImage = UIImage()
     var geometry = SCNBox()
-    var post: ArtModel!
+    var post: Art!
     
     
     

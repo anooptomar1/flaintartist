@@ -22,7 +22,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.navigationItem.title = "Settings"
         tableView.delegate = self
         tableView.dataSource = self
-        options = ["Edit Account", "Invite a Friend", "Log Out"]
+        options = ["Edit Account", "Invite a Friend", "Privacy Policy", "Log Out"]
     }
     
     
@@ -54,6 +54,11 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
         
         if indexPath.row == 2 {
+            logoutAlert()
+            //reportProblemAlert()
+        }
+        
+        if indexPath.row == 3 {
             logoutAlert()
             //reportProblemAlert()
         }

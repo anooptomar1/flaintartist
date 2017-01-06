@@ -16,7 +16,7 @@ class DetailsScene: SCNScene {
     var boxnode = SCNNode()
     var heightPlane = SCNPlane()
     var newText = SCNText()
-    var post: ArtModel!
+    var post: Art!
     var height:Float = 0.0
     
     convenience init(create: Bool) {

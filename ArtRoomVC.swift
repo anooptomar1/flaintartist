@@ -56,7 +56,7 @@
             
             scnView.backgroundColor = UIColor.white
             
-            if let info = artInfo[1] as? ArtModel {
+            if let info = artInfo[1] as? Art {
                 self.artRoomScene.setup(artInfo: artInfo[0] as? UIImage)
                 titleLbl.text = info.title
                 typeLbl.text = info.type
@@ -105,7 +105,7 @@
         
         
         @IBAction func artistBtnTapped(_ sender: Any) {
-            performSegue(withIdentifier: "GalleryVC", sender: artInfo[1] as! ArtModel)
+            performSegue(withIdentifier: "GalleryVC", sender: artInfo[1] as! Art)
         }
         
         func showArtInfo() {
@@ -129,7 +129,7 @@
         
         
         func showAlert() {
-            if let info = artInfo[1] as? ArtModel {
+            if let info = artInfo[1] as? Art {
                 if info.userUid == FIRAuth.auth()?.currentUser?.uid {
             
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -165,7 +165,7 @@
                     })
                 
                  let report = UIAlertAction(title: "Report", style: .destructive, handler: { (UIAlertAction) in
-                    
+                    self.performSegue(withIdentifier: "ReportVC", sender: self.artInfo[1])
                  })
                     
                 let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -204,10 +204,9 @@
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             if segue.identifier == "GalleryVC" {
                 let vc = segue.destination as! GalleryVC
-                if let post = sender as? ArtModel {
+                if let post = sender as? Art {
                     vc.hidesBottomBarWhenPushed = false
                     vc.post = post
-                    
                 }
             }
             
@@ -215,8 +214,14 @@
                 let vc = segue.destination as! WallViewVC
                 if let artImage = sender as? UIImage {
                     vc.artImage = artImage
-                    
+               }
+            }
+            
+            if segue.identifier == "ReportVC" {
+               let navVC = segue.destination as! UINavigationController
+               let reportVC = navVC.topViewController as! ReportVC
+                    reportVC.artInfo = artInfo
+                
             }
         }
     }
-}

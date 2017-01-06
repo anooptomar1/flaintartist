@@ -37,8 +37,8 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
     
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
     var profilePicColor: UIColor?
-    var posts = [ArtModel]()
-    var post: ArtModel!
+    var posts = [Art]()
+    var post: Art!
     var artists = [Users]()
     var artist: Users!
     var info: [AnyObject] = []
@@ -67,7 +67,7 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
                     for snap in snapshot {
                         if let postDict = snap.value as? Dictionary<String, AnyObject> {
                             let key = snap.key
-                            let post = ArtModel(key: key, artData: postDict)
+                            let post = Art(key: key, artData: postDict)
                             self.posts.insert(post, at: 0)
                         }
                     }
@@ -318,7 +318,7 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
         }
     }
     
-    func configureView(_ post: ArtModel, img: UIImage? = nil, imageView: FXImageView? = nil) {
+    func configureView(_ post: Art, img: UIImage? = nil, imageView: FXImageView? = nil) {
         self.post = post
         if img != nil {
             self.artImgView.image = img

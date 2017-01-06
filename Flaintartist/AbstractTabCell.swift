@@ -13,9 +13,9 @@ import FirebaseDatabase
 class AbstractTabCell: UITableViewCell {
     @IBOutlet weak var abstractCollectionView: UICollectionView!
     
-    var posts = [ArtModel]()
+    var posts = [Art]()
     
-    var post: ArtModel!
+    var post: Art!
     
     weak var delegate: presentVCProtocol?
     
@@ -30,7 +30,7 @@ class AbstractTabCell: UITableViewCell {
                 for snap in snapshot {
                     if let postDict = snap.value as? Dictionary<String, AnyObject> {
                         let key = snap.key
-                        let post = ArtModel(key: key, artData: postDict)
+                        let post = Art(key: key, artData: postDict)
                         self.posts.insert(post, at: 0)
                     }
                 }

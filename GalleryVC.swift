@@ -32,8 +32,8 @@
         
         static var imageCache: NSCache<NSString, UIImage> = NSCache()
         var backgroundPicColor: UIColor?
-        var posts = [ArtModel]()
-        var post: ArtModel!
+        var posts = [Art]()
+        var post: Art!
         var info: [AnyObject] = []
         var editInfo: [AnyObject] = []
         
@@ -57,7 +57,7 @@
                     for snap in snapshot {
                         if let postDict = snap.value as? Dictionary<String, AnyObject> {
                             let key = snap.key
-                            let post = ArtModel(key: key, artData: postDict)
+                            let post = Art(key: key, artData: postDict)
                             self.posts.insert(post, at: 0)
                         }
                     }
@@ -300,7 +300,7 @@
         }
         
         
-        func configureView(post: ArtModel, img: UIImage? = nil, imageView: FXImageView? = nil) {
+        func configureView(post: Art, img: UIImage? = nil, imageView: FXImageView? = nil) {
             self.post = post
             if img != nil {
                 self.artImgView.image = img

@@ -32,7 +32,7 @@ class DataService {
     private var _REF_CURRENT_RESTO = DB_BASE.child("restaurant").child((FIRAuth.auth()?.currentUser?.uid)!)
     
     // MAILGUN
-    //fileprivate var _REF_MAILGUN = Mailgun.client(withDomain: "sandbox9e1ee9467d7b4efcbe9fc7f8a93c8873.mailgun.org", apiKey: "key-93800f7299c38f6fc13ca91a5db68f95")
+    private var _REF_MAILGUN = Mailgun.client(withDomain: "sandbox9e1ee9467d7b4efcbe9fc7f8a93c8873.mailgun.org", apiKey: "key-93800f7299c38f6fc13ca91a5db68f95")
     
     
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
@@ -60,9 +60,9 @@ class DataService {
         return _REF_STORAGE
     }
     
-    //    var REF_MAILGUN: Mailgun {
-    //        return _REF_MAILGUN!
-    //    }
+        var REF_MAILGUN: Mailgun {
+            return _REF_MAILGUN!
+        }
     
     func createFirebaseDBUser(_ uid: String, userData: Dictionary<String, String>) {
         let newUser = DataService.ds.REF_USERS.child(uid)

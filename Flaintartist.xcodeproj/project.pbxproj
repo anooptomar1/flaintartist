@@ -43,6 +43,9 @@
 		6D1C784D1E1A047800E2041C /* CaptureVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C784C1E1A047800E2041C /* CaptureVC.swift */; };
 		6D1C784F1E1A04BC00E2041C /* CaptureDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C784E1E1A04BC00E2041C /* CaptureDetailsVC.swift */; };
 		6D33DEB41E1F2C7300CC4618 /* ReportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D33DEB31E1F2C7300CC4618 /* ReportVC.swift */; };
+		6D33DEB91E1F44AC00CC4618 /* Mailgun.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D33DEB81E1F44AC00CC4618 /* Mailgun.m */; };
+		6D4609B01E1F505F00FC75C3 /* MGMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4609AE1E1F505F00FC75C3 /* MGMessage.m */; };
+		6D4609B21E1F5FAC00FC75C3 /* ReportNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4609B11E1F5FAC00FC75C3 /* ReportNav.swift */; };
 		6D9EA40D1E19DC7B0080D182 /* SwipeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9EA40C1E19DC7B0080D182 /* SwipeView.m */; };
 		6D9EA4131E19DCC20080D182 /* FXImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9EA4101E19DCC20080D182 /* FXImageView.m */; };
 		6D9EA4141E19DCC20080D182 /* UIImage+FX.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9EA4121E19DCC20080D182 /* UIImage+FX.m */; };
@@ -136,6 +139,11 @@
 		6D1C784C1E1A047800E2041C /* CaptureVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CaptureVC.swift; path = Flaintartist/CaptureVC.swift; sourceTree = SOURCE_ROOT; };
 		6D1C784E1E1A04BC00E2041C /* CaptureDetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CaptureDetailsVC.swift; path = Flaintartist/CaptureDetailsVC.swift; sourceTree = SOURCE_ROOT; };
 		6D33DEB31E1F2C7300CC4618 /* ReportVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportVC.swift; path = Flaintartist/ReportVC.swift; sourceTree = SOURCE_ROOT; };
+		6D33DEB71E1F44AC00CC4618 /* Mailgun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mailgun.h; path = ../../Medici/Medici/Mailgun.h; sourceTree = "<group>"; };
+		6D33DEB81E1F44AC00CC4618 /* Mailgun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Mailgun.m; path = ../../Medici/Medici/Mailgun.m; sourceTree = "<group>"; };
+		6D4609AE1E1F505F00FC75C3 /* MGMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGMessage.m; sourceTree = "<group>"; };
+		6D4609AF1E1F505F00FC75C3 /* MGMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGMessage.h; sourceTree = "<group>"; };
+		6D4609B11E1F5FAC00FC75C3 /* ReportNav.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportNav.swift; sourceTree = "<group>"; };
 		6D9EA40A1E19DC7A0080D182 /* Flaintartist-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Flaintartist-Bridging-Header.h"; sourceTree = "<group>"; };
 		6D9EA40B1E19DC7B0080D182 /* SwipeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwipeView.h; sourceTree = "<group>"; };
 		6D9EA40C1E19DC7B0080D182 /* SwipeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwipeView.m; sourceTree = "<group>"; };
@@ -265,8 +273,12 @@
 		6D9EA4081E19DC5A0080D182 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				6D33DEB71E1F44AC00CC4618 /* Mailgun.h */,
+				6D33DEB81E1F44AC00CC4618 /* Mailgun.m */,
 				6D9EA4151E19DCEC0080D182 /* IPDFCameraViewController.h */,
 				6D9EA4161E19DCEC0080D182 /* IPDFCameraViewController.m */,
+				6D4609AE1E1F505F00FC75C3 /* MGMessage.m */,
+				6D4609AF1E1F505F00FC75C3 /* MGMessage.h */,
 				6D9EA4181E19DD4F0080D182 /* iCarousel.h */,
 				6D9EA4191E19DD4F0080D182 /* iCarousel.m */,
 				6D9EA40E1E19DC8F0080D182 /* FXImageView */,
@@ -491,6 +503,7 @@
 				6D1C78371E19E90900E2041C /* AllVC.swift */,
 				6D1C78471E19EEEA00E2041C /* TabBarVC.swift */,
 				6D33DEB31E1F2C7300CC4618 /* ReportVC.swift */,
+				6D4609B11E1F5FAC00FC75C3 /* ReportNav.swift */,
 			);
 			name = TabItem;
 			sourceTree = "<group>";
@@ -835,6 +848,7 @@
 				6D1C78231E19E6CF00E2041C /* SettingsVC.swift in Sources */,
 				6D1C78341E19E8B500E2041C /* HeaderView.swift in Sources */,
 				6D9EA4171E19DCEC0080D182 /* IPDFCameraViewController.m in Sources */,
+				6D33DEB91E1F44AC00CC4618 /* Mailgun.m in Sources */,
 				6D1C78111E19E50900E2041C /* TrendingTabCell.swift in Sources */,
 				6D1C78081E19E46600E2041C /* SettingsCell.swift in Sources */,
 				6D1C78291E19E76A00E2041C /* InviteFriendsVC.swift in Sources */,
@@ -845,6 +859,8 @@
 				6D9EA41F1E19DE2D0080D182 /* ArtRoomScene.swift in Sources */,
 				6D1C781D1E19E5CF00E2041C /* RealismColCell.swift in Sources */,
 				6D9EA4211E19DE540080D182 /* WallViewScene.swift in Sources */,
+				6D4609B01E1F505F00FC75C3 /* MGMessage.m in Sources */,
+				6D4609B21E1F5FAC00FC75C3 /* ReportNav.swift in Sources */,
 				6DF28DC51E199BF900C8A3B0 /* Alerts.swift in Sources */,
 				6D9EA4251E19DF150080D182 /* WallviewVC.swift in Sources */,
 				6D1C78421E19ED6300E2041C /* CreateAccountFirstVC.swift in Sources */,

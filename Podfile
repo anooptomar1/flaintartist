@@ -14,6 +14,7 @@ target 'Flaintartist' do
   pod 'FirebaseStorage'
   pod 'Firebase/Messaging'
   pod 'SwiftyUserDefaults'
+  pod 'AFNetworking',  '~> 1.3.3'
 
   target 'FlaintartistTests' do
     inherit! :search_paths

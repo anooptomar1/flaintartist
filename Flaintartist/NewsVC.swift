@@ -25,8 +25,8 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
     var screenWidth: CGFloat!
     var screenHeight: CGFloat!
     
-    var posts = [ArtModel]()
-    var post: ArtModel!
+    var posts = [Art]()
+    var post: Art!
     
     var categories = ["Just For You", "Modern", "Abstract", "Realism"]
     static var imageCache: NSCache<NSString, UIImage> = NSCache()

@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>AFNetworking.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>ChameleonFramework.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -47,17 +52,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>18F2207B5A4E837047DE538075299FFE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>23BA9083ED0D2392A167A8AFA04427FA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7D83DB06FFDFC5AA7CC397F7DFBF7BA9</key>
+		<key>48B8921618A709698F880F1BC660FDC2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7711103AF98B4A3B4606D65472B943F8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -73,6 +78,11 @@
 			<true/>
 		</dict>
 		<key>9B57F4EE4746045CEAE2D933A3C8EC9E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EBB70B39B24BFA8A41C2439A78FAC47B</key>
 		<dict>
 			<key>primary</key>
 			<true/>

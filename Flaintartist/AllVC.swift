@@ -17,8 +17,8 @@ class AllVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     var screenWidth: CGFloat!
     var screenHeight: CGFloat!
     
-    var posts = [ArtModel]()
-    var post: ArtModel!
+    var posts = [Art]()
+    var post: Art!
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
     
     var type: String?
@@ -49,7 +49,7 @@ class AllVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                 for snap in snapshot {
                     if let postDict = snap.value as? Dictionary<String, AnyObject> {
                         let key = snap.key
-                        let post = ArtModel(key: key, artData: postDict)
+                        let post = Art(key: key, artData: postDict)
                         self.posts.insert(post, at: 0)
                     }
                 }

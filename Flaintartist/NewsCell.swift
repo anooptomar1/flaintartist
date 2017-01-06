@@ -14,9 +14,9 @@ class NewsCell: UICollectionViewCell {
     @IBOutlet weak var artImg: UIImageView!
     @IBOutlet weak var borderBottomView: UIView!
     
-    var post: ArtModel!
+    var post: Art!
     
-    func configureCell(_ post: ArtModel, img: UIImage? = nil) {
+    func configureCell(_ post: Art, img: UIImage? = nil) {
         self.post = post
         if img != nil {
             self.artImg.image = img
