@@ -1876,6 +1876,7 @@
                         <segue destination="f5G-XR-9SX" kind="show" identifier="FeedbackVC" id="JcL-cM-8Xi">
                             <nil key="action"/>
                         </segue>
+                        <segue destination="bJg-fH-lOv" kind="show" identifier="PrivacyVC" id="OIK-J1-Mzj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IE1-Wf-HoR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2217,31 +2218,44 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <segue destination="lQc-FV-emH" kind="show" identifier="ConfirmReportVC" id="Env-zE-Dgz"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Flc-Pd-Xdy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3134" y="-586"/>
         </scene>
-        <!--Confirm ReportVC-->
-        <scene sceneID="k6y-Mw-jXN">
+        <!--PrivacyVC-->
+        <scene sceneID="A3I-LF-J0j">
             <objects>
-                <viewController id="lQc-FV-emH" customClass="ConfirmReportVC" customModule="Flaintartist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PrivacyVC" id="bJg-fH-lOv" customClass="PrivacyVC" customModule="Flaintartist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="9O7-wg-Epn"/>
-                        <viewControllerLayoutGuide type="bottom" id="ZBu-wR-S8h"/>
+                        <viewControllerLayoutGuide type="top" id="N2O-KB-3Q9"/>
+                        <viewControllerLayoutGuide type="bottom" id="dFL-rr-A9f"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="VwX-e2-grg">
+                    <view key="view" contentMode="scaleToFill" id="Se8-ts-4oO">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3OM-mW-RuR">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                            </webView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="3OM-mW-RuR" secondAttribute="trailing" id="EKg-Ab-2MD"/>
+                            <constraint firstItem="3OM-mW-RuR" firstAttribute="leading" secondItem="Se8-ts-4oO" secondAttribute="leading" id="JAy-Pv-uqQ"/>
+                            <constraint firstItem="3OM-mW-RuR" firstAttribute="top" secondItem="Se8-ts-4oO" secondAttribute="top" id="cGF-gs-Ura"/>
+                            <constraint firstAttribute="bottom" secondItem="3OM-mW-RuR" secondAttribute="bottom" id="qvM-gF-UBF"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="webView" destination="3OM-mW-RuR" id="TS0-Wk-GFM"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="yDr-uB-qum" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9wx-Oo-H7U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3852" y="-587"/>
+            <point key="canvasLocation" x="6034.3999999999996" y="138.98050974512745"/>
         </scene>
         <!--Report Nav-->
         <scene sceneID="6TJ-78-RfP">

@@ -54,13 +54,11 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
         
         if indexPath.row == 2 {
-            logoutAlert()
-            //reportProblemAlert()
+            performSegue(withIdentifier: "PrivacyVC", sender: nil)
         }
         
         if indexPath.row == 3 {
             logoutAlert()
-            //reportProblemAlert()
         }
         
     }
@@ -118,6 +116,9 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             let feedbackVC = segue.destination as! FeedbackVC
             let report = sender as! [String]
             feedbackVC.report = report
+        } else if segue.identifier == "PrivacyVC" {
+            let feedbackVC = segue.destination as! PrivacyVC
+            feedbackVC.hidesBottomBarWhenPushed = true
         }
     }
 }
