@@ -25,11 +25,8 @@
         var artRoomScene = ArtRoomScene(create: true)
         
         var artImage = UIImage()
-        
         var artInfo: [Any] = []
-        
         var showInfo: Bool = false
-        
         let alert = Alerts()
         
         static var imageCache: NSCache<NSString, UIImage> = NSCache()
@@ -220,6 +217,7 @@
             if segue.identifier == "ReportVC" {
                let navVC = segue.destination as! UINavigationController
                let reportVC = navVC.topViewController as! ReportVC
+                    reportVC.headerTitle = "Please choose the reason for reporting the Piece."
                     reportVC.artInfo = artInfo
                 
             }

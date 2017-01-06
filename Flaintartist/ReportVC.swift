@@ -12,8 +12,9 @@ import SwiftyUserDefaults
 class ReportVC: UITableViewController {
 
     var artInfo: [Any] = []
-    
+    var headerTitle = ""
     var reportsTitle = ["Off Topic Content", "Sexual Content or Nudity", "Profanity or Crude Humor"]
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +26,7 @@ class ReportVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Please choose the reason for reporting the piece."
+        return headerTitle
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -22,6 +22,7 @@
         @IBOutlet weak var gradientView: UIView!
         @IBOutlet weak var artworkLbl: UILabel!
         @IBOutlet weak var artCountLbl: UILabel!
+        @IBOutlet var websiteTextView: UITextView!
         @IBOutlet var scrollView: UIScrollView!
         
         var imagePickerd = 0
@@ -34,6 +35,7 @@
         var backgroundPicColor: UIColor?
         var posts = [Art]()
         var post: Art!
+        var user: Users!
         var info: [AnyObject] = []
         var editInfo: [AnyObject] = []
         
@@ -78,7 +80,7 @@
             refreshControl = UIRefreshControl()
             refreshControl.addTarget(self, action: #selector(GalleryVC.refresh(sender:)) , for: UIControlEvents.valueChanged)
             scrollView.addSubview(refreshControl)
-            
+            self.navigationItem.title = "User Gallery"
         }
         
         
@@ -86,6 +88,15 @@
             super.viewWillAppear(animated)
             self.navigationController?.setToolbarHidden(true, animated: false)
         }
+        
+        
+        
+        @IBAction func moreBtnTapped(_ sender: Any) {
+            self.showAlert()
+        }
+    
+        
+        
         
         func refresh(sender:AnyObject) {
             retrieveUserInfo()
@@ -249,35 +260,26 @@
             
         }
         
-        
-        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-            
-            if segue.identifier == "SettingsVC" {
-                let settingsVC = segue.destination as! SettingsVC
-                let userInfo = sender as! [AnyObject]
-                settingsVC.userInfo = userInfo
-            }
-        }
-        
-        func retrieveUserInfo(img: UIImage? = nil) {
-            DispatchQueue.main.async {
-                DataService.ds.REF_USERS.child(self.post.userUid).observe(.value) { (snapshot: FIRDataSnapshot) in
-                    DispatchQueue.main.async {
-                        if let name = (snapshot.value as? NSDictionary)?["name"] as! String?  {
-                            let firstName = name.components(separatedBy: " ").first!
-                            self.navigationItem.title = "\(firstName)'s Gallery"
-                            self.nameLbl.text = "\(name)"
-                        }
-                        
-                        if let color = (snapshot.value as? NSDictionary)?["color"] as! String?  {
-                            let backColor = UIColor(hexString: color, withAlpha: 0.9) as UIColor
-                            self.nameLbl.textColor = backColor
-                        }
-                    }
+        func retrieveUserInfo(_ img: UIImage? = nil) {
+            DataService.ds.REF_USERS.child(self.post.userUid).observe(.value) { (snapshot: FIRDataSnapshot) in
+                if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
+                    let key = snapshot.key
+                    self.user = Users(key: key, artistData: postDict)
                 }
-                self.retriveProfilePicture()
+                if let user = self.user {
+                    self.nameLbl.text = user.name
+                    self.artCountLbl.text = "\(self.posts.count)"
+                    print("WEBSITE: \(user.website)")
+                    self.websiteTextView.text = user.website
+                    let color = user.color
+                    let profileColor = UIColor(hexString: color, withAlpha: 0.9) as UIColor
+                    self.nameLbl.textColor = profileColor
+                }
             }
+            self.retriveProfilePicture()
+            
         }
+
         
         func retriveProfilePicture(img: UIImage? = nil) {
             if img != nil {
@@ -322,4 +324,39 @@
                 })
             }
         }
+        
+        func showAlert() {
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            let report = UIAlertAction(title: "Report", style: .destructive) { (UIAlertAction) in
+                
+                let reportsTitle = ["I believe this account violate Flaint's community guideline", "This account other porblem", "I don't wanna see"]
+                self.performSegue(withIdentifier: "ReportVC", sender: reportsTitle)
+            }
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            alert.addAction(report)
+            alert.addAction(cancel)
+            present(alert, animated: true, completion: nil)
+        }
+        
+        
+        
+        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            
+            if segue.identifier == "SettingsVC" {
+                let settingsVC = segue.destination as! SettingsVC
+                let userInfo = sender as! [AnyObject]
+                settingsVC.userInfo = userInfo
+            }
+            
+            if segue.identifier == "ReportVC" {
+                let navVC = segue.destination as! UINavigationController
+                let reportVC = navVC.topViewController as! ReportVC
+                reportVC.headerTitle = "Please choose the reason for reporting this User."
+                reportVC.reportsTitle = sender as! [String]
+            }
+        }
+        
+        
     }
+

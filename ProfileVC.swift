@@ -295,7 +295,6 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
             }
        }
    self.retriveProfilePicture()
-
 }
     
     func retriveProfilePicture(_ img: UIImage? = nil) {

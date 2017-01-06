@@ -24,6 +24,7 @@ class Users {
     fileprivate var _userId: String!
     fileprivate var _userRef: FIRDatabaseReference!
     
+    
     var profilePicUrl: String {
         return _profilePicUrl
     }
