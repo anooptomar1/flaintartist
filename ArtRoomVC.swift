@@ -163,10 +163,16 @@
                 let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
                         self.share()
                     })
+                
+                 let report = UIAlertAction(title: "Report", style: .destructive, handler: { (UIAlertAction) in
+                    
+                 })
+                    
                 let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
                     
                 alert.addAction(wallView)
                 alert.addAction(share)
+                alert.addAction(report)
                 alert.addAction(cancel)
                 present(alert, animated: true, completion: nil)
             }

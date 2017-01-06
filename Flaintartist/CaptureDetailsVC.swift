@@ -144,9 +144,9 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
 //            self.detailsScene.boxnode.scale = SCNVector3(x: widthSlider.value / 100 , y: heightSlider.value / 100, z: 0.5)
 
             
-            DispatchQueue.main.async {
-              self.detailsScene.newText.string = "\(sender.value)"
-            }
+//            DispatchQueue.main.async {
+//              self.detailsScene.newText.string = "\(sender.value)"
+//            }
 
             heightLbl.text = "Height: \(Int(sender.value)) cm"
             

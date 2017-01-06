@@ -70,7 +70,7 @@ class LogInVC: UIViewController, UITextFieldDelegate {
         let usersRef = FIRDatabase.database().reference().child("users").child(id)
         usersRef.observe(.value, with: { snapshot in
             if let type =  ((snapshot.value as? NSDictionary)?["userType"] as! String?) {
-                if type == "fan" {
+                if type == "artist" {
                 self.performSegue(withIdentifier: "TabBarVC", sender: nil)
                 }
             }
