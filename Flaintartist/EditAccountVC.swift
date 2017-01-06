@@ -74,8 +74,6 @@ class EditAccountVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     }
     
     
-    
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         let image = info[UIImagePickerControllerEditedImage] as! UIImage
         profileImg.image = image
