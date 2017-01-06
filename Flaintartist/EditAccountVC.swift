@@ -51,16 +51,16 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
         self.navigationItem.rightBarButtonItem = spinner
         activityIndicator.startAnimating()
 
-        let name = self.nameField.text!
-        let email = self.emailField.text!
-        let website = self.websiteField.text!
+//        let name = self.nameField.text!
+//        let email = self.emailField.text!
+//        let website = self.websiteField.text!
         
-        DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).updateChildValues(["name": name, "website": website]) { (error,reference) in
+        DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).updateChildValues(["name": self.nameField.text!, "website": self.websiteField.text!]) { (error,reference) in
             if error == nil {
                 activityIndicator.stopAnimating()
-                _ = self.navigationController?.popViewController(animated: true)
+                _ = self.dismiss(animated: true, completion: nil)
                 print("No Error")
-                FIRAuth.auth()?.currentUser?.updateEmail(email, completion: { (error) in
+                FIRAuth.auth()?.currentUser?.updateEmail(self.emailField.text!, completion: { (error) in
                     if error != nil {
                         print("ERROR:\(error?.localizedDescription)")
                     }

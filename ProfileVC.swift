@@ -16,12 +16,13 @@ import ChameleonFramework
 import SwiftyUserDefaults
 
 
-class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate{
     
     @IBOutlet weak var profileImg: BorderImg!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var artworkLbl: UILabel!
     @IBOutlet weak var artCountLbl: UILabel!
+    @IBOutlet var websiteTextView: UITextView!
     @IBOutlet weak var carouselView: iCarousel!
     @IBOutlet weak var gradientView: UIView!
     @IBOutlet weak var tapOnCameraStackView: UIStackView!
@@ -39,8 +40,7 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
     var profilePicColor: UIColor?
     var posts = [Art]()
     var post: Art!
-    var artists = [Users]()
-    var artist: Users!
+    var user: Users!
     var info: [AnyObject] = []
     var editInfo: [AnyObject] = []
     
@@ -278,25 +278,25 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
     
     
     func retrieveUserInfo(_ img: UIImage? = nil) {
-        
-        DispatchQueue.main.async {
-            DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).observe(.value) { (snapshot: FIRDataSnapshot) in
-                DispatchQueue.main.async {
-                    if let name = (snapshot.value as? NSDictionary)?["name"] as! String?  {
-                        self.nameLbl.text = "\(name)"
-                        print("USER: \(name)")
-                    }
-                    if let color = (snapshot.value as? NSDictionary)?["color"] as! String?  {
-                        let profileColor = UIColor(hexString: color, withAlpha: 0.9) as UIColor
-                        self.profilePicColor = profileColor
-                        self.nameLbl.textColor = profileColor
-                    }
-                    self.artCountLbl.text = "\(self.posts.count)"
-                }
+        DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).observe(.value) { (snapshot: FIRDataSnapshot) in
+            if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
+                let key = snapshot.key
+                self.user = Users(key: key, artistData: postDict)
             }
-            self.retriveProfilePicture()
-        }
-    }
+            if let user = self.user {
+                self.nameLbl.text = user.name
+                self.artCountLbl.text = "\(self.posts.count)"
+                print("WEBSITE: \(user.website)")
+                self.websiteTextView.text = user.website
+                let color = user.color
+                let profileColor = UIColor(hexString: color, withAlpha: 0.9) as UIColor
+                self.profilePicColor = profileColor
+                self.nameLbl.textColor = profileColor
+            }
+       }
+   self.retriveProfilePicture()
+
+}
     
     func retriveProfilePicture(_ img: UIImage? = nil) {
         if img != nil {
@@ -339,5 +339,15 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
                 }
             })
         }
+    }
+    
+    
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        
+        let webViewController = PrivacyVC()
+        webViewController.urlToLoad = URL
+        print("URL:\(URL)")
+        navigationController?.pushViewController(webViewController, animated: true)
+        return false
     }
 }
