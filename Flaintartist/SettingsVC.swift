@@ -110,8 +110,9 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "EditAccountVC" {
             let editAccountVC = segue.destination as! EditAccountVC
+            editAccountVC.hidesBottomBarWhenPushed = true
             let userInfo = sender as! [AnyObject]
-            editAccountVC.userInfo = userInfo
+            //editAccountVC.userInfo = userInfo
         } else if segue.identifier == "FeedbackVC" {
             let feedbackVC = segue.destination as! FeedbackVC
             let report = sender as! [String]
