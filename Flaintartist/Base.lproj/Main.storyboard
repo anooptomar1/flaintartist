@@ -1869,7 +1869,7 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="Wzq-bb-Yk4" id="6gn-yJ-G4a"/>
-                        <segue destination="qsE-IO-7cd" kind="show" identifier="InviteFriendsVC" id="chz-hY-lIo"/>
+                        <segue destination="qsE-IO-7cd" kind="presentation" identifier="InviteFriendsVC" id="chz-hY-lIo"/>
                         <segue destination="f5G-XR-9SX" kind="show" identifier="FeedbackVC" id="JcL-cM-8Xi">
                             <nil key="action"/>
                         </segue>
@@ -2027,14 +2027,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="r7i-Eq-Pdg">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="0xt-kq-uy7">
-                            <color key="tintColor" red="0.12637259066104889" green="0.12639245390892029" blue="0.12636536359786987" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="cancelBtnTapped:" destination="qdM-Vw-QvG" id="ezx-K8-hqz"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Done" id="slI-jN-loS">
                             <color key="tintColor" red="0.12637259066104889" green="0.12639245390892029" blue="0.12636536359786987" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="doneBtnTapped:" destination="qdM-Vw-QvG" id="rF0-ch-fnq"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
@@ -2046,7 +2043,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8r7-VO-mH5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4122" y="141"/>
+            <point key="canvasLocation" x="3841" y="141"/>
         </scene>
         <!--Invite FriendsVC-->
         <scene sceneID="08V-sI-mdp">
@@ -2115,7 +2112,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Mu-KP-drC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5482" y="139"/>
+            <point key="canvasLocation" x="4634" y="141"/>
         </scene>
         <!--FeedbackVC-->
         <scene sceneID="4mf-EJ-Zig">
@@ -2176,7 +2173,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yBa-Fp-3gz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6186" y="139"/>
+            <point key="canvasLocation" x="5330" y="139"/>
         </scene>
         <!--Report-->
         <scene sceneID="tLP-ca-MvV">
@@ -2293,7 +2290,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9wx-Oo-H7U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6887" y="139"/>
+            <point key="canvasLocation" x="6038" y="139"/>
         </scene>
         <!--Report Nav-->
         <scene sceneID="6TJ-78-RfP">

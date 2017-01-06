@@ -26,24 +26,55 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        DataService.ds.REF_USERS.queryEqual(toValue:(FIRAuth.auth()?.currentUser?.uid)!).observe(.value) { (snapshot: FIRDataSnapshot) in
-                    if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
-                        let key = snapshot.key
-                        self.user = Users(key: key, artistData: postDict)
-                        print("POSTDICT:\(postDict)")
-                    }
-                }
-        
-                if let user = self.user {
-                    self.nameField.text = user.name
-                }
-        
-            
-        
-
+        DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).observe(.value) { (snapshot: FIRDataSnapshot) in
+            if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
+            let key = snapshot.key
+            self.user = Users(key: key, artistData: postDict)
+                print("NAME: \(self.user.name)")
+            }
+            if let user = self.user {
+                self.nameField.text = user.name
+                self.emailField.text = FIRAuth.auth()?.currentUser?.email
+                self.websiteField.text = user.website
+                
+            }
+        }
     }
 
 
+    @IBAction func doneBtnTapped(_ sender: Any) {
+        DispatchQueue.main.async {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.activityIndicatorViewStyle = .gray
+        let spinner: UIBarButtonItem = UIBarButtonItem(customView: activityIndicator)
+        self.navigationItem.rightBarButtonItem = spinner
+        activityIndicator.startAnimating()
+
+        let name = self.nameField.text!
+        let email = self.emailField.text!
+        let website = self.websiteField.text!
+        
+        DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).updateChildValues(["name": name, "website": website]) { (error,reference) in
+            if error == nil {
+                activityIndicator.stopAnimating()
+                _ = self.navigationController?.popViewController(animated: true)
+                print("No Error")
+                FIRAuth.auth()?.currentUser?.updateEmail(email, completion: { (error) in
+                    if error != nil {
+                        print("ERROR:\(error?.localizedDescription)")
+                    }
+                })
+            } else {
+                activityIndicator.stopAnimating()
+                print("ERROR UPDATING DETAILS: \(error?.localizedDescription)")
+           }
+        }
+      }
+    }
+    
+    
+    
 
     @IBAction func editImageBtnTapped(_ sender: Any) {
         

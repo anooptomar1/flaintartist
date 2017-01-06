@@ -19,6 +19,7 @@ class Users {
     fileprivate var _name: String!
     fileprivate var _artwork: Int!
     fileprivate var _color: String!
+    fileprivate var _website: String!
     fileprivate var _userType: String!
     fileprivate var _userId: String!
     fileprivate var _userRef: FIRDatabaseReference!
@@ -39,15 +40,20 @@ class Users {
         return _userType
     }
     
+    var website: String? {
+        return _website
+    }
+    
     var color: String {
         return _color
     }
     
-    init(profilePicUrl: String, name: String, userType: String, artwork: Int, color: String) {
+    init(profilePicUrl: String, name: String, userType: String, website: String, artwork: Int, color: String) {
         
         self._profilePicUrl = profilePicUrl
         self._name = name
         self._artwork = artwork
+        self._website = website
         self._color = color
     }
     
@@ -66,6 +72,10 @@ class Users {
         
         if let color = artistData["color"] as? String {
             self._color = color
+        }
+        
+        if let website = artistData["website"] as? String {
+            self._website = website
         }
         
         if let type = artistData["userType"] as? String {
