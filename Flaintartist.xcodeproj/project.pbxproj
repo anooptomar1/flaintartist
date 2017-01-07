@@ -145,6 +145,7 @@
 		6D4609AE1E1F505F00FC75C3 /* MGMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGMessage.m; sourceTree = "<group>"; };
 		6D4609AF1E1F505F00FC75C3 /* MGMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGMessage.h; sourceTree = "<group>"; };
 		6D4609B11E1F5FAC00FC75C3 /* ReportNav.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportNav.swift; sourceTree = "<group>"; };
+		6D63BB1A1E20B03D00D9271E /* Flaintartist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flaintartist.entitlements; sourceTree = "<group>"; };
 		6D9EA40A1E19DC7A0080D182 /* Flaintartist-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Flaintartist-Bridging-Header.h"; sourceTree = "<group>"; };
 		6D9EA40B1E19DC7B0080D182 /* SwipeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwipeView.h; sourceTree = "<group>"; };
 		6D9EA40C1E19DC7B0080D182 /* SwipeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwipeView.m; sourceTree = "<group>"; };
@@ -345,6 +346,7 @@
 		6DF28D8B1E196DC200C8A3B0 /* Flaintartist */ = {
 			isa = PBXGroup;
 			children = (
+				6D63BB1A1E20B03D00D9271E /* Flaintartist.entitlements */,
 				6D1C782C1E19E82C00E2041C /* Nib */,
 				6D9EA41D1E19DE060080D182 /* 3D Scene */,
 				6D9EA4081E19DC5A0080D182 /* Framework */,
@@ -621,6 +623,11 @@
 						DevelopmentTeam = GF728A45JE;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					6DF28D9C1E196DC300C8A3B0 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1028,6 +1035,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Flaintartist/Flaintartist.entitlements;
 				DEVELOPMENT_TEAM = GF728A45JE;
 				INFOPLIST_FILE = Flaintartist/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1046,6 +1054,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Flaintartist/Flaintartist.entitlements;
 				DEVELOPMENT_TEAM = GF728A45JE;
 				INFOPLIST_FILE = Flaintartist/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
