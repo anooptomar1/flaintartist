@@ -286,7 +286,6 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
             if let user = self.user {
                 self.nameLbl.text = user.name
                 self.artCountLbl.text = "\(self.posts.count)"
-                print("WEBSITE: \(user.website)")
                 self.websiteTextView.text = user.website
                 let color = user.color
                 let profileColor = UIColor(hexString: color, withAlpha: 0.9) as UIColor
@@ -339,16 +338,4 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
             })
         }
     }
-<<<<<<< HEAD
-    
-    
-    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        
-        let webViewController = PrivacyVC()
-        print("URL:\(URL)")
-        navigationController?.pushViewController(webViewController, animated: true)
-        return false
-    }
-=======
->>>>>>> 1301276c7e0b37c6c2a82d2462a3153209f53319
 }

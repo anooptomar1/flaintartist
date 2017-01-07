@@ -14,7 +14,7 @@ class ReportVC: UITableViewController {
     var artInfo: [Any] = []
     var headerTitle = ""
     var user: Users!
-    var reportsTitle = ["Off Topic Content", "Sexual Content or Nudity", "Profanity or Crude Humor"]
+    var reportsTitle = ["Off Topic Content.", "Sexual Content or Nudity.", "Profanity or Crude Humor."]
     
     @IBOutlet weak var cancelBtn: UIBarButtonItem!
     
