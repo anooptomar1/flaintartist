@@ -344,7 +344,6 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         
         let webViewController = PrivacyVC()
-        webViewController.urlToLoad = URL
         print("URL:\(URL)")
         navigationController?.pushViewController(webViewController, animated: true)
         return false
