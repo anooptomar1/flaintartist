@@ -13,8 +13,10 @@ class ReportVC: UITableViewController {
 
     var artInfo: [Any] = []
     var headerTitle = ""
+    var user: Users!
     var reportsTitle = ["Off Topic Content", "Sexual Content or Nudity", "Profanity or Crude Humor"]
     
+    @IBOutlet weak var cancelBtn: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,16 +52,27 @@ class ReportVC: UITableViewController {
        let confirm = UIAlertAction(title: "Confirm", style: .destructive) { (UIAlertAction) in
         
         let userEmail = Defaults[.email]
+        
+        if !self.artInfo.isEmpty {
         if let art = self.artInfo[1] as? Art {
-        DataService.ds.REF_MAILGUN.sendMessage(to: "kerby.jean@hotmail.fr", from: userEmail, subject: "Report", body: "Report type: \(reportType), Art Title: \(art.title), Artist: \(art.userUid)", success: { (success) in
-            self.confirmAlert(title:"Piece Reported" , message: "Your opinion is important for us. The piece has succesfully been reported. Thank you.")
-            
+        DataService.ds.REF_MAILGUN.sendMessage(to: "kerby.jean@hotmail.fr", from: userEmail, subject: "Report Art", body: "Report type: \(reportType), Art Title: \(art.title), Artist: \(art.userUid)", success: { (success) in
+            self.confirmAlert(title:"\(art.title) Reported" , message: "Your opinion is important for us. The piece has succesfully been reported.  We'll contact you soon for more information. Thank you.")
+            self.cancelBtn.title = "Done"
         }, failure: { (error) in
             self.confirmAlert(title:"Failed to report" , message: "Sorry the request failed. Please try again.")
         })
       }
+        } else {
+           let user = self.user
+            DataService.ds.REF_MAILGUN.sendMessage(to: "kerby.jean@hotmail.fr", from: userEmail, subject: "Report User", body: "Report type: \(reportType), Artist name: \(user!.name)", success: { (success) in
+                self.confirmAlert(title:"\(user!.name) has been Reported" , message: "Your opinion is important for us. The user has succesfully been reported. We'll contact you soon for more information. Thank you.")
+            self.cancelBtn.title = "Done"
+            }, failure: { (error) in
+                self.confirmAlert(title:"Failed to report" , message: "Sorry the request failed. Please try again.")
+            })
 
-    }
+        }
+}
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         sheet.addAction(confirm)
         sheet.addAction(cancel)

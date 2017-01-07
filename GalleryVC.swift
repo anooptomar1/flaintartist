@@ -329,7 +329,7 @@
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let report = UIAlertAction(title: "Report", style: .destructive) { (UIAlertAction) in
                 
-                let reportsTitle = ["I believe this account violate Flaint's community guideline", "This account other porblem", "I don't wanna see"]
+                let reportsTitle = ["I believe this account violate Flaint's community guideline", "Inapropriate language.", "Others"]
                 self.performSegue(withIdentifier: "ReportVC", sender: reportsTitle)
             }
             let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -353,6 +353,7 @@
                 let navVC = segue.destination as! UINavigationController
                 let reportVC = navVC.topViewController as! ReportVC
                 reportVC.headerTitle = "Please choose the reason for reporting this User."
+                reportVC.user = user
                 reportVC.reportsTitle = sender as! [String]
             }
         }

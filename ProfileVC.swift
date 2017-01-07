@@ -339,6 +339,7 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
             })
         }
     }
+<<<<<<< HEAD
     
     
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
@@ -348,4 +349,6 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
         navigationController?.pushViewController(webViewController, animated: true)
         return false
     }
+=======
+>>>>>>> 1301276c7e0b37c6c2a82d2462a3153209f53319
 }
