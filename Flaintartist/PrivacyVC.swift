@@ -11,14 +11,13 @@ import UIKit
 class PrivacyVC: UIViewController {
 
     @IBOutlet var webView: UIWebView!
-    var urlToLoad: URL!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        webView.loadRequest(URLRequest(url: urlToLoad))
+        webView.loadRequest(URLRequest(url: URL(string: "//https://flaint.wordpress.com/2016/12/17/test/")!))
     }
 }
 
-//https://flaint.wordpress.com/2016/12/17/test/"
+
