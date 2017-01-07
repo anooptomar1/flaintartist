@@ -78,8 +78,11 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         swipeView.delegate = self
         swipeView.dataSource = self
         swipeView.alignment = .edge
-        swipeView.isPagingEnabled = true
+        //swipeView.isPagingEnabled = true
         swipeView.itemsPerPage = 1
+        swipeView.bounces = false
+        swipeView.isScrollEnabled = false
+        
         
         
         doneBtn = UIBarButtonItem(title: "Done", style: .done, target: self, action:  #selector(CaptureDetailsVC.doneBtnTapped(_:)))
@@ -128,31 +131,31 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     
     @IBAction func SliderValueChanged(_ sender: UISlider) {
         
-//        let rotateForHeight = SCNAction.rotateTo(x: 0, y: 1, z: 0, duration: 0.3)
-//        rotateForHeight.timingMode = SCNActionTimingMode.linear;
-//        
-//        let rotateForWidth = SCNAction.rotateTo(x: -1, y: 0, z: 0, duration: 0.3)
-//        rotateForWidth.timingMode = SCNActionTimingMode.linear;
-//        
-//        let stopAnimation = SCNAction.rotateTo(x: 0, y: 0, z: 0, duration: 0.5)
-//        
-//        let heightFlow = SCNAction.sequence([rotateForHeight, stopAnimation])
-//        let widthFlow = SCNAction.sequence([rotateForWidth, stopAnimation])
+        let rotateForHeight = SCNAction.rotateTo(x: 0, y: 1, z: 0, duration: 0.3)
+        rotateForHeight.timingMode = SCNActionTimingMode.linear;
+        
+        let rotateForWidth = SCNAction.rotateTo(x: -1, y: 0, z: 0, duration: 0.3)
+        rotateForWidth.timingMode = SCNActionTimingMode.linear;
+        
+        let stopAnimation = SCNAction.rotateTo(x: 0, y: 0, z: 0, duration: 0.5)
+        
+        let heightFlow = SCNAction.sequence([rotateForHeight, stopAnimation])
+        let widthFlow = SCNAction.sequence([rotateForWidth, stopAnimation])
         
         if sender.tag == 1 {
-//            self.detailsScene.boxnode.runAction(heightFlow)
-//            self.detailsScene.boxnode.scale = SCNVector3(x: widthSlider.value / 100 , y: heightSlider.value / 100, z: 0.5)
+            self.detailsScene.boxnode.runAction(heightFlow)
+            self.detailsScene.boxnode.scale = SCNVector3(x: widthSlider.value / 100 , y: heightSlider.value / 100, z: 0.5)
 
             
-//            DispatchQueue.main.async {
-//              self.detailsScene.newText.string = "\(sender.value)"
-//            }
+            DispatchQueue.main.async {
+              self.detailsScene.newText.string = " \(Int(sender.value)) cm"
+            }
 
             heightLbl.text = "Height: \(Int(sender.value)) cm"
             
         } else if sender.tag == 2 {
-//            self.detailsScene.boxnode.runAction(widthFlow)
-//            self.detailsScene.boxnode.scale = SCNVector3(x: widthSlider.value / 100 , y: heightSlider.value / 100, z: 0.5)
+            self.detailsScene.boxnode.runAction(widthFlow)
+            self.detailsScene.boxnode.scale = SCNVector3(x: widthSlider.value / 100 , y: heightSlider.value / 100, z: 0.5)
             UIView.animate(withDuration: 0.5) {
                 self.widthLbl.isHidden = false
             }

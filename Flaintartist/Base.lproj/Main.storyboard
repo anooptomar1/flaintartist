@@ -1429,10 +1429,10 @@
                                             <constraint firstAttribute="height" constant="554" id="zsY-jU-Zhy"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zhe-Dz-eWv">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zhe-Dz-eWv">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="172"/>
                                         <subviews>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ABd-aS-HKS">
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ABd-aS-HKS">
                                                 <rect key="frame" x="90" y="105" width="268" height="32"/>
                                                 <color key="tintColor" red="0.19376453757286072" green="0.50850099325180054" blue="0.85232251882553101" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
@@ -1446,6 +1446,7 @@
                                         </subviews>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
+                                            <constraint firstAttribute="height" constant="172" id="60U-u8-mky"/>
                                             <constraint firstAttribute="trailing" secondItem="ABd-aS-HKS" secondAttribute="trailing" constant="17" id="9t9-96-Odt"/>
                                             <constraint firstItem="ABd-aS-HKS" firstAttribute="leading" secondItem="Zhe-Dz-eWv" secondAttribute="leading" constant="90" id="XMB-Oj-GqF"/>
                                             <constraint firstAttribute="bottom" secondItem="ABd-aS-HKS" secondAttribute="bottom" constant="35" id="rqW-t3-NVa"/>
@@ -1468,22 +1469,25 @@
                                         <color key="textColor" red="0.12637259070000001" green="0.12639245390000001" blue="0.1263653636" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="6x4-ci-HIU">
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="6x4-ci-HIU">
                                         <rect key="frame" x="94" y="92" width="81" height="16"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Artworks" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eh5-WI-Rbr">
-                                                <rect key="frame" x="0.0" y="0.0" width="56.5" height="16"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="57" height="16"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
                                                 <color key="textColor" red="0.12637259070000001" green="0.12639245390000001" blue="0.1263653636" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CH5-0e-sxY">
-                                                <rect key="frame" x="66.5" y="0.0" width="14" height="16"/>
+                                                <rect key="frame" x="67" y="0.0" width="14" height="16"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                                                 <color key="textColor" red="0.12637259070000001" green="0.12639245390000001" blue="0.1263653636" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="81" id="AjI-wu-QNc"/>
+                                        </constraints>
                                     </stackView>
                                     <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6Fd-us-f1b" customClass="BorderImg" customModule="Flaintartist" customModuleProvider="target">
                                         <rect key="frame" x="16" y="65" width="70" height="70"/>
@@ -1493,7 +1497,7 @@
                                             <constraint firstAttribute="width" constant="70" id="ejE-y6-yeE"/>
                                         </constraints>
                                     </imageView>
-                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6zu-kz-65Z">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6zu-kz-65Z">
                                         <rect key="frame" x="24" y="180" width="327" height="1"/>
                                         <color key="backgroundColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
@@ -1553,6 +1557,7 @@
                                     <constraint firstItem="6zu-kz-65Z" firstAttribute="top" secondItem="Zhe-Dz-eWv" secondAttribute="bottom" constant="8" id="Qk8-ww-mmA"/>
                                     <constraint firstItem="wiX-ci-iCq" firstAttribute="leading" secondItem="6x4-ci-HIU" secondAttribute="leading" constant="-1" id="Ryu-j0-iP6"/>
                                     <constraint firstItem="6Fd-us-f1b" firstAttribute="leading" secondItem="hBb-Rc-M9Q" secondAttribute="leading" constant="16" id="Uvf-Dj-f7w"/>
+                                    <constraint firstItem="6x4-ci-HIU" firstAttribute="centerY" secondItem="6Fd-us-f1b" secondAttribute="centerY" id="Xcp-03-Vwe"/>
                                     <constraint firstAttribute="trailing" secondItem="TaD-dH-Hh6" secondAttribute="trailing" id="YiQ-1b-LDh"/>
                                     <constraint firstItem="wiX-ci-iCq" firstAttribute="leading" secondItem="6Fd-us-f1b" secondAttribute="trailing" constant="7" id="deN-jD-DgW"/>
                                     <constraint firstItem="wiX-ci-iCq" firstAttribute="top" secondItem="6Fd-us-f1b" secondAttribute="top" constant="8" id="fHt-20-har"/>

@@ -29,16 +29,16 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <slider opaque="NO" multipleTouchEnabled="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="gk2-Dq-0CU">
-                    <rect key="frame" x="30" y="104" width="315" height="27"/>
+                    <rect key="frame" x="30" y="124" width="315" height="31"/>
                     <color key="minimumTrackTintColor" red="0.42655369640000002" green="0.475846082" blue="0.4802647531" alpha="1" colorSpace="calibratedRGB"/>
                     <connections>
                         <action selector="SliderValueChanged:" destination="-1" eventType="valueChanged" id="vH8-aI-yC1"/>
                     </connections>
                 </slider>
-                <slider opaque="NO" multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Mq8-ev-PtS">
-                    <rect key="frame" x="30" y="35" width="315" height="41"/>
+                <slider opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Mq8-ev-PtS">
+                    <rect key="frame" x="30" y="35" width="315" height="61"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="40" id="HSf-vX-IjO"/>
+                        <constraint firstAttribute="height" constant="60" id="1SL-ta-Hm0"/>
                     </constraints>
                     <color key="minimumTrackTintColor" red="0.42655369640000002" green="0.475846082" blue="0.4802647531" alpha="1" colorSpace="calibratedRGB"/>
                     <connections>
@@ -46,7 +46,7 @@
                     </connections>
                 </slider>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Height" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DgM-Lm-bUX">
-                    <rect key="frame" x="47" y="0.0" width="120" height="20"/>
+                    <rect key="frame" x="47" y="0.0" width="120" height="16"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="120" id="ZC3-IW-dbS"/>
                     </constraints>
@@ -55,30 +55,28 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Width" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="txu-zL-Zky">
-                    <rect key="frame" x="208" y="0.0" width="120" height="20"/>
+                    <rect key="frame" x="208" y="0.0" width="120" height="16"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                     <color key="textColor" red="0.12637259070000001" green="0.12639245390000001" blue="0.1263653636" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <constraints>
-                <constraint firstItem="Mq8-ev-PtS" firstAttribute="centerX" secondItem="kYf-0L-FQf" secondAttribute="centerX" id="JHA-Ek-GGX"/>
-                <constraint firstItem="Mq8-ev-PtS" firstAttribute="top" secondItem="DgM-Lm-bUX" secondAttribute="bottom" constant="15" id="Kb7-YP-dtb"/>
-                <constraint firstItem="gk2-Dq-0CU" firstAttribute="top" secondItem="Mq8-ev-PtS" secondAttribute="bottom" constant="29" id="LGm-UW-aO4"/>
+                <constraint firstItem="Mq8-ev-PtS" firstAttribute="leading" secondItem="kYf-0L-FQf" secondAttribute="leading" constant="32" id="2tE-6E-Wiu"/>
                 <constraint firstAttribute="trailing" secondItem="txu-zL-Zky" secondAttribute="trailing" constant="47" id="Nrq-KP-kjF"/>
-                <constraint firstItem="Mq8-ev-PtS" firstAttribute="leading" secondItem="kYf-0L-FQf" secondAttribute="leading" constant="32" id="OC8-5r-kwm"/>
-                <constraint firstItem="Mq8-ev-PtS" firstAttribute="leading" secondItem="gk2-Dq-0CU" secondAttribute="leading" id="Rxa-zR-Ujf"/>
-                <constraint firstItem="gk2-Dq-0CU" firstAttribute="centerY" secondItem="kYf-0L-FQf" secondAttribute="centerY" constant="17" id="VJ0-6r-eoe"/>
+                <constraint firstItem="gk2-Dq-0CU" firstAttribute="trailing" secondItem="Mq8-ev-PtS" secondAttribute="trailing" id="WbW-3Y-3c9"/>
                 <constraint firstItem="DgM-Lm-bUX" firstAttribute="baseline" secondItem="txu-zL-Zky" secondAttribute="baseline" id="bQq-2x-I6r"/>
                 <constraint firstItem="DgM-Lm-bUX" firstAttribute="top" secondItem="kYf-0L-FQf" secondAttribute="top" id="dVD-kY-2Fm"/>
+                <constraint firstItem="gk2-Dq-0CU" firstAttribute="top" secondItem="Mq8-ev-PtS" secondAttribute="bottom" constant="29" id="f7L-SF-lKo"/>
                 <constraint firstItem="DgM-Lm-bUX" firstAttribute="leading" secondItem="kYf-0L-FQf" secondAttribute="leading" constant="47" id="fpG-Sf-3BB"/>
-                <constraint firstItem="Mq8-ev-PtS" firstAttribute="trailing" secondItem="gk2-Dq-0CU" secondAttribute="trailing" id="mfy-sl-qSR"/>
+                <constraint firstItem="gk2-Dq-0CU" firstAttribute="leading" secondItem="Mq8-ev-PtS" secondAttribute="leading" id="hNh-Jg-k72"/>
                 <constraint firstItem="txu-zL-Zky" firstAttribute="leading" secondItem="DgM-Lm-bUX" secondAttribute="trailing" constant="41" id="rHD-kp-69A"/>
+                <constraint firstItem="Mq8-ev-PtS" firstAttribute="centerX" secondItem="kYf-0L-FQf" secondAttribute="centerX" id="v3F-qp-zT5"/>
                 <constraint firstItem="DgM-Lm-bUX" firstAttribute="firstBaseline" secondItem="txu-zL-Zky" secondAttribute="firstBaseline" id="w95-x2-1ZL"/>
-                <constraint firstItem="Mq8-ev-PtS" firstAttribute="top" secondItem="kYf-0L-FQf" secondAttribute="top" constant="35" id="yqo-UF-y96"/>
+                <constraint firstItem="Mq8-ev-PtS" firstAttribute="top" secondItem="txu-zL-Zky" secondAttribute="bottom" constant="19" id="zpH-6p-gUu"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-94.5" y="40"/>
+            <point key="canvasLocation" x="-47" y="48"/>
         </view>
     </objects>
 </document>
