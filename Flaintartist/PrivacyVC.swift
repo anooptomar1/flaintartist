@@ -12,7 +12,7 @@ class PrivacyVC: UIViewController {
 
     @IBOutlet var webView: UIWebView!
     
-    var url = ""
+    var url: URL!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +24,6 @@ class PrivacyVC: UIViewController {
     }
 }
 
-        
+
 
 

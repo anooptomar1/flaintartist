@@ -99,13 +99,13 @@ class AllVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
             if let artImage = cell.artImgView.image {
                 let post = posts[indexPath.row]
                 let artInfo = [artImage, post] as [Any]
-                performSegue(withIdentifier: "ArtDetailsVC", sender: artInfo)
+                performSegue(withIdentifier: "ArtRoomVC", sender: artInfo)
             }
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ArtDetailsVC" {
+        if segue.identifier == "ArtRoomVC" {
             let vc = segue.destination as! ArtRoomVC
             vc.hidesBottomBarWhenPushed = true
             if let artInfo = sender as? [Any] {

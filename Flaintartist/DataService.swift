@@ -92,7 +92,10 @@ class DataService {
                 } else {
                     let downloadURL = metaData?.downloadURL()!.absoluteString
                     if downloadURL != nil {
+                        let vc = CreateArtistSecondVC()
+                        vc.profileUrl = downloadURL!
                     }
+                    
                 }
             }
         }

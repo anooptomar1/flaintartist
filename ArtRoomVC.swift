@@ -102,7 +102,13 @@
         
         
         @IBAction func artistBtnTapped(_ sender: Any) {
-            performSegue(withIdentifier: "GalleryVC", sender: artInfo[1] as! Art)
+            if let info = artInfo[1] as? Art {
+               if info.userUid == FIRAuth.auth()?.currentUser?.uid {
+                   tabBarController?.selectedIndex = 2
+               } else {
+                   performSegue(withIdentifier: "GalleryVC", sender: artInfo[1] as! Art)
+                }
+            }
         }
         
         func showArtInfo() {
@@ -181,7 +187,7 @@
             let share = Share()
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let facebook = UIAlertAction(title: "Facebook", style: .default, handler: { (UIAlertAction) in
-                share.facebookShare(self, image: self.artInfo[0] as! UIImage)
+                share.facebookShare(self, image: self.artInfo[0] as! UIImage, text: self.titleLbl.text!)
             })
             
             let messenger = UIAlertAction(title: "Mesenger", style: .default, handler: { (UIAlertAction) in

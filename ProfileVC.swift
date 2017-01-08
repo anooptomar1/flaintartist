@@ -51,6 +51,17 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
     var refreshControl: UIRefreshControl!
     
     
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.hidesBackButton = true
+        self.navigationController?.setToolbarHidden(true, animated: false)
+        self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
+        self.navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -60,6 +71,8 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
         carouselView.dataSource = self
         carouselView.type = .linear
         carouselView.clipsToBounds = true
+        
+        websiteTextView.delegate = self
     
             DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).child("arts").observe(.value) { (snapshot: FIRDataSnapshot) in
                 self.posts = []
@@ -78,26 +91,13 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
         let tapProfileGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.tapProfilePicture))
         profileImg.addGestureRecognizer(tapProfileGesture)
         profileImg.configure(UIColor.flatWhite(), width: 0.5)
-        self.gradientView.backgroundColor = UIColor(gradientStyle: UIGradientStyle.topToBottom, withFrame: CGRect(x:0 , y: 100, width: self.view.frame.width, height: 172) , andColors: [UIColor.flatWhite(), UIColor.white])
+        self.gradientView.backgroundColor = UIColor(gradientStyle: UIGradientStyle.topToBottom, withFrame: CGRect(x:0 , y: 100, width: self.view.frame.width, height: 172) , andColors: [UIColor.white, UIColor.white])
         carouselView.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: CGRect(x: 0, y: 0, width: self.carouselView.frame.width, height:  437) , andColors: [  UIColor.white, UIColor.flatWhite()])
         
         refreshControl = UIRefreshControl()
         refreshControl.tintColor = UIColor.flatBlack()
         refreshControl.addTarget(self, action: #selector(ProfileVC.refresh), for: UIControlEvents.valueChanged)
         scrollView.addSubview(refreshControl)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationItem.hidesBackButton = true
-        self.navigationController?.setToolbarHidden(true, animated: false)
-        self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
-        if editInfo.isEmpty == false {
-            if let img = editInfo[0] as? UIImage, let backImg = editInfo[1] as? UIImage, let name = editInfo[2] as? String {
-                profileImg.image = img
-                nameLbl.text = name
-            }
-        }
     }
     
     func refresh(_ sender:AnyObject) {
@@ -198,8 +198,8 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
             DataService.ds.storeProfileImg((FIRAuth.auth()!.currentUser!.uid), img: profileImg.image!, vc: self)
             let profilePicColor: UIColor = UIColor(averageColorFrom: image, withAlpha: 0.9)
             let color = profilePicColor.hexValue()
-            self.artworkLbl.textColor = UIColor(contrastingBlackOrWhiteColorOn: profilePicColor, isFlat: true)
-            self.artCountLbl.textColor =  UIColor(contrastingBlackOrWhiteColorOn: profilePicColor, isFlat: true)
+            //self.artworkLbl.textColor = UIColor(contrastingBlackOrWhiteColorOn: profilePicColor, isFlat: true)
+            //self.artCountLbl.textColor =  UIColor(contrastingBlackOrWhiteColorOn: profilePicColor, isFlat: true)
             DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).child("color").setValue(color)
             picker.dismiss(animated: true, completion: nil)
         }
@@ -243,7 +243,7 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
         let shareSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let facebookShare = UIAlertAction(title: "Share to Facebook", style: .default) { (UIAlertAction) in
-            share.facebookShare(self, image: img)
+            share.facebookShare(self, image: img, text: "")
         }
         let messengerShare = UIAlertAction(title: "Share to Messenger", style: .default) { (UIAlertAction) in
            // share.messengerShare(self, image: img)
@@ -338,4 +338,13 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
             })
         }
     }
+    
+
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "WebVC") as! WebVC
+        vc.url = URL
+        present(vc, animated: true, completion: nil)
+        return false
+    }
+ 
 }

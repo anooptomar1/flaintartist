@@ -36,7 +36,7 @@ class CreateArtistSecondVC: UIViewController, UIImagePickerControllerDelegate, U
     var stackViewConstant: CGFloat!
     var countLblConstant: CGFloat!
     
-    var profileUrl: String = ""
+    var profileUrl = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
