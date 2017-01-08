@@ -12,7 +12,7 @@
     import ChameleonFramework
     import SwiftyUserDefaults
     
-    class ArtRoomVC: UIViewController{
+    class ArtRoomVC: UIViewController {
         
         @IBOutlet var scnView: SCNView!
         @IBOutlet var artInfoView: UIView!
@@ -23,11 +23,14 @@
         @IBOutlet var artistNameBtn: UIButton!
         
         var artRoomScene = ArtRoomScene(create: true)
-        
+        var sceneView = SCNView()
         var artImage = UIImage()
         var artInfo: [Any] = []
         var showInfo: Bool = false
         let alert = Alerts()
+        
+        var lastWidthRatio: Float = 0
+        var lastHeightRatio: Float = 0
         
         static var imageCache: NSCache<NSString, UIImage> = NSCache()
         
@@ -43,7 +46,7 @@
         override func viewDidLoad() {
             super.viewDidLoad()
             
-            let scnView = self.scnView!
+            scnView = self.scnView!
             let scene = artRoomScene
             scnView.scene = scene
             
@@ -67,8 +70,7 @@
                     self.artistNameBtn.setTitle("\(username) ›", for: .normal)
                 })
             }
-            
-            
+
             self.navigationController?.toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .bottom, barMetrics: .default)
             self.navigationController?.toolbar.setBackgroundImage(UIImage(),  forToolbarPosition: UIBarPosition.any, barMetrics: UIBarMetrics.default)
             self.navigationController?.toolbar.setShadowImage(UIImage(), forToolbarPosition: UIBarPosition.any)
@@ -76,7 +78,12 @@
             
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ArtRoomVC.showArtInfo))
             view.addGestureRecognizer(tapGesture)
+            
+//            let gesture = UIPanGestureRecognizer(target: self, action: #selector(ArtRoomVC.panDetected(sender:)))
+//            scnView.addGestureRecognizer(gesture)
         }
+        
+
         
         override func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(animated)
@@ -94,6 +101,23 @@
                 self.navigationController?.setToolbarHidden(true, animated: true)
             }
         }
+        
+        
+        
+//        func panDetected(sender: UIPanGestureRecognizer) {
+//            
+//            let translation = sender.translation(in: sender.view!)
+//            let widthRatio = Float(translation.x) / Float(sender.view!.frame.size.width) + lastWidthRatio
+//            let heightRatio = Float(translation.y) / Float(sender.view!.frame.size.height) + lastHeightRatio
+//            artRoomScene.boxnode.eulerAngles.y = Float(-M_PI_2) + Float(-M_PI_2) * widthRatio
+//            
+//            print(Float(-2 * M_PI) * widthRatio)
+//            
+//            if (sender.state == .ended) {
+//                lastWidthRatio = widthRatio.truncatingRemainder(dividingBy: 1)
+//                lastHeightRatio = heightRatio.truncatingRemainder(dividingBy: 1)
+//            }
+//        }
         
         
         @IBAction func settingBtnTapped(_ sender: Any) {
@@ -146,6 +170,9 @@
             })
             
             let remove = UIAlertAction(title: "Remove", style: .destructive, handler: { (UIAlertAction) in
+                //Remove
+                
+                
             })
             
             let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)

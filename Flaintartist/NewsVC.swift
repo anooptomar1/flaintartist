@@ -61,6 +61,7 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
     }
     
     

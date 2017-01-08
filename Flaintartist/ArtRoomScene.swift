@@ -15,6 +15,8 @@ class ArtRoomScene: SCNScene {
     var artImage = UIImage()
     var geometry = SCNBox()
     var post: Art!
+    let cameraOrbit = SCNNode()
+    var boxnode = SCNNode()
     
     convenience init(create: Bool) {
         self.init()
@@ -35,9 +37,10 @@ class ArtRoomScene: SCNScene {
         self.geometry.firstMaterial?.diffuse.contents = UIColor.red
         self.geometry.firstMaterial?.specular.contents = UIColor.white
         self.geometry.firstMaterial?.emission.contents = UIColor.blue
-        let boxnode = SCNNode(geometry: self.geometry)
+        boxnode = SCNNode(geometry: self.geometry)
         let yPos = -1.5
         boxnode.position = SCNVector3(0, 0.4, yPos)
+        
         
         //boxnode.rotation = SCNVector4(0,60,0,-55.8)
         
@@ -46,7 +49,10 @@ class ArtRoomScene: SCNScene {
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
         cameraNode.position = SCNVector3(0, 0, 4)
-        self.rootNode.addChildNode(cameraNode)
+
+        
+        cameraOrbit.addChildNode(cameraNode)
+        self.rootNode.addChildNode(cameraOrbit)
         
         let material = SCNMaterial()
         material.diffuse.contents = artImage
