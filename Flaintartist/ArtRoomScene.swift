@@ -16,8 +16,6 @@ class ArtRoomScene: SCNScene {
     var geometry = SCNBox()
     var post: Art!
     
-    
-    
     convenience init(create: Bool) {
         self.init()
         
@@ -38,9 +36,10 @@ class ArtRoomScene: SCNScene {
         self.geometry.firstMaterial?.specular.contents = UIColor.white
         self.geometry.firstMaterial?.emission.contents = UIColor.blue
         let boxnode = SCNNode(geometry: self.geometry)
-        boxnode.position = SCNVector3(0, 0.4, 0)
+        let yPos = -1.5
+        boxnode.position = SCNVector3(0, 0.4, yPos)
         
-        boxnode.rotation = SCNVector4(0,60,0,-55.8)
+        //boxnode.rotation = SCNVector4(0,60,0,-55.8)
         
         self.rootNode.addChildNode(boxnode)
         

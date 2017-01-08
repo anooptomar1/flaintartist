@@ -238,7 +238,7 @@
             let shareSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             
             let facebookShare = UIAlertAction(title: "Share to Facebook", style: .default) { (UIAlertAction) in
-                share.facebookShare(self, image: img)
+                share.facebookShare(self, image: img, text: "")
             }
             let messengerShare = UIAlertAction(title: "Share to Messenger", style: .default) { (UIAlertAction) in
                 //share.messengerShare(self, image: img)
@@ -347,7 +347,7 @@
             if segue.identifier == "ReportVC" {
                 let navVC = segue.destination as! UINavigationController
                 let reportVC = navVC.topViewController as! ReportVC
-                reportVC.headerTitle = "Please choose the reason for reporting this User."
+                reportVC.headerTitle = "Please choose a reason for reporting \(user.name)."
                 reportVC.user = user
                 reportVC.reportsTitle = sender as! [String]
             }

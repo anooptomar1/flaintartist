@@ -17,11 +17,7 @@ class ReportVC: UITableViewController {
     var reportsTitle = ["Off Topic Content.", "Sexual Content or Nudity.", "Profanity or Crude Humor."]
     
     @IBOutlet weak var cancelBtn: UIBarButtonItem!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        print("ARTINFO:\(artInfo)")
-    }
+
     
     @IBAction func cancelBtnTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)

@@ -51,6 +51,17 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
     var refreshControl: UIRefreshControl!
     
     
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.hidesBackButton = true
+        self.navigationController?.setToolbarHidden(true, animated: false)
+        self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
+        self.navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -60,6 +71,8 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
         carouselView.dataSource = self
         carouselView.type = .linear
         carouselView.clipsToBounds = true
+        
+        websiteTextView.delegate = self
     
             DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).child("arts").observe(.value) { (snapshot: FIRDataSnapshot) in
                 self.posts = []
@@ -85,19 +98,6 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
         refreshControl.tintColor = UIColor.flatBlack()
         refreshControl.addTarget(self, action: #selector(ProfileVC.refresh), for: UIControlEvents.valueChanged)
         scrollView.addSubview(refreshControl)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationItem.hidesBackButton = true
-        self.navigationController?.setToolbarHidden(true, animated: false)
-        self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
-        if editInfo.isEmpty == false {
-            if let img = editInfo[0] as? UIImage, let backImg = editInfo[1] as? UIImage, let name = editInfo[2] as? String {
-                profileImg.image = img
-                nameLbl.text = name
-            }
-        }
     }
     
     func refresh(_ sender:AnyObject) {
@@ -243,7 +243,7 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
         let shareSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let facebookShare = UIAlertAction(title: "Share to Facebook", style: .default) { (UIAlertAction) in
-            share.facebookShare(self, image: img)
+            share.facebookShare(self, image: img, text: "")
         }
         let messengerShare = UIAlertAction(title: "Share to Messenger", style: .default) { (UIAlertAction) in
            // share.messengerShare(self, image: img)
@@ -338,4 +338,13 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
             })
         }
     }
+    
+
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "WebVC") as! WebVC
+        vc.url = URL
+        present(vc, animated: true, completion: nil)
+        return false
+    }
+ 
 }

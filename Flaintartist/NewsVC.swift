@@ -60,7 +60,7 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.toolbar.isTranslucent = false
+        self.navigationController?.navigationBar.isTranslucent = false
     }
     
     

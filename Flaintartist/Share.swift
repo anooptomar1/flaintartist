@@ -24,10 +24,10 @@ class Share {
         }
     }
     
-    func facebookShare(_ target: UIViewController, image: UIImage) {
+    func facebookShare(_ target: UIViewController, image: UIImage, text: String) {
         if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeFacebook){
             let facebookSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-            facebookSheet.setInitialText("Share on Facebook")
+            facebookSheet.setInitialText(text)
             facebookSheet.add(image)
             target.present(facebookSheet, animated: true, completion: nil)
         } else {
