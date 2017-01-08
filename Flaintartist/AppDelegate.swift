@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navigationBarAppearance = UINavigationBar.appearance()
         navigationBarAppearance.setBackgroundImage(UIImage(), for: .default)
         navigationBarAppearance.shadowImage = UIImage()
-        navigationBarAppearance.isTranslucent = true
+        navigationBarAppearance.isTranslucent = false
         
         UITabBar.appearance().tintColor = UIColor.flatBlack()
         return true

@@ -27,8 +27,10 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
     
     var posts = [Art]()
     var post: Art!
+    var users = [Users]()
+    var user: Users!
     
-    var categories = ["Just For You", "Modern", "Abstract", "Realism"]
+    var categories = ["Modern", "Abstract", "New Artist", "Realism"]
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
     
     let headBttn:UIButton = UIButton(type: .system)
@@ -52,14 +54,13 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
         refreshControl.addTarget(self, action: #selector(NewsVC.refresh), for: UIControlEvents.valueChanged)
         tableView.addSubview(refreshControl)
         
-        self.navigationController?.setToolbarHidden(true, animated: false)        
+        self.navigationController?.setToolbarHidden(true, animated: false)
+
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.tintColor = UIColor.flatSkyBlue()
-        
+        self.navigationController?.toolbar.isTranslucent = false
     }
     
     
@@ -73,7 +74,6 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
         let headerView = Bundle.main.loadNibNamed("HeaderView", owner: self, options: nil)?.first as! HeaderView
         
         typeLbl.text = categories[section]
-        print("TYPELBL:\(typeLbl.text)")
         
         if section == 0 {
             self.seeMoreBtn.isHidden = true
@@ -95,7 +95,12 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
         if indexPath.row == 0 {
             return 140.0
         }
-        return 270.0
+        
+        if indexPath.row == 3 {
+            return 20.0
+        } else {
+            return 400.0
+        }
     }
     
     
@@ -108,23 +113,24 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+
         if indexPath.section == 0 {
-            if  let cell0 = tableView.dequeueReusableCell(withIdentifier: "TrendingTabCell", for: indexPath) as? TrendingTabCell {
-                cell0.delegate = self
-                return cell0
-            }
-        } else if indexPath.section == 1 {
             if  let cell1 = tableView.dequeueReusableCell(withIdentifier: "ModernTabCell", for: indexPath) as? ModernTabCell {
                 cell1.delegate = self
                 return cell1
             }
             
-        }  else if indexPath.section == 2 {
+        }  else if indexPath.section == 1 {
             if  let cell2 = tableView.dequeueReusableCell(withIdentifier: "AbstractTabCell", for: indexPath) as? AbstractTabCell {
                 cell2.delegate = self
                 return cell2
             }
+        } else if indexPath.section == 2 {
+            if  let cell4 = tableView.dequeueReusableCell(withIdentifier: "NewArtistTabCell", for: indexPath) as? NewArtistTabCell {
+                cell4.delegate = self
+                return cell4
+            }
+            
         } else if indexPath.section == 3 {
             if  let cell3 = tableView.dequeueReusableCell(withIdentifier: "RealismTabCell", for: indexPath) as? RealismTabCell {
                 cell3.delegate = self

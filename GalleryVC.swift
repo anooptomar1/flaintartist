@@ -67,20 +67,13 @@
                 self.carouselView.reloadData()
             }
             
-            if post.userUid == FIRAuth.auth()?.currentUser?.uid {
-                let tapProfileGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.tapProfilePicture))
-                profileImg.addGestureRecognizer(tapProfileGesture)
-                
-            }
-            
             profileImg.configure(UIColor.flatWhite(), width: 0.5)
-            self.gradientView.backgroundColor = UIColor(gradientStyle: UIGradientStyle.topToBottom, withFrame: CGRect(x:0 , y: 100, width: self.view.frame.width, height: 236) , andColors: [UIColor.flatWhite(), UIColor.white])
+            self.gradientView.backgroundColor = UIColor(gradientStyle: UIGradientStyle.topToBottom, withFrame: CGRect(x:0 , y: 100, width: self.view.frame.width, height: 236) , andColors: [UIColor.white, UIColor.white])
             carouselView.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: CGRect(x: 0, y: 0, width: self.carouselView.frame.width, height:  427) , andColors: [  UIColor.white, UIColor.flatWhite()])
             
             refreshControl = UIRefreshControl()
             refreshControl.addTarget(self, action: #selector(GalleryVC.refresh(sender:)) , for: UIControlEvents.valueChanged)
             scrollView.addSubview(refreshControl)
-            self.navigationItem.title = "User Gallery"
         }
         
         
@@ -267,6 +260,7 @@
                     self.user = Users(key: key, artistData: postDict)
                 }
                 if let user = self.user {
+                    self.navigationItem.title = "\(user.name)'s Gallery"
                     self.nameLbl.text = user.name
                     self.artCountLbl.text = "\(self.posts.count)"
                     print("WEBSITE: \(user.website)")
@@ -274,6 +268,7 @@
                     let color = user.color
                     let profileColor = UIColor(hexString: color, withAlpha: 0.9) as UIColor
                     self.nameLbl.textColor = profileColor
+ 
                 }
             }
             self.retriveProfilePicture()

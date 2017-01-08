@@ -78,7 +78,7 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
         let tapProfileGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.tapProfilePicture))
         profileImg.addGestureRecognizer(tapProfileGesture)
         profileImg.configure(UIColor.flatWhite(), width: 0.5)
-        self.gradientView.backgroundColor = UIColor(gradientStyle: UIGradientStyle.topToBottom, withFrame: CGRect(x:0 , y: 100, width: self.view.frame.width, height: 172) , andColors: [UIColor.flatWhite(), UIColor.white])
+        self.gradientView.backgroundColor = UIColor(gradientStyle: UIGradientStyle.topToBottom, withFrame: CGRect(x:0 , y: 100, width: self.view.frame.width, height: 172) , andColors: [UIColor.white, UIColor.white])
         carouselView.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: CGRect(x: 0, y: 0, width: self.carouselView.frame.width, height:  437) , andColors: [  UIColor.white, UIColor.flatWhite()])
         
         refreshControl = UIRefreshControl()
@@ -198,8 +198,8 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
             DataService.ds.storeProfileImg((FIRAuth.auth()!.currentUser!.uid), img: profileImg.image!, vc: self)
             let profilePicColor: UIColor = UIColor(averageColorFrom: image, withAlpha: 0.9)
             let color = profilePicColor.hexValue()
-            self.artworkLbl.textColor = UIColor(contrastingBlackOrWhiteColorOn: profilePicColor, isFlat: true)
-            self.artCountLbl.textColor =  UIColor(contrastingBlackOrWhiteColorOn: profilePicColor, isFlat: true)
+            //self.artworkLbl.textColor = UIColor(contrastingBlackOrWhiteColorOn: profilePicColor, isFlat: true)
+            //self.artCountLbl.textColor =  UIColor(contrastingBlackOrWhiteColorOn: profilePicColor, isFlat: true)
             DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).child("color").setValue(color)
             picker.dismiss(animated: true, completion: nil)
         }
