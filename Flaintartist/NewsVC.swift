@@ -72,9 +72,7 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let headerView = Bundle.main.loadNibNamed("HeaderView", owner: self, options: nil)?.first as! HeaderView
-        
         typeLbl.text = categories[section]
-        
         if section == 0 {
             self.seeMoreBtn.isHidden = true
         }
