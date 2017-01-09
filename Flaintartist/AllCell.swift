@@ -6,11 +6,12 @@
 //  Copyright © 2017 Kerby Jean. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import SDWebImage
 import FirebaseStorage
 
 class AllCell: UICollectionViewCell {
+    
     @IBOutlet weak var artImgView: FXImageView!
     
     var post: Art!
@@ -32,7 +33,7 @@ class AllCell: UICollectionViewCell {
                         if let img = UIImage(data: imgData) {
                             print("CELL 4")
                             self.artImgView.image = img
-                            NewsVC.imageCache.setObject(img, forKey: post.imgUrl as NSString)
+                            self.artImgView.sd_setImage(with: URL(string: "\(post.imgUrl)"), placeholderImage:UIImage(named:"placeholder.png"))
                         }
                     }
                 }

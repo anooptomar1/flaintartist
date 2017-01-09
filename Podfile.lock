@@ -55,6 +55,9 @@ PODS:
     - GoogleToolboxForMac/NSString+URLArguments (= 2.1.0)
   - GoogleToolboxForMac/NSString+URLArguments (2.1.0)
   - GTMSessionFetcher/Core (1.1.7)
+  - SDWebImage (3.8.2):
+    - SDWebImage/Core (= 3.8.2)
+  - SDWebImage/Core (3.8.2)
   - SwiftyUserDefaults (3.0.0)
 
 DEPENDENCIES:
@@ -65,6 +68,7 @@ DEPENDENCIES:
   - Firebase/Messaging
   - FirebaseDatabase
   - FirebaseStorage
+  - SDWebImage (~> 3.8)
   - SwiftyUserDefaults
 
 SPEC CHECKSUMS:
@@ -82,8 +86,9 @@ SPEC CHECKSUMS:
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
   GTMSessionFetcher: a1f8ed39e4fe21c68957daed472c7afbcdf29166
+  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   SwiftyUserDefaults: 0f1d45fc3aafb9064dac661e367f8f83fe21a4b4
 
-PODFILE CHECKSUM: 7e3ff346da675b3f401ded4e582363fd2f119fae
+PODFILE CHECKSUM: 0be8706918fb6e144b4d477d504230e0673a6ee5
 
 COCOAPODS: 1.0.0

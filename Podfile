@@ -13,6 +13,7 @@ target 'Flaintartist' do
   pod 'Firebase/Auth'
   pod 'FirebaseStorage'
   pod 'Firebase/Messaging'
+  pod 'SDWebImage', '~>3.8'
   pod 'SwiftyUserDefaults'
   pod 'AFNetworking',  '~> 1.3.3'
 

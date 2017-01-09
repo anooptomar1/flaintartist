@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 import FirebaseDatabase
 
 class AllVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
@@ -82,11 +83,15 @@ class AllVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let post = posts[indexPath.row]
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AllCell", for: indexPath) as? AllCell {
-            if let img = NewsVC.imageCache.object(forKey: post.imgUrl as NSString) {
-                cell.configureCell(post, img: img)
-            } else {
-                cell.configureCell(post)
+            
+            
+            let myBlock: SDWebImageCompletionBlock! = {(image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
+                
             }
+            
+            cell.artImgView.sd_setImage(with: URL(string: "\(post.imgUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
+            
+
             return cell
         } else {
             return AllCell()

@@ -39,6 +39,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SDWebImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>SwiftyUserDefaults.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -52,17 +57,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>223021AB16CF28FF5A5227E0DCB89C28</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>23BA9083ED0D2392A167A8AFA04427FA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>48B8921618A709698F880F1BC660FDC2</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>7711103AF98B4A3B4606D65472B943F8</key>
+		<key>615A08019F8748C3F4067F438F978753</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -78,6 +83,11 @@
 			<true/>
 		</dict>
 		<key>9B57F4EE4746045CEAE2D933A3C8EC9E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B615B1F5B19A9BFAE69B4904F310D945</key>
 		<dict>
 			<key>primary</key>
 			<true/>
