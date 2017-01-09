@@ -34,7 +34,7 @@ class DataService {
  
     
     // MAILGUN
-//    private var _REF_MAILGUN = Mailgun.client(withDomain: "sandbox9e1ee9467d7b4efcbe9fc7f8a93c8873.mailgun.org", apiKey: "key-93800f7299c38f6fc13ca91a5db68f95")
+    private var _REF_MAILGUN = Mailgun.client(withDomain: "sandbox9e1ee9467d7b4efcbe9fc7f8a93c8873.mailgun.org", apiKey: "key-93800f7299c38f6fc13ca91a5db68f95")
     
     
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
@@ -62,9 +62,9 @@ class DataService {
         return _REF_STORAGE
     }
     
-//    var REF_MAILGUN: Mailgun {
-//        return _REF_MAILGUN!
-//    }
+    var REF_MAILGUN: Mailgun {
+        return _REF_MAILGUN!
+    }
     
     
     
@@ -74,6 +74,8 @@ class DataService {
         FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
             if error == nil {
                self.userType(id: (user?.uid)!)
+                Defaults[.key_uid] = user?.uid
+                Defaults[.email] = email
             }
             else {
                 self.alert.showAlert("Error", message: "\(error!.localizedDescription)", target: vc!)
@@ -89,7 +91,6 @@ class DataService {
         usersRef.observe(.value, with: { snapshot in
             if let type =  ((snapshot.value as? NSDictionary)?["userType"] as! String?) {
                 if type == "artist" {
-                    Defaults[.key_uid] = id
                     let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     appDel.logIn()
                 }

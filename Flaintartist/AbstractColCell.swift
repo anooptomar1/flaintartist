@@ -12,6 +12,7 @@ import UIKit
 import FirebaseStorage
 
 class AbstractColCell: UICollectionViewCell {
+    
     @IBOutlet weak var artImgView: FXImageView!
     
     var post: Art!
@@ -32,7 +33,7 @@ class AbstractColCell: UICollectionViewCell {
                     if let imgData = data {
                         if let img = UIImage(data: imgData) {
                             self.artImgView.image = img
-                            AbstractTabCell.imageCache.setObject(img, forKey: post.imgUrl as NSString)
+                            self.artImgView.sd_setImage(with: URL(string: "\(post.imgUrl)"), placeholderImage:UIImage(named:"placeholder.png"))
                         }
                     }
                 }

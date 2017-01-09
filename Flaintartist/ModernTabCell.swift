@@ -6,8 +6,8 @@
 //  Copyright © 2017 Kerby Jean. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import SDWebImage
 import FirebaseDatabase
 
 
@@ -59,11 +59,10 @@ extension ModernTabCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let post = posts[indexPath.row]
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ModernColCell", for: indexPath) as? ModernColCell {
-            if let img = AbstractTabCell.imageCache.object(forKey: post.imgUrl as NSString) {
-                cell.configureCell(post, img: img)
-            } else {
-                cell.configureCell(post)
+            let myBlock: SDWebImageCompletionBlock! = {(image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
+                
             }
+            cell.artImgView.sd_setImage(with: URL(string: "\(post.imgUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
             return cell
         } else {
             return ModernColCell()

@@ -31,7 +31,7 @@ class TrendingColCell: UICollectionViewCell {
                     if let imgData = data {
                         if let img = UIImage(data: imgData) {
                             self.artImgView.image = img
-                            NewsVC.imageCache.setObject(img, forKey: post.imgUrl as NSString)
+                            self.artImgView.sd_setImage(with: URL(string: "\(post.imgUrl)"), placeholderImage:UIImage(named:"placeholder.png"))
                         }
                     }
                 }

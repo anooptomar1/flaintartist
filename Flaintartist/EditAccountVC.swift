@@ -43,9 +43,7 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
                         print(error)
                     } else {
                         DispatchQueue.main.async {
-                            if let data = data {
-                            self.profileImage.image = UIImage(data: data)
-                            }
+                            self.profileImage.sd_setImage(with: URL(string: "\(self.user.profilePicUrl)") , placeholderImage: nil , options: .continueInBackground)
                         }
                     }
                 })
@@ -90,10 +88,7 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
             
             if let photoUrl = metaData!.downloadURL() {
                 changeRequest?.photoURL = photoUrl
-              
-//                if let img = self.profileImage.image! as? UIImage {
-//                ModernTabCell.imageCache.setObject(img, forKey: self.user.profilePicUrl as NSString)
-//                }
+                self.profileImage.sd_setImage(with: URL(string: "\(self.user.profilePicUrl)") , placeholderImage: nil , options: .continueInBackground)
             }
             
             changeRequest?.commitChanges(completion: { (error) in

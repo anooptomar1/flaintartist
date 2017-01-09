@@ -7,8 +7,6 @@
 //
 
 import UIKit
-
-import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
@@ -50,9 +48,7 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
     
     var refreshControl: UIRefreshControl!
     
-    
-    
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.hidesBackButton = true
@@ -262,41 +258,54 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
             }
         }
     }
-    
-    
-    
+        
     
     func loadUserInfo(){
         
         DataService.ds.REF_USERS.child("\(FIRAuth.auth()!.currentUser!.uid)").observe(.value, with: { (snapshot) in
+            
             if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
                 let key = snapshot.key
                 self.user = Users(key: key, artistData: postDict)
             }
             
-             let user = self.user
-               self.nameLbl.text = user?.name
+             let user = self.user!
+               self.nameLbl.text = user.name
                self.artCountLbl.text = "\(self.posts.count)"
-               self.websiteTextView.text = user?.website
-               let imageURL = user?.profilePicUrl
-              DataService.ds.REF_STORAGE.reference(forURL: imageURL!).data(withMaxSize: 15 * 1024 * 1024, completion: { (imgData, error) in
-                if error == nil {
-                    DispatchQueue.main.async {
-                        if let data = imgData {
-                            self.profileImg.image = UIImage(data: data)
-                        }
-                    }
-  
+               self.websiteTextView.text = user.website
+            
+            DataService.ds.REF_STORAGE.reference(forURL: user.profilePicUrl).data(withMaxSize: 15 * 1024 * 1024, completion: { (data, error) in
+                if let error = error {
+                    print(error)
                 } else {
-                    print(error!.localizedDescription)
-                    
+                    DispatchQueue.main.async {
+                        self.profileImg.sd_setImage(with: URL(string: "\(user.profilePicUrl)"), placeholderImage: nil , options: .continueInBackground)
+                    }
                 }
             })
-        }) { (error) in
-            print(error.localizedDescription)
-        }
-    }
-    
+        })
+      }
+
+
+
+//              DataService.ds.REF_STORAGE.reference(forURL: imageURL!).data(withMaxSize: 15 * 1024 * 1024, completion: { (imgData, error) in
+//                if error == nil {
+//                    DispatchQueue.main.async {
+//                        if let data = imgData {
+//                            self.profileImg.image = UIImage(data: data)
+//                        }
+//                    }
+//  
+//                } else {
+//                    print(error!.localizedDescription)
+//                    
+//                }
+//            })
+//        })
+//        { (error) in
+//            print(error.localizedDescription)
+//        }
+
     
 //    
 //    func retrieveUserInfo(_ img: UIImage? = nil) {
@@ -336,7 +345,7 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
                 }
             })
         }
-    }
+        }
     
     func configureView(_ post: Art, img: UIImage? = nil, imageView: FXImageView? = nil) {
         self.post = post

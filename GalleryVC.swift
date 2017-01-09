@@ -263,7 +263,6 @@
                     self.navigationItem.title = "\(user.name)'s Gallery"
                     self.nameLbl.text = user.name
                     self.artCountLbl.text = "\(self.posts.count)"
-                    print("WEBSITE: \(user.website)")
                     self.websiteTextView.text = user.website
                 }
             }
