@@ -25,6 +25,10 @@ class Users {
     fileprivate var _userRef: FIRDatabaseReference!
     
     
+    var userId: String {
+        return _userId
+    }
+    
     var profilePicUrl: String {
         return _profilePicUrl
     }
@@ -48,20 +52,25 @@ class Users {
     var color: String {
         return _color
     }
+
     
-    init(profilePicUrl: String, name: String, userType: String, website: String, artwork: Int, color: String) {
+    init(userId: String ,profilePicUrl: String, name: String, userType: String, website: String, artwork: Int, color: String) {
         
         self._profilePicUrl = profilePicUrl
         self._name = name
         self._artwork = artwork
         self._website = website
         self._color = color
+        self._userId = userId
     }
     
     init(key: String, artistData: Dictionary<String, AnyObject>) {
         
         self._userId = key
         
+        if let userId = artistData["uid"] as? String {
+            self._userId = userId
+        }
         
         if let name = artistData["name"] as? String {
             self._name = name

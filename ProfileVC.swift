@@ -65,7 +65,7 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.retrieveUserInfo()
+        self.loadUserInfo()
         
         carouselView.delegate = self
         carouselView.dataSource = self
@@ -101,20 +101,14 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
     }
     
     func refresh(_ sender:AnyObject) {
-        retrieveUserInfo()
+        loadUserInfo()
         carouselView.reloadData()
         refreshControl.endRefreshing()
     }
     
     
     @IBAction func settingsBtnTapped(_ sender: Any) {
-        if profileImg.image != nil {
-            let images: [AnyObject] = [profileImg.image!, nameLbl.text! as AnyObject, profilePicColor!]
-            performSegue(withIdentifier: "SettingsVC", sender: images)
-        } else {
-            let images: [AnyObject] = [nameLbl.text! as AnyObject, profilePicColor!]
-            performSegue(withIdentifier: "SettingsVC", sender: images)
-        }
+       performSegue(withIdentifier: "SettingsVC", sender: nil)
     }
     
     
@@ -267,34 +261,62 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
                 artRoomVC.artInfo = artInfo
             }
         }
-        
-        if segue.identifier == "SettingsVC" {
-            let settingsVC = segue.destination as! SettingsVC
-            let userInfo = sender as! [AnyObject]
-            settingsVC.userInfo = userInfo
-        }
     }
     
     
     
-    func retrieveUserInfo(_ img: UIImage? = nil) {
-        DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).observe(.value) { (snapshot: FIRDataSnapshot) in
+    
+    func loadUserInfo(){
+        
+        DataService.ds.REF_USERS.child("\(FIRAuth.auth()!.currentUser!.uid)").observe(.value, with: { (snapshot) in
             if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
                 let key = snapshot.key
                 self.user = Users(key: key, artistData: postDict)
             }
-            if let user = self.user {
-                self.nameLbl.text = user.name
-                self.artCountLbl.text = "\(self.posts.count)"
-                self.websiteTextView.text = user.website
-                let color = user.color
-                let profileColor = UIColor(hexString: color, withAlpha: 0.9) as UIColor
-                self.profilePicColor = profileColor
-                self.nameLbl.textColor = profileColor
-            }
-       }
-   self.retriveProfilePicture()
-}
+            
+             let user = self.user
+               self.nameLbl.text = user?.name
+               self.artCountLbl.text = "\(self.posts.count)"
+               self.websiteTextView.text = user?.website
+               let imageURL = user?.profilePicUrl
+              DataService.ds.REF_STORAGE.reference(forURL: imageURL!).data(withMaxSize: 15 * 1024 * 1024, completion: { (imgData, error) in
+                if error == nil {
+                    DispatchQueue.main.async {
+                        if let data = imgData {
+                            self.profileImg.image = UIImage(data: data)
+                        }
+                    }
+  
+                } else {
+                    print(error!.localizedDescription)
+                    
+                }
+            })
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
+    
+    
+//    
+//    func retrieveUserInfo(_ img: UIImage? = nil) {
+//        DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).observe(.value) { (snapshot: FIRDataSnapshot) in
+//            if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
+//                let key = snapshot.key
+//                self.user = Users(key: key, artistData: postDict)
+//            }
+//            if let user = self.user {
+//                self.nameLbl.text = user.name
+//                self.artCountLbl.text = "\(self.posts.count)"
+//                self.websiteTextView.text = user.website
+////                let color = user.color
+////                let profileColor = UIColor(hexString: color, withAlpha: 0.9) as UIColor
+////                self.profilePicColor = profileColor
+////                self.nameLbl.textColor = profileColor
+//            }
+//       }
+//   self.retriveProfilePicture()
+//}
     
     func retriveProfilePicture(_ img: UIImage? = nil) {
         if img != nil {

@@ -17,6 +17,7 @@ import SwiftyUserDefaults
 
 let DB_BASE = FIRDatabase.database().reference()
 let STORAGE_BASE = FIRStorage.storage()
+let STORAGE = FIRStorage.storage().reference()
 
 
 class DataService {
@@ -28,11 +29,9 @@ class DataService {
     private var _REF_BASE = DB_BASE
     private var _REF_AUTH = FIRAuth.auth()
     private var _REF_STORAGE = STORAGE_BASE
-    private var _REF_POSTS = DB_BASE.child("arts")
     private var _REF_USERS = DB_BASE.child("users")
     private var _REF_ARTS = DB_BASE.child("arts")
-    private var _REF_RESTO = DB_BASE.child("restaurant")
-    private var _REF_CURRENT_RESTO = DB_BASE.child("restaurant").child((FIRAuth.auth()?.currentUser?.uid)!)
+ 
     
     // MAILGUN
 //    private var _REF_MAILGUN = Mailgun.client(withDomain: "sandbox9e1ee9467d7b4efcbe9fc7f8a93c8873.mailgun.org", apiKey: "key-93800f7299c38f6fc13ca91a5db68f95")
@@ -71,13 +70,15 @@ class DataService {
     
     // Log In
     
-    func logIn(email: String, password: String, vc: UIViewController){
+    func logIn(email: String, password: String, vc: UIViewController? = nil){
         FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
             if error == nil {
                self.userType(id: (user?.uid)!)
+                let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDel.logIn()
             }
             else {
-                self.alert.showAlert("Error", message: "\(error!.localizedDescription)", target: vc)
+                self.alert.showAlert("Error", message: "\(error!.localizedDescription)", target: vc!)
                 print(error!.localizedDescription)
                 
             }
@@ -115,10 +116,62 @@ class DataService {
     }
     
     
-    // Register
+    // Sign Up
+    func signUp (name: String, email: String, password: String, pictureData: NSData!, userType: String) {
+        FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user, error) in
+            if error == nil {
+                self.setUserInfo(name: name, user: user, password: password, pictureData: pictureData, userType: userType)
+            } else {
+                print(error!.localizedDescription)
+            }
+        })
+    }
+    
+    private func setUserInfo(name: String, user: FIRUser!, password: String, pictureData: NSData!, userType: String){
+        
+        let imagePath = "profileImage\(user.uid)/userPic.jpg"
+        let imageRef = STORAGE.child(imagePath)
+        let metaData = FIRStorageMetadata()
+        metaData.contentType = "image/jpeg"
+        
+        imageRef.put(pictureData as Data, metadata: metaData) { (newMetaData, error) in
+            
+            if error == nil {
+                let changeRequest = user.profileChangeRequest()
+                changeRequest.displayName = name
+                if let photoURL = newMetaData!.downloadURL() {
+                    changeRequest.photoURL = photoURL
+                }
+                
+                changeRequest.commitChanges(completion: { (error) in
+                    if error == nil {
+                        self.saveUserInfo(name: name, user:user, password: password, userType: userType )
+                    }else{
+                        print(error!.localizedDescription)
+                        
+                    }
+                })
+            }
+            else {
+                print(error!.localizedDescription)
+            }
+            
+        }
+    }
     
     
-    
+    func saveUserInfo(name: String, user: FIRUser!, password: String? = nil, userType: String){
+        let userInfo = ["name": name, "email": user.email!, "uid": user.uid, "profileImg": String(describing: user.photoURL!), "userType": userType]
+        DataService.ds.REF_USERS.child(user.uid).setValue(userInfo) { (error, ref) in
+            if error == nil {
+                print("user info saved successfully")
+                self.logIn(email: user.email!, password: password!)
+            }else {
+                print(error!.localizedDescription)
+                
+            }
+        }
+    }
     
     
     
