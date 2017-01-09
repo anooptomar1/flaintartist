@@ -74,8 +74,6 @@ class DataService {
         FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
             if error == nil {
                self.userType(id: (user?.uid)!)
-                let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
-                appDel.logIn()
             }
             else {
                 self.alert.showAlert("Error", message: "\(error!.localizedDescription)", target: vc!)

@@ -81,9 +81,7 @@ extension RealismTabCell: UICollectionViewDelegate, UICollectionViewDataSource {
             if let artImage = cell.artImgView.image {
                 
                 let post = posts[indexPath.row]
-                
                 let artInfo = [artImage, post] as [Any]
-                
                 collectionView.deselectItem(at: indexPath, animated: true)
                 let identifier = "ArtRoomVC"
                 if((delegate?.responds(to: Selector(("performSegue:")))) != nil) {

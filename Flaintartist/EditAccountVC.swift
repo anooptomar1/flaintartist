@@ -24,10 +24,11 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
     var user: Users!
     var imageChanged: Bool = false
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
     
-        DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).observe(.value) { (snapshot: FIRDataSnapshot) in
+        override func viewDidLoad() {
+           super.viewDidLoad()
+        
+            DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).observe(.value) { (snapshot: FIRDataSnapshot) in
             if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
             let key = snapshot.key
             self.user = Users(key: key, artistData: postDict)
@@ -73,12 +74,12 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
         
            FIRAuth.auth()?.currentUser?.updateEmail(email, completion: { (error) in
             if error != nil {
-                print(error?.localizedDescription)
+                print(error!.localizedDescription)
             }
            })
         
         let imageData = UIImageJPEGRepresentation(profileImage.image!, 1)
-        let imagePath = "profileImage\(user.userId) userPic.jpeg"
+        let imagePath = "profileImage\(user.userId)userPic.jpeg"
         let imageRef = STORAGE.child(imagePath)
         let metaData = FIRStorageMetadata()
         metaData.contentType = "image/jpeg"
@@ -89,12 +90,16 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
             
             if let photoUrl = metaData!.downloadURL() {
                 changeRequest?.photoURL = photoUrl
+              
+//                if let img = self.profileImage.image! as? UIImage {
+//                ModernTabCell.imageCache.setObject(img, forKey: self.user.profilePicUrl as NSString)
+//                }
             }
             
             changeRequest?.commitChanges(completion: { (error) in
                 if error == nil {
                     let user = FIRAuth.auth()!.currentUser!
-                    let userInfo = ["email": email, "name": name, "website": website, "uid": user.uid, "profileImg": String(describing: user.photoURL!)] as [String : Any]
+                    let userInfo = ["email": email, "name": name, "website": website, "uid": user.uid, "profileImg": String(describing: user.photoURL!), "userType":"artist"] as [String : Any]
                     let userRef = DataService.ds.REF_USERS.child(user.uid)
                     userRef.setValue(userInfo)
                 }

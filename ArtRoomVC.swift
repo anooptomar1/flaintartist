@@ -232,6 +232,7 @@
         
         
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            
             if segue.identifier == "GalleryVC" {
                 let vc = segue.destination as! GalleryVC
                 if let post = sender as? Art {

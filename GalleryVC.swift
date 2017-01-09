@@ -265,10 +265,6 @@
                     self.artCountLbl.text = "\(self.posts.count)"
                     print("WEBSITE: \(user.website)")
                     self.websiteTextView.text = user.website
-                    let color = user.color
-                    let profileColor = UIColor(hexString: color, withAlpha: 0.9) as UIColor
-                    self.nameLbl.textColor = profileColor
- 
                 }
             }
             self.retriveProfilePicture()

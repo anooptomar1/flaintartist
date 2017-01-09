@@ -87,6 +87,7 @@ class LogInVC: UIViewController, UITextFieldDelegate {
         indicator.isHidden = false
         indicator.hidesWhenStopped = true
         indicator.startAnimating()
+        passwordField.resignFirstResponder()
         if let email = emailField.text, let pwd = passwordField.text {
             DataService.ds.logIn(email: email, password: pwd, vc: self)
         }

@@ -163,5 +163,14 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
                 }
             }
         }
+        
+        if segue.identifier == "GalleryVC" {
+            if let vc = segue.destination as? GalleryVC {
+                vc.hidesBottomBarWhenPushed = true
+                if let user = sender as? Users {
+                    vc.user = user
+                }
+            }
+        }
     }
 }

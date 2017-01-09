@@ -48,19 +48,15 @@ class Users {
     var website: String? {
         return _website
     }
-    
-    var color: String {
-        return _color
-    }
+
 
     
-    init(userId: String ,profilePicUrl: String, name: String, userType: String, website: String, artwork: Int, color: String) {
+    init(userId: String ,profilePicUrl: String, name: String, userType: String, website: String, artwork: Int) {
         
         self._profilePicUrl = profilePicUrl
         self._name = name
         self._artwork = artwork
         self._website = website
-        self._color = color
         self._userId = userId
     }
     
@@ -78,10 +74,6 @@ class Users {
         
         if let profilePicUrl = artistData["profileImg"] as? String {
             self._profilePicUrl = profilePicUrl
-        }
-        
-        if let color = artistData["color"] as? String {
-            self._color = color
         }
         
         if let website = artistData["website"] as? String {
