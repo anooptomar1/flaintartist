@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import FirebaseAuth
-import FirebaseDatabase
 import SwiftyUserDefaults
 
 class LogInVC: UIViewController, UITextFieldDelegate {
@@ -21,6 +19,7 @@ class LogInVC: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
@@ -37,20 +36,6 @@ class LogInVC: UIViewController, UITextFieldDelegate {
     }
     
     
-    func firebaseAuth(_ credential: FIRAuthCredential) {
-        FIRAuth.auth()?.signIn(with: credential, completion: { (user, error) in
-            if error != nil {
-                print("Kurbs: Unable to authenticate with Firebase - \(error)")
-            } else {
-                print("Kurbs: Successfully authenticated with Firebase")
-                if let user = user {
-                    let userData = ["provider": credential.provider]
-                    self.completeSignIn(id: user.uid, userData: userData)
-                }
-            }
-        })
-    }
-    
     
     @IBAction func logInBtnTapped(_ sender: UIButton) {
         logIn()
@@ -66,18 +51,6 @@ class LogInVC: UIViewController, UITextFieldDelegate {
     }
     
     
-    func userType(id: String) {
-        let usersRef = FIRDatabase.database().reference().child("users").child(id)
-        usersRef.observe(.value, with: { snapshot in
-            if let type =  ((snapshot.value as? NSDictionary)?["userType"] as! String?) {
-                if type == "artist" {
-                self.performSegue(withIdentifier: "TabBarVC", sender: nil)
-                }
-            }
-            return
-        })
-    }
-    
     
     //MARK: Functions
     func errorAlert(title: String, message: String) {
@@ -86,6 +59,7 @@ class LogInVC: UIViewController, UITextFieldDelegate {
         alertVC.addAction(action)
         present(alertVC, animated: true, completion: nil)
     }
+    
     
     func indicatorAnim() {
         if indicator.isAnimating == true {
@@ -113,32 +87,9 @@ class LogInVC: UIViewController, UITextFieldDelegate {
         indicator.isHidden = false
         indicator.hidesWhenStopped = true
         indicator.startAnimating()
-        
         if let email = emailField.text, let pwd = passwordField.text {
-            FIRAuth.auth()?.signIn(withEmail: email, password: pwd, completion: { (user, error) in
-                if error == nil {
-                    if let user = user {
-                        let userData = ["provider": user.providerID]
-                        Defaults[.email] = email
-                        self.logInBtn.setTitle("Enter", for: .normal)
-                        self.userType(id: user.uid)
-                        self.completeSignIn(id: user.uid, userData: userData)
-                        self.indicator.stopAnimating()
-                    }
-                } else {
-                    let alert = Alerts()
-                    alert.showAlert("Error", message: error!.localizedDescription, target: self)
-                    self.indicator.stopAnimating()
-                    self.logInBtn.setTitle("Enter", for: .normal)
-                    return
-                }
-            })
+            DataService.ds.logIn(email: email, password: pwd, vc: self)
         }
-    }
-    
-    
-    func completeSignIn(id: String, userData: Dictionary<String, String>) {
-        Defaults[.key_uid] = id
     }
     
     

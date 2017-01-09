@@ -44,35 +44,35 @@ class ReportVC: UITableViewController {
     }
     
     func confirmSheet(reportType: String) {
-       let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-       let confirm = UIAlertAction(title: "Confirm", style: .destructive) { (UIAlertAction) in
-        
-        let userEmail = Defaults[.email]
-        
-        if !self.artInfo.isEmpty {
-        if let art = self.artInfo[1] as? Art {
-        DataService.ds.REF_MAILGUN.sendMessage(to: "kerby.jean@hotmail.fr", from: userEmail, subject: "Report Art", body: "Report type: \(reportType), Art Title: \(art.title), Artist: \(art.userUid)", success: { (success) in
-            self.confirmAlert(title:"\(art.title) Reported" , message: "Your opinion is important for us. The piece has succesfully been reported.  We'll contact you soon for more information. Thank you.")
-            self.cancelBtn.title = "Done"
-        }, failure: { (error) in
-            self.confirmAlert(title:"Failed to report" , message: "Sorry the request failed. Please try again.")
-        })
-      }
-        } else {
-           let user = self.user
-            DataService.ds.REF_MAILGUN.sendMessage(to: "kerby.jean@hotmail.fr", from: userEmail, subject: "Report User", body: "Report type: \(reportType), Artist name: \(user!.name)", success: { (success) in
-                self.confirmAlert(title:"\(user!.name) has been Reported" , message: "Your opinion is important for us. The user has succesfully been reported. We'll contact you soon for more information. Thank you.")
-            self.cancelBtn.title = "Done"
-            }, failure: { (error) in
-                self.confirmAlert(title:"Failed to report" , message: "Sorry the request failed. Please try again.")
-            })
-
-        }
-}
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        sheet.addAction(confirm)
-        sheet.addAction(cancel)
-        present(sheet, animated: true, completion: nil)
+//       let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+//       let confirm = UIAlertAction(title: "Confirm", style: .destructive) { (UIAlertAction) in
+//        
+//        let userEmail = Defaults[.email]
+//        
+//        if !self.artInfo.isEmpty {
+//        if let art = self.artInfo[1] as? Art {
+//        DataService.ds.REF_MAILGUN.sendMessage(to: "kerby.jean@hotmail.fr", from: userEmail, subject: "Report Art", body: "Report type: \(reportType), Art Title: \(art.title), Artist: \(art.userUid)", success: { (success) in
+//            self.confirmAlert(title:"\(art.title) Reported" , message: "Your opinion is important for us. The piece has succesfully been reported.  We'll contact you soon for more information. Thank you.")
+//            self.cancelBtn.title = "Done"
+//        }, failure: { (error) in
+//            self.confirmAlert(title:"Failed to report" , message: "Sorry the request failed. Please try again.")
+//        })
+//      }
+//        } else {
+//           let user = self.user
+//            DataService.ds.REF_MAILGUN.sendMessage(to: "kerby.jean@hotmail.fr", from: userEmail, subject: "Report User", body: "Report type: \(reportType), Artist name: \(user!.name)", success: { (success) in
+//                self.confirmAlert(title:"\(user!.name) has been Reported" , message: "Your opinion is important for us. The user has succesfully been reported. We'll contact you soon for more information. Thank you.")
+//            self.cancelBtn.title = "Done"
+//            }, failure: { (error) in
+//                self.confirmAlert(title:"Failed to report" , message: "Sorry the request failed. Please try again.")
+//            })
+//
+//        }
+//}
+//        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+//        sheet.addAction(confirm)
+//        sheet.addAction(cancel)
+//        present(sheet, animated: true, completion: nil)
     }
     
     func confirmAlert(title: String, message: String) {

@@ -25,28 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FIRApp.configure()
         FIRDatabase.database().persistenceEnabled = true
         
-        userIsLoggedIn()
+        userIsLoggingIn()
         
-        
-        if #available(iOS 8.0, *) {
-            if #available(iOS 10.0, *) {
-                UNUserNotificationCenter.current().requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
-                    if granted {
-                        UIApplication.shared.registerForRemoteNotifications()
-                    }
-                }
-            } else {
-                
-            }
-        } else {
-            let types: UIRemoteNotificationType = [.alert, .badge, .sound]
-            application.registerForRemoteNotifications(matching: types)
-        }
-
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.tokenRefreshNotification(notification:)), name: NSNotification.Name.firInstanceIDTokenRefresh, object: nil)
-        
-        //FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         if !UserDefaults.standard.bool(forKey: "FirstTime") {
             UserDefaults.standard.set(false, forKey: "FirstTime")
@@ -98,7 +78,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     
-    func userIsLoggedIn() {
+    func logIn() {
+        let tabBar = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarVC") as! TabBarVC
+        self.window?.rootViewController = tabBar
+    }
+    
+    func userIsLoggingIn() {
         if let uid = Defaults[.key_uid] {
             let usersRef = FIRDatabase.database().reference().child("users").child(uid)
             if !uid.isEmpty {
@@ -112,9 +97,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         print(" CAN'T LOG IN: snapshot not found)")
                     }
                 })
-            }
-        }
-    }
+             }
+          }
+       }
     
     
     func tokenRefreshNotification(notification: NSNotification) {

@@ -11,6 +11,7 @@ import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
 import ChameleonFramework
+import SwiftyUserDefaults
 
 
 
@@ -22,6 +23,8 @@ class DataService {
     
     static var ds = DataService()
     
+    var alert = Alerts()
+    
     private var _REF_BASE = DB_BASE
     private var _REF_AUTH = FIRAuth.auth()
     private var _REF_STORAGE = STORAGE_BASE
@@ -32,7 +35,7 @@ class DataService {
     private var _REF_CURRENT_RESTO = DB_BASE.child("restaurant").child((FIRAuth.auth()?.currentUser?.uid)!)
     
     // MAILGUN
-    private var _REF_MAILGUN = Mailgun.client(withDomain: "sandbox9e1ee9467d7b4efcbe9fc7f8a93c8873.mailgun.org", apiKey: "key-93800f7299c38f6fc13ca91a5db68f95")
+//    private var _REF_MAILGUN = Mailgun.client(withDomain: "sandbox9e1ee9467d7b4efcbe9fc7f8a93c8873.mailgun.org", apiKey: "key-93800f7299c38f6fc13ca91a5db68f95")
     
     
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
@@ -60,9 +63,92 @@ class DataService {
         return _REF_STORAGE
     }
     
-    var REF_MAILGUN: Mailgun {
-        return _REF_MAILGUN!
+//    var REF_MAILGUN: Mailgun {
+//        return _REF_MAILGUN!
+//    }
+    
+    
+    
+    // Log In
+    
+    func logIn(email: String, password: String, vc: UIViewController){
+        FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
+            if error == nil {
+               self.userType(id: (user?.uid)!)
+            }
+            else {
+                self.alert.showAlert("Error", message: "\(error!.localizedDescription)", target: vc)
+                print(error!.localizedDescription)
+                
+            }
+        })
     }
+    
+    
+    func userType(id: String) {
+        let usersRef = FIRDatabase.database().reference().child("users").child(id)
+        usersRef.observe(.value, with: { snapshot in
+            if let type =  ((snapshot.value as? NSDictionary)?["userType"] as! String?) {
+                if type == "artist" {
+                    Defaults[.key_uid] = id
+                    let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                    appDel.logIn()
+                }
+            }
+            return
+        })
+    }
+    
+
+    func firebaseAuth(_ credential: FIRAuthCredential) {
+        FIRAuth.auth()?.signIn(with: credential, completion: { (user, error) in
+            if error != nil {
+                print("Kurbs: Unable to authenticate with Firebase - \(error)")
+            } else {
+                print("Kurbs: Successfully authenticated with Firebase")
+                if let user = user {
+                    let userData = ["provider": credential.provider]
+                    DataService.ds.createFirebaseDBUser(user.uid, userData: userData)
+                }
+            }
+        })
+    }
+    
+    
+    // Register
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
 
     func createFirebaseDBUser(_ uid: String, userData: Dictionary<String, String>) {
         let newUser = DataService.ds.REF_USERS.child(uid)
