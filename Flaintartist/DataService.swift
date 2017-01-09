@@ -60,10 +60,10 @@ class DataService {
         return _REF_STORAGE
     }
     
-        var REF_MAILGUN: Mailgun {
-            return _REF_MAILGUN!
-        }
-    
+    var REF_MAILGUN: Mailgun {
+        return _REF_MAILGUN!
+    }
+
     func createFirebaseDBUser(_ uid: String, userData: Dictionary<String, String>) {
         let newUser = DataService.ds.REF_USERS.child(uid)
         newUser.updateChildValues(userData)
