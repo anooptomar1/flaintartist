@@ -9,6 +9,7 @@
 import UIKit
 import SceneKit
 import Firebase
+import SDWebImage
 import FirebaseStorage
 import FirebaseAuth
 

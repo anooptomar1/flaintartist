@@ -118,16 +118,16 @@
                 artImgView.shadowOffset = CGSize(width: 0.0, height: 2.0)
                 artImgView.shadowBlur = 1.0
                 
-                let tapGesture = UITapGestureRecognizer(target: self, action:  #selector(ProfileVC.artImgViewDoubleTapped))
-                tapGesture.numberOfTapsRequired = 2
-                artImgView.addGestureRecognizer(tapGesture)
+                //let tapGesture = UITapGestureRecognizer(target: self, action:  #selector(ProfileVC.artImgViewDoubleTapped))
+                //tapGesture.numberOfTapsRequired = 2
+                //artImgView.addGestureRecognizer(tapGesture)
                 artView.addSubview(artImgView)
                 
-                if let img = ProfileVC.imageCache.object(forKey: post.imgUrl as NSString) {
-                    configureView(post: post, img: img)
-                } else {
-                    configureView(post: post, imageView: artImgView)
-                }
+//                if let img = ProfileVC.imageCache.object(forKey: post.imgUrl as NSString) {
+//                    configureView(post: post, img: img)
+//                } else {
+//                    configureView(post: post, imageView: artImgView)
+//                }
             }
             return artView
         }
@@ -155,7 +155,7 @@
             userArtsRef.removeValue()
             artsRef.removeValue()
             self.posts.remove(at: index)
-            ProfileVC.imageCache.removeObject(forKey: url as NSString)
+           // ProfileVC.imageCache.removeObject(forKey: url as NSString)
             self.carouselView.removeItem(at: index, animated: true)
             carouselView.reloadData()
         }
@@ -283,7 +283,7 @@
                         if let imgData = data {
                             if let img = UIImage(data: imgData) {
                                 self.profileImg.image = img
-                                ProfileVC.imageCache.setObject(img, forKey: url as NSString)
+                                //ProfileVC.imageCache.setObject(img, forKey: url as NSString)
                             }
                         }
                     }
@@ -307,7 +307,7 @@
                         if let imgData = data {
                             if let img = UIImage(data: imgData) {
                                 imageView?.image = img
-                                ProfileVC.imageCache.setObject(img, forKey: post.imgUrl as NSString)
+                                //ProfileVC.imageCache.setObject(img, forKey: post.imgUrl as NSString)
                             }
                         }
                     }

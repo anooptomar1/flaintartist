@@ -42,10 +42,8 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
                     if let error = error {
                         print(error)
                     } else {
-                        DispatchQueue.main.async {
-                            self.profileImage.sd_setImage(with: URL(string: "\(self.user.profilePicUrl)") , placeholderImage: nil , options: .continueInBackground)
-                        }
-                    }
+                        self.profileImage.sd_setImage(with: URL(string: "\(self.user.profilePicUrl)") , placeholderImage: nil , options: .continueInBackground)
+                     }
                 })
             }
         }
