@@ -91,14 +91,10 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if indexPath.row == 0 {
-            return 140.0
-        }
-        
-        if indexPath.row == 3 {
-            return 20.0
+        if indexPath.section == 2 {
+            return 185.0
         } else {
-            return 400.0
+            return 180.0
         }
     }
     

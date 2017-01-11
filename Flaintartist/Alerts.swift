@@ -34,7 +34,7 @@ class Alerts {
         
         let action = UIAlertAction(title: "Remove from My Gallery", style: .destructive) { (UIAlertAction) in
             // Function to Delete Art
-            target.removeArt()
+            //target.removeArt()
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         

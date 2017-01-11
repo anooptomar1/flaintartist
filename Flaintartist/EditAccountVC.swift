@@ -46,6 +46,7 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
                             self.profileImage.sd_setImage(with: URL(string: "\(self.user.profilePicUrl)") , placeholderImage: UIImage(named:"User-70") , options: .continueInBackground)
                         }
                     }
+                        self.profileImage.sd_setImage(with: URL(string: "\(self.user.profilePicUrl)") , placeholderImage: nil , options: .continueInBackground)
                 })
             }
         }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
@@ -14,41 +15,75 @@ import ChameleonFramework
 import SwiftyUserDefaults
 
 
-class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate{
+class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, iCarouselDelegate, iCarouselDataSource {
     
-    @IBOutlet weak var profileImg: BorderImg!
-    @IBOutlet weak var nameLbl: UILabel!
-    @IBOutlet weak var artworkLbl: UILabel!
-    @IBOutlet weak var artCountLbl: UILabel!
+    @IBOutlet var profileImageView: UIImageView!
+    @IBOutlet var nameLbl: UILabel!
     @IBOutlet var websiteTextView: UITextView!
     @IBOutlet weak var carouselView: iCarousel!
     @IBOutlet weak var gradientView: UIView!
     @IBOutlet weak var tapOnCameraStackView: UIStackView!
-    @IBOutlet var profileView: UIView!
-    @IBOutlet var scrollView: UIScrollView!
-    @IBOutlet var contentView: UIView!
+
     
+    var user: Users!
+    var posts = [Art]()
+    var post: Art!
     var artView = UIView()
     var artImgView = FXImageView()
     var artImg = UIImage()
-    var titleLbl: UILabel!
-    var profileColor = UIColor()
     
-    static var imageCache: NSCache<NSString, UIImage> = NSCache()
-    var profilePicColor: UIColor?
-    var posts = [Art]()
-    var post: Art!
-    var user: Users!
-    var info: [AnyObject] = []
-    var editInfo: [AnyObject] = []
-    
-    var screenSize: CGRect!
-    var screenWidth: CGFloat!
-    var screenHeight: CGFloat!
-    
-    var refreshControl: UIRefreshControl!
-    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        loadUserInfo()
+        
+        carouselView.delegate = self
+        carouselView.dataSource = self
+        carouselView.type = .linear
+        carouselView.clipsToBounds = true
+        websiteTextView.delegate = self
 
+        DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).child("arts").observe(.value) { (snapshot: FIRDataSnapshot) in
+            self.posts = []
+            if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
+                for snap in snapshot {
+                    if let postDict = snap.value as? Dictionary<String, AnyObject> {
+                        let key = snap.key
+                        let post = Art(key: key, artData: postDict)
+                        self.posts.insert(post, at: 0)
+                    }
+                }
+            }
+            self.carouselView.reloadData()
+        }
+        
+        self.gradientView.backgroundColor = UIColor(gradientStyle: UIGradientStyle.topToBottom, withFrame: CGRect(x:0 , y: 100, width: self.view.frame.width, height: 172) , andColors: [UIColor.white, UIColor.white])
+        carouselView.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: CGRect(x: 0, y: 0, width: self.carouselView.frame.width, height:  437) , andColors: [  UIColor.white, UIColor.flatWhite()])
+        
+        let tapProfileGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.tapProfilePicture))
+        profileImageView.addGestureRecognizer(tapProfileGesture)
+
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor.flatBlack()
+        refreshControl.addTarget(self, action: #selector(ProfileVC.refresh), for: UIControlEvents.valueChanged)
+
+        tableView.refreshControl = refreshControl
+    }
+
+    
+    
+    @IBAction func settingsBtnTapped(_ sender: Any) {
+        performSegue(withIdentifier: "SettingsVC", sender: nil)
+    }
+    
+    
+    func refresh() {
+        loadUserInfo()
+        carouselView.reloadData()
+        tableView.refreshControl?.endRefreshing()
+    }
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.hidesBackButton = true
@@ -56,59 +91,8 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
         self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
         self.navigationController?.navigationBar.isTranslucent = false
     }
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.loadUserInfo()
-        
-        carouselView.delegate = self
-        carouselView.dataSource = self
-        carouselView.type = .linear
-        carouselView.clipsToBounds = true
-        
-        websiteTextView.delegate = self
-    
-            DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).child("arts").observe(.value) { (snapshot: FIRDataSnapshot) in
-                self.posts = []
-                if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
-                    for snap in snapshot {
-                        if let postDict = snap.value as? Dictionary<String, AnyObject> {
-                            let key = snap.key
-                            let post = Art(key: key, artData: postDict)
-                            self.posts.insert(post, at: 0)
-                        }
-                    }
-                }
-                self.carouselView.reloadData()
-            }
 
-        let tapProfileGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.tapProfilePicture))
-        profileImg.addGestureRecognizer(tapProfileGesture)
-        profileImg.configure(UIColor.flatWhite(), width: 0.5)
-        self.gradientView.backgroundColor = UIColor(gradientStyle: UIGradientStyle.topToBottom, withFrame: CGRect(x:0 , y: 100, width: self.view.frame.width, height: 172) , andColors: [UIColor.white, UIColor.white])
-        carouselView.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: CGRect(x: 0, y: 0, width: self.carouselView.frame.width, height:  437) , andColors: [  UIColor.white, UIColor.flatWhite()])
-        
-        refreshControl = UIRefreshControl()
-        refreshControl.tintColor = UIColor.flatBlack()
-        refreshControl.addTarget(self, action: #selector(ProfileVC.refresh), for: UIControlEvents.valueChanged)
-        scrollView.addSubview(refreshControl)
-    }
     
-    func refresh(_ sender:AnyObject) {
-        loadUserInfo()
-        carouselView.reloadData()
-        refreshControl.endRefreshing()
-    }
-    
-    
-    @IBAction func settingsBtnTapped(_ sender: Any) {
-       performSegue(withIdentifier: "SettingsVC", sender: nil)
-    }
-    
-    
-    //MARK: iCarousel delegate Functions
     func numberOfItems(in carousel: iCarousel) -> Int {
         if posts.count == 0 {
             tapOnCameraStackView.isHidden = false
@@ -132,13 +116,12 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
             artImgView.shadowOffset = CGSize(width: 0.0, height: 2.0)
             artImgView.shadowBlur = 1.0
             
-            artView.addSubview(artImgView)
-            
-            if let img = ProfileVC.imageCache.object(forKey: post.imgUrl as NSString) {
-                configureView(post, img: img)
-            } else {
-                configureView(post, imageView: artImgView)
+            let myBlock: SDWebImageCompletionBlock! = {(image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
+                
             }
+            artImgView.sd_setImage(with: URL(string: "\(post.imgUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
+            
+            artView.addSubview(artImgView)
         }
         return artView
     }
@@ -154,99 +137,30 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
     func carousel(_ carousel: iCarousel, didSelectItemAt index: Int) {
         let index = carouselView.currentItemIndex
         let post = posts[index]
-        let artImage = ProfileVC.imageCache.object(forKey: post.imgUrl as NSString)
-        let artInfo = [artImage!, post] as [Any]
-        performSegue(withIdentifier: "ArtRoomVC", sender: artInfo)
         
+       let artImage = profileImageView.sd_setImage(with: URL(string: "\(post.imgUrl)"))
+        
+        let artInfo = [artImage, post] as [Any]
+        performSegue(withIdentifier: "ArtRoomVC", sender: artInfo)
     }
     
-    
-    func removeArt() {
-        let index = carouselView.currentItemIndex
-        let artId = posts[index].artID
-        let url = posts[index].imgUrl
-        let userArtsRef = DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).child(artId)
-        let artsRef = DataService.ds.REF_ARTS.child(artId)
-        userArtsRef.removeValue()
-        artsRef.removeValue()
-        self.posts.remove(at: index)
-        ProfileVC.imageCache.removeObject(forKey: url as NSString)
-        self.carouselView.removeItem(at: index, animated: true)
-        carouselView.reloadData()
-    }
-    
-    // MARK: Change photos gesture recognizer
     func tapProfilePicture(_ gesture: UITapGestureRecognizer) {
         let alert = Alerts()
         alert.changeProfilePicture(self)
     }
-    
-    
+
+
+
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
-            profileImg.image = image
-            DataService.ds.storeProfileImg((FIRAuth.auth()!.currentUser!.uid), img: profileImg.image!, vc: self)
-            let profilePicColor: UIColor = UIColor(averageColorFrom: image, withAlpha: 0.9)
-            let color = profilePicColor.hexValue()
-            //self.artworkLbl.textColor = UIColor(contrastingBlackOrWhiteColorOn: profilePicColor, isFlat: true)
-            //self.artCountLbl.textColor =  UIColor(contrastingBlackOrWhiteColorOn: profilePicColor, isFlat: true)
-            DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).child("color").setValue(color)
+            profileImageView.image = image
             picker.dismiss(animated: true, completion: nil)
         }
     }
+
     
     
     
-    //MARK: Button Functions
-    func artImgViewDoubleTapped(_ gesture: UITapGestureRecognizer) {
-        let index = carouselView.currentItemIndex
-        let post = posts[index]
-        let img = ProfileVC.imageCache.object(forKey: post.imgUrl as NSString)
-        self.moreBtnTapped(img!)
-    }
-    
-    
-    func moreBtnTapped(_ img: UIImage) {
-        let alert = Alerts()
-        let moreSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let share = UIAlertAction(title: "Share ", style: .default) { (UIAlertAction) in
-            self.share(img)
-        }
-        
-        let deleteAction = UIAlertAction(title: "Remove Art", style: .destructive) { (UIAlertAction) in
-            alert.deteteArt(self)
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        moreSheet.addAction(share)
-        moreSheet.addAction(deleteAction)
-        moreSheet.addAction(cancelAction)
-        present(moreSheet, animated: true, completion: nil)
-    }
-    
-    
-    // MARK: Network
-    func share(_ img: UIImage) {
-        let share = Share()
-        
-        let shareSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let facebookShare = UIAlertAction(title: "Share to Facebook", style: .default) { (UIAlertAction) in
-            share.facebookShare(self, image: img, text: "")
-        }
-        let messengerShare = UIAlertAction(title: "Share to Messenger", style: .default) { (UIAlertAction) in
-           // share.messengerShare(self, image: img)
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        shareSheet.addAction(facebookShare)
-        shareSheet.addAction(messengerShare)
-        shareSheet.addAction(cancelAction)
-        present(shareSheet, animated: true, completion: nil)
-        
-    }
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -258,7 +172,7 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
             }
         }
     }
-        
+    
     
     func loadUserInfo(){
         
@@ -267,109 +181,23 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
             if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
                 let key = snapshot.key
                 self.user = Users(key: key, artistData: postDict)
+                
+                if let user = self.user {
+                    self.nameLbl.text = user.name
+                    self.websiteTextView.text = user.website
+                    
+                    DataService.ds.REF_STORAGE.reference(forURL: user.profilePicUrl).data(withMaxSize: 15 * 1024 * 1024, completion: { (data, error) in
+                        if let error = error {
+                            print(error)
+                        } else {
+                            self.profileImageView.sd_setImage(with: URL(string: "\(self.user.profilePicUrl)") , placeholderImage: nil , options: .continueInBackground)
+                        }
+                    })
+                }
             }
-            
-             let user = self.user!
-               self.nameLbl.text = user.name
-               self.artCountLbl.text = "\(self.posts.count)"
-               self.websiteTextView.text = user.website
-            
-            DataService.ds.REF_STORAGE.reference(forURL: user.profilePicUrl).data(withMaxSize: 15 * 1024 * 1024, completion: { (data, error) in
-                if let error = error {
-                    print(error)
-                } else {
-                    DispatchQueue.main.async {
-                        self.profileImg.sd_setImage(with: URL(string: "\(user.profilePicUrl)"), placeholderImage: UIImage(named:"Profile-Img-83") , options: .continueInBackground)
-                    }
-                }
-            })
         })
-      }
-
-
-
-//              DataService.ds.REF_STORAGE.reference(forURL: imageURL!).data(withMaxSize: 15 * 1024 * 1024, completion: { (imgData, error) in
-//                if error == nil {
-//                    DispatchQueue.main.async {
-//                        if let data = imgData {
-//                            self.profileImg.image = UIImage(data: data)
-//                        }
-//                    }
-//  
-//                } else {
-//                    print(error!.localizedDescription)
-//                    
-//                }
-//            })
-//        })
-//        { (error) in
-//            print(error.localizedDescription)
-//        }
-
-    
-//    
-//    func retrieveUserInfo(_ img: UIImage? = nil) {
-//        DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).observe(.value) { (snapshot: FIRDataSnapshot) in
-//            if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
-//                let key = snapshot.key
-//                self.user = Users(key: key, artistData: postDict)
-//            }
-//            if let user = self.user {
-//                self.nameLbl.text = user.name
-//                self.artCountLbl.text = "\(self.posts.count)"
-//                self.websiteTextView.text = user.website
-////                let color = user.color
-////                let profileColor = UIColor(hexString: color, withAlpha: 0.9) as UIColor
-////                self.profilePicColor = profileColor
-////                self.nameLbl.textColor = profileColor
-//            }
-//       }
-//   self.retriveProfilePicture()
-//}
-    
-    func retriveProfilePicture(_ img: UIImage? = nil) {
-        if img != nil {
-            self.profileImg.image = img
-        }else {
-            let url = "gs://medici-b6f69.appspot.com/users/\(FIRAuth.auth()!.currentUser!.uid)/profileImg"
-            DataService.ds.REF_STORAGE.reference(forURL: url).data(withMaxSize: 2 * 1024 * 1024, completion: { (data, error) -> Void in
-                if error != nil {
-                    print(error.debugDescription)
-                } else {
-                    if let imgData = data {
-                        if let img = UIImage(data: imgData) {
-                            self.profileImg.image = img
-                            ProfileVC.imageCache.setObject(img, forKey: url as NSString)
-                        }
-                    }
-                }
-            })
-        }
-        }
-    
-    func configureView(_ post: Art, img: UIImage? = nil, imageView: FXImageView? = nil) {
-        self.post = post
-        if img != nil {
-            self.artImgView.image = img
-        } else {
-            let ref = FIRStorage.storage().reference(forURL: post.imgUrl)
-            ref.data(withMaxSize:  2 * 1024 * 1024, completion: { (data, error) in
-                if error != nil {
-                    print("JESS: Unable to download image from Firebase storage")
-                    print("Unable to download image: \(error?.localizedDescription)")
-                } else {
-                    print("JESS: Image downloaded from Firebase storage")
-                    if let imgData = data {
-                        if let img = UIImage(data: imgData) {
-                            imageView?.image = img
-                            ProfileVC.imageCache.setObject(img, forKey: post.imgUrl as NSString)
-                        }
-                    }
-                }
-            })
-        }
     }
-    
+
 
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         let vc = storyboard?.instantiateViewController(withIdentifier: "WebVC") as! WebVC
