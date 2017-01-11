@@ -279,7 +279,7 @@ class ProfileVC: UIViewController, iCarouselDelegate, iCarouselDataSource, UIIma
                     print(error)
                 } else {
                     DispatchQueue.main.async {
-                        self.profileImg.sd_setImage(with: URL(string: "\(user.profilePicUrl)"), placeholderImage: nil , options: .continueInBackground)
+                        self.profileImg.sd_setImage(with: URL(string: "\(user.profilePicUrl)"), placeholderImage: UIImage(named:"Profile-Img-83") , options: .continueInBackground)
                     }
                 }
             })

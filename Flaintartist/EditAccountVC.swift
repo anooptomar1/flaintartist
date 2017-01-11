@@ -43,7 +43,7 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
                         print(error)
                     } else {
                         DispatchQueue.main.async {
-                            self.profileImage.sd_setImage(with: URL(string: "\(self.user.profilePicUrl)") , placeholderImage: nil , options: .continueInBackground)
+                            self.profileImage.sd_setImage(with: URL(string: "\(self.user.profilePicUrl)") , placeholderImage: UIImage(named:"User-70") , options: .continueInBackground)
                         }
                     }
                 })
@@ -94,11 +94,13 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
             changeRequest?.commitChanges(completion: { (error) in
                 if error == nil {
                     let user = FIRAuth.auth()!.currentUser!
-                    let userInfo = ["email": email, "name": name, "website": website, "uid": user.uid, "profileImg": String(describing: user.photoURL!), "userType":"artist"] as [String : Any]
+                    let userInfo = ["email": email, "name": name, "website": website, "uid": user.uid, "profileImg": String(describing: user.photoURL!)] as [String : Any]
                     let userRef = DataService.ds.REF_USERS.child(user.uid)
-                    userRef.setValue(userInfo)
+                    userRef.updateChildValues(userInfo, withCompletionBlock: { (error, reference) in
+                        _ = self.navigationController?.popViewController(animated: true)
+                    })
                 }
-                _ = self.navigationController?.popViewController(animated: true)
+
             })
         }
     }
