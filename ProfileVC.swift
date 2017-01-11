@@ -15,50 +15,48 @@ import ChameleonFramework
 import SwiftyUserDefaults
 
 
-class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, iCarouselDelegate, iCarouselDataSource {
+class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     
     @IBOutlet var profileImageView: UIImageView!
     @IBOutlet var nameLbl: UILabel!
     @IBOutlet var websiteTextView: UITextView!
-    @IBOutlet weak var carouselView: iCarousel!
     @IBOutlet weak var gradientView: UIView!
     @IBOutlet weak var tapOnCameraStackView: UIStackView!
+    @IBOutlet var collectionView: UICollectionView!
 
     
     var user: Users!
-    var posts = [Art]()
-    var post: Art!
-    var artView = UIView()
-    var artImgView = FXImageView()
+    var arts = [Art]()
+    var art: Art!
     var artImg = UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadUserInfo()
+        collectionView.delegate = self
+        collectionView.dataSource = self
         
-        carouselView.delegate = self
-        carouselView.dataSource = self
-        carouselView.type = .linear
-        carouselView.clipsToBounds = true
+        loadUserInfo()
         websiteTextView.delegate = self
+  
+        
 
         DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).child("arts").observe(.value) { (snapshot: FIRDataSnapshot) in
-            self.posts = []
+            self.arts = []
             if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
                 for snap in snapshot {
                     if let postDict = snap.value as? Dictionary<String, AnyObject> {
                         let key = snap.key
                         let post = Art(key: key, artData: postDict)
-                        self.posts.insert(post, at: 0)
+                        self.arts.insert(post, at: 0)
                     }
                 }
             }
-            self.carouselView.reloadData()
+            self.collectionView.reloadData()
         }
-        
+    
         self.gradientView.backgroundColor = UIColor(gradientStyle: UIGradientStyle.topToBottom, withFrame: CGRect(x:0 , y: 100, width: self.view.frame.width, height: 172) , andColors: [UIColor.white, UIColor.white])
-        carouselView.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: CGRect(x: 0, y: 0, width: self.carouselView.frame.width, height:  437) , andColors: [  UIColor.white, UIColor.flatWhite()])
+        collectionView.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: CGRect(x: 0, y: 0, width: self.collectionView.frame.width, height:  437) , andColors: [  UIColor.white, UIColor.flatWhite()])
         
         let tapProfileGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.tapProfilePicture))
         profileImageView.addGestureRecognizer(tapProfileGesture)
@@ -79,7 +77,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     
     func refresh() {
         loadUserInfo()
-        carouselView.reloadData()
+        collectionView.reloadData()
         tableView.refreshControl?.endRefreshing()
     }
     
@@ -91,65 +89,57 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
         self.navigationController?.navigationBar.isTranslucent = false
     }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return arts.count
+    }
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let art = arts[indexPath.row]
+        
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileArtCell", for: indexPath) as? ProfileArtCell {
+        
+        let myBlock: SDWebImageCompletionBlock! = {(image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
+        }
+        
+        cell.artImageView.sd_setImage(with: URL(string: "\(art.imgUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
+
+        return cell
+            
+        } else {
+            return ProfileArtCell()
+        }
+    }
 
     
-    func numberOfItems(in carousel: iCarousel) -> Int {
-        if posts.count == 0 {
-            tapOnCameraStackView.isHidden = false
-        } else {
-            tapOnCameraStackView.isHidden = true
-        }
-        return posts.count
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
     }
     
-    func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
-        if (view == nil) {
-            let post = posts[index]
-            artView = UIView(frame: CGRect(x: 0, y: 0, width: 350, height: 350))
-            artImgView = FXImageView(frame: CGRect(x: 0, y: 0, width: 350, height: 350))
-            artImgView.image = UIImage(named:"White")
-            artImgView.contentMode = .scaleAspectFit
-            artImgView.isAsynchronous = true
-            artImgView.reflectionScale = 0.5
-            artImgView.reflectionAlpha = 0.15
-            artImgView.reflectionGap = 10.0
-            artImgView.shadowOffset = CGSize(width: 0.0, height: 2.0)
-            artImgView.shadowBlur = 1.0
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        if let cell = collectionView.cellForItem(at: indexPath) as? ProfileArtCell {
             
-            let myBlock: SDWebImageCompletionBlock! = {(image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
-                
+            if let artImage = cell.artImageView.image {
+                let art = arts[indexPath.row]
+                let artInfo = [artImage, art] as [Any]
+                performSegue(withIdentifier: "ArtRoomVC", sender: artInfo)
             }
-            artImgView.sd_setImage(with: URL(string: "\(post.imgUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
-            
-            artView.addSubview(artImgView)
         }
-        return artView
-    }
-    
-    func carousel(_ carousel: iCarousel, valueFor option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
-        if option == iCarouselOption.spacing {
-            return 1.1
-        }
-        return value
     }
     
     
-    func carousel(_ carousel: iCarousel, didSelectItemAt index: Int) {
-        let index = carouselView.currentItemIndex
-        let post = posts[index]
-        
-       let artImage = profileImageView.sd_setImage(with: URL(string: "\(post.imgUrl)"))
-        
-        let artInfo = [artImage, post] as [Any]
-        performSegue(withIdentifier: "ArtRoomVC", sender: artInfo)
-    }
-    
-    func tapProfilePicture(_ gesture: UITapGestureRecognizer) {
+       func tapProfilePicture(_ gesture: UITapGestureRecognizer) {
         let alert = Alerts()
         alert.changeProfilePicture(self)
     }
-
-
+ 
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
@@ -158,9 +148,6 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
 
-    
-    
-    
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -207,3 +194,24 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     }
  
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
