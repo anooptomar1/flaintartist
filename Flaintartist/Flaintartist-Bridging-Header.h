@@ -3,7 +3,6 @@
 //
 
 
-#import "iCarousel.h"
 #import "SwipeView.h"
 #import "FXImageView.h"
 #import "IPDFCameraViewController.h"

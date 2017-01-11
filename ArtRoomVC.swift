@@ -93,7 +93,7 @@
             self.navigationController?.navigationBar.shadowImage = UIImage()
             self.navigationController?.navigationBar.isTranslucent = true
             self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
-            self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style: .plain, target: nil, action: nil)
+            //self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style: .plain, target: nil, action: nil)
             
             UIView.animate(withDuration: 1.5) {
                 self.navigationController?.navigationBar.alpha = 0
@@ -237,7 +237,7 @@
                 let vc = segue.destination as! GalleryVC
                 if let post = sender as? Art {
                     vc.hidesBottomBarWhenPushed = false
-                    vc.post = post
+                    vc.art = post
                 }
             }
             
