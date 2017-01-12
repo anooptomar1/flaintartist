@@ -939,6 +939,7 @@
                         <outlet property="tableView" destination="ZPZ-Jt-gun" id="EtC-ue-UfS"/>
                         <segue destination="EVe-GM-6zn" kind="show" identifier="ArtRoomVC" id="lm1-1w-gIw"/>
                         <segue destination="5bH-xx-kER" kind="show" identifier="AllVC" id="AG3-2e-xNS"/>
+                        <segue destination="5DM-9a-YpZ" kind="show" identifier="GalleryVC" id="8Qu-m0-oTL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WoW-59-nXf" sceneMemberID="firstResponder"/>
@@ -1597,12 +1598,12 @@
                                                     </constraints>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GTq-bP-8NE">
-                                                    <rect key="frame" x="152" y="116" width="70" height="21"/>
+                                                    <rect key="frame" x="142" y="117" width="90" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="MP2-F1-jfJ"/>
-                                                        <constraint firstAttribute="width" constant="70" id="WkN-bq-xM3"/>
+                                                        <constraint firstAttribute="width" constant="90" id="WkN-bq-xM3"/>
                                                     </constraints>
-                                                    <state key="normal" title="Edit">
+                                                    <state key="normal" title="Edit picture">
                                                         <color key="titleColor" red="0.19376453757286072" green="0.50850099325180054" blue="0.85232251882553101" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                     <connections>
@@ -1613,7 +1614,7 @@
                                             <constraints>
                                                 <constraint firstItem="L3w-IW-VuE" firstAttribute="centerX" secondItem="gMc-54-7RZ" secondAttribute="centerX" id="16u-aR-ynI"/>
                                                 <constraint firstItem="L3w-IW-VuE" firstAttribute="centerY" secondItem="gMc-54-7RZ" secondAttribute="centerY" id="Qaz-uA-kQK"/>
-                                                <constraint firstItem="GTq-bP-8NE" firstAttribute="centerY" secondItem="L3w-IW-VuE" secondAttribute="centerY" constant="53" id="es6-VV-VTm"/>
+                                                <constraint firstItem="GTq-bP-8NE" firstAttribute="centerY" secondItem="L3w-IW-VuE" secondAttribute="centerY" constant="54" id="es6-VV-VTm"/>
                                                 <constraint firstItem="GTq-bP-8NE" firstAttribute="centerX" secondItem="L3w-IW-VuE" secondAttribute="centerX" id="nxo-Gk-cDH"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -1732,7 +1733,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8r7-VO-mH5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3596" y="140"/>
+            <point key="canvasLocation" x="3596" y="139.880059970015"/>
         </scene>
         <!--Invite FriendsVC-->
         <scene sceneID="08V-sI-mdp">
@@ -2157,6 +2158,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="artworkCountLbl" destination="flZ-YQ-B46" id="cVV-yC-N8R"/>
                         <outlet property="collectionView" destination="abv-Db-JfF" id="Lbb-Gc-7jU"/>
                         <outlet property="gradientView" destination="wQ2-3L-AIC" id="i3F-He-ky0"/>
                         <outlet property="nameLbl" destination="CAV-Om-hsh" id="HxX-TJ-ga6"/>
@@ -2245,10 +2247,9 @@
             </objects>
             <point key="canvasLocation" x="1386" y="139"/>
         </scene>
-        <!--Gallery-->
+        <!--GalleryVC-->
         <scene sceneID="Pop-9q-lvd">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="5iV-x7-tgt" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="5DM-9a-YpZ" customClass="GalleryVC" customModule="Flaintartist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="eqi-cc-zMF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
@@ -2274,13 +2275,13 @@
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cLT-i6-hZI">
-                                                            <rect key="frame" x="93" y="46" width="265" height="20"/>
+                                                            <rect key="frame" x="93" y="46" width="265" height="19.5"/>
                                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                             <color key="textColor" red="0.12637259070000001" green="0.12639245390000001" blue="0.1263653636" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="DJd-hz-wOl">
-                                                            <rect key="frame" x="94" y="67" width="81" height="16"/>
+                                                            <rect key="frame" x="94" y="66.5" width="81" height="16"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Artworks" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RIN-6d-Loo">
                                                                     <rect key="frame" x="0.0" y="0.0" width="62" height="16"/>
@@ -2300,7 +2301,7 @@
                                                             </constraints>
                                                         </stackView>
                                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MqD-ab-WGS">
-                                                            <rect key="frame" x="90" y="76" width="152" height="32"/>
+                                                            <rect key="frame" x="90" y="75.5" width="152" height="32"/>
                                                             <color key="tintColor" red="0.19376453760000001" green="0.50850099329999998" blue="0.85232251879999998" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="152" id="UHz-oV-Pmq"/>
@@ -2391,7 +2392,7 @@
                             <outlet property="delegate" destination="5DM-9a-YpZ" id="JfZ-MY-XTA"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Gallery" id="cxx-pG-VOn">
+                    <navigationItem key="navigationItem" id="cxx-pG-VOn">
                         <barButtonItem key="rightBarButtonItem" image="More Filled-25" id="5Kv-jh-dti">
                             <color key="tintColor" red="0.12637259070000001" green="0.12639245390000001" blue="0.1263653636" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -2400,6 +2401,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="artworkCountLbl" destination="0Lp-LI-20B" id="XxQ-n3-CMZ"/>
                         <outlet property="collectionView" destination="KF9-cq-4po" id="uNG-W3-uLb"/>
                         <outlet property="gradientView" destination="w5p-Uu-lx9" id="4wo-Ow-BWs"/>
                         <outlet property="nameLbl" destination="cLT-i6-hZI" id="m6d-N6-UIQ"/>
@@ -2408,6 +2410,7 @@
                         <segue destination="v28-s4-pGk" kind="presentation" identifier="ReportVC" id="Yc5-eC-5y8"/>
                     </connections>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5iV-x7-tgt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1977" y="-1428"/>
         </scene>
@@ -2432,7 +2435,8 @@
         <image name="cameraBtn-80" width="80" height="80"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ddM-rG-gEr"/>
-        <segue reference="sow-rA-YQm"/>
+        <segue reference="bPj-2Z-qcd"/>
+        <segue reference="5hu-7B-yEa"/>
+        <segue reference="Yc5-eC-5y8"/>
     </inferredMetricsTieBreakers>
 </document>

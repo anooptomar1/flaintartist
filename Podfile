@@ -16,6 +16,7 @@ target 'Flaintartist' do
   pod 'SDWebImage', '~>3.8'
   pod 'SwiftyUserDefaults'
   pod 'AFNetworking',  '~> 1.3.3'
+  pod 'DZNEmptyDataSet'
 
   target 'FlaintartistTests' do
     inherit! :search_paths

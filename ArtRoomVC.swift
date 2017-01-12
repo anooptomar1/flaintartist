@@ -26,6 +26,7 @@
         var sceneView = SCNView()
         var artImage = UIImage()
         var artInfo: [Any] = []
+        var user: Users!
         var showInfo: Bool = false
         let alert = Alerts()
         
@@ -63,13 +64,23 @@
                 sizeLbl.text = "\(info.artHeight)'H x \(info.artWidth)'W - \(info.price)$ / month"
                 descriptionLbl.text = info.description
                 
-                let userID = info.userUid
-                DataService.ds.REF_USERS.child(userID).observeSingleEvent(of: .value, with: { (snapshot) in
-                    let value = snapshot.value as? NSDictionary
-                    let username = value?["name"] as? String ?? ""
-                    self.artistNameBtn.setTitle("\(username) ›", for: .normal)
+                DataService.ds.REF_USERS.child("\(info.userUid)").observe(.value, with: { (snapshot) in
+                    
+                    if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
+                        let key = snapshot.key
+                        self.user = Users(key: key, artistData: postDict)
+                        
+                        if let user = self.user {
+                            self.artistNameBtn.setTitle("\(user.name) ›", for: .normal)
+
+                        }
+                    }
                 })
             }
+            
+            
+           
+
 
             self.navigationController?.toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .bottom, barMetrics: .default)
             self.navigationController?.toolbar.setBackgroundImage(UIImage(),  forToolbarPosition: UIBarPosition.any, barMetrics: UIBarMetrics.default)
@@ -126,12 +137,10 @@
         
         
         @IBAction func artistBtnTapped(_ sender: Any) {
-            if let info = artInfo[1] as? Art {
-               if info.userUid == FIRAuth.auth()?.currentUser?.uid {
+            if user.userId == FIRAuth.auth()?.currentUser?.uid {
                    tabBarController?.selectedIndex = 2
                } else {
-                   performSegue(withIdentifier: "GalleryVC", sender: artInfo[1] as! Art)
-                }
+                   performSegue(withIdentifier: "GalleryVC", sender: user)
             }
         }
         
@@ -235,9 +244,9 @@
             
             if segue.identifier == "GalleryVC" {
                 let vc = segue.destination as! GalleryVC
-                if let post = sender as? Art {
+                if let user = sender as? Users {
                     vc.hidesBottomBarWhenPushed = false
-                    vc.art = post
+                    vc.user = user
                 }
             }
             

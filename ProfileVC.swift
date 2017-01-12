@@ -7,24 +7,23 @@
 //
 
 import UIKit
+import Firebase
 import SDWebImage
-import FirebaseAuth
-import FirebaseDatabase
-import FirebaseStorage
+import DZNEmptyDataSet
+
 import ChameleonFramework
 import SwiftyUserDefaults
 
 
-class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
     
     @IBOutlet var profileImageView: UIImageView!
     @IBOutlet var nameLbl: UILabel!
+    @IBOutlet var artworkCountLbl: UILabel!
     @IBOutlet var websiteTextView: UITextView!
     @IBOutlet weak var gradientView: UIView!
-    @IBOutlet weak var tapOnCameraStackView: UIStackView!
     @IBOutlet var collectionView: UICollectionView!
 
-    
     var user: Users!
     var arts = [Art]()
     var art: Art!
@@ -35,12 +34,12 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.emptyDataSetSource = self
+        collectionView.emptyDataSetDelegate = self
         
         loadUserInfo()
         websiteTextView.delegate = self
   
-        
-
         DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).child("arts").observe(.value) { (snapshot: FIRDataSnapshot) in
             self.arts = []
             if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
@@ -67,8 +66,16 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
 
         tableView.refreshControl = refreshControl
     }
-
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.hidesBackButton = true
+        self.navigationController?.setToolbarHidden(true, animated: false)
+        self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
+        self.navigationController?.navigationBar.isTranslucent = false
+    }
+
     
     @IBAction func settingsBtnTapped(_ sender: Any) {
         performSegue(withIdentifier: "SettingsVC", sender: nil)
@@ -82,19 +89,10 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationItem.hidesBackButton = true
-        self.navigationController?.setToolbarHidden(true, animated: false)
-        self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
-        self.navigationController?.navigationBar.isTranslucent = false
-    }
-    
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        self.artworkCountLbl.text = "\(arts.count)"
         return arts.count
     }
-    
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -114,6 +112,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -131,21 +130,17 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
-    
        func tapProfilePicture(_ gesture: UITapGestureRecognizer) {
         let alert = Alerts()
         alert.changeProfilePicture(self)
     }
  
-
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
             profileImageView.image = image
             picker.dismiss(animated: true, completion: nil)
         }
     }
-
-    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ArtRoomVC" {
@@ -159,9 +154,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     
     
     func loadUserInfo(){
-        
         DataService.ds.REF_USERS.child("\(FIRAuth.auth()!.currentUser!.uid)").observe(.value, with: { (snapshot) in
-            
             if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
                 let key = snapshot.key
                 self.user = Users(key: key, artistData: postDict)
@@ -169,14 +162,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
                 if let user = self.user {
                     self.nameLbl.text = user.name
                     self.websiteTextView.text = user.website
-                    
-                    DataService.ds.REF_STORAGE.reference(forURL: user.profilePicUrl).data(withMaxSize: 15 * 1024 * 1024, completion: { (data, error) in
-                        if let error = error {
-                            print(error)
-                        } else {
-                            self.profileImageView.sd_setImage(with: URL(string: "\(self.user.profilePicUrl)") , placeholderImage: nil , options: .continueInBackground)
-                        }
-                    })
+                    self.profileImageView.sd_setImage(with: URL(string: "\(self.user.profilePicUrl)") , placeholderImage: nil , options: .continueInBackground)
                 }
             }
         })
@@ -188,6 +174,15 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         vc.url = URL
         present(vc, animated: true, completion: nil)
         return false
+    }
+    
+        
+    //MARK: DZNEmptyDataSet
+    
+    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        let str = "You have no artwork yet. Click on the capture button to start sharing"
+        let attrs = [NSFontAttributeName: UIFont.systemFont(ofSize: 14)]
+        return NSAttributedString(string: str, attributes: attrs)
     }
  
 }

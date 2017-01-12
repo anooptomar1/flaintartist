@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9B57F4EE4746045CEAE2D933A3C8EC9E"
-               BuildableName = "ChameleonFramework.framework"
-               BlueprintName = "ChameleonFramework"
+               BlueprintIdentifier = "16FB872D0D2D4BA0F378AB34D47CF95F"
+               BuildableName = "DZNEmptyDataSet.framework"
+               BlueprintName = "DZNEmptyDataSet"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9B57F4EE4746045CEAE2D933A3C8EC9E"
-            BuildableName = "ChameleonFramework.framework"
-            BlueprintName = "ChameleonFramework"
+            BlueprintIdentifier = "16FB872D0D2D4BA0F378AB34D47CF95F"
+            BuildableName = "DZNEmptyDataSet.framework"
+            BlueprintName = "DZNEmptyDataSet"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

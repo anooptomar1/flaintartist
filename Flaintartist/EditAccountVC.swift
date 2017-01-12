@@ -12,8 +12,6 @@ import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
 
-
-
 class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
     @IBOutlet var profileImage: UIImageView!
@@ -37,20 +35,9 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
                 self.nameField.text = user.name
                 self.emailField.text = FIRAuth.auth()?.currentUser?.email
                 self.websiteField.text = user.website
-                
-                DataService.ds.REF_STORAGE.reference(forURL: user.profilePicUrl).data(withMaxSize: 15 * 1024 * 1024, completion: { (data, error) in
-                    if let error = error {
-                        print(error)
-                    } else {
-                        DispatchQueue.main.async {
-                            self.profileImage.sd_setImage(with: URL(string: "\(self.user.profilePicUrl)") , placeholderImage: UIImage(named:"User-70") , options: .continueInBackground)
-                        }
-                    }
-                        self.profileImage.sd_setImage(with: URL(string: "\(self.user.profilePicUrl)") , placeholderImage: nil , options: .continueInBackground)
-                })
+                self.profileImage.sd_setImage(with: URL(string: "\(self.user.profilePicUrl)") , placeholderImage: UIImage(named:"User-70") , options: .continueInBackground)
             }
         }
-        
         //profileImage.addObserver(self, forKeyPath: "image", options: .new, context: nil)
     }
     
@@ -89,7 +76,6 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
             
             if let photoUrl = metaData!.downloadURL() {
                 changeRequest?.photoURL = photoUrl
-                self.profileImage.sd_setImage(with: URL(string: "\(self.user.profilePicUrl)") , placeholderImage: nil , options: .continueInBackground)
             }
             
             changeRequest?.commitChanges(completion: { (error) in
@@ -98,7 +84,7 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
                     let userInfo = ["email": email, "name": name, "website": website, "uid": user.uid, "profileImg": String(describing: user.photoURL!)] as [String : Any]
                     let userRef = DataService.ds.REF_USERS.child(user.uid)
                     userRef.updateChildValues(userInfo, withCompletionBlock: { (error, reference) in
-                        _ = self.navigationController?.popViewController(animated: true)
+                       //  _ = self.navigationController?.popViewController(animated: true)
                     })
                 }
 
