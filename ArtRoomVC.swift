@@ -179,9 +179,7 @@
             })
             
             let remove = UIAlertAction(title: "Remove", style: .destructive, handler: { (UIAlertAction) in
-                //Remove
-                
-                
+                self.remove()
             })
             
             let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -238,6 +236,18 @@
             
             present(alert, animated: true, completion: nil)
         }
+        
+        func remove() {
+            let alert = Alerts()
+            if let info = artInfo[1] as? Art {
+                
+            DataService.ds.REF_USERS.child(self.user.userId).child("arts").child(info.artID).removeValue(completionBlock: { (error, ref) in
+                 DataService.ds.REF_ARTS.child(ref.key).removeValue()
+                 alert.showAlert("\(info.title) have been removed successfully", message: "", target: self)
+                 return
+               })
+             }
+           }
         
         
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
