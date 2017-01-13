@@ -16,6 +16,7 @@ class DetailsScene: SCNScene {
     var boxnode = SCNNode()
     var heightPlane = SCNPlane()
     var newText = SCNText()
+    var textNode = SCNNode()
     var post: Art!
     var height:Float = 0.0
     
@@ -61,10 +62,7 @@ class DetailsScene: SCNScene {
         newText.font = UIFont.systemFont(ofSize: 0.2)
         //newText.firstMaterial!.specular.contents = UIColor.white
         
-        let textNode = SCNNode(geometry: newText)
-        textNode.position = SCNVector3Make( Float(self.geometry.width - 2), Float(self.geometry.height - 1), Float(2/2))
-        
-        self.rootNode.addChildNode(textNode)
+        textNode = SCNNode(geometry: newText)        
         
     }
 
