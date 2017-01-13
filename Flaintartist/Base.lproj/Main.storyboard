@@ -2350,17 +2350,17 @@
                                                             <color key="textColor" red="0.12637259070000001" green="0.12639245390000001" blue="0.1263653636" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="DJd-hz-wOl">
+                                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="DJd-hz-wOl">
                                                             <rect key="frame" x="94" y="66.5" width="81" height="16"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Artworks" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RIN-6d-Loo">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="62" height="16"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="65" height="16"/>
                                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
                                                                     <color key="textColor" red="0.12637259070000001" green="0.12639245390000001" blue="0.1263653636" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Lp-LI-20B">
-                                                                    <rect key="frame" x="67" y="0.0" width="14" height="16"/>
+                                                                    <rect key="frame" x="65" y="0.0" width="16" height="16"/>
                                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                                                                     <color key="textColor" red="0.12637259070000001" green="0.12639245390000001" blue="0.1263653636" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -2482,7 +2482,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5iV-x7-tgt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1977" y="-1428"/>
+            <point key="canvasLocation" x="1976.8" y="-1428.4857571214393"/>
         </scene>
     </scenes>
     <resources>
