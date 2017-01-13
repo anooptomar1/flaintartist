@@ -22,7 +22,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.navigationItem.title = "Settings"
         tableView.delegate = self
         tableView.dataSource = self
-        options = ["Edit Account", "Request a photographer", "Invite a Friend", "Privacy Policy", "Log Out"]
+        options = ["Edit Account", "Request a photographer", "Privacy Policy", "Log Out"]
     }
     
     
@@ -46,7 +46,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if indexPath.row == 0 {
-            performSegue(withIdentifier: "EditAccountVC", sender: userInfo)
+            performSegue(withIdentifier: "EditAccountVC", sender: nil)
         }
         
         if indexPath.row == 1 {
@@ -54,14 +54,10 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
         
         if indexPath.row == 2 {
-            performSegue(withIdentifier: "Invite a Friend", sender: nil)
-        }
-        
-        if indexPath.row == 3 {
             performSegue(withIdentifier: "PrivacyVC", sender: nil)
         }
         
-        if indexPath.row == 4 {
+        if indexPath.row == 3 {
             logoutAlert()
         }
         
@@ -116,8 +112,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         if segue.identifier == "EditAccountVC" {
             let editAccountVC = segue.destination as! EditAccountVC
             editAccountVC.hidesBottomBarWhenPushed = true
-            let userInfo = sender as! [AnyObject]
-            //editAccountVC.userInfo = userInfo
         } else if segue.identifier == "FeedbackVC" {
             let feedbackVC = segue.destination as! FeedbackVC
             let report = sender as! [String]
