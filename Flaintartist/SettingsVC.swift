@@ -22,7 +22,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.navigationItem.title = "Settings"
         tableView.delegate = self
         tableView.dataSource = self
-        options = ["Edit Account", "Invite a Friend", "Privacy Policy", "Log Out"]
+        options = ["Edit Account", "Request a photographer", "Invite a Friend", "Privacy Policy", "Log Out"]
     }
     
     
@@ -50,16 +50,21 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
         
         if indexPath.row == 1 {
-            performSegue(withIdentifier: "InviteFriendsVC", sender: nil)
+            performSegue(withIdentifier: "Request", sender: nil)
         }
         
         if indexPath.row == 2 {
-            performSegue(withIdentifier: "PrivacyVC", sender: nil)
+            performSegue(withIdentifier: "Invite a Friend", sender: nil)
         }
         
         if indexPath.row == 3 {
+            performSegue(withIdentifier: "PrivacyVC", sender: nil)
+        }
+        
+        if indexPath.row == 4 {
             logoutAlert()
         }
+        
         
     }
     

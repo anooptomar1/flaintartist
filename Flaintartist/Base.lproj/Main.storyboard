@@ -379,7 +379,7 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6gW-1z-tRa">
                                 <rect key="frame" x="0.0" y="20" width="375" height="212"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5YH-l3-weE" customClass="BorderImg" customModule="Flaintartist" customModuleProvider="target">
+                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="User" translatesAutoresizingMaskIntoConstraints="NO" id="5YH-l3-weE" customClass="BorderImg" customModule="Flaintartist" customModuleProvider="target">
                                         <rect key="frame" x="146" y="89" width="83" height="83"/>
                                         <color key="backgroundColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
@@ -1566,11 +1566,81 @@
                         </segue>
                         <segue destination="bJg-fH-lOv" kind="show" identifier="PrivacyVC" id="OIK-J1-Mzj"/>
                         <segue destination="qdM-Vw-QvG" kind="show" identifier="EditAccountVC" id="PbQ-2B-OTX"/>
+                        <segue destination="kNt-mB-0sh" kind="show" identifier="Request" id="dlk-vf-tyR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IE1-Wf-HoR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2874" y="141"/>
+        </scene>
+        <!--Request PhotoVC-->
+        <scene sceneID="6i1-5F-mWS">
+            <objects>
+                <viewController id="kNt-mB-0sh" customClass="RequestPhotoVC" customModule="Flaintartist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Z4K-NS-vHb"/>
+                        <viewControllerLayoutGuide type="bottom" id="cge-Uq-GpU"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="mCB-tf-MEm">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Picture" translatesAutoresizingMaskIntoConstraints="NO" id="kR9-s9-2F2">
+                                <rect key="frame" x="122" y="79" width="131" height="102"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="131" id="hTS-lG-Xxi"/>
+                                    <constraint firstAttribute="height" constant="102" id="ngn-lF-ZCe"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You can request a photographer to capture your artworks. Request are not guaranty and depend on your region. It's totally free." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="klU-AT-RCe">
+                                <rect key="frame" x="16" y="226" width="343" height="66"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                <color key="textColor" red="0.51784205436706543" green="0.58159953355789185" blue="0.58617168664932251" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bpe-G5-caf" customClass="RoundedBtn" customModule="Flaintartist" customModuleProvider="target">
+                                <rect key="frame" x="62" y="331" width="251" height="44"/>
+                                <color key="backgroundColor" red="0.19376453757286072" green="0.50850099325180054" blue="0.85232251882553101" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="SFi-Yh-4tM"/>
+                                </constraints>
+                                <state key="normal" title="Request">
+                                    <color key="titleColor" red="0.90823972225189209" green="0.92638683319091797" blue="0.9317171573638916" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="requestBtnTapped:" destination="kNt-mB-0sh" eventType="touchUpInside" id="cTS-9m-Pcm"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Request a Flaint Photographer" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eS0-SB-2bo">
+                                <rect key="frame" x="51" y="199" width="273" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="z7e-UG-eWH"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="19"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="eS0-SB-2bo" firstAttribute="leading" secondItem="bpe-G5-caf" secondAttribute="leading" constant="-11" id="8FR-Up-v48"/>
+                            <constraint firstItem="kR9-s9-2F2" firstAttribute="centerX" secondItem="bpe-G5-caf" secondAttribute="centerX" id="ArC-bJ-9j4"/>
+                            <constraint firstItem="kR9-s9-2F2" firstAttribute="centerX" secondItem="mCB-tf-MEm" secondAttribute="centerX" id="Cna-qI-9aB"/>
+                            <constraint firstItem="bpe-G5-caf" firstAttribute="top" secondItem="klU-AT-RCe" secondAttribute="bottom" constant="39" id="K0S-3b-aEG"/>
+                            <constraint firstItem="kR9-s9-2F2" firstAttribute="centerX" secondItem="eS0-SB-2bo" secondAttribute="centerX" id="c8q-wW-pLB"/>
+                            <constraint firstItem="kR9-s9-2F2" firstAttribute="centerX" secondItem="klU-AT-RCe" secondAttribute="centerX" id="cFa-zp-W3P"/>
+                            <constraint firstItem="cge-Uq-GpU" firstAttribute="top" secondItem="bpe-G5-caf" secondAttribute="bottom" constant="243" id="fQz-ZK-6e5"/>
+                            <constraint firstItem="eS0-SB-2bo" firstAttribute="top" secondItem="kR9-s9-2F2" secondAttribute="bottom" constant="18" id="iB8-wg-SeF"/>
+                            <constraint firstItem="klU-AT-RCe" firstAttribute="leading" secondItem="mCB-tf-MEm" secondAttribute="leadingMargin" id="iua-h7-7WY"/>
+                            <constraint firstItem="kR9-s9-2F2" firstAttribute="top" secondItem="Z4K-NS-vHb" secondAttribute="bottom" constant="15" id="lVL-cE-qRH"/>
+                            <constraint firstItem="eS0-SB-2bo" firstAttribute="leading" secondItem="mCB-tf-MEm" secondAttribute="leadingMargin" constant="35" id="qcn-xm-NAC"/>
+                            <constraint firstItem="klU-AT-RCe" firstAttribute="top" secondItem="kR9-s9-2F2" secondAttribute="bottom" constant="45" id="r8y-xs-eLq"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AEp-zE-F0Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3596" y="-535.68215892053979"/>
         </scene>
         <!--Edit AccountVC-->
         <scene sceneID="XSK-fU-voB">
@@ -2219,7 +2289,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2uZ-r6-owU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2290" y="-610"/>
+            <point key="canvasLocation" x="2114" y="-610"/>
         </scene>
         <!--Gallery-->
         <scene sceneID="UC8-KS-r8U">
@@ -2427,16 +2497,18 @@
         <image name="Mail Filled-20" width="20" height="20"/>
         <image name="More" width="16" height="16"/>
         <image name="More Filled-25" width="20" height="20"/>
+        <image name="Picture" width="100" height="100"/>
         <image name="Profile Filled-25" width="25" height="25"/>
         <image name="Profile-25" width="25" height="25"/>
         <image name="Settings-25" width="25" height="25"/>
         <image name="Star Filled-25" width="16" height="16"/>
+        <image name="User" width="700" height="700"/>
         <image name="artist" width="4896" height="3264"/>
         <image name="cameraBtn-80" width="80" height="80"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bPj-2Z-qcd"/>
-        <segue reference="5hu-7B-yEa"/>
+        <segue reference="lm1-1w-gIw"/>
+        <segue reference="8Qu-m0-oTL"/>
         <segue reference="Yc5-eC-5y8"/>
     </inferredMetricsTieBreakers>
 </document>

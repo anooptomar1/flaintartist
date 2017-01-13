@@ -149,7 +149,17 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
 
             
             DispatchQueue.main.async {
-              //self.detailsScene.newText.string = " \(Int(sender.value)) cm"
+//              self.detailsScene.rootNode.addChildNode(self.detailsScene.textNode)
+//                
+//                
+//                
+//                self.detailsScene.textNode.position = SCNVector3(x: Float(self.detailsScene.geometry.width - 0.2) , y: self.detailsScene.boxnode.position.y - 0.2, z: 0.5)
+//                print("POSITIONTextX:\(self.detailsScene.textNode.position.x)")
+//                print("POSITIONTextY:\(self.detailsScene.textNode.position.y)")
+//                print("POSITIONX:\(self.detailsScene.boxnode.position.x)")
+//                print("POSITIONY:\(self.detailsScene.boxnode.position.y)")
+
+              self.detailsScene.newText.string = " \(Int(sender.value)) cm"
             }
 
             heightLbl.text = "Height: \(Int(sender.value)) cm"
@@ -164,7 +174,7 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
   
             }
 
-            widthLbl.text = " Width: \(Int(sender.value)) cm"
+            widthLbl.text = "Width: \(Int(sender.value)) cm"
         }
         
         if sender.isTouchInside == false {
