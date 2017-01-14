@@ -55,7 +55,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         }
     
         self.gradientView.backgroundColor = UIColor(gradientStyle: UIGradientStyle.topToBottom, withFrame: CGRect(x:0 , y: 100, width: self.view.frame.width, height: 172) , andColors: [UIColor.white, UIColor.white])
-        collectionView.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: CGRect(x: 0, y: 0, width: self.collectionView.frame.width, height:  437) , andColors: [  UIColor.white, UIColor.flatWhite()])
+        collectionView.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: CGRect(x: 0, y: 0, width: self.collectionView.frame.width, height:  437) , andColors: [ UIColor.flatWhite(),  UIColor.white])
         
         let tapProfileGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.tapProfilePicture))
         profileImageView.addGestureRecognizer(tapProfileGesture)
