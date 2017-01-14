@@ -203,7 +203,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VW2-Wn-Mk8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-922" y="139"/>
+            <point key="canvasLocation" x="-343" y="141"/>
         </scene>
         <!--First StepVC-->
         <scene sceneID="XaN-2e-Rwv">
@@ -362,7 +362,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1TJ-dW-yvW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-922" y="850"/>
+            <point key="canvasLocation" x="-1066" y="838"/>
         </scene>
         <!--Create Artist SecondVC-->
         <scene sceneID="UuN-YD-FX7">
@@ -536,7 +536,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c6H-re-3Ev" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-170.40000000000001" y="849.62518740629696"/>
+            <point key="canvasLocation" x="-343" y="838"/>
         </scene>
         <!--Reset PasswordVC-->
         <scene sceneID="AWv-BC-e8f">
@@ -642,7 +642,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NtF-73-IuC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1703.2" y="849.62518740629696"/>
+            <point key="canvasLocation" x="-1066" y="139"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="xuL-He-688">
@@ -689,21 +689,21 @@
                                                     <rect key="frame" x="8" y="0.0" width="359" height="270"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="BTk-pi-baD">
-                                                        <size key="itemSize" width="128" height="128"/>
+                                                        <size key="itemSize" width="141" height="141"/>
                                                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                     </collectionViewFlowLayout>
                                                     <cells>
                                                         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ModernColCell" id="KNj-dt-g2b" customClass="ModernColCell" customModule="Flaintartist" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                            <rect key="frame" x="0.0" y="65" width="141" height="141"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                                <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="141" height="141"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zxW-yx-Bmc" customClass="FXImageView">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="141" height="141"/>
                                                                     </imageView>
                                                                 </subviews>
                                                             </view>
@@ -746,21 +746,21 @@
                                                     <rect key="frame" x="8" y="0.0" width="359" height="178"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="5EF-S8-ygx">
-                                                        <size key="itemSize" width="128" height="128"/>
+                                                        <size key="itemSize" width="140" height="140"/>
                                                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                     </collectionViewFlowLayout>
                                                     <cells>
                                                         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AbstractColCell" id="Mo9-RR-XKZ" customClass="AbstractColCell" customModule="Flaintartist" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="25" width="128" height="128"/>
+                                                            <rect key="frame" x="0.0" y="19" width="140" height="140"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                                <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="140" height="140"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="85r-2c-xwT" customClass="FXImageView">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="140" height="140"/>
                                                                     </imageView>
                                                                 </subviews>
                                                             </view>
@@ -874,21 +874,21 @@
                                                     <rect key="frame" x="8" y="0.0" width="359" height="270"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="zbg-wj-9y0">
-                                                        <size key="itemSize" width="128" height="128"/>
+                                                        <size key="itemSize" width="140" height="140"/>
                                                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                     </collectionViewFlowLayout>
                                                     <cells>
                                                         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="RealismColCell" id="myf-pa-uO3" customClass="RealismColCell" customModule="Flaintartist" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                            <rect key="frame" x="0.0" y="65" width="140" height="140"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                                <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="140" height="140"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wuH-eN-Kr0" customClass="FXImageView">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="140" height="140"/>
                                                                     </imageView>
                                                                 </subviews>
                                                             </view>
@@ -948,7 +948,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WoW-59-nXf" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="589.60000000000002" y="-611.69415292353824"/>
+            <point key="canvasLocation" x="-1066.4000000000001" y="-633.28335832083962"/>
         </scene>
         <!--Explore-->
         <scene sceneID="nOI-wH-bfm">
@@ -981,7 +981,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qe6-DF-FDQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-170" y="-612"/>
+            <point key="canvasLocation" x="-1902" y="-635"/>
         </scene>
         <!--Tab BarVC-->
         <scene sceneID="A7S-dz-8jB">
@@ -1136,11 +1136,12 @@
                         <segue destination="YOX-8T-sUg" kind="show" identifier="WallviewVC" id="DcI-70-PPp"/>
                         <segue destination="v28-s4-pGk" kind="presentation" identifier="ReportVC" id="sow-rA-YQm"/>
                         <segue destination="5DM-9a-YpZ" kind="show" identifier="GalleryVC" id="5hu-7B-yEa"/>
+                        <segue destination="ine-1m-b3l" kind="presentation" identifier="EditArtVC" id="KxE-vh-ev4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n34-Eh-R44" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1151.2" y="-1436.5817091454273"/>
+            <point key="canvasLocation" x="239" y="-1428"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="XoE-bj-njv">
@@ -1158,7 +1159,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XF6-Mv-0JD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="330" y="-1440"/>
+            <point key="canvasLocation" x="-593" y="-1429"/>
         </scene>
         <!--AllVC-->
         <scene sceneID="dsu-8Q-rPk">
@@ -1224,7 +1225,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X0F-x6-Be2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-423" y="-1438"/>
+            <point key="canvasLocation" x="-233" y="-635"/>
         </scene>
         <!--Wall ViewVC-->
         <scene sceneID="T6l-xw-Xcs">
@@ -1276,7 +1277,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VmK-vG-9tI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1361" y="-612"/>
+            <point key="canvasLocation" x="1146" y="-1428"/>
         </scene>
         <!--Send To CaptureVC-->
         <scene sceneID="fBo-zK-ZUW">
@@ -1310,7 +1311,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D6V-P5-RSB" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1305" y="850"/>
+            <point key="canvasLocation" x="1385" y="838"/>
         </scene>
         <!--CaptureVC-->
         <scene sceneID="WqI-gi-G8V">
@@ -1370,7 +1371,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="imf-Bg-S7i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2966" y="850"/>
+            <point key="canvasLocation" x="2873" y="838"/>
         </scene>
         <!--Capture DetailsVC-->
         <scene sceneID="ch9-M2-d7I">
@@ -1456,7 +1457,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eV1-lX-swA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3786" y="850"/>
+            <point key="canvasLocation" x="3596" y="838"/>
         </scene>
         <!--Capture-->
         <scene sceneID="EAj-bp-R4H">
@@ -1483,7 +1484,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ojq-If-mrN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="590" y="850"/>
+            <point key="canvasLocation" x="590" y="838"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="46Z-KX-BNG">
@@ -1505,7 +1506,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gbm-ei-hqy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2142" y="850"/>
+            <point key="canvasLocation" x="2142" y="838"/>
         </scene>
         <!--SettingsVC-->
         <scene sceneID="UOD-Rd-pAL">
@@ -1644,7 +1645,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AEp-zE-F0Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3596" y="-535.68215892053979"/>
+            <point key="canvasLocation" x="6508" y="139"/>
         </scene>
         <!--Edit AccountVC-->
         <scene sceneID="XSK-fU-voB">
@@ -2293,7 +2294,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2uZ-r6-owU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2114" y="-610"/>
+            <point key="canvasLocation" x="590" y="-636"/>
         </scene>
         <!--Gallery-->
         <scene sceneID="UC8-KS-r8U">
@@ -2488,6 +2489,123 @@
             </objects>
             <point key="canvasLocation" x="1976.8" y="-1428.4857571214393"/>
         </scene>
+        <!--Edit artwork-->
+        <scene sceneID="MJU-VP-X3V">
+            <objects>
+                <viewController id="9HO-Ys-E50" customClass="EditArtVC" customModule="Flaintartist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="mYi-0d-1tQ"/>
+                        <viewControllerLayoutGuide type="bottom" id="fsW-Ml-GZt"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xRy-fF-TZ4" customClass="ParentViews" customModule="Flaintartist" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BOE-1g-eaU" customClass="SwipeView">
+                                <rect key="frame" x="0.0" y="427" width="375" height="200"/>
+                                <subviews>
+                                    <slider hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="70" minValue="40" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="4X5-3C-iJw">
+                                        <rect key="frame" x="29" y="39" width="311" height="31"/>
+                                        <color key="tintColor" red="0.51784205439999997" green="0.58159953360000005" blue="0.58617168659999996" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="SliderValueChanged:" destination="9HO-Ys-E50" eventType="valueChanged" id="i62-Ja-A6f"/>
+                                        </connections>
+                                    </slider>
+                                    <slider hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="70" minValue="40" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="hXm-uB-sbq">
+                                        <rect key="frame" x="30" y="93" width="310" height="31"/>
+                                        <color key="tintColor" red="0.51784205439999997" green="0.58159953360000005" blue="0.58617168659999996" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="SliderValueChanged:" destination="9HO-Ys-E50" eventType="valueChanged" id="dSI-uB-Woq"/>
+                                        </connections>
+                                    </slider>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="hXm-uB-sbq" firstAttribute="top" secondItem="4X5-3C-iJw" secondAttribute="bottom" constant="24" id="8z2-i2-XD2"/>
+                                    <constraint firstAttribute="trailing" secondItem="hXm-uB-sbq" secondAttribute="trailing" constant="37" id="SQj-Ns-GMt"/>
+                                    <constraint firstItem="hXm-uB-sbq" firstAttribute="leading" secondItem="BOE-1g-eaU" secondAttribute="leading" constant="32" id="YAG-zl-TEE"/>
+                                    <constraint firstAttribute="trailing" secondItem="4X5-3C-iJw" secondAttribute="trailing" constant="37" id="YZ0-Rt-Pb6"/>
+                                    <constraint firstAttribute="height" constant="200" id="edU-Ss-2Vy"/>
+                                    <constraint firstItem="4X5-3C-iJw" firstAttribute="top" secondItem="BOE-1g-eaU" secondAttribute="top" constant="39" id="oIA-v6-4Qy"/>
+                                    <constraint firstItem="4X5-3C-iJw" firstAttribute="leading" secondItem="BOE-1g-eaU" secondAttribute="leading" constant="31" id="q9y-3P-JO6"/>
+                                </constraints>
+                            </view>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="lz8-YM-k4O">
+                                <rect key="frame" x="7" y="587" width="359" height="29"/>
+                                <segments>
+                                    <segment title="Size"/>
+                                    <segment title="Type"/>
+                                    <segment title="Details"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentTapped:" destination="9HO-Ys-E50" eventType="valueChanged" id="eSQ-Ew-KUg"/>
+                                    <action selector="segmentTapped:" destination="9HO-Ys-E50" eventType="touchUpInside" id="weX-ya-2tF"/>
+                                </connections>
+                            </segmentedControl>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZVW-o8-8xf" customClass="SCNView">
+                                <rect key="frame" x="0.0" y="20" width="375" height="407"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="BOE-1g-eaU" firstAttribute="leading" secondItem="xRy-fF-TZ4" secondAttribute="leading" id="5Eo-KV-qGx"/>
+                            <constraint firstItem="ZVW-o8-8xf" firstAttribute="top" secondItem="xRy-fF-TZ4" secondAttribute="top" constant="20" id="8f2-5N-Aaq"/>
+                            <constraint firstAttribute="trailing" secondItem="lz8-YM-k4O" secondAttribute="trailing" constant="9" id="JPt-c3-Txv"/>
+                            <constraint firstItem="fsW-Ml-GZt" firstAttribute="top" secondItem="BOE-1g-eaU" secondAttribute="bottom" constant="-4" id="b2s-a2-w6A"/>
+                            <constraint firstAttribute="trailing" secondItem="BOE-1g-eaU" secondAttribute="trailing" id="eEn-xw-5qy"/>
+                            <constraint firstItem="ZVW-o8-8xf" firstAttribute="leading" secondItem="xRy-fF-TZ4" secondAttribute="leading" id="fty-DF-8Sw"/>
+                            <constraint firstItem="BOE-1g-eaU" firstAttribute="top" secondItem="ZVW-o8-8xf" secondAttribute="bottom" id="ntU-fZ-d1h"/>
+                            <constraint firstItem="lz8-YM-k4O" firstAttribute="leading" secondItem="xRy-fF-TZ4" secondAttribute="leading" constant="7" id="ufC-25-EIs"/>
+                            <constraint firstItem="fsW-Ml-GZt" firstAttribute="top" secondItem="lz8-YM-k4O" secondAttribute="bottom" constant="8" id="vUn-xD-bdK"/>
+                            <constraint firstAttribute="trailing" secondItem="ZVW-o8-8xf" secondAttribute="trailing" id="y5q-tv-S9T"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Edit artwork" id="25A-0K-2zZ">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="Rs1-LR-40z">
+                            <color key="tintColor" red="0.12637259066104889" green="0.12639245390892029" blue="0.12636536359786987" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="cancelBtnTapped:" destination="9HO-Ys-E50" id="H57-nX-URh"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="TD4-RR-Cgf">
+                            <connections>
+                                <action selector="doneBtnTapped:" destination="9HO-Ys-E50" id="dZ6-b9-tCh"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="heightSlider" destination="4X5-3C-iJw" id="uWo-oU-MdQ"/>
+                        <outlet property="scnView" destination="ZVW-o8-8xf" id="TFI-9q-iIc"/>
+                        <outlet property="segmentedCtrl" destination="lz8-YM-k4O" id="7Lx-bG-9h0"/>
+                        <outlet property="swipeView" destination="BOE-1g-eaU" id="Fzf-Jz-0Ye"/>
+                        <outlet property="widthSlider" destination="hXm-uB-sbq" id="SrK-7q-aef"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dzm-eq-RIS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2076" y="-636"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="8LY-jB-ZxX">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ine-1m-b3l" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="E7B-5e-16h">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="9HO-Ys-E50" kind="relationship" relationship="rootViewController" id="ixc-bh-g2J"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MOY-5p-q0X" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1329" y="-633"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Browser Window-20" width="20" height="20"/>
@@ -2512,7 +2630,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="8Qu-m0-oTL"/>
-        <segue reference="Yc5-eC-5y8"/>
-        <segue reference="bPj-2Z-qcd"/>
+        <segue reference="rjw-K7-Lby"/>
+        <segue reference="sow-rA-YQm"/>
     </inferredMetricsTieBreakers>
 </document>

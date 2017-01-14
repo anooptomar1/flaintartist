@@ -1,8 +1,8 @@
 //
-//  CaptureDetailsVC.swift
+//  EditArtVC.swift
 //  Flaintartist
 //
-//  Created by Kerby Jean on 1/1/17.
+//  Created by Kerby Jean on 1/13/17.
 //  Copyright © 2017 Kerby Jean. All rights reserved.
 //
 
@@ -13,10 +13,8 @@ import SDWebImage
 import FirebaseStorage
 import FirebaseAuth
 
-class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, SwipeViewDelegate, SwipeViewDataSource, UITextFieldDelegate, UITextViewDelegate {
-    
-    
-    
+class EditArtVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, SwipeViewDelegate, SwipeViewDataSource, UITextFieldDelegate, UITextViewDelegate {
+
     @IBOutlet var scnView: SCNView!
     @IBOutlet var heightLbl: UILabel!
     @IBOutlet var widthLbl: UILabel!
@@ -33,8 +31,8 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     @IBOutlet weak var navigationBar: UINavigationBar!
     
     
-    
     var artImg: UIImage!
+    var artDetails: Art!
     var measure: Array = [AnyObject]()
     var SizeView = UIView()
     var typesView = UIView()
@@ -48,15 +46,11 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     var types = ["Modern", "Abstract", "Realism"]
     var type = ""
     
-    
     var detailsScene = DetailsScene(create: true)
     
     var doneBtn = UIBarButtonItem()
-    
     var user: Users!
-    
     let storage = FIRStorage.storage()
-    
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -86,7 +80,7 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         
         
         
-        doneBtn = UIBarButtonItem(title: "Done", style: .done, target: self, action:  #selector(CaptureDetailsVC.doneBtnTapped(_:)))
+        doneBtn = UIBarButtonItem(title: "Save", style: .done, target: self, action:  #selector(CaptureDetailsVC.doneBtnTapped(_:)))
         doneBtn.tintColor = UIColor.flatSkyBlue()
         self.navigationItem.rightBarButtonItem = doneBtn
         
@@ -115,65 +109,51 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
         
     }
+
     
-    @IBAction func backBtnTapped(_ sender: UIButton) {
+    @IBAction func cancelBtnTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
-    func doneBtnTapped(_ sender: UIBarButtonItem) {
+    
+    @IBAction func doneBtnTapped(_ sender: Any) {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.hidesWhenStopped = true
         activityIndicator.activityIndicatorViewStyle = .gray
         let spinner: UIBarButtonItem = UIBarButtonItem(customView: activityIndicator)
         navigationItem.rightBarButtonItem = spinner
         activityIndicator.startAnimating()
-        done()
+        
+        
+        let uid = FIRAuth.auth()?.currentUser?.uid
+        let price:Int? = Int(priceTextField.text!)
+        let title = titleTextField.text!
+        let desc = descTextView.text!
+        let height = heightSlider.value
+        let width = widthSlider.value
+
+        let artDetails = self.artDetails as Art
+        let artRef = DataService.ds.REF_ARTS.child(artDetails.artID)
+        let newArtDetails = ["description": desc, "title": title, "height": height, "width": width, "price": price!, "userUID": uid!] as [String : Any]
+        artRef.updateChildValues(newArtDetails) { (error, reference) in
+            self.dismiss(animated: true, completion: nil)
+        }
+    
     }
+
+    
     
     @IBAction func SliderValueChanged(_ sender: UISlider) {
-        
-//        let rotateForHeight = SCNAction.rotateTo(x: 0, y: 1, z: 0, duration: 0.3)
-//        rotateForHeight.timingMode = SCNActionTimingMode.linear;
-//        
-//        let rotateForWidth = SCNAction.rotateTo(x: -1, y: 0, z: 0, duration: 0.3)
-//        rotateForWidth.timingMode = SCNActionTimingMode.linear;
-//        
-//        let stopAnimation = SCNAction.rotateTo(x: 0, y: 0, z: 0, duration: 0.5)
-//        
-//        let heightFlow = SCNAction.sequence([rotateForHeight, stopAnimation])
-//        let widthFlow = SCNAction.sequence([rotateForWidth, stopAnimation])
-        
+    
         if sender.tag == 1 {
-            //self.detailsScene.boxnode.runAction(heightFlow)
-            //self.detailsScene.boxnode.scale = SCNVector3(x: widthSlider.value / 100 , y: heightSlider.value / 100, z: 0.5)
-
-            
-            DispatchQueue.main.async {
-//              self.detailsScene.rootNode.addChildNode(self.detailsScene.textNode)
-//                
-//                
-//                
-//                self.detailsScene.textNode.position = SCNVector3(x: Float(self.detailsScene.geometry.width - 0.2) , y: self.detailsScene.boxnode.position.y - 0.2, z: 0.5)
-//                print("POSITIONTextX:\(self.detailsScene.textNode.position.x)")
-//                print("POSITIONTextY:\(self.detailsScene.textNode.position.y)")
-//                print("POSITIONX:\(self.detailsScene.boxnode.position.x)")
-//                print("POSITIONY:\(self.detailsScene.boxnode.position.y)")
-
-              self.detailsScene.newText.string = " \(Int(sender.value)) cm"
-            }
-
             heightLbl.text = "Height: \(Int(sender.value)) cm"
-            
         } else if sender.tag == 2 {
-            //self.detailsScene.boxnode.runAction(widthFlow)
-            //self.detailsScene.boxnode.scale = SCNVector3(x: widthSlider.value / 100 , y: heightSlider.value / 100, z: 0.5)
             UIView.animate(withDuration: 0.5) {
-                self.widthLbl.isHidden = false
-            }
-            if sender.value == 0 {
-  
-            }
-
+            self.widthLbl.isHidden = false
+        }
+           if sender.value == 0 {
+                
+        }
             widthLbl.text = "Width: \(Int(sender.value)) cm"
         }
         
@@ -200,33 +180,9 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     
     
     func postToFirebase(imgUrl: String) {
-        let uid = FIRAuth.auth()?.currentUser?.uid
-        let price:Int? = Int(priceTextField.text!)
-        let title = titleTextField.text!
-        let desc = descTextView.text!
-        let height = heightSlider.value
-        let width = widthSlider.value
-        if !title.isEmpty && !desc.isEmpty  {
-            let newArt: Dictionary<String, AnyObject> = [
-                "userUID": uid as AnyObject,
-                "title": title as AnyObject,
-                "description": desc as AnyObject,
-                "height": height as AnyObject,
-                "width": width as AnyObject,
-                "imageUrl":  imgUrl as AnyObject,
-                "type":  type as AnyObject,
-                "postDate": FIRServerValue.timestamp() as AnyObject,
-                "price": price as AnyObject
-            ]
-            
-            DataService.ds.createNewArt(newArt)
             let tabBarVC = storyboard?.instantiateViewController(withIdentifier: "TabBarVC")
             self.present(tabBarVC!, animated: true, completion: nil)
-        } else {
-            let alert = Alerts()
-            alert.showAlert("Empty Fields", message: "", target: self)
         }
-    }
     
     
     // MARK: Functions
@@ -234,10 +190,9 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     func valueChanged(sender: NSNotification) {
         if priceTextField != nil || titleTextField != nil || descTextView != nil {
             if let title = titleTextField.text{
-                let price = priceTextField.text!
-                if heightSlider.value == 0 || widthSlider.value == 0 || price.isEmpty || title.isEmpty || descTextView.text == "Description..." {
+                if heightSlider.value == 0 || widthSlider.value == 0 || title.isEmpty || descTextView.text == "Description..."{
                     self.doneBtn.isEnabled = false
-                } else if heightSlider.value > 0 && widthSlider.value > 0 && price.isEmpty && !title.isEmpty || descTextView.text != "Description..." || descTextView.text != ""{
+                } else if heightSlider.value > 0 && widthSlider.value > 0 && !title.isEmpty || descTextView.text != "Description..." || descTextView.text != ""{
                     self.doneBtn.isEnabled = true
                     descText = descTextView.text
                 }
@@ -257,8 +212,8 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
                 self.segmentedCtrl.selectedSegmentIndex = 0
                 self.SizeView.isUserInteractionEnabled = true
                 self.SizeView.frame = CGRect(x: 0, y: 0, width: self.swipeView.frame.width, height: self.swipeView.frame.height)
-                self.heightSlider.value = Float(self.artImg.size.height/100)
-                self.widthSlider.value = Float(self.artImg.size.width/100)
+                self.heightSlider.value = Float(self.artDetails.artHeight)
+                self.widthSlider.value = Float(self.artDetails.artWidth)
             })
             return SizeView
         } else if index == 1 {
@@ -280,9 +235,11 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
                 self.DetailsView.isUserInteractionEnabled = true
                 self.DetailsView.frame = CGRect(x: 0, y: 0, width: self.swipeView.frame.width, height: self.swipeView.frame.height)
                 self.priceTextField.delegate = self
+                self.priceTextField.text = "\(self.artDetails.price)"
                 self.titleTextField.delegate = self
+                self.titleTextField.text = "\(self.artDetails.title)"
                 self.descTextView.delegate = self
-                self.descTextView.text = "Description..."
+                self.descTextView.text = self.artDetails.description
                 self.descTextView.textColor = UIColor.lightGray
             })
             return DetailsView

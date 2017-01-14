@@ -28,7 +28,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="yYt-Ys-EpV">
-                    <rect key="frame" x="26" y="2" width="325" height="167"/>
+                    <rect key="frame" x="26" y="0.0" width="325" height="157"/>
                     <subviews>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Monthly price" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4ef-1G-7no">
                             <rect key="frame" x="0.0" y="0.0" width="325" height="45"/>
@@ -38,7 +38,7 @@
                                 <constraint firstAttribute="height" constant="45" id="sBa-ia-vgV"/>
                             </constraints>
                             <color key="textColor" red="0.12637259070000001" green="0.12639245390000001" blue="0.1263653636" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardType="decimalPad"/>
                         </textField>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YZZ-Rk-2Xi">
@@ -56,7 +56,7 @@
                                 <constraint firstAttribute="width" constant="325" id="ptx-6x-wth"/>
                             </constraints>
                             <color key="textColor" red="0.12637259070000001" green="0.12639245390000001" blue="0.1263653636" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                         </textField>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QL0-aA-tkI">
@@ -67,20 +67,20 @@
                             </constraints>
                         </view>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="V4m-aU-9lG">
-                            <rect key="frame" x="0.0" y="112" width="325" height="55"/>
+                            <rect key="frame" x="0.0" y="112" width="325" height="45"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="325" id="SCj-aK-nlB"/>
-                                <constraint firstAttribute="height" constant="55" id="n7U-Ra-DNp"/>
+                                <constraint firstAttribute="height" constant="45" id="n7U-Ra-DNp"/>
                             </constraints>
                             <color key="textColor" red="0.12637259070000001" green="0.12639245390000001" blue="0.1263653636" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
                         </textView>
                     </subviews>
                 </stackView>
                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aek-L4-yuG">
-                    <rect key="frame" x="309" y="177" width="42" height="21"/>
+                    <rect key="frame" x="309" y="167" width="42" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="PwJ-zp-clT"/>
                         <constraint firstAttribute="width" constant="42" id="h2j-QW-DND"/>
@@ -91,13 +91,13 @@
                 </label>
             </subviews>
             <constraints>
-                <constraint firstItem="Aek-L4-yuG" firstAttribute="top" secondItem="yYt-Ys-EpV" secondAttribute="bottom" constant="8" id="MMz-hc-hGY"/>
+                <constraint firstItem="Aek-L4-yuG" firstAttribute="top" secondItem="yYt-Ys-EpV" secondAttribute="bottom" constant="10" id="MMz-hc-hGY"/>
                 <constraint firstItem="yYt-Ys-EpV" firstAttribute="centerX" secondItem="fik-gy-BTa" secondAttribute="centerX" constant="1" id="N6g-qa-Ua5"/>
                 <constraint firstAttribute="trailing" secondItem="Aek-L4-yuG" secondAttribute="trailing" constant="24" id="g15-ai-bFx"/>
-                <constraint firstItem="yYt-Ys-EpV" firstAttribute="top" secondItem="fik-gy-BTa" secondAttribute="top" constant="2" id="hcP-9D-Xv6"/>
+                <constraint firstItem="yYt-Ys-EpV" firstAttribute="top" secondItem="fik-gy-BTa" secondAttribute="top" id="hcP-9D-Xv6"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-41" y="68"/>
+            <point key="canvasLocation" x="-66" y="54"/>
         </view>
     </objects>
 </document>

@@ -63,7 +63,7 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
                 print(error!.localizedDescription)
             }
            })
-        
+                
         let imageData = UIImageJPEGRepresentation(profileImage.image!, 1)
         let imagePath = "profileImage\(user.userId)userPic.jpeg"
         let imageRef = STORAGE.child(imagePath)
@@ -84,7 +84,7 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
                     let userInfo = ["email": email, "name": name, "website": website, "uid": user.uid, "profileImg": String(describing: user.photoURL!)] as [String : Any]
                     let userRef = DataService.ds.REF_USERS.child(user.uid)
                     userRef.updateChildValues(userInfo, withCompletionBlock: { (error, reference) in
-                       //  _ = self.navigationController?.popViewController(animated: true)
+                        
                     })
                 }
 

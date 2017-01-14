@@ -39,10 +39,9 @@ class ArtRoomScene: SCNScene {
         self.geometry.firstMaterial?.emission.contents = UIColor.blue
         boxnode = SCNNode(geometry: self.geometry)
         let yPos = -1.5
+        
         boxnode.position = SCNVector3(0, 0.4, yPos)
-        
-        
-        //boxnode.rotation = SCNVector4(0,60,0,-55.8)
+        boxnode.rotation = SCNVector4(0,60,0,-56)
         
         self.rootNode.addChildNode(boxnode)
         

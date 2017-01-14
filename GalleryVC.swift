@@ -64,7 +64,11 @@ import ChameleonFramework
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = UIColor.flatBlack()
         refreshControl.addTarget(self, action: #selector(GalleryVC.refresh), for: UIControlEvents.valueChanged)
-        tableView.refreshControl = refreshControl
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refreshControl
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
             
@@ -79,7 +83,11 @@ import ChameleonFramework
             
     func refresh() {
         tableView.reloadData()
-        tableView.refreshControl?.endRefreshing()
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl?.endRefreshing()
+        } else {
+            // Fallback on earlier versions
+        }
     }
             
             
@@ -158,6 +166,7 @@ import ChameleonFramework
     }
             
             
+    @available(iOS 10.0, *)
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         let vc = storyboard?.instantiateViewController(withIdentifier: "WebVC") as! WebVC
         vc.url = URL

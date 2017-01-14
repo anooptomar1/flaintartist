@@ -28,6 +28,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     var arts = [Art]()
     var art: Art!
     var artImg = UIImage()
+    let refreshCtrl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,11 +61,14 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         let tapProfileGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.tapProfilePicture))
         profileImageView.addGestureRecognizer(tapProfileGesture)
 
-        let refreshControl = UIRefreshControl()
-        refreshControl.tintColor = UIColor.flatBlack()
-        refreshControl.addTarget(self, action: #selector(ProfileVC.refresh), for: UIControlEvents.valueChanged)
+        refreshCtrl.tintColor = UIColor.flatBlack()
+        refreshCtrl.addTarget(self, action: #selector(ProfileVC.refresh), for: UIControlEvents.valueChanged)
 
-        tableView.refreshControl = refreshControl
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refreshControl
+        } else {
+            tableView.addSubview(refreshCtrl)
+        }
     }
     
     
@@ -83,9 +87,12 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     
     
     func refresh() {
-        loadUserInfo()
-        collectionView.reloadData()
-        tableView.refreshControl?.endRefreshing()
+        tableView.reloadData()
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl?.endRefreshing()
+        } else {
+            refreshCtrl.endRefreshing()
+        }
     }
     
     
@@ -169,6 +176,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     }
 
 
+    @available(iOS 10.0, *)
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         let vc = storyboard?.instantiateViewController(withIdentifier: "WebVC") as! WebVC
         vc.url = URL

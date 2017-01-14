@@ -77,9 +77,6 @@
                     }
                 })
             }
-            
-            
-           
 
 
             self.navigationController?.toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .bottom, barMetrics: .default)
@@ -177,6 +174,11 @@
             let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
                 self.share()
             })
+                    
+            let edit = UIAlertAction(title: "Edit", style: .default, handler: { (UIAlertAction) in
+                self.performSegue(withIdentifier: "EditArtVC", sender: self.artInfo[0] as! UIImage )
+            })
+
             
             let remove = UIAlertAction(title: "Remove", style: .destructive, handler: { (UIAlertAction) in
                 self.remove()
@@ -186,6 +188,7 @@
             
             alert.addAction(wallView)
             alert.addAction(share)
+            alert.addAction(edit)
             alert.addAction(remove)
             alert.addAction(cancel)
             present(alert, animated: true, completion: nil)
@@ -237,6 +240,7 @@
             present(alert, animated: true, completion: nil)
         }
         
+        
         func remove() {
             let alert = Alerts()
             if let info = artInfo[1] as? Art {
@@ -265,6 +269,13 @@
                 if let artImage = sender as? UIImage {
                     vc.artImage = artImage
                }
+            }
+            
+            if segue.identifier == "EditArtVC" {
+                let navVC = segue.destination as! UINavigationController
+                let vc = navVC.topViewController as! EditArtVC
+                vc.artImg = self.artInfo[0] as! UIImage
+                vc.artDetails = self.artInfo[1] as! Art
             }
             
             if segue.identifier == "ReportVC" {
