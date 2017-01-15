@@ -15,7 +15,7 @@ import FirebaseInstanceID
 import FirebaseMessaging
 
 
-class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, presentVCProtocol {
+class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, presentVCProtocol, UISearchControllerDelegate, UISearchBarDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet var typeLbl: UILabel!
@@ -37,6 +37,7 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
     var refreshControl: UIRefreshControl!
     
     var type: String!
+    var searchController : UISearchController? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,8 +56,41 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
         tableView.addSubview(refreshControl)
         
         self.navigationController?.setToolbarHidden(true, animated: false)
+        
+        
+        // Search
+        let searchVC = storyboard!.instantiateViewController(withIdentifier: "SearchControllerNav") as! UINavigationController
+        let vc = searchVC.topViewController as! SearchControllerVC
+        self.searchController = UISearchController(searchResultsController: vc)
+        self.searchController?.searchResultsUpdater = vc
+        self.searchController?.delegate = self
+        self.searchController?.searchBar.delegate = self
+        self.searchController?.searchBar.sizeToFit()
+        self.searchController?.searchBar.placeholder = "Explore"
+        self.searchController?.hidesNavigationBarDuringPresentation = false
+        self.searchController?.dimsBackgroundDuringPresentation = true
+        self.searchController?.searchBar.searchBarStyle = .minimal
+        self.navigationItem.titleView = searchController?.searchBar
+        self.definesPresentationContext = true
 
     }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+
+//
+//    func willPresentSearchController(_ searchController: UISearchController) {
+//        searchController.searchResultsController?.view.isHidden = false
+//    }
+//
+//    func didPresentSearchController(_ searchController: UISearchController) {
+//        searchController.searchResultsController?.view.isHidden = false
+//    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -134,12 +168,13 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
         }
         return UITableViewCell()
     }
-    
+
     
     func performSeg(_ identifier: String, sender: Any) {
         performSegue(withIdentifier: identifier, sender: sender)
+        print("SENDER: \(sender)")
     }
-    
+
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -161,11 +196,11 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
         }
         
         if segue.identifier == "GalleryVC" {
-            if let vc = segue.destination as? GalleryVC {
-                vc.hidesBottomBarWhenPushed = true
-                if let user = sender as? Users {
-                    vc.user = user
-                }
+            let navVC = segue.destination as! UINavigationController
+            let vc = navVC.topViewController as! GalleryVC
+            vc.hidesBottomBarWhenPushed = true
+           if let user = sender as? Users {
+                vc.user = user
             }
         }
     }

@@ -31,6 +31,8 @@ import ChameleonFramework
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("USER: \(user)")
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.emptyDataSetSource = self
@@ -77,7 +79,7 @@ import ChameleonFramework
     }
     
     func backBtnTapped() {
-        _ = navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
 
             
@@ -151,7 +153,6 @@ import ChameleonFramework
             
     func loadUserInfo(){
         DataService.ds.REF_USERS.child("\(user.userId)").observe(.value, with: { (snapshot) in
-                    
             if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
                 let key = snapshot.key
                 self.user = Users(key: key, artistData: postDict)

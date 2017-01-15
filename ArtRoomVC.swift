@@ -181,7 +181,13 @@
 
             
             let remove = UIAlertAction(title: "Remove", style: .destructive, handler: { (UIAlertAction) in
-                self.remove()
+                //self.remove()
+                if let info = self.artInfo[1] as? Art {
+                    DataService.ds.REF_USERS.child(self.user.userId).child("arts").child(info.artID).removeValue(completionBlock: { (error, ref) in
+                        DataService.ds.REF_ARTS.child(ref.key).removeValue()
+                        return
+                    })
+                }
             })
             
             let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -257,9 +263,10 @@
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             
             if segue.identifier == "GalleryVC" {
-                let vc = segue.destination as! GalleryVC
+                let navVC = segue.destination as! UINavigationController
+                let vc = navVC.topViewController as! GalleryVC
+                vc.hidesBottomBarWhenPushed = true
                 if let user = sender as? Users {
-                    vc.hidesBottomBarWhenPushed = false
                     vc.user = user
                 }
             }

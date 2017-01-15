@@ -11,11 +11,6 @@ import SDWebImage
 import FirebaseDatabase
 
 
-protocol presentVCProtocol : NSObjectProtocol {
-    func performSeg(_ identifier: String, sender: Any) -> Void
-}
-
-
 class RealismTabCell: UITableViewCell {
     @IBOutlet weak var RealismCollectionView: UICollectionView!
     
