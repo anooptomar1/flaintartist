@@ -37,8 +37,8 @@ class CreateArtistSecondVC: UIViewController , UITextFieldDelegate, UITextViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        profileImg.layer.borderColor = UIColor.flatSkyBlue().cgColor
-        profileImg.layer.borderWidth = 3.0
+//        profileImg.layer.borderColor = UIColor.flatSkyBlue().cgColor
+//        profileImg.layer.borderWidth = 3.0
         
         let tapProfileGesture = UITapGestureRecognizer(target: self, action: #selector(CreateArtistSecondVC.choosePictureAction(sender:)))
         profileImg.addGestureRecognizer(tapProfileGesture)

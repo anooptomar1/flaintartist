@@ -379,20 +379,20 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6gW-1z-tRa">
                                 <rect key="frame" x="0.0" y="20" width="375" height="212"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="User" translatesAutoresizingMaskIntoConstraints="NO" id="5YH-l3-weE" customClass="BorderImg" customModule="Flaintartist" customModuleProvider="target">
-                                        <rect key="frame" x="146" y="89" width="83" height="83"/>
+                                    <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sign up" translatesAutoresizingMaskIntoConstraints="NO" id="5YH-l3-weE" customClass="BorderImg" customModule="Flaintartist" customModuleProvider="target">
+                                        <rect key="frame" x="153" y="72" width="68" height="68"/>
                                         <color key="backgroundColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="83" id="HWK-fE-ZwX"/>
+                                            <constraint firstAttribute="width" constant="68" id="HWK-fE-ZwX"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.90823972230000005" green="0.92638683320000004" blue="0.93171715740000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="5YH-l3-weE" secondAttribute="bottom" constant="40" id="caA-oY-zeq"/>
+                                    <constraint firstAttribute="bottom" secondItem="5YH-l3-weE" secondAttribute="bottom" constant="72" id="caA-oY-zeq"/>
                                     <constraint firstItem="5YH-l3-weE" firstAttribute="centerX" secondItem="6gW-1z-tRa" secondAttribute="centerX" id="ms4-xG-H0n"/>
-                                    <constraint firstItem="5YH-l3-weE" firstAttribute="top" secondItem="6gW-1z-tRa" secondAttribute="top" constant="89" id="yZZ-k9-xbB"/>
+                                    <constraint firstItem="5YH-l3-weE" firstAttribute="top" secondItem="6gW-1z-tRa" secondAttribute="top" constant="72" id="yZZ-k9-xbB"/>
                                 </constraints>
                             </view>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cCU-of-pzW">
@@ -536,7 +536,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c6H-re-3Ev" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-343" y="838"/>
+            <point key="canvasLocation" x="-343.19999999999999" y="837.93103448275872"/>
         </scene>
         <!--Reset PasswordVC-->
         <scene sceneID="AWv-BC-e8f">
@@ -997,11 +997,11 @@
             </objects>
             <point key="canvasLocation" x="-948" y="-633.73313343328346"/>
         </scene>
-        <!--Explore-->
+        <!--Home-->
         <scene sceneID="nOI-wH-bfm">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="Qro-0c-l89" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Explore" image="Home" selectedImage="Home filled" id="ZXK-h7-tL0">
+                    <tabBarItem key="tabBarItem" title="Home" image="Home-22" selectedImage="Home filled-22" id="ZXK-h7-tL0">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -1567,7 +1567,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pZa-on-53C" id="myR-sr-RcW">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="54"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="54.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="artist" translatesAutoresizingMaskIntoConstraints="NO" id="l5Q-6c-jla">
@@ -2167,7 +2167,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="556"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sru-Je-3QS" id="3xB-7w-gqD">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="555"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="555.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="abv-Db-JfF">
@@ -2393,7 +2393,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="GalleryVC" id="5DM-9a-YpZ" customClass="GalleryVC" customModule="Flaintartist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="eqi-cc-zMF">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -2698,8 +2698,8 @@
         <image name="Capture-24" width="25" height="25"/>
         <image name="Contact Card-20" width="20" height="20"/>
         <image name="Dismiss-30" width="23" height="23"/>
-        <image name="Home" width="24" height="24"/>
-        <image name="Home filled" width="24" height="24"/>
+        <image name="Home filled-22" width="21" height="22"/>
+        <image name="Home-22" width="21" height="22"/>
         <image name="Lock-50" width="50" height="50"/>
         <image name="Mail Filled-20" width="20" height="20"/>
         <image name="Menu-20" width="20" height="20"/>
@@ -2707,14 +2707,14 @@
         <image name="More Filled-25" width="20" height="20"/>
         <image name="Picture" width="100" height="100"/>
         <image name="Profile-22" width="22" height="23"/>
-        <image name="User" width="700" height="700"/>
         <image name="artist" width="4896" height="3264"/>
         <image name="cameraBtn-80" width="80" height="80"/>
         <image name="profile filled-22" width="21" height="22"/>
+        <image name="sign up" width="56" height="56"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="Tyz-WM-hJh"/>
         <segue reference="bPj-2Z-qcd"/>
         <segue reference="sow-rA-YQm"/>
-        <segue reference="AWu-qc-Bef"/>
     </inferredMetricsTieBreakers>
 </document>

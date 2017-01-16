@@ -30,7 +30,16 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     var art: Art!
     var artImg = UIImage()
     let refreshCtrl = UIRefreshControl()
-        
+    
+    
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let alert = Alerts()
+        alert.changeProfilePicture(self)
+    }
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -56,12 +65,9 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
             }
             self.collectionView.reloadData()
         }
-    
-        //self.gradientView.backgroundColor = UIColor(gradientStyle: UIGradientStyle.topToBottom, withFrame: CGRect(x:0 , y: 100, width: self.view.frame.width, height: 172) , andColors: [UIColor.white, UIColor.white])
-        //collectionView.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: CGRect(x: 0, y: 0, width: self.collectionView.frame.width, height:  437) , andColors: [ UIColor.white, UIColor.flatWhite()])
         
-        let tapProfileGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.tapProfilePicture))
-        //profileImageView.addGestureRecognizer(tapProfileGesture)
+        let tapProfileGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.showAlert))
+        view.addGestureRecognizer(tapProfileGesture)
 
         refreshCtrl.tintColor = UIColor.flatBlack()
         refreshCtrl.addTarget(self, action: #selector(ProfileVC.refresh), for: UIControlEvents.valueChanged)
@@ -111,6 +117,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         
         let myBlock: SDWebImageCompletionBlock! = {(image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
             cell.artRoomScene.setup(artInfo: image)
+            self.artImg = image!
         }
         
         cell.artImageView.sd_setImage(with: URL(string: "\(art.imgUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
@@ -135,12 +142,13 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         if let cell = collectionView.cellForItem(at: indexPath) as? ProfileArtCell {
-            
-//            if let artImage = cell.artImageView.image {
-//                let art = arts[indexPath.row]
+
+            if let artImage = cell.artImageView.image {
+                let art = arts[indexPath.row]
 //                let artInfo = [artImage, art] as [Any]
 //                performSegue(withIdentifier: "ArtRoomVC", sender: artInfo)
-//            }
+                //self.showAlert()
+            }
         }
     }
     
@@ -207,5 +215,75 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         let attrs = [NSFontAttributeName: UIFont.systemFont(ofSize: 14)]
         return NSAttributedString(string: str, attributes: attrs)
     }
- 
-}
+    
+    
+    // Alert
+    
+    
+    func showAlert() {
+        
+                let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+                
+                let wallView = UIAlertAction(title: "Wallview", style: .default, handler: { (UIAlertAction) in
+                    self.performSegue(withIdentifier: "WallviewVC", sender: self.artImg)
+                })
+                
+                let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
+                    self.share()
+                })
+                
+                let edit = UIAlertAction(title: "Edit", style: .default, handler: { (UIAlertAction) in
+                    self.performSegue(withIdentifier: "EditArtVC", sender: self.artImg)
+                })
+                
+                
+                let remove = UIAlertAction(title: "Remove", style: .destructive, handler: { (UIAlertAction) in
+                    //self.remove()
+                        DataService.ds.REF_USERS.child(self.user.userId).child("arts").child(self.art.artID).removeValue(completionBlock: { (error, ref) in
+                            DataService.ds.REF_ARTS.child(ref.key).removeValue()
+                            return
+                    })
+                  })
+        
+                let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                
+                alert.addAction(wallView)
+                alert.addAction(share)
+                alert.addAction(edit)
+                alert.addAction(remove)
+                alert.addAction(cancel)
+                present(alert, animated: true, completion: nil)
+       }
+
+    
+    func share() {
+        let share = Share()
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let facebook = UIAlertAction(title: "Facebook", style: .default, handler: { (UIAlertAction) in
+            share.facebookShare(self, image: self.artImg, text: self.art.title)
+        })
+        
+        let messenger = UIAlertAction(title: "Mesenger", style: .default, handler: { (UIAlertAction) in
+            //share.messengerShare(self, image: self.artInfo[0] as! UIImage)
+        })
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(facebook)
+        alert.addAction(messenger)
+        alert.addAction(cancel)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    
+    func remove() {
+        let alert = Alerts()
+        
+            DataService.ds.REF_USERS.child(self.user.userId).child("arts").child(art.artID).removeValue(completionBlock: { (error, ref) in
+                DataService.ds.REF_ARTS.child(ref.key).removeValue()
+                alert.showAlert("\(self.art.title) have been removed successfully", message: "", target: self)
+                return
+            })
+        }
+    }
