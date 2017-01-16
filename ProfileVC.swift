@@ -19,9 +19,9 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBOutlet var profileImageView: UIImageView!
     @IBOutlet var nameLbl: UILabel!
-    @IBOutlet var artworkCountLbl: UILabel!
-    @IBOutlet var websiteTextView: UITextView!
-    @IBOutlet weak var gradientView: UIView!
+    //@IBOutlet var artworkCountLbl: UILabel!
+    //@IBOutlet var websiteTextView: UITextView!
+    //@IBOutlet weak var gradientView: UIView!
     @IBOutlet var collectionView: UICollectionView!
 
     var user: Users!
@@ -39,7 +39,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         collectionView.emptyDataSetDelegate = self
         
         loadUserInfo()
-        websiteTextView.delegate = self
+        //websiteTextView.delegate = self
   
         DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).child("arts").observe(.value) { (snapshot: FIRDataSnapshot) in
             self.arts = []
@@ -55,8 +55,8 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
             self.collectionView.reloadData()
         }
     
-        self.gradientView.backgroundColor = UIColor(gradientStyle: UIGradientStyle.topToBottom, withFrame: CGRect(x:0 , y: 100, width: self.view.frame.width, height: 172) , andColors: [UIColor.white, UIColor.white])
-        collectionView.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: CGRect(x: 0, y: 0, width: self.collectionView.frame.width, height:  437) , andColors: [ UIColor.white, UIColor.flatWhite()])
+        //self.gradientView.backgroundColor = UIColor(gradientStyle: UIGradientStyle.topToBottom, withFrame: CGRect(x:0 , y: 100, width: self.view.frame.width, height: 172) , andColors: [UIColor.white, UIColor.white])
+        //collectionView.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: CGRect(x: 0, y: 0, width: self.collectionView.frame.width, height:  437) , andColors: [ UIColor.white, UIColor.flatWhite()])
         
         let tapProfileGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.tapProfilePicture))
         profileImageView.addGestureRecognizer(tapProfileGesture)
@@ -97,7 +97,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        self.artworkCountLbl.text = "\(arts.count)"
+        //self.artworkCountLbl.text = "\(arts.count)"
         return arts.count
     }
     
@@ -111,7 +111,12 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         }
         
         cell.artImageView.sd_setImage(with: URL(string: "\(art.imgUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
-
+         
+        cell.titleLbl.text = art.title
+        cell.typeLbl.text = art.type
+        cell.sizeLbl.text = "\(art.artHeight)'H x \(art.artWidth)'W - \(art.price)$ / month"
+        cell.descLbl.text = art.description
+            
         return cell
             
         } else {
@@ -168,7 +173,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
                 
                 if let user = self.user {
                     self.nameLbl.text = user.name
-                    self.websiteTextView.text = user.website
+                    //self.websiteTextView.text = user.website
                     self.profileImageView.sd_setImage(with: URL(string: "\(self.user.profilePicUrl)") , placeholderImage: nil , options: .continueInBackground)
                 }
             }
@@ -194,24 +199,3 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     }
  
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

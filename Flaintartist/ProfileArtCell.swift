@@ -13,6 +13,12 @@ import FirebaseStorage
 class ProfileArtCell: UICollectionViewCell {
     
     @IBOutlet var artImageView: UIImageView!
+    @IBOutlet var titleLbl: UILabel!
+    @IBOutlet var typeLbl: UILabel!
+    @IBOutlet var sizeLbl: UILabel!
+    @IBOutlet var descLbl: UILabel!
+    
+    
     
     var post: Art!
     
