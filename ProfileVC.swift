@@ -7,31 +7,33 @@
 //
 
 import UIKit
+import SceneKit
 import Firebase
 import SDWebImage
 import DZNEmptyDataSet
-
 import ChameleonFramework
 import SwiftyUserDefaults
 
 
 class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
     
-    @IBOutlet var profileImageView: UIImageView!
+    //@IBOutlet var profileImageView: UIImageView!
     @IBOutlet var nameLbl: UILabel!
     //@IBOutlet var artworkCountLbl: UILabel!
     //@IBOutlet var websiteTextView: UITextView!
     //@IBOutlet weak var gradientView: UIView!
     @IBOutlet var collectionView: UICollectionView!
+    
 
     var user: Users!
     var arts = [Art]()
     var art: Art!
     var artImg = UIImage()
     let refreshCtrl = UIRefreshControl()
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
+
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -59,7 +61,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         //collectionView.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: CGRect(x: 0, y: 0, width: self.collectionView.frame.width, height:  437) , andColors: [ UIColor.white, UIColor.flatWhite()])
         
         let tapProfileGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.tapProfilePicture))
-        profileImageView.addGestureRecognizer(tapProfileGesture)
+        //profileImageView.addGestureRecognizer(tapProfileGesture)
 
         refreshCtrl.tintColor = UIColor.flatBlack()
         refreshCtrl.addTarget(self, action: #selector(ProfileVC.refresh), for: UIControlEvents.valueChanged)
@@ -82,7 +84,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
 
     
     @IBAction func settingsBtnTapped(_ sender: Any) {
-        performSegue(withIdentifier: "SettingsVC", sender: nil)
+        performSegue(withIdentifier: "SettingsVC", sender: user)
     }
     
     
@@ -108,10 +110,10 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileArtCell", for: indexPath) as? ProfileArtCell {
         
         let myBlock: SDWebImageCompletionBlock! = {(image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
+            cell.artRoomScene.setup(artInfo: image)
         }
         
         cell.artImageView.sd_setImage(with: URL(string: "\(art.imgUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
-         
         cell.titleLbl.text = art.title
         cell.typeLbl.text = art.type
         cell.sizeLbl.text = "\(art.artHeight)'H x \(art.artWidth)'W - \(art.price)$ / month"
@@ -134,11 +136,11 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         collectionView.deselectItem(at: indexPath, animated: true)
         if let cell = collectionView.cellForItem(at: indexPath) as? ProfileArtCell {
             
-            if let artImage = cell.artImageView.image {
-                let art = arts[indexPath.row]
-                let artInfo = [artImage, art] as [Any]
-                performSegue(withIdentifier: "ArtRoomVC", sender: artInfo)
-            }
+//            if let artImage = cell.artImageView.image {
+//                let art = arts[indexPath.row]
+//                let artInfo = [artImage, art] as [Any]
+//                performSegue(withIdentifier: "ArtRoomVC", sender: artInfo)
+//            }
         }
     }
     
@@ -149,7 +151,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
  
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
-            profileImageView.image = image
+            //profileImageView.image = image
             picker.dismiss(animated: true, completion: nil)
         }
     }
@@ -160,6 +162,14 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
             artRoomVC.hidesBottomBarWhenPushed = true
             if let artInfo = sender as? [Any] {
                 artRoomVC.artInfo = artInfo
+            }
+        }
+        
+        if segue.identifier == "SettingsVC" {
+            let settingsVC = segue.destination as! SettingsVC
+            settingsVC.hidesBottomBarWhenPushed = true
+            if let user = sender as? Users {
+                settingsVC.user = user
             }
         }
     }
@@ -174,7 +184,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
                 if let user = self.user {
                     self.nameLbl.text = user.name
                     //self.websiteTextView.text = user.website
-                    self.profileImageView.sd_setImage(with: URL(string: "\(self.user.profilePicUrl)") , placeholderImage: nil , options: .continueInBackground)
+                    //self.profileImageView.sd_setImage(with: URL(string: "\(self.user.profilePicUrl)") , placeholderImage: nil , options: .continueInBackground)
                 }
             }
         })

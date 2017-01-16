@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 import FirebaseAuth
 import SwiftyUserDefaults
 
@@ -15,6 +16,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
     var options: [String] = []
     var userInfo : [AnyObject] = []
+    var user: Users!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +25,16 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tableView.delegate = self
         tableView.dataSource = self
         options = ["Edit Account", "Request a photographer", "Privacy Policy", "Log Out"]
+    }
+    
+    
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return 55
+        }
+        
+        return 50
     }
     
     
@@ -37,6 +49,14 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "EditProfileCell", for: indexPath) as! EditProfileCell
+            cell.profileImgView.sd_setImage(with: URL(string: "\(user.profilePicUrl)") , placeholderImage: nil , options: .continueInBackground)
+            cell.nameLbl.text = user.name
+            return cell
+        }
+        
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell", for: indexPath) as! SettingsCell
         cell.optionLbl.text = options[indexPath.row]
         return cell
@@ -59,9 +79,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         if indexPath.row == 3 {
             logoutAlert()
-        }
-        
-        
+        }        
     }
     
     

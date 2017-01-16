@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2DFF30C4011313ABDC50DA2D /* Pods_FlaintartistTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24443F8858A14D648040863F /* Pods_FlaintartistTests.framework */; };
+		6D163B9B1E2C8E9E00DCDC0A /* EditProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D163B9A1E2C8E9E00DCDC0A /* EditProfileCell.swift */; };
 		6D1C78081E19E46600E2041C /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C78071E19E46600E2041C /* SettingsCell.swift */; };
 		6D1C780B1E19E49C00E2041C /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C780A1E19E49C00E2041C /* NewsCell.swift */; };
 		6D1C780D1E19E4C800E2041C /* ModernTabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C780C1E19E4C800E2041C /* ModernTabCell.swift */; };
@@ -121,6 +122,7 @@
 		399C37CDB4AFE7DB2CD025E7 /* Pods-FlaintartistUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlaintartistUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FlaintartistUITests/Pods-FlaintartistUITests.release.xcconfig"; sourceTree = "<group>"; };
 		4A26F9D813BC835523BE55D1 /* Pods-Flaintartist.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flaintartist.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Flaintartist/Pods-Flaintartist.debug.xcconfig"; sourceTree = "<group>"; };
 		62D73A7833A90BAFFD1E9D0D /* Pods_Flaintartist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Flaintartist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D163B9A1E2C8E9E00DCDC0A /* EditProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileCell.swift; sourceTree = "<group>"; };
 		6D1C78071E19E46600E2041C /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsCell.swift; path = Flaintartist/SettingsCell.swift; sourceTree = SOURCE_ROOT; };
 		6D1C780A1E19E49C00E2041C /* NewsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewsCell.swift; path = Flaintartist/NewsCell.swift; sourceTree = SOURCE_ROOT; };
 		6D1C780C1E19E4C800E2041C /* ModernTabCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModernTabCell.swift; path = Flaintartist/ModernTabCell.swift; sourceTree = SOURCE_ROOT; };
@@ -585,6 +587,7 @@
 				6D1C78261E19E73B00E2041C /* FeedbackVC.swift */,
 				6D1C78281E19E76A00E2041C /* InviteFriendsVC.swift */,
 				6DA5B1B41E2865BB005A11F5 /* RequestPhotoVC.swift */,
+				6D163B9A1E2C8E9E00DCDC0A /* EditProfileCell.swift */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -993,6 +996,7 @@
 				6DF28DC51E199BF900C8A3B0 /* Alerts.swift in Sources */,
 				6D9EA4251E19DF150080D182 /* WallviewVC.swift in Sources */,
 				6D1C78421E19ED6300E2041C /* CreateAccountFirstVC.swift in Sources */,
+				6D163B9B1E2C8E9E00DCDC0A /* EditProfileCell.swift in Sources */,
 				6D1C78211E19E69E00E2041C /* ValidateEmailExt.swift in Sources */,
 				6D1C78191E19E58C00E2041C /* AbstractColCell.swift in Sources */,
 				6D1C78171E19E56B00E2041C /* AbstractTabCell.swift in Sources */,
