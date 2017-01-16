@@ -958,67 +958,39 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="aOd-ho-fOL">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9Tx-my-Wzn">
+                                <rect key="frame" x="9" y="64" width="357" height="29"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="aWq-6C-14a">
-                                    <size key="itemSize" width="109" height="122"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SearchCell" id="O9Z-yl-xVU" customClass="SearchCell" customModule="Flaintartist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="109" height="122"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="109" height="122"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FC4-WM-Wqn">
-                                                    <rect key="frame" x="0.0" y="98" width="106" height="24"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="artist" translatesAutoresizingMaskIntoConstraints="NO" id="jnF-s6-Xe0">
-                                                    <rect key="frame" x="12" y="15.5" width="85" height="85"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="85" id="3BJ-va-0hm"/>
-                                                        <constraint firstAttribute="width" constant="85" id="gLJ-PN-xvM"/>
-                                                    </constraints>
-                                                </imageView>
-                                            </subviews>
-                                        </view>
-                                        <constraints>
-                                            <constraint firstItem="FC4-WM-Wqn" firstAttribute="top" secondItem="O9Z-yl-xVU" secondAttribute="topMargin" constant="90" id="4MK-O0-TVV"/>
-                                            <constraint firstItem="FC4-WM-Wqn" firstAttribute="leading" secondItem="O9Z-yl-xVU" secondAttribute="leading" id="5ZD-l6-nGA"/>
-                                            <constraint firstAttribute="trailingMargin" secondItem="FC4-WM-Wqn" secondAttribute="trailing" constant="-5" id="5bt-cC-evQ"/>
-                                            <constraint firstAttribute="bottom" secondItem="FC4-WM-Wqn" secondAttribute="bottom" id="GnQ-V8-6ag"/>
-                                            <constraint firstItem="jnF-s6-Xe0" firstAttribute="centerY" secondItem="O9Z-yl-xVU" secondAttribute="centerY" constant="-3" id="iQP-7w-bPX"/>
-                                            <constraint firstItem="jnF-s6-Xe0" firstAttribute="centerX" secondItem="O9Z-yl-xVU" secondAttribute="centerX" id="lwx-uj-2DC"/>
-                                        </constraints>
-                                        <connections>
-                                            <outlet property="artistImageView" destination="jnF-s6-Xe0" id="HoT-hB-N4w"/>
-                                            <outlet property="nameLbl" destination="FC4-WM-Wqn" id="gL4-ED-Amw"/>
-                                        </connections>
-                                    </collectionViewCell>
-                                </cells>
-                            </collectionView>
+                                <segments>
+                                    <segment title="Price"/>
+                                    <segment title="Artist"/>
+                                </segments>
+                                <color key="tintColor" red="0.19376453757286072" green="0.50850099325180054" blue="0.85232251882553101" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="segmentTapped:" destination="VpE-df-Zw4" eventType="valueChanged" id="aLn-1O-6u2"/>
+                                </connections>
+                            </segmentedControl>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e3U-Tb-vc7" customClass="SwipeView">
+                                <rect key="frame" x="0.0" y="100" width="375" height="567"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="aOd-ho-fOL" firstAttribute="top" secondItem="rjt-8X-fjm" secondAttribute="top" constant="20" id="CPv-By-4yB"/>
-                            <constraint firstItem="aOd-ho-fOL" firstAttribute="leading" secondItem="rjt-8X-fjm" secondAttribute="leading" id="Rs4-i7-MvL"/>
-                            <constraint firstItem="KcN-bG-xLQ" firstAttribute="top" secondItem="aOd-ho-fOL" secondAttribute="bottom" id="Usw-Wb-Flh"/>
-                            <constraint firstAttribute="trailing" secondItem="aOd-ho-fOL" secondAttribute="trailing" id="aHx-0L-3uP"/>
+                            <constraint firstItem="e3U-Tb-vc7" firstAttribute="leading" secondItem="rjt-8X-fjm" secondAttribute="leading" id="0zu-Zw-DLn"/>
+                            <constraint firstAttribute="trailing" secondItem="e3U-Tb-vc7" secondAttribute="trailing" id="1sc-lO-gQ9"/>
+                            <constraint firstItem="9Tx-my-Wzn" firstAttribute="top" secondItem="F4f-wV-PBv" secondAttribute="bottom" id="6js-3D-03u"/>
+                            <constraint firstItem="KcN-bG-xLQ" firstAttribute="top" secondItem="e3U-Tb-vc7" secondAttribute="bottom" id="DfZ-lj-bXe"/>
+                            <constraint firstItem="e3U-Tb-vc7" firstAttribute="top" secondItem="9Tx-my-Wzn" secondAttribute="bottom" constant="8" id="E2i-vM-1xa"/>
+                            <constraint firstItem="9Tx-my-Wzn" firstAttribute="leading" secondItem="rjt-8X-fjm" secondAttribute="leading" constant="9" id="YFb-p8-VvA"/>
+                            <constraint firstAttribute="trailing" secondItem="9Tx-my-Wzn" secondAttribute="trailing" constant="9" id="ief-6C-aaW"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Cxe-7D-Nig">
                         <nil key="title"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="collectionView" destination="aOd-ho-fOL" id="Jhd-4M-rlc"/>
+                        <outlet property="segmentedCtrl" destination="9Tx-my-Wzn" id="pgc-yp-13d"/>
+                        <outlet property="swipeView" destination="e3U-Tb-vc7" id="PJ9-QT-tDL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5d7-Ac-i4Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1367,7 +1339,23 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GiS-bU-5uc">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ICON" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BLg-Pu-ehg">
+                                        <rect key="frame" x="47" y="126" width="280" height="66"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="66" id="fMJ-b5-0iV"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="BLg-Pu-ehg" firstAttribute="leading" secondItem="GiS-bU-5uc" secondAttribute="leading" constant="47" id="Gux-EI-hU3"/>
+                                    <constraint firstItem="BLg-Pu-ehg" firstAttribute="centerX" secondItem="GiS-bU-5uc" secondAttribute="centerX" id="PXg-N6-9Pr"/>
+                                    <constraint firstItem="BLg-Pu-ehg" firstAttribute="top" secondItem="GiS-bU-5uc" secondAttribute="top" constant="126" id="YU0-YN-NAP"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1385,7 +1373,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D6V-P5-RSB" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1385" y="838"/>
+            <point key="canvasLocation" x="1384.8" y="837.93103448275872"/>
         </scene>
         <!--CaptureVC-->
         <scene sceneID="WqI-gi-G8V">
@@ -1533,11 +1521,11 @@
             </objects>
             <point key="canvasLocation" x="3596" y="838"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Capture-->
         <scene sceneID="EAj-bp-R4H">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="sCm-ed-IZG" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="test" id="O3b-kh-lUG">
+                    <tabBarItem key="tabBarItem" title="Capture" image="Capture-24" id="O3b-kh-lUG">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
                                 <color key="value" red="0.12637259070000001" green="0.12639245390000001" blue="0.1263653636" alpha="1" colorSpace="calibratedRGB"/>
@@ -2373,13 +2361,8 @@
         <scene sceneID="UC8-KS-r8U">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="XOf-k9-OTz" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Gallery" image="Profile-25" id="6c9-Ys-apV">
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="Profile Filled-25"/>
-                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                <color key="value" red="0.12637259066104889" green="0.12639245390892029" blue="0.12636536359786987" alpha="1" colorSpace="calibratedRGB"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
+                    <tabBarItem key="tabBarItem" title="Gallery" image="Profile-24" selectedImage="Profile filled-24" id="6c9-Ys-apV">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="5Hw-lW-vGr">
@@ -2400,7 +2383,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="GalleryVC" id="5DM-9a-YpZ" customClass="GalleryVC" customModule="Flaintartist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="eqi-cc-zMF">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -2702,6 +2685,7 @@
     <resources>
         <image name="Browser Window-20" width="20" height="20"/>
         <image name="Capture Filled-25" width="25" height="25"/>
+        <image name="Capture-24" width="25" height="25"/>
         <image name="Compass Filled-25" width="25" height="25"/>
         <image name="Compass-25" width="25" height="25"/>
         <image name="Contact Card-20" width="20" height="20"/>
@@ -2712,16 +2696,15 @@
         <image name="More" width="16" height="16"/>
         <image name="More Filled-25" width="20" height="20"/>
         <image name="Picture" width="100" height="100"/>
-        <image name="Profile Filled-25" width="25" height="25"/>
-        <image name="Profile-25" width="25" height="25"/>
+        <image name="Profile filled-24" width="24" height="24"/>
+        <image name="Profile-24" width="24" height="24"/>
         <image name="User" width="700" height="700"/>
         <image name="artist" width="4896" height="3264"/>
         <image name="cameraBtn-80" width="80" height="80"/>
-        <image name="test" width="70" height="70"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Tyz-WM-hJh"/>
-        <segue reference="lm1-1w-gIw"/>
+        <segue reference="bPj-2Z-qcd"/>
         <segue reference="Yc5-eC-5y8"/>
+        <segue reference="AWu-qc-Bef"/>
     </inferredMetricsTieBreakers>
 </document>
