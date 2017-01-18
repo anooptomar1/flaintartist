@@ -58,7 +58,7 @@ class SearchControllerVC: UIViewController, UICollectionViewDelegate, UICollecti
 
     }
     
-    deinit { view.removeObserver(self, forKeyPath: "hidden") }
+    //deinit { view.removeObserver(self, forKeyPath: "hidden") }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         

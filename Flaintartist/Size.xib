@@ -17,10 +17,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CaptureDetailsVC" customModule="Flaintartist" customModuleProvider="target">
             <connections>
-                <outlet property="heightLbl" destination="DgM-Lm-bUX" id="qAO-hY-Oal"/>
-                <outlet property="heightSlider" destination="Mq8-ev-PtS" id="jId-hd-b5e"/>
-                <outlet property="widthLbl" destination="txu-zL-Zky" id="3YR-bx-jg6"/>
-                <outlet property="widthSlider" destination="gk2-Dq-0CU" id="INA-2z-lcK"/>
+                <outlet property="heightLbl" destination="DgM-Lm-bUX" id="1G2-an-gAA"/>
+                <outlet property="heightSlider" destination="Mq8-ev-PtS" id="Pcz-zN-TJo"/>
+                <outlet property="widthLbl" destination="txu-zL-Zky" id="GyM-Ks-3O7"/>
+                <outlet property="widthSlider" destination="gk2-Dq-0CU" id="Ffs-Iy-9qF"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -31,9 +31,6 @@
                 <slider opaque="NO" multipleTouchEnabled="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="gk2-Dq-0CU">
                     <rect key="frame" x="30" y="124" width="315" height="31"/>
                     <color key="minimumTrackTintColor" red="0.42655369640000002" green="0.475846082" blue="0.4802647531" alpha="1" colorSpace="calibratedRGB"/>
-                    <connections>
-                        <action selector="SliderValueChanged:" destination="-1" eventType="valueChanged" id="vH8-aI-yC1"/>
-                    </connections>
                 </slider>
                 <slider opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Mq8-ev-PtS">
                     <rect key="frame" x="30" y="35" width="315" height="61"/>
@@ -41,9 +38,6 @@
                         <constraint firstAttribute="height" constant="60" id="1SL-ta-Hm0"/>
                     </constraints>
                     <color key="minimumTrackTintColor" red="0.42655369640000002" green="0.475846082" blue="0.4802647531" alpha="1" colorSpace="calibratedRGB"/>
-                    <connections>
-                        <action selector="SliderValueChanged:" destination="-1" eventType="valueChanged" id="NTF-TF-Yh1"/>
-                    </connections>
                 </slider>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Height" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DgM-Lm-bUX">
                     <rect key="frame" x="47" y="0.0" width="120" height="16"/>
@@ -76,7 +70,7 @@
                 <constraint firstItem="Mq8-ev-PtS" firstAttribute="top" secondItem="txu-zL-Zky" secondAttribute="bottom" constant="19" id="zpH-6p-gUu"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-47" y="48"/>
+            <point key="canvasLocation" x="-47.5" y="48"/>
         </view>
     </objects>
 </document>
