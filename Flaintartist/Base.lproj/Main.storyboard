@@ -958,18 +958,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9Tx-my-Wzn">
-                                <rect key="frame" x="9" y="64" width="357" height="29"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <segments>
-                                    <segment title="Price"/>
-                                    <segment title="Artist"/>
-                                </segments>
-                                <color key="tintColor" red="0.19376453757286072" green="0.50850099325180054" blue="0.85232251882553101" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <action selector="segmentTapped:" destination="VpE-df-Zw4" eventType="valueChanged" id="aLn-1O-6u2"/>
-                                </connections>
-                            </segmentedControl>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e3U-Tb-vc7" customClass="SwipeView">
                                 <rect key="frame" x="0.0" y="100" width="375" height="567"/>
                             </view>
@@ -978,18 +966,14 @@
                         <constraints>
                             <constraint firstItem="e3U-Tb-vc7" firstAttribute="leading" secondItem="rjt-8X-fjm" secondAttribute="leading" id="0zu-Zw-DLn"/>
                             <constraint firstAttribute="trailing" secondItem="e3U-Tb-vc7" secondAttribute="trailing" id="1sc-lO-gQ9"/>
-                            <constraint firstItem="9Tx-my-Wzn" firstAttribute="top" secondItem="F4f-wV-PBv" secondAttribute="bottom" id="6js-3D-03u"/>
                             <constraint firstItem="KcN-bG-xLQ" firstAttribute="top" secondItem="e3U-Tb-vc7" secondAttribute="bottom" id="DfZ-lj-bXe"/>
-                            <constraint firstItem="e3U-Tb-vc7" firstAttribute="top" secondItem="9Tx-my-Wzn" secondAttribute="bottom" constant="8" id="E2i-vM-1xa"/>
-                            <constraint firstItem="9Tx-my-Wzn" firstAttribute="leading" secondItem="rjt-8X-fjm" secondAttribute="leading" constant="9" id="YFb-p8-VvA"/>
-                            <constraint firstAttribute="trailing" secondItem="9Tx-my-Wzn" secondAttribute="trailing" constant="9" id="ief-6C-aaW"/>
+                            <constraint firstItem="e3U-Tb-vc7" firstAttribute="top" secondItem="F4f-wV-PBv" secondAttribute="bottom" constant="36" id="nux-Si-dBd"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Cxe-7D-Nig">
                         <nil key="title"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="segmentedCtrl" destination="9Tx-my-Wzn" id="pgc-yp-13d"/>
                         <outlet property="swipeView" destination="e3U-Tb-vc7" id="PJ9-QT-tDL"/>
                     </connections>
                 </viewController>
@@ -1276,14 +1260,14 @@
                         <viewControllerLayoutGuide type="bottom" id="E0r-Q3-AA4"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="O5L-aB-DRt">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oGf-jE-Rjh" customClass="IPDFCameraViewController">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MbM-rK-ota" customClass="SCNView">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                         <color key="backgroundColor" red="0.19376453760000001" green="0.50850099329999998" blue="0.85232251879999998" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                 </subviews>
@@ -2739,9 +2723,9 @@
         <image name="sign up" width="56" height="56"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="lm1-1w-gIw"/>
         <segue reference="Tyz-WM-hJh"/>
-        <segue reference="bPj-2Z-qcd"/>
-        <segue reference="DcI-70-PPp"/>
         <segue reference="sow-rA-YQm"/>
+        <segue reference="bfR-LN-edH"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -250,7 +250,7 @@ extension ProfileVC {
         })
         
         let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
-            self.share(image: image!, title: self.art.title)
+            self.share(image: image!, title: art.title)
         })
         
         let edit = UIAlertAction(title: "Edit", style: .default, handler: { (UIAlertAction) in
@@ -270,7 +270,7 @@ extension ProfileVC {
         alert.addAction(remove)
         alert.addAction(cancel)
         self.present(alert, animated: true, completion: nil)
-    }
+       }
     }
     
     
@@ -375,7 +375,7 @@ extension ProfileVC {
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alert.addAction(facebook)
-        alert.addAction(messenger)
+        //alert.addAction(messenger)
         alert.addAction(cancel)
         
         self.present(alert, animated: true, completion: nil)
