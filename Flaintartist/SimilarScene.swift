@@ -1,8 +1,8 @@
 //
-//  ArtRoomScene.swift
+//  SimilarScene.swift
 //  Flaintartist
 //
-//  Created by Kerby Jean on 1/1/17.
+//  Created by Kerby Jean on 1/18/17.
 //  Copyright © 2017 Kerby Jean. All rights reserved.
 //
 
@@ -10,11 +10,9 @@ import QuartzCore
 import SceneKit
 import ChameleonFramework
 
-class ArtRoomScene: SCNScene {
+class SimilarScene: SCNScene {
     
     var artImage = UIImage()
-    var height: CGFloat = 0
-    var width: CGFloat = 0
     var geometry = SCNBox()
     var post: Art!
     let cameraOrbit = SCNNode()
@@ -23,22 +21,14 @@ class ArtRoomScene: SCNScene {
     convenience init(create: Bool) {
         self.init()
         
-        setup(artInfo: artImage, height: height, width: width)
-        
+        setup(artInfo: artImage)
     }
     
-    func setup(artInfo: UIImage?, height: CGFloat? = nil, width: CGFloat? = nil)  {
+    
+    func setup(artInfo: UIImage?)  {
         
         self.artImage = artInfo!
-        self.height = height!
-        self.width = width!
-        
-//        let lenght: CGFloat = CGFloat(57)
-//        let width: CGFloat = artImage.size.width
-//        let height: CGFloat = artImage.size.height
-        
-        
-        self.geometry = SCNBox(width: width!, height: height!, length: 57 / 1000, chamferRadius: 0.008)
+        self.geometry = SCNBox(width: 5, height: 5, length: 1, chamferRadius: 0.008)
         self.geometry.firstMaterial?.diffuse.contents = UIColor.red
         self.geometry.firstMaterial?.specular.contents = UIColor.white
         self.geometry.firstMaterial?.emission.contents = UIColor.blue
@@ -46,14 +36,15 @@ class ArtRoomScene: SCNScene {
         let yPos = -1.5
         
         boxnode.position = SCNVector3(0, 0.4, yPos)
-        boxnode.rotation = SCNVector4(0,60,0,-56)
+        //boxnode.rotation = SCNVector4(0,60,0,-56)
         
         self.rootNode.addChildNode(boxnode)
         
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
         cameraNode.position = SCNVector3(0, 0, 4)
-
+        cameraNode.rotation = SCNVector4(50,70,4,0)
+        
         
         cameraOrbit.addChildNode(cameraNode)
         self.rootNode.addChildNode(cameraOrbit)
@@ -67,5 +58,4 @@ class ArtRoomScene: SCNScene {
         self.geometry.materials = [material, borderMat, backMat, borderMat, borderMat]
     }
 }
-
 

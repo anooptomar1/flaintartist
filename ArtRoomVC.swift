@@ -7,12 +7,13 @@
 //
 
     import UIKit
+    import SDWebImage
     import SceneKit
     import Firebase
     import ChameleonFramework
     import SwiftyUserDefaults
     
-    class ArtRoomVC: UIViewController {
+    class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
         
         @IBOutlet var scnView: SCNView!
         @IBOutlet var artInfoView: UIView!
@@ -21,13 +22,18 @@
         @IBOutlet var sizeLbl: UILabel!
         @IBOutlet var descriptionLbl: UILabel!
         @IBOutlet var artistNameBtn: UIButton!
+        @IBOutlet var stackView: UIStackView!
+        var collectionView: UICollectionView!
         
         var artRoomScene = ArtRoomScene(create: true)
         var sceneView = SCNView()
         var artImage = UIImage()
         var artInfo: [Any] = []
+        var posts = [Art]()
+        var post: Art!
         var user: Users!
         var showInfo: Bool = false
+        var showSimilar: Bool = false
         let alert = Alerts()
         
         var lastWidthRatio: Float = 0
@@ -57,8 +63,22 @@
             
             scnView.backgroundColor = UIColor.white
             
+            let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+            layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
+            layout.itemSize = CGSize(width: 70, height: 70)
+            
+            collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+            collectionView.dataSource = self
+            collectionView.delegate = self
+            let similarCell = UINib(nibName: "SimilarCell", bundle:nil)
+            collectionView.register(similarCell, forCellWithReuseIdentifier: "SimilarCell")
+            collectionView.backgroundColor = UIColor(white: 1, alpha: 1)
+            
             if let info = artInfo[1] as? Art {
-                self.artRoomScene.setup(artInfo: artInfo[0] as? UIImage)
+                let image = artInfo[0] as? UIImage
+                let height = (image?.size.height)! / 1000
+                let width = (image?.size.width)! / 1000
+                self.artRoomScene.setup(artInfo: image, height: height, width: width)
                 titleLbl.text = info.title
                 typeLbl.text = info.type
                 sizeLbl.text = "\(info.artHeight)'H x \(info.artWidth)'W - \(info.price)$ / month"
@@ -78,17 +98,22 @@
                 })
             }
 
-
             self.navigationController?.toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .bottom, barMetrics: .default)
             self.navigationController?.toolbar.setBackgroundImage(UIImage(),  forToolbarPosition: UIBarPosition.any, barMetrics: UIBarMetrics.default)
             self.navigationController?.toolbar.setShadowImage(UIImage(), forToolbarPosition: UIBarPosition.any)
             self.navigationController?.toolbar.isTranslucent = true
             
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ArtRoomVC.showArtInfo))
-            view.addGestureRecognizer(tapGesture)
+            tapGesture.numberOfTapsRequired = 2
+            stackView.addGestureRecognizer(tapGesture)
             
 //            let gesture = UIPanGestureRecognizer(target: self, action: #selector(ArtRoomVC.panDetected(sender:)))
 //            scnView.addGestureRecognizer(gesture)
+            
+
+            
+//            let similarCell = UINib(nibName: "SimilarCell", bundle:nil)
+//            collectionView.register(similarCell, forCellWithReuseIdentifier: "SimilarCell")
         }
         
 
@@ -96,13 +121,25 @@
         override func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(animated)
             
+            FIRDatabase.database().reference().child("arts").queryOrdered(byChild: "type").queryEqual(toValue : typeLbl.text).queryLimited(toFirst: 3).observe(.value) { (snapshot: FIRDataSnapshot) in
+                self.posts = []
+                if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
+                    for snap in snapshot {
+                        if let postDict = snap.value as? Dictionary<String, AnyObject> {
+                            let key = snap.key
+                            let post = Art(key: key, artData: postDict)
+                            self.posts.insert(post, at: 0)
+                        }
+                    }
+                }
+                self.collectionView.reloadData()
+            }
+
             self.navigationController?.setToolbarHidden(false, animated: false)
             self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
             self.navigationController?.navigationBar.shadowImage = UIImage()
             self.navigationController?.navigationBar.isTranslucent = true
             self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
-            //self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style: .plain, target: nil, action: nil)
-            
             UIView.animate(withDuration: 1.5) {
                 self.navigationController?.navigationBar.alpha = 0
                 self.navigationController?.toolbar.tintColor = UIColor(white: 1, alpha: 0)
@@ -128,9 +165,27 @@
 //        }
         
         
-        @IBAction func settingBtnTapped(_ sender: Any) {
+        
+        
+    @IBAction func similarBtnTapped(_ sender: Any) {
+        
+        if showSimilar {
+            showSimilar = false
+        } else {
+            showSimilar = true
+            UIView.animate(withDuration: 0.5, animations: {
+            self.stackView.insertArrangedSubview(self.collectionView, at: 1)
+            
+            })
+        }
+    }
+        
+        
+        
+        @IBAction func moreBtnTapped(_ sender: Any) {
             self.showAlert()
         }
+
         
         
         @IBAction func artistBtnTapped(_ sender: Any) {
@@ -294,3 +349,61 @@
             }
         }
     }
+
+
+extension ArtRoomVC {
+    
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return posts.count
+    }
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let post = posts[indexPath.row]
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SimilarCell", for: indexPath) as? SimilarCell {
+            DispatchQueue.main.async {
+            }
+            let myBlock: SDWebImageCompletionBlock! = {(image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
+                //cell.similarScene.setup(artInfo: image)
+            }
+            
+            cell.artImageView.sd_setImage(with: URL(string: "\(post.imgUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
+            return cell
+        } else {
+            return SimilarCell()
+        }
+    }
+    
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        if let cell = collectionView.cellForItem(at: indexPath) as? SimilarCell {
+        let art = posts[indexPath.row]
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.5, animations: {
+                self.titleLbl.text = art.title
+                self.artistNameBtn.setTitle(self.user.name, for: .normal)
+                self.typeLbl.text = art.type
+                self.sizeLbl.text =  "\(art.artHeight)'H x \(art.artWidth)'W - \(art.price)$ / month"
+                self.descriptionLbl.text = art.description       
+                let material = SCNMaterial()
+                let lenght: CGFloat = CGFloat(57)
+                let image = cell.artImageView.image
+                material.diffuse.contents = image
+                self.artRoomScene.geometry.firstMaterial =  material
+                self.artRoomScene.geometry.height = (image?.size.height)! / 1000
+                self.artRoomScene.geometry.width = (image?.size.width)! / 1000
+              })
+           }
+        }
+    }
+}

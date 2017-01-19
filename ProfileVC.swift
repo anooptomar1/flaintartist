@@ -15,7 +15,7 @@ import ChameleonFramework
 import SwiftyUserDefaults
 
 
-class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource{
+class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource, SDWebImagePrefetcherDelegate {
     
     @IBOutlet var titleLbl: UILabel!
     @IBOutlet var collectionView: UICollectionView!
@@ -30,6 +30,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     
     let editNotif = NSNotification.Name("edit")
     let cancelNotif = NSNotification.Name("cancel")
+    let kPrefetchRowCount = 10
     
     var sizeView = SizeView()
     var typesView = UIView()
@@ -60,6 +61,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
                     }
                 }
             }
+            
             self.collectionView.reloadData()
         }
         
@@ -101,38 +103,30 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     
+    override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return arts.count
     }
-    
+
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        print("ONE")
         let art = arts[indexPath.row]
-        print("TWO")
-
-        print("TRHEE")
-
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileArtCell", for: indexPath) as? ProfileArtCell {
-            print("FOUR")
         let myBlock: SDWebImageCompletionBlock! = {(image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
-            cell.artRoomScene.setup(artInfo: image)
-            print("FIVE")
+            cell.artRoomScene.setup(artInfo: image, height: image!.size.height / 700, width: image!.size.width / 700)
         }
-            print("SIX")
         cell.artImageView.sd_setImage(with: URL(string: "\(art.imgUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
         DispatchQueue.main.async {
-            print("SEVEN")
         cell.titleLbl.text = art.title
         cell.typeLbl.text = art.type
         cell.sizeLbl.text = "\(art.artHeight)'H x \(art.artWidth)'W - \(art.price)$ / month"
         cell.descLbl.text = art.description
         self.tapGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.showAlert(sender:)))
-            print("HEIGHT")
         cell.addGestureRecognizer(self.tapGesture)
-            print("NINE")
-
     }
 
         return cell
@@ -148,20 +142,71 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        collectionView.deselectItem(at: indexPath, animated: true)
-//        collectionView.allowsMultipleSelection = false
-//        if let cell = collectionView.cellForItem(at: indexPath) as? ProfileArtCell {
-//        
-//            if let artImage = cell.artImageView.image {
-//                let art = arts[indexPath.row]
-//                
-////                let artInfo = [artImage, art] as [Any]
-////                performSegue(withIdentifier: "ArtRoomVC", sender: artInfo)
-//                self.showAlert()
+//    func prefetchImages(for tableView: UITableView) {
+//        // determine the minimum and maximum visible rows
+//        var indexPathsForVisibleRows = collectionView.indexPathsForVisibleItems
+//        var minimumVisibleRow: Int = (indexPathsForVisibleRows[0]).row
+//        var maximumIndexPath: Int = (indexPathsForVisibleRows[0]).row
+//        for indexPath: IndexPath in indexPathsForVisibleRows {
+//            if indexPath.row < minimumVisibleRow {
+//                minimumVisibleRow = indexPath.row
+//            }
+//            if indexPath.row > maximumIndexPath {
+//                maximumIndexPath = indexPath.row
 //            }
 //        }
 //    }
+//
+//    
+//    
+//    func collectionView(_ collectionView: UICollectionView, priorIndexPathCount count: Int, from indexPath: IndexPath) -> [Any] {
+//        var indexPaths = [Any]()
+//        var row: Int = indexPath.row
+//        var section: Int = indexPath.section
+//        for _ in 0..<count {
+//            if row == 0 {
+//                if section == 0 {
+//                    return indexPaths
+//                }
+//                else {
+//                    section -= 1
+//                    row = collectionView.numberOfItems(inSection: section) - 1
+//                }
+//            }
+//            else {
+//                row -= 1
+//            }
+//            indexPaths.append(IndexPath(row: row, section: section))
+//        }
+//        return indexPaths
+//    }
+//    
+//    
+//    
+//    
+//    
+//    func collectionView(_ collectionView: UICollectionView, nextIndexPathCount count: Int, from indexPath: IndexPath) -> [Any] {
+//        var indexPaths = [Any]()
+//        var row: Int = indexPath.row
+//        var section: Int = indexPath.section
+//        var rowCountForSection: Int = collectionView.numberOfItems(inSection: section)
+//        for _ in 0..<count {
+//            row += 1
+//            if row == rowCountForSection {
+//                row = 0
+//                section += 1
+//                if section == collectionView.numberOfSections{
+//                    return indexPaths
+//                }
+//                rowCountForSection = collectionView.numberOfItems(inSection: section)
+//            }
+//            indexPaths.append(IndexPath(row: row, section: section))
+//        }
+//        return indexPaths
+//    }
+//
+//    
+    
     
     func tapProfilePicture(_ gesture: UITapGestureRecognizer) {
         let alert = Alerts()

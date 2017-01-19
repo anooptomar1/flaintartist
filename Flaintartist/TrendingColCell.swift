@@ -11,13 +11,11 @@ import FirebaseStorage
 
 class TrendingColCell: UICollectionViewCell {
     
-    @IBOutlet weak var artImgView: FXImageView!
+    @IBOutlet weak var artImgView: UIImageView!
     
     var post: Art!
     
     func configureCell(_ post: Art, img: UIImage? = nil) {
-        artImgView.shadowOffset = CGSize(width: 0.0, height: 5.0)
-        artImgView.shadowBlur = 5.0
         self.post = post
         if img != nil {
             self.artImgView.image = img

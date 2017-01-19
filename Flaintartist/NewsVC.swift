@@ -59,19 +59,19 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
         
         
         // Search
-        let searchVC = storyboard!.instantiateViewController(withIdentifier: "SearchControllerNav") as! UINavigationController
-        let vc = searchVC.topViewController as! SearchControllerVC
-        self.searchController = UISearchController(searchResultsController: vc)
-        self.searchController?.searchResultsUpdater = vc
-        self.searchController?.delegate = self
-        self.searchController?.searchBar.delegate = self
-        self.searchController?.searchBar.sizeToFit()
-        self.searchController?.searchBar.placeholder = "Explore"
-        self.searchController?.hidesNavigationBarDuringPresentation = false
-        self.searchController?.dimsBackgroundDuringPresentation = true
-        self.searchController?.searchBar.searchBarStyle = .minimal
-        self.navigationItem.titleView = searchController?.searchBar
-        self.definesPresentationContext = true
+//        let searchVC = storyboard!.instantiateViewController(withIdentifier: "SearchControllerNav") as! UINavigationController
+//        let vc = searchVC.topViewController as! SearchControllerVC
+//        self.searchController = UISearchController(searchResultsController: vc)
+//        self.searchController?.searchResultsUpdater = vc
+//        self.searchController?.delegate = self
+//        self.searchController?.searchBar.delegate = self
+//        self.searchController?.searchBar.sizeToFit()
+//        self.searchController?.searchBar.placeholder = "Explore"
+//        self.searchController?.hidesNavigationBarDuringPresentation = false
+//        self.searchController?.dimsBackgroundDuringPresentation = true
+//        self.searchController?.searchBar.searchBarStyle = .minimal
+//        self.navigationItem.titleView = searchController?.searchBar
+//        self.definesPresentationContext = true
 
     }
     
@@ -204,11 +204,12 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
         }
         
         if segue.identifier == "GalleryVC" {
-            let navVC = segue.destination as! UINavigationController
-            let vc = navVC.topViewController as! GalleryVC
-            vc.hidesBottomBarWhenPushed = true
+            let galleryVC = segue.destination as! GalleryVC
+            galleryVC.hidesBottomBarWhenPushed = true
+            //let vc = navVC.topViewController as! GalleryVC
+            //vc.hidesBottomBarWhenPushed = true
            if let user = sender as? Users {
-                vc.user = user
+                galleryVC.user = user
             }
         }
     }
