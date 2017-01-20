@@ -43,8 +43,10 @@ class ProfileArtCell: UICollectionViewCell {
         scnView.autoenablesDefaultLighting = true
         scnView.isJitteringEnabled = true
     
+        if swipeView != nil {
         swipeView.isHidden = true
         swipeView.isScrollEnabled = false
+        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(ProfileArtCell.swipe), name: editNotif, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ProfileArtCell.hide), name: cancelNotif, object: nil)

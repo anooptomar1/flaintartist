@@ -97,8 +97,8 @@ import ChameleonFramework
         self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
         self.navigationController?.navigationBar.isTranslucent = false
     }
-            
-            
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         self.artworkCountLbl.text = "\(arts.count)"
          return arts.count
