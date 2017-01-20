@@ -18,8 +18,6 @@ import ChameleonFramework
     @IBOutlet var profileImageView: UIImageView!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet var artworkCountLbl: UILabel!
-    @IBOutlet var websiteTextView: UITextView!
-    @IBOutlet weak var gradientView: UIView!
     @IBOutlet var collectionView: UICollectionView!
             
             
@@ -31,15 +29,13 @@ import ChameleonFramework
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("USER: \(user)")
-        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.emptyDataSetSource = self
         collectionView.emptyDataSetDelegate = self
                 
         loadUserInfo()
-        websiteTextView.delegate = self
+        //websiteTextView.delegate = self
                 
         DataService.ds.REF_USERS.child((user.userId)).child("arts").observe(.value) { (snapshot: FIRDataSnapshot) in
            self.arts = []
@@ -54,9 +50,7 @@ import ChameleonFramework
           }
            self.collectionView.reloadData()
        }
-                
-      self.gradientView.backgroundColor = UIColor(gradientStyle: UIGradientStyle.topToBottom, withFrame: CGRect(x:0 , y: 100, width: self.view.frame.width, height: 172) , andColors: [UIColor.white, UIColor.white])
-      collectionView.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: CGRect(x: 0, y: 0, width: self.collectionView.frame.width, height:  475) , andColors: [  UIColor.white, UIColor.flatWhite()])
+
                 
 
         let backBtn = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(GalleryVC.backBtnTapped))
@@ -71,15 +65,18 @@ import ChameleonFramework
         } else {
             // Fallback on earlier versions
         }
+        
+        let moreBtn = UIBarButtonItem(image: UIImage(named:"More Filled-25"), style: .plain, target: self, action: #selector(GalleryVC.moreBtnTapped(_:)))
+        navigationItem.rightBarButtonItem = moreBtn
     }
     
             
-    @IBAction func moreBtnTapped(_ sender: Any) {
+    func moreBtnTapped(_ sender: Any) {
         self.showAlert()
     }
     
     func backBtnTapped() {
-        dismiss(animated: true, completion: nil)
+        _ = navigationController?.popViewController(animated: true)
     }
 
             
@@ -115,11 +112,15 @@ import ChameleonFramework
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileArtCell", for: indexPath) as? ProfileArtCell {
                     
             let myBlock: SDWebImageCompletionBlock! = {(image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
-                print("ERROR: \(error?.localizedDescription) ")
-            }
-                    
-            cell.artImageView.sd_setImage(with: URL(string: "\(art.imgUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
-                    
+                    cell.artRoomScene.setup(artInfo: image, height: image!.size.height / 700, width: image!.size.width / 700)
+                }
+                cell.artImageView.sd_setImage(with: URL(string: "\(art.imgUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
+                
+                cell.titleLbl.text = art.title
+                cell.typeLbl.text = art.type
+                cell.sizeLbl.text = "\(art.artHeight)'H x \(art.artWidth)'W - \(art.price)$ / month"
+                cell.descLbl.text = art.description
+                
                  return cell
             } else {
             return ProfileArtCell()
@@ -130,19 +131,7 @@ import ChameleonFramework
          return 1
     }
             
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-         collectionView.deselectItem(at: indexPath, animated: true)
-            if let cell = collectionView.cellForItem(at: indexPath) as? ProfileArtCell {
-                    
-               if let artImage = cell.artImageView.image {
-                  let art = arts[indexPath.row]
-                  let artInfo = [artImage, art] as [Any]
-                  performSegue(withIdentifier: "ArtRoomVC", sender: artInfo)
-                }
-            }
-        }
-
-            
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
             profileImageView.image = image
@@ -159,7 +148,7 @@ import ChameleonFramework
                         
                 if let user = self.user {
                     self.nameLbl.text = user.name
-                    self.websiteTextView.text = user.website
+                    //self.websiteTextView.text = user.website
                     self.profileImageView.sd_setImage(with: URL(string: "\(self.user.profilePicUrl)") , placeholderImage: nil , options: .continueInBackground)
                 }
             }
@@ -178,6 +167,16 @@ import ChameleonFramework
     
     func showAlert() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let website = UIAlertAction(title: "Visit website", style: .default) { (UIAlertAction) in
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "WebVC") as! WebVC
+          let url = URL(string: "\(self.user.website)")
+                print("FIRSTURL: \(url)")
+                vc.url = url
+                self.present(vc, animated: true, completion: nil)
+        }
+        
+        
         let report = UIAlertAction(title: "Report", style: .destructive) { (UIAlertAction) in
             
             let reportsTitle = ["I believe this account violate Flaint's community guideline.", "Inapropriate language.", "Others."]
@@ -185,6 +184,9 @@ import ChameleonFramework
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
+        if user.website != nil {
+        alert.addAction(website)
+        }
         alert.addAction(report)
         alert.addAction(cancel)
         present(alert, animated: true, completion: nil)

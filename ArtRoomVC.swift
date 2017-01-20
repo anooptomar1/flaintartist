@@ -318,11 +318,10 @@
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             
             if segue.identifier == "GalleryVC" {
-                let navVC = segue.destination as! UINavigationController
-                let vc = navVC.topViewController as! GalleryVC
-                vc.hidesBottomBarWhenPushed = true
+                let galleryVC = segue.destination as! GalleryVC
+                galleryVC.hidesBottomBarWhenPushed = true
                 if let user = sender as? Users {
-                    vc.user = user
+                    galleryVC.user = user
                 }
             }
             
