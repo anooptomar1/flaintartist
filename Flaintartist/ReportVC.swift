@@ -11,7 +11,9 @@ import SwiftyUserDefaults
 
 class ReportVC: UITableViewController {
 
+    
     var artInfo: [Any] = []
+    var art: Art!
     var headerTitle = ""
     var user: Users!
     var reportsTitle = ["Off Topic Content.", "Sexual Content or Nudity.", "Poor quality artwork."]

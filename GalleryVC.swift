@@ -25,6 +25,8 @@ import ChameleonFramework
     var arts = [Art]()
     var art: Art!
     var artImg = UIImage()
+    
+    var tapGesture = UITapGestureRecognizer()
             
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,7 +122,8 @@ import ChameleonFramework
                 cell.typeLbl.text = art.type
                 cell.sizeLbl.text = "\(art.artHeight)'H x \(art.artWidth)'W - \(art.price)$ / month"
                 cell.descLbl.text = art.description
-                
+                self.tapGesture = UITapGestureRecognizer(target: self, action: #selector(GalleryVC.artAlert(sender:)))
+                cell.addGestureRecognizer(self.tapGesture)
                  return cell
             } else {
             return ProfileArtCell()
@@ -155,13 +158,87 @@ import ChameleonFramework
         })
     }
             
-            
+    
     @available(iOS 10.0, *)
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         let vc = storyboard?.instantiateViewController(withIdentifier: "WebVC") as! WebVC
         vc.url = URL
         present(vc, animated: true, completion: nil)
         return false
+    }
+    
+    func artAlert(sender : UITapGestureRecognizer) {
+        let tapLocation = sender.location(in: self.collectionView)
+        let indexPath : IndexPath = self.collectionView.indexPathForItem(at: tapLocation)!
+        if let cell = self.collectionView.cellForItem(at: indexPath) as? ProfileArtCell {
+            let art = self.arts[indexPath.row]
+            let image = cell.artImageView.image
+            
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            
+            let wallView = UIAlertAction(title: "Wallview", style: .default, handler: { (UIAlertAction) in
+                self.performSegue(withIdentifier: "WallviewVC", sender: image)
+            })
+            
+            let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
+                self.share(image: image!, title: art.title)
+            })
+            
+            let edit = UIAlertAction(title: "Edit", style: .default, handler: { (UIAlertAction) in
+                //self.edit()
+            })
+            
+            let report = UIAlertAction(title: "Report", style: .destructive, handler: { (UIAlertAction) in
+                let navVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportNav") as! UINavigationController
+                let reportVC = navVC.topViewController as! ReportVC
+                reportVC.headerTitle = "Please choose the reason for reporting the piece."
+                let artInfo = [art]
+                reportVC.artInfo = artInfo
+                self.present(navVC, animated: true, completion: nil)
+            })
+            
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            alert.addAction(wallView)
+            alert.addAction(share)
+            //alert.addAction(report)
+            alert.addAction(cancel)
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func share(image: UIImage, title: String) {
+        let share = Share()
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let facebook = UIAlertAction(title: "Facebook", style: .default, handler: { (UIAlertAction) in
+            share.facebookShare(self, image: image, text: title)
+        })
+        
+        let messenger = UIAlertAction(title: "Mesenger", style: .default, handler: { (UIAlertAction) in
+            //share.messengerShare(self, image: self.artInfo[0] as! UIImage)
+        })
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(facebook)
+        //alert.addAction(messenger)
+        alert.addAction(cancel)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func remove(artID: String, artTitle: String) {
+        let alert = UIAlertController(title: "", message: "Are you sure you want to remove \(artTitle). After removing it you can't get it back.", preferredStyle: .actionSheet)
+        let delete = UIAlertAction(title: "Remove", style: .destructive) { (UIAlertAction) in
+            DataService.ds.REF_USERS.child(self.user.userId).child("arts").child(artID).removeValue(completionBlock: { (error, ref) in
+                DataService.ds.REF_ARTS.child(ref.key).removeValue()
+                self.collectionView.reloadData()
+            })
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        present(alert, animated: true, completion: nil)
     }
     
     
@@ -177,11 +254,17 @@ import ChameleonFramework
         }
         
         
-        let report = UIAlertAction(title: "Report", style: .destructive) { (UIAlertAction) in
+        let report = UIAlertAction(title: "Report \(user.name)", style: .destructive) { (UIAlertAction) in
             
-            let reportsTitle = ["I believe this account violate Flaint's community guideline.", "Inapropriate language.", "Others."]
-            self.performSegue(withIdentifier: "ReportVC", sender: reportsTitle)
+            let navVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportNav") as! UINavigationController
+            let reportVC = navVC.topViewController as! ReportVC
+            reportVC.headerTitle = "Please choose a reason for reporting \(self.user.name)"
+            reportVC.reportsTitle =  ["I believe this account violate Flaint's community guideline.", "Inapropriate language.", "Others."]
+            reportVC.user = self.user
+            self.present(navVC, animated: true, completion: nil)
         }
+    
+    
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         if user.website != nil {

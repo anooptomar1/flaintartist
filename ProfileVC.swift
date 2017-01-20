@@ -267,13 +267,11 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     
         
     //MARK: DZNEmptyDataSet
-    
     func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
         let str = "You have no artwork yet. Click on the capture button to start sharing"
         let attrs = [NSFontAttributeName: UIFont.systemFont(ofSize: 14)]
         return NSAttributedString(string: str, attributes: attrs)
     }
-    
 }
 
 
@@ -319,6 +317,27 @@ extension ProfileVC {
     }
     
     
+    func share(image: UIImage, title: String) {
+        let share = Share()
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let facebook = UIAlertAction(title: "Facebook", style: .default, handler: { (UIAlertAction) in
+            share.facebookShare(self, image: image, text: title)
+        })
+        
+        let messenger = UIAlertAction(title: "Mesenger", style: .default, handler: { (UIAlertAction) in
+            //share.messengerShare(self, image: self.artInfo[0] as! UIImage)
+        })
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(facebook)
+        //alert.addAction(messenger)
+        alert.addAction(cancel)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    
     func remove(artID: String, artTitle: String) {
         let alert = UIAlertController(title: "", message: "Are you sure you want to remove \(artTitle). After removing it you can't get it back.", preferredStyle: .actionSheet)
         let delete = UIAlertAction(title: "Remove", style: .destructive) { (UIAlertAction) in
@@ -343,7 +362,6 @@ extension ProfileVC {
             let doneBtn = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(ProfileVC.doneBtnTapped))
         self.navigationItem.leftBarButtonItem = cancelBtn
         self.navigationItem.rightBarButtonItem = doneBtn
-        
         }
         setTabBarVisible(visible: !tabBarIsVisible(), animated: true)
         view.gestureRecognizers = nil
@@ -360,8 +378,8 @@ extension ProfileVC {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let barArray: [UIBarButtonItem] = [flexibleSpace, segmentedControlButtonItem, flexibleSpace]
         self.toolbarItems = barArray
-
      }
+    
     
     func updateLbl() {
         titleLbl.text = "Work"
@@ -377,6 +395,7 @@ extension ProfileVC {
             swipeView.scrollToItem(at: 2, duration: 0.5)
         }
     }
+    
     
     func doneBtnTapped() {
         NotificationCenter.default.removeObserver(self, name: editNotif, object: self)
@@ -403,27 +422,6 @@ extension ProfileVC {
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.showAlert))
          self.navigationController?.setToolbarHidden(true, animated: true)
         view.addGestureRecognizer(tapGesture)
-    }
-
-
-    func share(image: UIImage, title: String) {
-        let share = Share()
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let facebook = UIAlertAction(title: "Facebook", style: .default, handler: { (UIAlertAction) in
-            share.facebookShare(self, image: image, text: title)
-        })
-        
-        let messenger = UIAlertAction(title: "Mesenger", style: .default, handler: { (UIAlertAction) in
-            //share.messengerShare(self, image: self.artInfo[0] as! UIImage)
-        })
-        
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        alert.addAction(facebook)
-        //alert.addAction(messenger)
-        alert.addAction(cancel)
-        
-        self.present(alert, animated: true, completion: nil)
     }
 
     
