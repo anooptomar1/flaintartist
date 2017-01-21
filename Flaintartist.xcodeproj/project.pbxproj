@@ -43,6 +43,8 @@
 		6D1C784B1E1A041600E2041C /* SendToCaptureVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C784A1E1A041600E2041C /* SendToCaptureVC.swift */; };
 		6D1C784D1E1A047800E2041C /* CaptureVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C784C1E1A047800E2041C /* CaptureVC.swift */; };
 		6D1C784F1E1A04BC00E2041C /* CaptureDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C784E1E1A04BC00E2041C /* CaptureDetailsVC.swift */; };
+		6D28D5A01E327C9C000E30A5 /* UploadPhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D28D59F1E327C9C000E30A5 /* UploadPhotoVC.swift */; };
+		6D28D5A21E327DB6000E30A5 /* UploadPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D28D5A11E327DB6000E30A5 /* UploadPhotoCell.swift */; };
 		6D33DEB41E1F2C7300CC4618 /* ReportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D33DEB31E1F2C7300CC4618 /* ReportVC.swift */; };
 		6D4461C21E2DC21F003EE5BA /* SizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4461C11E2DC21F003EE5BA /* SizeView.swift */; };
 		6D4461C61E3017E4003EE5BA /* Similar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D4461C51E3017E4003EE5BA /* Similar.xib */; };
@@ -161,6 +163,8 @@
 		6D1C784A1E1A041600E2041C /* SendToCaptureVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SendToCaptureVC.swift; path = Flaintartist/SendToCaptureVC.swift; sourceTree = SOURCE_ROOT; };
 		6D1C784C1E1A047800E2041C /* CaptureVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CaptureVC.swift; path = Flaintartist/CaptureVC.swift; sourceTree = SOURCE_ROOT; };
 		6D1C784E1E1A04BC00E2041C /* CaptureDetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CaptureDetailsVC.swift; path = Flaintartist/CaptureDetailsVC.swift; sourceTree = SOURCE_ROOT; };
+		6D28D59F1E327C9C000E30A5 /* UploadPhotoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UploadPhotoVC.swift; path = Flaintartist/UploadPhotoVC.swift; sourceTree = SOURCE_ROOT; };
+		6D28D5A11E327DB6000E30A5 /* UploadPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UploadPhotoCell.swift; path = Flaintartist/UploadPhotoCell.swift; sourceTree = SOURCE_ROOT; };
 		6D33DEB31E1F2C7300CC4618 /* ReportVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportVC.swift; path = Flaintartist/ReportVC.swift; sourceTree = SOURCE_ROOT; };
 		6D4461C11E2DC21F003EE5BA /* SizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeView.swift; sourceTree = "<group>"; };
 		6D4461C51E3017E4003EE5BA /* Similar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Similar.xib; sourceTree = "<group>"; };
@@ -281,6 +285,7 @@
 				6D4E473D1E242BBE00970CE3 /* UserProfileCell.swift */,
 				6D8F01431E269E9800651664 /* ProfileArtCell.swift */,
 				6D8F01451E26A5D100651664 /* ProfileArtTabCell.swift */,
+				6D28D5A11E327DB6000E30A5 /* UploadPhotoCell.swift */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -307,6 +312,7 @@
 				6D1C784A1E1A041600E2041C /* SendToCaptureVC.swift */,
 				6D1C784C1E1A047800E2041C /* CaptureVC.swift */,
 				6D1C784E1E1A04BC00E2041C /* CaptureDetailsVC.swift */,
+				6D28D59F1E327C9C000E30A5 /* UploadPhotoVC.swift */,
 			);
 			name = Capture;
 			sourceTree = "<group>";
@@ -985,6 +991,7 @@
 				6DC81C1F1E2B21510021BBCF /* SearchNav.swift in Sources */,
 				6DE2137F1E2181490030A7BC /* NewArtistColCell.swift in Sources */,
 				6D1C78341E19E8B500E2041C /* HeaderView.swift in Sources */,
+				6D28D5A21E327DB6000E30A5 /* UploadPhotoCell.swift in Sources */,
 				6D46303F1E318DC800EEB3D8 /* RoundImage.swift in Sources */,
 				6DC81C1D1E2B04EF0021BBCF /* Protocol.swift in Sources */,
 				6DA5B1B51E2865BB005A11F5 /* RequestPhotoVC.swift in Sources */,
@@ -1016,6 +1023,7 @@
 				6DF28DCD1E199D4F00C8A3B0 /* User.swift in Sources */,
 				6D1C780B1E19E49C00E2041C /* NewsCell.swift in Sources */,
 				6D1C78251E19E70F00E2041C /* EditAccountVC.swift in Sources */,
+				6D28D5A01E327C9C000E30A5 /* UploadPhotoVC.swift in Sources */,
 				6DF28DC81E199C6400C8A3B0 /* DataService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
