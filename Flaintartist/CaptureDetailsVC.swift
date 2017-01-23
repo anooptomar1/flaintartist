@@ -92,10 +92,12 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         
         segmentedCtrl.selectedSegmentIndex = 0
         
-        NotificationCenter.default.addObserver(self, selector: #selector(CaptureDetailsVC.valueChanged(sender:)), name: nil, object: nil)
-        doneBtn.isEnabled = false
+        //NotificationCenter.default.addObserver(self, selector: #selector(CaptureDetailsVC.valueChanged(sender:)), name: nil, object: nil)
+        //doneBtn.isEnabled = false
+        
         NotificationCenter.default.addObserver(self, selector: #selector(CaptureDetailsVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(CaptureDetailsVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
         
         
         //        let pan = UIPanGestureRecognizer(target: self, action: #selector(NextStepCaptureVC.pan(gesture:)))
@@ -231,19 +233,19 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     
     // MARK: Functions
     
-    func valueChanged(sender: NSNotification) {
-        if priceTextField != nil || titleTextField != nil || descTextView != nil {
-            if let title = titleTextField.text{
-                let price = priceTextField.text!
-                if heightSlider.value == 0 || widthSlider.value == 0 || price.isEmpty || title.isEmpty || descTextView.text == "Description..." {
-                    self.doneBtn.isEnabled = false
-                } else if heightSlider.value > 0 && widthSlider.value > 0 && price.isEmpty && !title.isEmpty || descTextView.text != "Description..." || descTextView.text != ""{
-                    self.doneBtn.isEnabled = true
-                    descText = descTextView.text
-                }
-            }
-        }
-    }
+//    func valueChanged(sender: NSNotification) {
+//        if priceTextField != nil || titleTextField != nil || descTextView != nil {
+//            if let title = titleTextField.text{
+//                let price = priceTextField.text!
+//                if heightSlider.value == 0 || widthSlider.value == 0 || price.isEmpty || title.isEmpty || descTextView.text == "Description..." {
+//                    self.doneBtn.isEnabled = false
+//                } else if heightSlider.value > 0 && widthSlider.value > 0 && price.isEmpty && !title.isEmpty || descTextView.text != "Description..." || descTextView.text != ""{
+//                    self.doneBtn.isEnabled = true
+//                    descText = descTextView.text
+//                }
+//            }
+//        }
+//    }
     
     
     func numberOfItems(in swipeView: SwipeView!) -> Int {
@@ -381,10 +383,11 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     // MARK: Keyboard
     func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0{
+            if self.view.frame.origin.y == 0 {
                 self.view.frame.origin.y -= keyboardSize.height
             }
         }
+        
     }
     
     func keyboardWillHide(notification: NSNotification) {

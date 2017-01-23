@@ -34,7 +34,7 @@ class DetailsScene: SCNScene {
         let width: CGFloat = artImage!.size.width
         let height: CGFloat = artImage!.size.height
         
-        self.geometry = SCNBox(width: width / 1000 , height: height / 1000, length: lenght / 1000, chamferRadius: 0.008)
+        self.geometry = SCNBox(width: width / 400 , height: height / 400, length: lenght / 400, chamferRadius: 0.008)
         self.geometry.firstMaterial?.diffuse.contents = UIColor.red
         self.geometry.firstMaterial?.specular.contents = UIColor.white
         self.geometry.firstMaterial?.emission.contents = UIColor.blue

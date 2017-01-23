@@ -17,6 +17,7 @@ target 'Flaintartist' do
   pod 'SwiftyUserDefaults'
   pod 'AFNetworking',  '~> 1.3.3'
   pod 'DZNEmptyDataSet'
+  pod 'TOCropViewController'
 
   target 'FlaintartistTests' do
     inherit! :search_paths

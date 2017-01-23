@@ -54,15 +54,20 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>TOCropViewController-TOCropViewControllerBundle.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>TOCropViewController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>03E6E56F8533C2E42C696D7CCAC42910</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>04F44F34E776C9CA8CD59EA572925E08</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -72,32 +77,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>223021AB16CF28FF5A5227E0DCB89C28</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>23BA9083ED0D2392A167A8AFA04427FA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>615A08019F8748C3F4067F438F978753</key>
+		<key>43841AF41E9BC1F56455B1D2A650DB13</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>83FEED508A54E284973109E91E9527C9</key>
+		<key>553BCF7D450AB1825D18EE10DC6C63B5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5ECD77EF7C544BE371586B1623DBCC54</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>8AA58E28913464E7B52601CD8DF6DD1D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>8F30576083A0C58EBE1B05110373E5A7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -112,12 +112,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B615B1F5B19A9BFAE69B4904F310D945</key>
+		<key>C656B0BC8634D872FBC8C6A7F7B7C23A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>EBB70B39B24BFA8A41C2439A78FAC47B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FD847F521E36AECB6FD564E3726DA294</key>
 		<dict>
 			<key>primary</key>
 			<true/>

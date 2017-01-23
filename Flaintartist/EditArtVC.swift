@@ -86,7 +86,7 @@ class EditArtVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         
         segmentedCtrl.selectedSegmentIndex = 0
         
-        NotificationCenter.default.addObserver(self, selector: #selector(CaptureDetailsVC.valueChanged(sender:)), name: nil, object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(CaptureDetailsVC.valueChanged(sender:)), name: nil, object: nil)
         doneBtn.isEnabled = false
         NotificationCenter.default.addObserver(self, selector: #selector(CaptureDetailsVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(CaptureDetailsVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)

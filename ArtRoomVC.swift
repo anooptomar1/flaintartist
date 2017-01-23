@@ -97,6 +97,22 @@
                     }
                 })
             }
+            
+            
+            FIRDatabase.database().reference().child("arts").queryOrdered(byChild: "type").queryEqual(toValue : typeLbl.text).queryLimited(toFirst: 4).observe(.value) { (snapshot: FIRDataSnapshot) in
+                self.posts = []
+                if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
+                    for snap in snapshot {
+                        if let postDict = snap.value as? Dictionary<String, AnyObject> {
+                            let key = snap.key
+                            let post = Art(key: key, artData: postDict)
+                            self.posts.insert(post, at: 0)
+                        }
+                    }
+                }
+                self.collectionView.reloadData()
+            }
+
 
             self.navigationController?.toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .bottom, barMetrics: .default)
             self.navigationController?.toolbar.setBackgroundImage(UIImage(),  forToolbarPosition: UIBarPosition.any, barMetrics: UIBarMetrics.default)
@@ -120,21 +136,6 @@
         
         override func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(animated)
-            
-            FIRDatabase.database().reference().child("arts").queryOrdered(byChild: "type").queryEqual(toValue : typeLbl.text).queryLimited(toFirst: 3).observe(.value) { (snapshot: FIRDataSnapshot) in
-                self.posts = []
-                if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
-                    for snap in snapshot {
-                        if let postDict = snap.value as? Dictionary<String, AnyObject> {
-                            let key = snap.key
-                            let post = Art(key: key, artData: postDict)
-                            self.posts.insert(post, at: 0)
-                        }
-                    }
-                }
-                self.collectionView.reloadData()
-            }
-
             self.navigationController?.setToolbarHidden(false, animated: false)
             self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
             self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -171,6 +172,14 @@
         
         if showSimilar {
             showSimilar = false
+           if let index = self.stackView.arrangedSubviews.index(of: collectionView) {
+            UIView.animate(withDuration: 1, animations: { 
+                self.stackView.removeArrangedSubview(self.collectionView)
+                self.collectionView.removeFromSuperview()
+            })
+
+            }
+
         } else {
             showSimilar = true
             UIView.animate(withDuration: 0.5, animations: {
