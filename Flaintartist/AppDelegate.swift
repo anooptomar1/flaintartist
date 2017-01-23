@@ -9,8 +9,8 @@
 import UIKit
 import Firebase
 import FirebaseDatabase
-import FirebaseInstanceID
-import FirebaseMessaging
+//import FirebaseInstanceID
+//import FirebaseMessaging
 import SwiftyUserDefaults
 import UserNotifications
 
@@ -59,9 +59,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
     
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        FIRMessaging.messaging().disconnect()
-    }
+//    func applicationDidEnterBackground(_ application: UIApplication) {
+//        FIRMessaging.messaging().disconnect()
+//    }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
@@ -69,7 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationDidBecomeActive(_ application: UIApplication) {
         //FBSDKAppEvents.activateApp()
-        connectToFCM()
+        //connectToFCM()
         
     }
     
@@ -103,20 +103,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
        }
     
     
-    func tokenRefreshNotification(notification: NSNotification) {
-        let refreshedToken = FIRInstanceID.instanceID().token()
-        print("InstanceID token: \(refreshedToken)")
-        connectToFCM()
-    }
-    
-    func connectToFCM() {
-        FIRMessaging.messaging().connect { (error) in
-            
-            if (error != nil) {
-                print("Unable to connect to FCM \(error)")
-            } else {
-                print("Connected to FCM")
-            }
-        }
-    }
+//    func tokenRefreshNotification(notification: NSNotification) {
+//        let refreshedToken = FIRInstanceID.instanceID().token()
+//        print("InstanceID token: \(refreshedToken)")
+//        connectToFCM()
+//    }
+//    
+//    func connectToFCM() {
+//        FIRMessaging.messaging().connect { (error) in
+//            
+//            if (error != nil) {
+//                print("Unable to connect to FCM \(error)")
+//            } else {
+//                print("Connected to FCM")
+//            }
+//        }
+//    }
 }

@@ -45,6 +45,9 @@ class UploadPhotoVC: UIViewController, UICollectionViewDataSource, UICollectionV
         if let fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions) as? PHFetchResult {
             if fetchResult.count > 0 {
                 for i in 0..<fetchResult.count {
+            
+                    
+                    
                     imgManager.requestImage(for: fetchResult.object(at: i), targetSize: imageSize, contentMode: .aspectFill , options: nil, resultHandler: { (image, error) in
                         self.imageArray.append(image!)
                         self.photoImageView.image = self.imageArray.first

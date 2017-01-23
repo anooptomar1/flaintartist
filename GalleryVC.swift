@@ -15,6 +15,7 @@ import ChameleonFramework
 
   class GalleryVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
             
+    @IBOutlet var titleLbl: UILabel!
     @IBOutlet var profileImageView: UIImageView!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet var artworkCountLbl: UILabel!
@@ -150,6 +151,7 @@ import ChameleonFramework
                 self.user = Users(key: key, artistData: postDict)
                         
                 if let user = self.user {
+                    self.titleLbl.text = "\( user.name)'s gallery"
                     self.nameLbl.text = user.name
                     //self.websiteTextView.text = user.website
                     self.profileImageView.sd_setImage(with: URL(string: "\(self.user.profilePicUrl)") , placeholderImage: nil , options: .continueInBackground)

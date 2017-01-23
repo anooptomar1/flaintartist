@@ -33,13 +33,26 @@ class ProfileArtCell: UICollectionViewCell {
     var artRoomScene = ArtRoomScene(create: true)
     var post: Art!
     
+    //HANDLE PAN CAMERA
+    var lastWidthRatio: Float = 0
+    var lastHeightRatio: Float = 0.2
+    var fingersNeededToPan = 1
+    var maxWidthRatioRight: Float = 0.2
+    var maxWidthRatioLeft: Float = -0.2
+    var maxHeightRatioXDown: Float = 0.02
+    var maxHeightRatioXUp: Float = 0.4
+    
+    //HANDLE PINCH CAMERA
+    var pinchAttenuation = 20.0  //1.0: very fast ---- 100.0 very slow
+    var lastFingersNumber = 0
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
         scnView = self.scnView!
         let scene = artRoomScene
         scnView.scene = scene
-        scnView.allowsCameraControl = true
+        //scnView.allowsCameraControl = true
         scnView.autoenablesDefaultLighting = true
         scnView.isJitteringEnabled = true
     
@@ -50,8 +63,81 @@ class ProfileArtCell: UICollectionViewCell {
         
         NotificationCenter.default.addObserver(self, selector: #selector(ProfileArtCell.swipe), name: editNotif, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ProfileArtCell.hide), name: cancelNotif, object: nil)
+        
+        
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(ProfileArtCell.handlePan(gestureRecognize:)))
+        scnView.addGestureRecognizer(panGesture)
+        
+        // add a pinch gesture recognizer
+        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ProfileArtCell.handlePinch(gestureRecognize:)))
+        scnView.addGestureRecognizer(pinchGesture)
 
     }
+    
+    func handlePan(gestureRecognize: UIPanGestureRecognizer) {
+        
+        let numberOfTouches = gestureRecognize.numberOfTouches
+        
+        let translation = gestureRecognize.translation(in: gestureRecognize.view!)
+        var widthRatio = Float(translation.x) / Float(gestureRecognize.view!.frame.size.width) - lastWidthRatio
+        var heightRatio = Float(translation.y) / Float(gestureRecognize.view!.frame.size.height) - lastHeightRatio
+        
+        if (numberOfTouches == fingersNeededToPan) {
+            
+            //  HEIGHT constraints
+            if (heightRatio >= maxHeightRatioXUp ) {
+                heightRatio = maxHeightRatioXUp
+            }
+            if (heightRatio <= maxHeightRatioXDown ) {
+                heightRatio = maxHeightRatioXDown
+            }
+            
+            
+            //  WIDTH constraints
+            if(widthRatio >= maxWidthRatioRight) {
+                widthRatio = maxWidthRatioRight
+            }
+            if(widthRatio <= maxWidthRatioLeft) {
+                widthRatio = maxWidthRatioLeft
+            }
+            
+            self.artRoomScene.boxnode.eulerAngles.y = Float(2 * M_PI) * widthRatio
+            //self.artRoomScene.boxnode.eulerAngles.x = Float(M_PI) * heightRatio
+            
+            print("Height: \(round(heightRatio*100))")
+            print("Width: \(round(widthRatio*100))")
+            
+            
+            //for final check on fingers number
+            lastFingersNumber = fingersNeededToPan
+        }
+        
+        lastFingersNumber = (numberOfTouches>0 ? numberOfTouches : lastFingersNumber)
+        
+        if (gestureRecognize.state == .ended && lastFingersNumber==fingersNeededToPan) {
+            lastWidthRatio = widthRatio
+            lastHeightRatio = heightRatio
+            print("Pan with \(lastFingersNumber) finger\(lastFingersNumber>1 ? "s" : "")")
+        }
+    }
+    
+    func handlePinch(gestureRecognize: UIPinchGestureRecognizer) {
+        let pinchVelocity = Double.init(gestureRecognize.velocity)
+        //print("PinchVelocity \(pinchVelocity)")
+        
+        artRoomScene.camera.orthographicScale -= (pinchVelocity/pinchAttenuation)
+        
+        if artRoomScene.camera.orthographicScale <= 0.0 {
+            artRoomScene.camera.orthographicScale = 0.5
+        }
+        
+        if artRoomScene.camera.orthographicScale >= 10.0 {
+            artRoomScene.camera.orthographicScale = 10.0
+        }
+        
+    }
+    
+
     
     func swipe() {
         infoView.isHidden = true

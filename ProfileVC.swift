@@ -76,6 +76,8 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         
         NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.updateLbl), name: editNotif, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.updateLbl), name: cancelNotif, object: nil)
+        
+        // add a tap gesture recognizer
     }
     
     
@@ -125,6 +127,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         cell.typeLbl.text = art.type
         cell.sizeLbl.text = "\(art.artHeight)'H x \(art.artWidth)'W - \(art.price)$ / month"
         cell.descLbl.text = art.description
+        
         self.tapGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.showAlert(sender:)))
         cell.addGestureRecognizer(self.tapGesture)
     }

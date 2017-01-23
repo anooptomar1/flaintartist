@@ -17,14 +17,19 @@ class ArtRoomScene: SCNScene {
     var width: CGFloat = 0
     var geometry = SCNBox()
     var post: Art!
-    let cameraOrbit = SCNNode()
     var boxnode = SCNNode()
+    var cameraOrbit = SCNNode()
+    var cameraNode = SCNNode()
+    let camera = SCNCamera()
+    
+    //HANDLE PAN CAMERA
+    var lastWidthRatio: Float = 0
+    var lastHeightRatio: Float = 0.2
     
     convenience init(create: Bool) {
         self.init()
         
         setup(artInfo: artImage, height: height, width: width)
-        
     }
     
     func setup(artInfo: UIImage?, height: CGFloat? = nil, width: CGFloat? = nil)  {
@@ -32,11 +37,6 @@ class ArtRoomScene: SCNScene {
         self.artImage = artInfo!
         self.height = height!
         self.width = width!
-        
-//        let lenght: CGFloat = CGFloat(57)
-//        let width: CGFloat = artImage.size.width
-//        let height: CGFloat = artImage.size.height
-        
         
         self.geometry = SCNBox(width: width!, height: height!, length: 57 / 1000, chamferRadius: 0.008)
         self.geometry.firstMaterial?.diffuse.contents = UIColor.red
@@ -50,13 +50,19 @@ class ArtRoomScene: SCNScene {
         
         self.rootNode.addChildNode(boxnode)
         
-        let cameraNode = SCNNode()
-        cameraNode.camera = SCNCamera()
+        cameraNode = SCNNode()
+        cameraNode.camera = camera
         cameraNode.position = SCNVector3(0, 0, 4)
 
         
         cameraOrbit.addChildNode(cameraNode)
         self.rootNode.addChildNode(cameraOrbit)
+        
+        
+        //initial camera setup
+        //self.cameraOrbit.eulerAngles.y = Float(-2 * M_PI) * lastWidthRatio
+        //self.cameraOrbit.eulerAngles.x = Float(-M_PI) * lastHeightRatio
+
         
         let material = SCNMaterial()
         material.diffuse.contents = artImage

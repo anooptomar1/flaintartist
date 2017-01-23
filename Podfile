@@ -7,17 +7,19 @@ target 'Flaintartist' do
 
   # Pods for Flaintartist
 
-  pod 'ChameleonFramework'
   pod 'Firebase'
-  pod 'FirebaseDatabase'
   pod 'Firebase/Auth'
   pod 'FirebaseStorage'
+  pod 'FirebaseDatabase'
   pod 'Firebase/Messaging'
+  pod 'ChameleonFramework'
   pod 'SDWebImage', '~>3.8'
   pod 'SwiftyUserDefaults'
-  pod 'AFNetworking',  '~> 1.3.3'
   pod 'DZNEmptyDataSet'
+  pod 'AFNetworking', '~> 1.3.3'
   pod 'TOCropViewController'
+
+
 
   target 'FlaintartistTests' do
     inherit! :search_paths

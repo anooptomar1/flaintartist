@@ -11,8 +11,8 @@ import Firebase
 import FirebaseAuth
 import FirebaseStorage
 import FirebaseDatabase
-import FirebaseInstanceID
-import FirebaseMessaging
+//import FirebaseInstanceID
+//import FirebaseMessaging
 
 
 class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, presentVCProtocol, UISearchControllerDelegate, UISearchBarDelegate {
@@ -42,7 +42,7 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        FIRMessaging.messaging().subscribe(toTopic: "/topics/news")
+       // FIRMessaging.messaging().subscribe(toTopic: "/topics/news")
         
         screenSize = UIScreen.main.bounds
         screenWidth = screenSize.width
