@@ -42,22 +42,19 @@ class UploadPhotoVC: UIViewController, UICollectionViewDataSource, UICollectionV
         let fetchOptions = PHFetchOptions()
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
-        if let fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions) as? PHFetchResult {
+        if let fetchResult = PHAsset.fetchAssets(with: .image, options: nil ) as? PHFetchResult {
             if fetchResult.count > 0 {
                 for i in 0..<fetchResult.count {
-                    
                     imgManager.requestImage(for: fetchResult.object(at: i), targetSize: imageSize, contentMode: .aspectFill , options: nil, resultHandler: { (image, error) in
                         self.imageArray.append(image!)
                         self.photoImageView.image = self.imageArray.first
+                        print("Result Size Is \(image?.size)")
                         self.collectionView.reloadData()
-                         print("Result Size Is \(image?.size)")
                     })
                 }
              }
            } else {
-                print("you got no Photos!")
- 
-
+            print("you got no Photos!")
          }
      }
     

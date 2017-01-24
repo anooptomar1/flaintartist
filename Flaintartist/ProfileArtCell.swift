@@ -43,7 +43,7 @@ class ProfileArtCell: UICollectionViewCell {
     var maxHeightRatioXUp: Float = 0.4
     
     //HANDLE PINCH CAMERA
-    var pinchAttenuation = 100.0  //1.0: very fast ---- 100.0 very slow
+    var pinchAttenuation = 100.0 
     var lastFingersNumber = 0
     
     override func awakeFromNib() {

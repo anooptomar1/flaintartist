@@ -21,6 +21,7 @@
         @IBOutlet var typeLbl: UILabel!
         @IBOutlet var sizeLbl: UILabel!
         @IBOutlet var descriptionLbl: UILabel!
+        @IBOutlet var timeLbl: UILabel!
         @IBOutlet var artistNameBtn: UIButton!
         @IBOutlet var stackView: UIStackView!
         var collectionView: UICollectionView!
@@ -57,11 +58,7 @@
         override var prefersStatusBarHidden: Bool {
             return true
         }
-        
-        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-            self.artInfoView.isHidden = false
-        }
-        
+
         
         override func viewDidLoad() {
             super.viewDidLoad()
@@ -83,6 +80,8 @@
             collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
             collectionView.dataSource = self
             collectionView.delegate = self
+            collectionView.showsVerticalScrollIndicator = false
+            collectionView.showsHorizontalScrollIndicator = false
             let similarCell = UINib(nibName: "SimilarCell", bundle:nil)
             collectionView.register(similarCell, forCellWithReuseIdentifier: "SimilarCell")
             collectionView.backgroundColor = UIColor(white: 1, alpha: 1)
@@ -96,6 +95,13 @@
                 typeLbl.text = info.type
                 sizeLbl.text = "\(info.artHeight)'H x \(info.artWidth)'W - \(info.price)$ / month"
                 descriptionLbl.text = info.description
+                let date = info.postDate/1000
+                print("DATE:\(date/1000)")
+                let foo: TimeInterval = TimeInterval(date)
+                let theDate = NSDate(timeIntervalSince1970: foo)
+                let time = timeAgoSinceDate(date: theDate as Date, numericDates: true)
+                timeLbl.text = time
+                
                 
                 DataService.ds.REF_USERS.child("\(info.userUid)").observe(.value, with: { (snapshot) in
                     
@@ -268,6 +274,7 @@
                    performSegue(withIdentifier: "GalleryVC", sender: user)
             }
         }
+        
         
         func showArtInfo() {
             if showInfo {
