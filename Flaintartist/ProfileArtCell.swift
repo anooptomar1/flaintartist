@@ -43,7 +43,7 @@ class ProfileArtCell: UICollectionViewCell {
     var maxHeightRatioXUp: Float = 0.4
     
     //HANDLE PINCH CAMERA
-    var pinchAttenuation = 20.0  //1.0: very fast ---- 100.0 very slow
+    var pinchAttenuation = 100.0  //1.0: very fast ---- 100.0 very slow
     var lastFingersNumber = 0
     
     override func awakeFromNib() {
@@ -106,8 +106,6 @@ class ProfileArtCell: UICollectionViewCell {
             
             print("Height: \(round(heightRatio*100))")
             print("Width: \(round(widthRatio*100))")
-            
-            
             //for final check on fingers number
             lastFingersNumber = fingersNeededToPan
         }
@@ -121,23 +119,22 @@ class ProfileArtCell: UICollectionViewCell {
         }
     }
     
+    
+    
     func handlePinch(gestureRecognize: UIPinchGestureRecognizer) {
-        let pinchVelocity = Double.init(gestureRecognize.velocity)
-        //print("PinchVelocity \(pinchVelocity)")
-        
-        artRoomScene.camera.orthographicScale -= (pinchVelocity/pinchAttenuation)
-        
-        if artRoomScene.camera.orthographicScale <= 0.0 {
-            artRoomScene.camera.orthographicScale = 0.5
+        let zoom = gestureRecognize.scale
+        let zoomLimits: [Float] = [5.0]
+        print("zoomLimits \(zoomLimits.max())")
+         print("zoomMAx \(zoomLimits.max())")
+        var z = artRoomScene.cameraOrbit.position.z  * Float(1.0 / zoom)
+        //z = fmaxf(zoomLimits.min()!, z)
+        z = fminf(zoomLimits.max()!, z)
+        DispatchQueue.main.async {
+            //self.artRoomScene.cameraNode.position = SCNVector3(0, 0, z)
+            self.artRoomScene.cameraOrbit.position.z = z
         }
-        
-        if artRoomScene.camera.orthographicScale >= 10.0 {
-            artRoomScene.camera.orthographicScale = 10.0
-        }
-        
     }
     
-
     
     func swipe() {
         infoView.isHidden = true

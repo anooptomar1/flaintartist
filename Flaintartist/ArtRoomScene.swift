@@ -52,17 +52,14 @@ class ArtRoomScene: SCNScene {
         
         cameraNode = SCNNode()
         cameraNode.camera = camera
-        cameraNode.position = SCNVector3(0, 0, 4)
-
+        //camera.usesOrthographicProjection = true
+        camera.orthographicScale = 9
+        camera.zNear = 1
+        camera.zFar = 100
+        cameraOrbit.position = SCNVector3(0, 0, 4)
         
         cameraOrbit.addChildNode(cameraNode)
         self.rootNode.addChildNode(cameraOrbit)
-        
-        
-        //initial camera setup
-        //self.cameraOrbit.eulerAngles.y = Float(-2 * M_PI) * lastWidthRatio
-        //self.cameraOrbit.eulerAngles.x = Float(-M_PI) * lastHeightRatio
-
         
         let material = SCNMaterial()
         material.diffuse.contents = artImage
