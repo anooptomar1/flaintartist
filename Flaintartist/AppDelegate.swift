@@ -51,6 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navigationBarAppearance.isTranslucent = false
         
         UITabBar.appearance().tintColor = UIColor.flatBlack()
+        self.window?.backgroundColor = UIColor.white
         return true
     }
     

@@ -32,6 +32,7 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     @IBOutlet weak var typePickerView: UIPickerView!
     @IBOutlet weak var imgContentView: UIView!
     @IBOutlet weak var navigationBar: UINavigationBar!
+    @IBOutlet var bottomConstraint: NSLayoutConstraint!
     
     
     var artImg: UIImage!
@@ -60,6 +61,10 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     override func viewDidLoad() {
@@ -94,9 +99,6 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         
         //NotificationCenter.default.addObserver(self, selector: #selector(CaptureDetailsVC.valueChanged(sender:)), name: nil, object: nil)
         //doneBtn.isEnabled = false
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(CaptureDetailsVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(CaptureDetailsVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
         
         
@@ -114,8 +116,18 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(CaptureDetailsVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CaptureDetailsVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
         self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
         view.layoutIfNeeded()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     @IBAction func backBtnTapped(_ sender: UIButton) {
@@ -132,9 +144,6 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         done()
     }
     
-    
-    // MARK: Image display
-
     
     @IBAction func SliderValueChanged(_ sender: UISlider) {
         
@@ -359,8 +368,10 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     
     // MARK: Keyboard
     func keyboardWillShow(notification: NSNotification) {
+        
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
+            if self.view.frame.origin.y == 0{
+                self.view.layoutIfNeeded()
                 self.view.frame.origin.y -= keyboardSize.height
             }
         }
@@ -370,6 +381,7 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     func keyboardWillHide(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y != 0{
+                self.view.layoutIfNeeded()
                 self.view.frame.origin.y += keyboardSize.height
             }
         }

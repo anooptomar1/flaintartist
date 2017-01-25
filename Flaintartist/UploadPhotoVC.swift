@@ -36,7 +36,8 @@ class UploadPhotoVC: UIViewController, UICollectionViewDataSource, UICollectionV
     
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var photoImageView: UIImageView!
-
+    @IBOutlet var descLbl: UILabel!
+    @IBOutlet var nextBtn: UIBarButtonItem!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,8 +83,6 @@ class UploadPhotoVC: UIViewController, UICollectionViewDataSource, UICollectionV
         super.viewDidAppear(animated)
         updateCachedAssets()
     }
-
-    
     
     
     @IBAction func cancelBtnTapped(_ sender: Any) {
@@ -97,9 +96,6 @@ class UploadPhotoVC: UIViewController, UICollectionViewDataSource, UICollectionV
     }
     
 
-    
-    
-    
     // MARK: UICollectionView
     
      func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -147,14 +143,15 @@ class UploadPhotoVC: UIViewController, UICollectionViewDataSource, UICollectionV
  
     func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true) {
+            self.descLbl.isHidden = true
             self.photoImageView.image = image
+            self.nextBtn.isEnabled = true
     
         }
     }
     
     
     func crop() {
-        
         // Prepare the options to pass when fetching the (photo, or video preview) image.
         let options = PHImageRequestOptions()
         options.deliveryMode = .highQualityFormat
