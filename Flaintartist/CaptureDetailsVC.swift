@@ -9,6 +9,7 @@
 import UIKit
 import SceneKit
 import Firebase
+import Photos
 import SDWebImage
 import FirebaseStorage
 import FirebaseAuth
@@ -31,7 +32,6 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     @IBOutlet weak var typePickerView: UIPickerView!
     @IBOutlet weak var imgContentView: UIView!
     @IBOutlet weak var navigationBar: UINavigationBar!
-    
     
     
     var artImg: UIImage!
@@ -64,7 +64,7 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let scnView = self.scnView!
         let scene = detailsScene
         scnView.scene = scene
@@ -109,13 +109,13 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         widthSlider.value = Float(artImg.size.width)
         
     }
+
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
-        
+        view.layoutIfNeeded()
     }
     
     @IBAction func backBtnTapped(_ sender: UIButton) {
@@ -132,43 +132,20 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         done()
     }
     
+    
+    // MARK: Image display
+
+    
     @IBAction func SliderValueChanged(_ sender: UISlider) {
         
-//        let rotateForHeight = SCNAction.rotateTo(x: 0, y: 1, z: 0, duration: 0.3)
-//        rotateForHeight.timingMode = SCNActionTimingMode.linear;
-//        
-//        let rotateForWidth = SCNAction.rotateTo(x: -1, y: 0, z: 0, duration: 0.3)
-//        rotateForWidth.timingMode = SCNActionTimingMode.linear;
-//        
-//        let stopAnimation = SCNAction.rotateTo(x: 0, y: 0, z: 0, duration: 0.5)
-//        
-//        let heightFlow = SCNAction.sequence([rotateForHeight, stopAnimation])
-//        let widthFlow = SCNAction.sequence([rotateForWidth, stopAnimation])
-        
         if sender.tag == 1 {
-            //self.detailsScene.boxnode.runAction(heightFlow)
-            //self.detailsScene.boxnode.scale = SCNVector3(x: widthSlider.value / 100 , y: heightSlider.value / 100, z: 0.5)
-
-            
             DispatchQueue.main.async {
-//              self.detailsScene.rootNode.addChildNode(self.detailsScene.textNode)
-//                
-//                
-//                
-//                self.detailsScene.textNode.position = SCNVector3(x: Float(self.detailsScene.geometry.width - 0.2) , y: self.detailsScene.boxnode.position.y - 0.2, z: 0.5)
-//                print("POSITIONTextX:\(self.detailsScene.textNode.position.x)")
-//                print("POSITIONTextY:\(self.detailsScene.textNode.position.y)")
-//                print("POSITIONX:\(self.detailsScene.boxnode.position.x)")
-//                print("POSITIONY:\(self.detailsScene.boxnode.position.y)")
-
               self.detailsScene.newText.string = " \(Int(sender.value)) cm"
             }
 
             heightLbl.text = "Height: \(Int(sender.value)) cm"
             
         } else if sender.tag == 2 {
-            //self.detailsScene.boxnode.runAction(widthFlow)
-            //self.detailsScene.boxnode.scale = SCNVector3(x: widthSlider.value / 100 , y: heightSlider.value / 100, z: 0.5)
             UIView.animate(withDuration: 0.5) {
                 self.widthLbl.isHidden = false
             }
