@@ -11,12 +11,10 @@ import SceneKit
 import Firebase
 import Photos
 import SDWebImage
-import FirebaseStorage
-import FirebaseAuth
+
+//@objc(keyboardWillHideWithNotification)
 
 class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, SwipeViewDelegate, SwipeViewDataSource, UITextFieldDelegate, UITextViewDelegate {
-    
-    
     
     @IBOutlet var scnView: SCNView!
     @IBOutlet var heightLbl: UILabel!
@@ -32,7 +30,7 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     @IBOutlet weak var typePickerView: UIPickerView!
     @IBOutlet weak var imgContentView: UIView!
     @IBOutlet weak var navigationBar: UINavigationBar!
-    @IBOutlet var bottomConstraint: NSLayoutConstraint!
+    
     
     
     var artImg: UIImage!
@@ -51,25 +49,19 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     
     
     var detailsScene = DetailsScene(create: true)
-    
     var doneBtn = UIBarButtonItem()
-    
     var user: Users!
-    
     let storage = FIRStorage.storage()
     
+    var viewOrigin: CGFloat = 0.0
     
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         let scnView = self.scnView!
         let scene = detailsScene
         scnView.scene = scene
@@ -84,7 +76,6 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         swipeView.delegate = self
         swipeView.dataSource = self
         swipeView.alignment = .edge
-        //swipeView.isPagingEnabled = true
         swipeView.itemsPerPage = 1
         swipeView.bounces = false
         swipeView.isScrollEnabled = false
@@ -97,38 +88,38 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         
         segmentedCtrl.selectedSegmentIndex = 0
         
-        //NotificationCenter.default.addObserver(self, selector: #selector(CaptureDetailsVC.valueChanged(sender:)), name: nil, object: nil)
-        //doneBtn.isEnabled = false
-
+        NotificationCenter.default.addObserver(self, selector: #selector(CaptureDetailsVC.valueChanged(sender:)), name: nil, object: nil)
+        doneBtn.isEnabled = false
+        NotificationCenter.default.addObserver(self, selector: #selector(CaptureDetailsVC.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(CaptureDetailsVC.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         
         //        let pan = UIPanGestureRecognizer(target: self, action: #selector(NextStepCaptureVC.pan(gesture:)))
         //        view.addGestureRecognizer(pan)
         
         segmentedCtrl.tintColor = UIColor.flatBlack()
-        
         heightSlider.value = Float(artImg.size.height / 100)
         widthSlider.value = Float(artImg.size.width)
         
     }
-
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("ORIGIN:\(viewOrigin)")
+        viewOrigin = self.view.frame.origin.y
+
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(CaptureDetailsVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(CaptureDetailsVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        
         self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
-        view.layoutIfNeeded()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.removeObserver(self)
     }
+    
     
     @IBAction func backBtnTapped(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
@@ -144,25 +135,22 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         done()
     }
     
-    
     @IBAction func SliderValueChanged(_ sender: UISlider) {
-        
+ 
         if sender.tag == 1 {
             DispatchQueue.main.async {
-              self.detailsScene.newText.string = " \(Int(sender.value)) cm"
+                //self.detailsScene.newText.string = " \(Int(sender.value)) cm"
+                self.heightLbl.text = "Height: \(Int(sender.value)) cm"
             }
-
-            heightLbl.text = "Height: \(Int(sender.value)) cm"
             
         } else if sender.tag == 2 {
             UIView.animate(withDuration: 0.5) {
                 self.widthLbl.isHidden = false
+                self.widthLbl.text = "Width: \(Int(sender.value)) cm"
             }
             if sender.value == 0 {
-  
+                
             }
-
-            widthLbl.text = "Width: \(Int(sender.value)) cm"
         }
         
         if sender.isTouchInside == false {
@@ -219,19 +207,19 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     
     // MARK: Functions
     
-//    func valueChanged(sender: NSNotification) {
-//        if priceTextField != nil || titleTextField != nil || descTextView != nil {
-//            if let title = titleTextField.text{
-//                let price = priceTextField.text!
-//                if heightSlider.value == 0 || widthSlider.value == 0 || price.isEmpty || title.isEmpty || descTextView.text == "Description..." {
-//                    self.doneBtn.isEnabled = false
-//                } else if heightSlider.value > 0 && widthSlider.value > 0 && price.isEmpty && !title.isEmpty || descTextView.text != "Description..." || descTextView.text != ""{
-//                    self.doneBtn.isEnabled = true
-//                    descText = descTextView.text
-//                }
-//            }
-//        }
-//    }
+    func valueChanged(sender: NSNotification) {
+        if priceTextField != nil || titleTextField != nil || descTextView != nil {
+            if let title = titleTextField.text{
+                let price = priceTextField.text!
+                if heightSlider.value == 0 || widthSlider.value == 0 || price.isEmpty || title.isEmpty || descTextView.text == "Description..." {
+                    self.doneBtn.isEnabled = false
+                } else if heightSlider.value > 0 && widthSlider.value > 0 && price.isEmpty && !title.isEmpty || descTextView.text != "Description..." || descTextView.text != ""{
+                    self.doneBtn.isEnabled = true
+                    descText = descTextView.text
+                }
+            }
+        }
+    }
     
     
     func numberOfItems(in swipeView: SwipeView!) -> Int {
@@ -277,8 +265,6 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         }
         return view
     }
-    
-    
     
     // MARK: PickerViewDelegate
     
@@ -367,26 +353,28 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     }
     
     // MARK: Keyboard
-    func keyboardWillShow(notification: NSNotification) {
-        
+
+    
+    func keyboardWillShow(_ notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0{
-                self.view.layoutIfNeeded()
+            print("ORIGIN:\(self.viewOrigin)")
+            if self.view.frame.origin.y == self.viewOrigin {
                 self.view.frame.origin.y -= keyboardSize.height
+                print("OKAY")
             }
         }
-        
     }
     
-    func keyboardWillHide(notification: NSNotification) {
+    
+    func keyboardWillHide(_ notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y != 0{
-                self.view.layoutIfNeeded()
+            if self.view.frame.origin.y != self.viewOrigin {
                 self.view.frame.origin.y += keyboardSize.height
+                print("NOOO")
             }
         }
     }
-    
+
     
     // MARK: Gestures
     

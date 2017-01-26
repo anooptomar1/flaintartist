@@ -72,9 +72,15 @@ class UploadPhotoVC: UIViewController, UICollectionViewDataSource, UICollectionV
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "CaptureDetailsVC" {
-        guard let destination = segue.destination as? CaptureDetailsVC
-            else { fatalError("unexpected view controller for segue") }
-        destination.artImg = sender as! UIImage
+            
+            let destination = segue.destination as? CaptureDetailsVC
+            if let sender = sender as? UIImage {
+                destination?.artImg = sender
+            }
+            
+        //guard let destination = segue.destination as? CaptureDetailsVC
+            //else { fatalError("unexpected view controller for segue") }
+        //destination.artImg = sender as! UIImage
         }
     }
 
@@ -84,6 +90,7 @@ class UploadPhotoVC: UIViewController, UICollectionViewDataSource, UICollectionV
         updateCachedAssets()
     }
     
+
     
     @IBAction func cancelBtnTapped(_ sender: Any) {
         let tabBarVC = storyboard?.instantiateViewController(withIdentifier: "TabBarVC")

@@ -20,7 +20,6 @@ target 'Flaintartist' do
   pod 'TOCropViewController'
 
 
-
   target 'FlaintartistTests' do
     inherit! :search_paths
     # Pods for testing

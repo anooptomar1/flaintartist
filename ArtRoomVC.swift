@@ -67,14 +67,13 @@
             let scene = artRoomScene
             scnView.scene = scene
             
-            //scnView.allowsCameraControl = true
             scnView.autoenablesDefaultLighting = true
             scnView.isJitteringEnabled = true
             
             scnView.backgroundColor = UIColor.white
             
             let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-            layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             layout.itemSize = CGSize(width: 70, height: 70)
             
             collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
@@ -96,7 +95,6 @@
                 sizeLbl.text = "\(info.artHeight)'H x \(info.artWidth)'W - \(info.price)$ / month"
                 descriptionLbl.text = info.description
                 let date = info.postDate/1000
-                print("DATE:\(date/1000)")
                 let foo: TimeInterval = TimeInterval(date)
                 let theDate = NSDate(timeIntervalSince1970: foo)
                 let time = timeAgoSinceDate(date: theDate as Date, numericDates: true)
@@ -242,18 +240,16 @@
         
         if showSimilar {
             showSimilar = false
-           if let index = self.stackView.arrangedSubviews.index(of: collectionView) {
-            UIView.animate(withDuration: 1, animations: { 
+            UIView.animate(withDuration: 1, animations: {
                 self.stackView.removeArrangedSubview(self.collectionView)
                 self.collectionView.removeFromSuperview()
+                print("NOTSIMILAR")
             })
-
-            }
-
         } else {
             showSimilar = true
             UIView.animate(withDuration: 0.5, animations: {
             self.stackView.insertArrangedSubview(self.collectionView, at: 1)
+                print("SIMILAR")
             
             })
         }
@@ -474,8 +470,8 @@ extension ArtRoomVC {
                 self.sizeLbl.text =  "\(art.artHeight)'H x \(art.artWidth)'W - \(art.price)$ / month"
                 self.descriptionLbl.text = art.description       
                 let material = SCNMaterial()
-                let lenght: CGFloat = CGFloat(57)
                 let image = cell.artImageView.image
+                self.artInfo[0] = image! as UIImage
                 material.diffuse.contents = image
                 self.artRoomScene.geometry.firstMaterial =  material
                 self.artRoomScene.geometry.height = (image?.size.height)! / 1000

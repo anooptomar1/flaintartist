@@ -31,7 +31,7 @@ class LogInVC: UIViewController, UITextFieldDelegate {
         
         emailField.text = Defaults[.email]
         
-        NotificationCenter.default.addObserver(self, selector: #selector(FeedbackVC.textChanged(sender:)), name: NSNotification.Name.UITextFieldTextDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(LogInVC.textChanged(sender:)), name: NSNotification.Name.UITextFieldTextDidChange, object: nil)
         logInBtn.isEnabled = false
     }
     

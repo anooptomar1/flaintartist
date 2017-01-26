@@ -87,7 +87,6 @@
 		6DE2137B1E216F780030A7BC /* NewArtistTabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE2137A1E216F780030A7BC /* NewArtistTabCell.swift */; };
 		6DE2137F1E2181490030A7BC /* NewArtistColCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE2137E1E2181490030A7BC /* NewArtistColCell.swift */; };
 		6DE213811E21E1860030A7BC /* WebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE213801E21E1860030A7BC /* WebVC.swift */; };
-		6DEEC43A1E38692900DF3EDA /* ViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEEC4391E38692900DF3EDA /* ViewC.swift */; };
 		6DF28D8D1E196DC200C8A3B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF28D8C1E196DC200C8A3B0 /* AppDelegate.swift */; };
 		6DF28D921E196DC300C8A3B0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DF28D901E196DC300C8A3B0 /* Main.storyboard */; };
 		6DF28D941E196DC300C8A3B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DF28D931E196DC300C8A3B0 /* Assets.xcassets */; };
@@ -215,7 +214,6 @@
 		6DE2137A1E216F780030A7BC /* NewArtistTabCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewArtistTabCell.swift; sourceTree = "<group>"; };
 		6DE2137E1E2181490030A7BC /* NewArtistColCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewArtistColCell.swift; sourceTree = "<group>"; };
 		6DE213801E21E1860030A7BC /* WebVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebVC.swift; path = Flaintartist/WebVC.swift; sourceTree = SOURCE_ROOT; };
-		6DEEC4391E38692900DF3EDA /* ViewC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewC.swift; sourceTree = "<group>"; };
 		6DF28D891E196DC200C8A3B0 /* Flaintartist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flaintartist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DF28D8C1E196DC200C8A3B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6DF28D911E196DC300C8A3B0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -653,7 +651,6 @@
 				6DF28E131E199DEE00C8A3B0 /* Register */,
 				6DB44A251E1F79010025BF1A /* PrivacyVC.swift */,
 				6D4DE4AA1E29C39700AFAAAA /* EditArtVC.swift */,
-				6DEEC4391E38692900DF3EDA /* ViewC.swift */,
 			);
 			name = Controller;
 			path = ../../Medici/Medici;
@@ -996,7 +993,6 @@
 				6D1C781B1E19E5B200E2041C /* RealismTabCell.swift in Sources */,
 				6D1C78231E19E6CF00E2041C /* SettingsVC.swift in Sources */,
 				6DC81C1F1E2B21510021BBCF /* SearchNav.swift in Sources */,
-				6DEEC43A1E38692900DF3EDA /* ViewC.swift in Sources */,
 				6DE2137F1E2181490030A7BC /* NewArtistColCell.swift in Sources */,
 				6D1C78341E19E8B500E2041C /* HeaderView.swift in Sources */,
 				6D28D5A21E327DB6000E30A5 /* UploadPhotoCell.swift in Sources */,
