@@ -115,14 +115,7 @@ class UploadPhotoVC: UIViewController, UICollectionViewDataSource, UICollectionV
         // Dequeue a GridViewCell.
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: UploadPhotoCell.self), for: indexPath) as? UploadPhotoCell
             else { fatalError("unexpected cell in collection view") }
-        
-        #if os(iOS)
-            // Add a badge to the cell if the PHAsset represents a Live Photo.
-            if asset.mediaSubtypes.contains(.photoLive) {
-                //cell.livePhotoBadgeImage = PHLivePhotoView.livePhotoBadgeImage(options: .overContent)
-            }
-        #endif
-        
+
         // Request an image for the asset from the PHCachingImageManager.
         cell.representedAssetIdentifier = asset.localIdentifier
         imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
@@ -145,9 +138,20 @@ class UploadPhotoVC: UIViewController, UICollectionViewDataSource, UICollectionV
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        // Compute the dimension of a cell for an NxN layout with space S between
+        // cells.  Take the collection view's width, subtract (N-1)*S points for
+        // the spaces between the cells, and then divide by N to find the final
+        // dimension for the cell's width and height.
+        
+        let cellsAcross: CGFloat = 3
+        let spaceBetweenCells: CGFloat = 1
+        let dim = (collectionView.bounds.width - (cellsAcross - 1) * spaceBetweenCells) / cellsAcross
+        return CGSize(width: dim, height: dim)
+    }
+    
     
     // MARK: TOCropViewController
- 
     func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true) {
             self.descLbl.isHidden = true

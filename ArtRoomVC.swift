@@ -24,6 +24,7 @@
         @IBOutlet var timeLbl: UILabel!
         @IBOutlet var artistNameBtn: UIButton!
         @IBOutlet var stackView: UIStackView!
+        @IBOutlet var heightConstraint: NSLayoutConstraint!
         var collectionView: UICollectionView!
         
         var artRoomScene = ArtRoomScene(create: true)
@@ -248,6 +249,7 @@
         } else {
             showSimilar = true
             UIView.animate(withDuration: 0.5, animations: {
+                self.heightConstraint.constant = self.heightConstraint.constant + 20
             self.stackView.insertArrangedSubview(self.collectionView, at: 1)
                 print("SIMILAR")
             
@@ -306,7 +308,7 @@
                 self.share()
             })
                     
-            let edit = UIAlertAction(title: "Edit", style: .default, handler: { (UIAlertAction) in
+            _ = UIAlertAction(title: "Edit", style: .default, handler: { (UIAlertAction) in
                 self.performSegue(withIdentifier: "EditArtVC", sender: self.artInfo[0] as! UIImage )
             })
 
@@ -325,7 +327,7 @@
             
             alert.addAction(wallView)
             alert.addAction(share)
-            alert.addAction(edit)
+            //alert.addAction(edit)
             alert.addAction(remove)
             alert.addAction(cancel)
             present(alert, animated: true, completion: nil)
@@ -364,14 +366,14 @@
                 share.facebookShare(self, image: self.artInfo[0] as! UIImage, text: self.titleLbl.text!)
             })
             
-            let messenger = UIAlertAction(title: "Mesenger", style: .default, handler: { (UIAlertAction) in
+            _ = UIAlertAction(title: "Mesenger", style: .default, handler: { (UIAlertAction) in
                 //share.messengerShare(self, image: self.artInfo[0] as! UIImage)
             })
             
             let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             
             alert.addAction(facebook)
-            alert.addAction(messenger)
+            //alert.addAction(messenger)
             alert.addAction(cancel)
             
             present(alert, animated: true, completion: nil)

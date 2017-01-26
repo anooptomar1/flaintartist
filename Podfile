@@ -6,7 +6,6 @@ target 'Flaintartist' do
   use_frameworks!
 
   # Pods for Flaintartist
-
   pod 'Firebase'
   pod 'Firebase/Auth'
   pod 'FirebaseStorage'

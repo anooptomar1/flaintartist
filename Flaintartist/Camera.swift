@@ -37,6 +37,7 @@ class Camera {
                     
                     imagePicker.mediaTypes = [type]
                     imagePicker.allowsEditing = canEdit
+                    //imagePicker.
                 }
             }
         } else if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {

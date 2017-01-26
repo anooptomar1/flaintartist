@@ -28,7 +28,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="yYt-Ys-EpV">
-                    <rect key="frame" x="26" y="0.0" width="325" height="157"/>
+                    <rect key="frame" x="25" y="0.0" width="325" height="157"/>
                     <subviews>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Monthly price" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4ef-1G-7no">
                             <rect key="frame" x="0.0" y="0.0" width="325" height="45"/>
@@ -91,10 +91,11 @@
                 </label>
             </subviews>
             <constraints>
-                <constraint firstItem="Aek-L4-yuG" firstAttribute="top" secondItem="yYt-Ys-EpV" secondAttribute="bottom" constant="10" id="MMz-hc-hGY"/>
-                <constraint firstItem="yYt-Ys-EpV" firstAttribute="centerX" secondItem="fik-gy-BTa" secondAttribute="centerX" constant="1" id="N6g-qa-Ua5"/>
+                <constraint firstAttribute="trailing" secondItem="yYt-Ys-EpV" secondAttribute="trailing" constant="25" id="4pN-LP-AYG"/>
+                <constraint firstItem="yYt-Ys-EpV" firstAttribute="leading" secondItem="fik-gy-BTa" secondAttribute="leading" constant="25" id="FN3-Al-pF1"/>
+                <constraint firstItem="Aek-L4-yuG" firstAttribute="top" secondItem="yYt-Ys-EpV" secondAttribute="bottom" constant="10" id="cHq-1L-7UA"/>
                 <constraint firstAttribute="trailing" secondItem="Aek-L4-yuG" secondAttribute="trailing" constant="24" id="g15-ai-bFx"/>
-                <constraint firstItem="yYt-Ys-EpV" firstAttribute="top" secondItem="fik-gy-BTa" secondAttribute="top" id="hcP-9D-Xv6"/>
+                <constraint firstItem="yYt-Ys-EpV" firstAttribute="top" secondItem="fik-gy-BTa" secondAttribute="top" id="y5b-mk-WpT"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-66" y="54"/>

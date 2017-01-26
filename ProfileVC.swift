@@ -118,11 +118,13 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let art = arts[indexPath.row]
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileArtCell", for: indexPath) as? ProfileArtCell {
+            DispatchQueue.main.async {
+            cell.artRoomScene.boxnode.removeFromParentNode()
         let myBlock: SDWebImageCompletionBlock! = {(image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
-            cell.artRoomScene.setup(artInfo: image, height: image!.size.height / 700, width: image!.size.width / 700)
+        cell.artRoomScene.setup(artInfo: image, height: image!.size.height / 700, width: image!.size.width / 700)
         }
+           
         cell.artImageView.sd_setImage(with: URL(string: "\(art.imgUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
-        DispatchQueue.main.async {
         cell.titleLbl.text = art.title
         cell.typeLbl.text = art.type
         cell.sizeLbl.text = "\(art.artHeight)'H x \(art.artWidth)'W - \(art.price)$ / month"
@@ -283,6 +285,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
 extension ProfileVC {
     
     func showAlert(sender : UITapGestureRecognizer) {
+        
         let tapLocation = sender.location(in: self.collectionView)
         let indexPath : IndexPath = self.collectionView.indexPathForItem(at: tapLocation)!
         if let cell = self.collectionView.cellForItem(at: indexPath) as? ProfileArtCell {
@@ -299,7 +302,7 @@ extension ProfileVC {
             self.share(image: image!, title: art.title)
         })
         
-        let edit = UIAlertAction(title: "Edit", style: .default, handler: { (UIAlertAction) in
+        _ = UIAlertAction(title: "Edit", style: .default, handler: { (UIAlertAction) in
             self.edit()
         })
         
@@ -327,7 +330,7 @@ extension ProfileVC {
             share.facebookShare(self, image: image, text: title)
         })
         
-        let messenger = UIAlertAction(title: "Mesenger", style: .default, handler: { (UIAlertAction) in
+        _ = UIAlertAction(title: "Mesenger", style: .default, handler: { (UIAlertAction) in
             //share.messengerShare(self, image: self.artInfo[0] as! UIImage)
         })
         

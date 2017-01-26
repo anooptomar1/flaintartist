@@ -16,7 +16,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewsVC" customModule="Flaintartist" customModuleProvider="target">
             <connections>
-                <outlet property="seeMoreBtn" destination="zMX-IV-hQy" id="390-8s-n3x"/>
+                <outlet property="seeMoreBtn" destination="zMX-IV-hQy" id="fCz-Ku-tQ0"/>
                 <outlet property="typeLbl" destination="KX2-ps-nLg" id="hrV-ja-AU9"/>
             </connections>
         </placeholder>
@@ -25,7 +25,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="R93-yY-eLw" id="lVh-Mw-t6m">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KX2-ps-nLg">
@@ -72,9 +72,6 @@
                                 </fragment>
                             </attributedString>
                         </state>
-                        <connections>
-                            <action selector="seeMoreBtnTapped:" destination="-1" eventType="touchUpInside" id="hPh-5b-eDJ"/>
-                        </connections>
                     </button>
                 </subviews>
                 <constraints>

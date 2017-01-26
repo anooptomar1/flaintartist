@@ -55,7 +55,7 @@ class ProfileArtCell: UICollectionViewCell {
         //scnView.allowsCameraControl = true
         scnView.autoenablesDefaultLighting = true
         scnView.isJitteringEnabled = true
-    
+
         if swipeView != nil {
         swipeView.isHidden = true
         swipeView.isScrollEnabled = false

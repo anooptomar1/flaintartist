@@ -113,7 +113,8 @@ import ChameleonFramework
             let art = arts[indexPath.row]
                 
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileArtCell", for: indexPath) as? ProfileArtCell {
-                    
+                DispatchQueue.main.async {
+                cell.artRoomScene.boxnode.removeFromParentNode()
             let myBlock: SDWebImageCompletionBlock! = {(image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
                     cell.artRoomScene.setup(artInfo: image, height: image!.size.height / 700, width: image!.size.width / 700)
                 }
@@ -123,6 +124,7 @@ import ChameleonFramework
                 cell.typeLbl.text = art.type
                 cell.sizeLbl.text = "\(art.artHeight)'H x \(art.artWidth)'W - \(art.price)$ / month"
                 cell.descLbl.text = art.description
+               }
                 self.tapGesture = UITapGestureRecognizer(target: self, action: #selector(GalleryVC.artAlert(sender:)))
                 cell.addGestureRecognizer(self.tapGesture)
                  return cell
@@ -186,11 +188,11 @@ import ChameleonFramework
                 self.share(image: image!, title: art.title)
             })
             
-            let edit = UIAlertAction(title: "Edit", style: .default, handler: { (UIAlertAction) in
+            _ = UIAlertAction(title: "Edit", style: .default, handler: { (UIAlertAction) in
                 //self.edit()
             })
             
-            let report = UIAlertAction(title: "Report", style: .destructive, handler: { (UIAlertAction) in
+            _ = UIAlertAction(title: "Report", style: .destructive, handler: { (UIAlertAction) in
                 let navVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportNav") as! UINavigationController
                 let reportVC = navVC.topViewController as! ReportVC
                 reportVC.headerTitle = "Please choose the reason for reporting the piece."
@@ -216,7 +218,7 @@ import ChameleonFramework
             share.facebookShare(self, image: image, text: title)
         })
         
-        let messenger = UIAlertAction(title: "Mesenger", style: .default, handler: { (UIAlertAction) in
+        _ = UIAlertAction(title: "Mesenger", style: .default, handler: { (UIAlertAction) in
             //share.messengerShare(self, image: self.artInfo[0] as! UIImage)
         })
         

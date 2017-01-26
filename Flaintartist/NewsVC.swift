@@ -42,7 +42,7 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       // FIRMessaging.messaging().subscribe(toTopic: "/topics/news")
+        // FIRMessaging.messaging().subscribe(toTopic: "/topics/news")
         
         screenSize = UIScreen.main.bounds
         screenWidth = screenSize.width
@@ -112,24 +112,24 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
         refreshControl.endRefreshing()
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        let headerView = Bundle.main.loadNibNamed("HeaderView", owner: self, options: nil)?.first as! HeaderView
-        typeLbl.text = categories[section]
-        if section == 0 {
-            self.seeMoreBtn.isHidden = true
-        }
-        return headerView
-    }
-    
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        
+//       // let headerView = Bundle.main.loadNibNamed("HeaderView", owner: self, options: nil)?.first as! HeaderView
+////        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(NewsVC.seeMoreBtnTapped(_:)))
+////        seeMoreBtn.addGestureRecognizer(tapGesture)
+////
+//        typeLbl.text = categories[section]
+//        if section == 0 && section == 2 {
+//            self.seeMoreBtn.isHidden = true
+//        }
+//        return headerView
+//    }
+//    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         type = categories[section].capitalized
         return categories[section]
     }
 
-    @IBAction func seeMoreBtnTapped(_ sender: Any) {
-        performSegue(withIdentifier: "AllVC", sender: typeLbl.text!)
-    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
