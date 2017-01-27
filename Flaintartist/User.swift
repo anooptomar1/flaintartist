@@ -23,6 +23,7 @@ class Users {
     fileprivate var _userType: String!
     fileprivate var _userId: String!
     fileprivate var _userRef: FIRDatabaseReference!
+    fileprivate var _arts = [Art?]()
     
     
     var userId: String {
@@ -48,16 +49,19 @@ class Users {
     var website: String? {
         return _website
     }
-
-
     
-    init(userId: String ,profilePicUrl: String, name: String, userType: String, website: String, artwork: Int) {
+    var art: [Art?] {
+        return _arts
+    }
+
+    init(userId: String ,profilePicUrl: String, name: String, userType: String, website: String, artwork: Int, art: [Art]) {
         
         self._profilePicUrl = profilePicUrl
         self._name = name
         self._artwork = artwork
         self._website = website
         self._userId = userId
+        self._arts = art
     }
     
     init(key: String, artistData: Dictionary<String, AnyObject>) {
@@ -83,6 +87,8 @@ class Users {
         if let type = artistData["userType"] as? String {
             self._userType = type
         }
+        
+        
         
         self._userRef = DataService.instance.REF_USERS.child(self._userId)
     }

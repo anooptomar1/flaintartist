@@ -82,7 +82,6 @@ class LogInVC: UIViewController, UITextFieldDelegate {
     
     
     func logIn() {
-    
         logInBtn.BtnTapped()
         logInBtn.setTitle("", for: .normal)
         indicator.isHidden = false
@@ -91,7 +90,12 @@ class LogInVC: UIViewController, UITextFieldDelegate {
         passwordField.resignFirstResponder()
         if let email = emailField.text, let pwd = passwordField.text {
             AuthService.instance.logIn(email: email, password: pwd, onComplete: { (errMsg, data) in
-                //self.alert.showAlert("Error", message: errMsg!, target: self)
+                guard errMsg == nil else {
+                self.alert.showAlert("Error", message: errMsg!, target: self)
+                    self.logInBtn.setTitle("Log In", for: .normal)
+                    self.indicator.stopAnimating()
+                    return
+                }
             })
         }
     }

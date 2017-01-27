@@ -66,7 +66,7 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
                 
         let imageData = UIImageJPEGRepresentation(profileImage.image!, 1)
         let imagePath = "profileImage\(user.userId)userPic.jpeg"
-        let imageRef = STORAGE.child(imagePath)
+        let imageRef = DataService.instance.REF_STORAGE.child(imagePath)
         let metaData = FIRStorageMetadata()
         metaData.contentType = "image/jpeg"
         

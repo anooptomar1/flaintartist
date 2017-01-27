@@ -121,8 +121,16 @@ class CreateArtistSecondVC: UIViewController , UITextFieldDelegate, UITextViewDe
         indicatorView.startAnimating()
         
         nameTextField.resignFirstResponder()
-        DataService.instance.signUp(name: name, email: email, password: pwd, pictureData: pictureData as NSData!, userType: "artist")
-       }
+        AuthService.instance.signUp(name: name, email: email, password: pwd, pictureData: pictureData as NSData!, userType: "artist") { (errMsg, data) in
+            guard errMsg == nil else {
+                alert.showAlert("Error", message: errMsg!, target: self)
+                self.doneBtn.setTitle("Done", for: .normal)
+                self.indicatorView.stopAnimating()
+                return
+            }
+            
+        }
+    }
 
 
     func textChanged(sender: NSNotification) {

@@ -373,7 +373,7 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
             let metadata = FIRStorageMetadata()
             metadata.contentType = "image/jpeg"
             let userUID = (FIRAuth.auth()?.currentUser?.uid)!
-            DataService.instance.REF_STORAGE.reference().child("Arts").child(userUID).child(imgUID).put(imgData, metadata: metadata){(metaData,error) in
+            DataService.instance.REF_STORAGE.child("Arts").child(userUID).child(imgUID).put(imgData, metadata: metadata){(metaData,error) in
                 if let error = error {
                     print(error.localizedDescription)
                     return
