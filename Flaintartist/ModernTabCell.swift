@@ -62,7 +62,7 @@ extension ModernTabCell: UICollectionViewDelegate, UICollectionViewDataSource {
             let myBlock: SDWebImageCompletionBlock! = {(image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
                 
             }
-            cell.artImgView.sd_setImage(with: URL(string: "\(post.imgUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
+            cell.artImageView.sd_setImage(with: URL(string: "\(post.imgUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
             return cell
         } else {
             return ModernColCell()
@@ -73,7 +73,7 @@ extension ModernTabCell: UICollectionViewDelegate, UICollectionViewDataSource {
         
         if let cell = collectionView.cellForItem(at: indexPath) as? ModernColCell {
             
-            if let artImage = cell.artImgView.image {
+            if let artImage = cell.artImageView.image {
                 
                 let post = posts[indexPath.row]
                 
