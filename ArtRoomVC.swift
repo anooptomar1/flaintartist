@@ -6,110 +6,107 @@
 //  Copyright © 2017 Kerby Jean. All rights reserved.
 //
 
-    import UIKit
-    import SDWebImage
-    import SceneKit
-    import Firebase
-    import ChameleonFramework
-    import SwiftyUserDefaults
+import UIKit
+import SceneKit
+import Firebase
+import SDWebImage
+import ChameleonFramework
+import SwiftyUserDefaults
     
-    class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
         
-        @IBOutlet var scnView: SCNView!
-        @IBOutlet var artInfoView: UIView!
-        @IBOutlet var titleLbl: UILabel!
-        @IBOutlet var typeLbl: UILabel!
-        @IBOutlet var sizeLbl: UILabel!
-        @IBOutlet var descriptionLbl: UILabel!
-        @IBOutlet var timeLbl: UILabel!
-        @IBOutlet var artistNameBtn: UIButton!
-        @IBOutlet var stackView: UIStackView!
-        @IBOutlet var heightConstraint: NSLayoutConstraint!
-        var collectionView: UICollectionView!
+    @IBOutlet var scnView: SCNView!
+    @IBOutlet var artInfoView: UIView!
+    @IBOutlet var titleLbl: UILabel!
+    @IBOutlet var typeLbl: UILabel!
+    @IBOutlet var sizeLbl: UILabel!
+    @IBOutlet var descriptionLbl: UILabel!
+    @IBOutlet var timeLbl: UILabel!
+    @IBOutlet var artistNameBtn: UIButton!
+    @IBOutlet var stackView: UIStackView!
+    @IBOutlet var heightConstraint: NSLayoutConstraint!
+    var collectionView: UICollectionView!
         
-        var artRoomScene = ArtRoomScene(create: true)
-        var sceneView = SCNView()
-        var artImage = UIImage()
-        var artInfo: [Any] = []
-        var posts = [Art]()
-        var post: Art!
-        var user: Users!
-        var showInfo: Bool = false
-        var showSimilar: Bool = false
-        let alert = Alerts()
+    var artRoomScene = ArtRoomScene(create: true)
+    var sceneView = SCNView()
+    var artImage = UIImage()
+    var artInfo: [Any] = []
+    var posts = [Art]()
+    var post: Art!
+    var user: Users!
+    var showInfo: Bool = false
+    var showSimilar: Bool = false
+    let alert = Alerts()
 
         
-        //HANDLE PAN CAMERA
-        var lastWidthRatio: Float = 0
-        var lastHeightRatio: Float = 0.2
-        var fingersNeededToPan = 1
-        var maxWidthRatioRight: Float = 0.2
-        var maxWidthRatioLeft: Float = -0.2
-        var maxHeightRatioXDown: Float = 0.02
-        var maxHeightRatioXUp: Float = 0.4
+    //HANDLE PAN CAMERA
+    var lastWidthRatio: Float = 0
+    var lastHeightRatio: Float = 0.2
+    var fingersNeededToPan = 1
+    var maxWidthRatioRight: Float = 0.2
+    var maxWidthRatioLeft: Float = -0.2
+    var maxHeightRatioXDown: Float = 0.02
+    var maxHeightRatioXUp: Float = 0.4
         
         //HANDLE PINCH CAMERA
-        var pinchAttenuation = 100.0  //1.0: very fast ---- 100.0 very slow
-        var lastFingersNumber = 0
+    var pinchAttenuation = 100.0  //1.0: very fast ---- 100.0 very slow
+    var lastFingersNumber = 0
         
 
         
-        static var imageCache: NSCache<NSString, UIImage> = NSCache()
+    static var imageCache: NSCache<NSString, UIImage> = NSCache()
         
-        override var prefersStatusBarHidden: Bool {
-            return true
-        }
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
 
         
-        override func viewDidLoad() {
-            super.viewDidLoad()
+    override func viewDidLoad() {
+        super.viewDidLoad()
             
-            scnView = self.scnView!
-            let scene = artRoomScene
-            scnView.scene = scene
+        scnView = self.scnView!
+        let scene = artRoomScene
+        scnView.scene = scene
             
-            scnView.autoenablesDefaultLighting = true
-            scnView.isJitteringEnabled = true
+        scnView.autoenablesDefaultLighting = true
+        scnView.isJitteringEnabled = true
             
-            scnView.backgroundColor = UIColor.white
+        scnView.backgroundColor = UIColor.white
             
-            let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-            layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-            layout.itemSize = CGSize(width: 70, height: 70)
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.itemSize = CGSize(width: 70, height: 70)
             
-            collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-            collectionView.dataSource = self
-            collectionView.delegate = self
-            collectionView.showsVerticalScrollIndicator = false
-            collectionView.showsHorizontalScrollIndicator = false
-            let similarCell = UINib(nibName: "SimilarCell", bundle:nil)
-            collectionView.register(similarCell, forCellWithReuseIdentifier: "SimilarCell")
-            collectionView.backgroundColor = UIColor(white: 1, alpha: 1)
+        collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = false
+        let similarCell = UINib(nibName: "SimilarCell", bundle:nil)
+        collectionView.register(similarCell, forCellWithReuseIdentifier: "SimilarCell")
+        collectionView.backgroundColor = UIColor(white: 1, alpha: 1)
             
-            if let info = artInfo[1] as? Art {
-                let image = artInfo[0] as? UIImage
-                let height = (image?.size.height)! / 1000
-                let width = (image?.size.width)! / 1000
-                self.artRoomScene.setup(artInfo: image, height: height, width: width)
-                titleLbl.text = info.title
-                typeLbl.text = info.type
-                sizeLbl.text = "\(info.artHeight)'H x \(info.artWidth)'W - \(info.price)$ / month"
-                descriptionLbl.text = info.description
-                let date = info.postDate/1000
-                let foo: TimeInterval = TimeInterval(date)
-                let theDate = NSDate(timeIntervalSince1970: foo)
-                let time = timeAgoSinceDate(date: theDate as Date, numericDates: true)
-                timeLbl.text = time
-                
-                
-                DataService.ds.REF_USERS.child("\(info.userUid)").observe(.value, with: { (snapshot) in
-                    
-                    if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
-                        let key = snapshot.key
-                        self.user = Users(key: key, artistData: postDict)
+        if let info = artInfo[1] as? Art {
+           let image = artInfo[0] as? UIImage
+           let height = (image?.size.height)! / 1000
+           let width = (image?.size.width)! / 1000
+           self.artRoomScene.setup(artInfo: image, height: height, width: width)
+            titleLbl.text = info.title
+            typeLbl.text = info.type
+            sizeLbl.text = "\(info.artHeight)'H x \(info.artWidth)'W - \(info.price)$ / month"
+            descriptionLbl.text = info.description
+            let date = info.postDate/1000
+            let foo: TimeInterval = TimeInterval(date)
+            let theDate = NSDate(timeIntervalSince1970: foo)
+            let time = timeAgoSinceDate(date: theDate as Date, numericDates: true)
+            timeLbl.text = time
+            DataService.instance.REF_USERS.child("\(info.userUid)").observe(.value, with: { (snapshot) in
+                if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
+                    let key = snapshot.key
+                    self.user = Users(key: key, artistData: postDict)
                         
-                        if let user = self.user {
-                            self.artistNameBtn.setTitle("\(user.name) ›", for: .normal)
+                    if let user = self.user {
+                        self.artistNameBtn.setTitle("\(user.name) ›", for: .normal)
 
                         }
                     }
@@ -146,40 +143,39 @@
             
             let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ArtRoomVC.handlePinch(gestureRecognize:)))
             scnView.addGestureRecognizer(pinchGesture)
-        }
+    }
         
         
         
-        func handlePan(gestureRecognize: UIPanGestureRecognizer) {
-            let numberOfTouches = gestureRecognize.numberOfTouches
-            let translation = gestureRecognize.translation(in: gestureRecognize.view!)
-            var widthRatio = Float(translation.x) / Float(gestureRecognize.view!.frame.size.width) - lastWidthRatio
-            var heightRatio = Float(translation.y) / Float(gestureRecognize.view!.frame.size.height) - lastHeightRatio
+    func handlePan(gestureRecognize: UIPanGestureRecognizer) {
+        let numberOfTouches = gestureRecognize.numberOfTouches
+        let translation = gestureRecognize.translation(in: gestureRecognize.view!)
+        var widthRatio = Float(translation.x) / Float(gestureRecognize.view!.frame.size.width) - lastWidthRatio
+        var heightRatio = Float(translation.y) / Float(gestureRecognize.view!.frame.size.height) - lastHeightRatio
             
-            if (numberOfTouches == fingersNeededToPan) {
-                
+        if (numberOfTouches == fingersNeededToPan) {
                 //  HEIGHT constraints
-                if (heightRatio >= maxHeightRatioXUp ) {
-                    heightRatio = maxHeightRatioXUp
-                }
-                if (heightRatio <= maxHeightRatioXDown ) {
-                    heightRatio = maxHeightRatioXDown
-                }
+            if (heightRatio >= maxHeightRatioXUp ) {
+                heightRatio = maxHeightRatioXUp
+            }
+            if (heightRatio <= maxHeightRatioXDown ) {
+                heightRatio = maxHeightRatioXDown
+            }
                 
                 
                 //  WIDTH constraints
-                if(widthRatio >= maxWidthRatioRight) {
-                    widthRatio = maxWidthRatioRight
-                }
-                if(widthRatio <= maxWidthRatioLeft) {
-                    widthRatio = maxWidthRatioLeft
-                }
+            if(widthRatio >= maxWidthRatioRight) {
+                widthRatio = maxWidthRatioRight
+            }
+            if(widthRatio <= maxWidthRatioLeft) {
+                widthRatio = maxWidthRatioLeft
+            }
                 
-                self.artRoomScene.boxnode.eulerAngles.y = Float(2 * M_PI) * widthRatio
+            self.artRoomScene.boxnode.eulerAngles.y = Float(2 * M_PI) * widthRatio
 
                 
                 //for final check on fingers number
-                lastFingersNumber = fingersNeededToPan
+            lastFingersNumber = fingersNeededToPan
             }
             
             lastFingersNumber = (numberOfTouches>0 ? numberOfTouches : lastFingersNumber)
@@ -316,8 +312,8 @@
             let remove = UIAlertAction(title: "Remove", style: .destructive, handler: { (UIAlertAction) in
                 //self.remove()
                 if let info = self.artInfo[1] as? Art {
-                    DataService.ds.REF_USERS.child(self.user.userId).child("arts").child(info.artID).removeValue(completionBlock: { (error, ref) in
-                        DataService.ds.REF_ARTS.child(ref.key).removeValue()
+                    DataService.instance.REF_USERS.child(self.user.userId).child("arts").child(info.artID).removeValue(completionBlock: { (error, ref) in
+                        DataService.instance.REF_ARTS.child(ref.key).removeValue()
                         return
                     })
                 }
@@ -384,8 +380,8 @@
             let alert = Alerts()
             if let info = artInfo[1] as? Art {
                 
-            DataService.ds.REF_USERS.child(self.user.userId).child("arts").child(info.artID).removeValue(completionBlock: { (error, ref) in
-                 DataService.ds.REF_ARTS.child(ref.key).removeValue()
+            DataService.instance.REF_USERS.child(self.user.userId).child("arts").child(info.artID).removeValue(completionBlock: { (error, ref) in
+                 DataService.instance.REF_ARTS.child(ref.key).removeValue()
                  alert.showAlert("\(info.title) have been removed successfully", message: "", target: self)
                  return
                })
@@ -457,9 +453,7 @@ extension ArtRoomVC {
         }
     }
     
-    
-    
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         if let cell = collectionView.cellForItem(at: indexPath) as? SimilarCell {
@@ -470,7 +464,7 @@ extension ArtRoomVC {
                 self.artistNameBtn.setTitle(self.user.name, for: .normal)
                 self.typeLbl.text = art.type
                 self.sizeLbl.text =  "\(art.artHeight)'H x \(art.artWidth)'W - \(art.price)$ / month"
-                self.descriptionLbl.text = art.description       
+                self.descriptionLbl.text = art.description
                 let material = SCNMaterial()
                 let image = cell.artImageView.image
                 self.artInfo[0] = image! as UIImage

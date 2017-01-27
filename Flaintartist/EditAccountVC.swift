@@ -26,7 +26,7 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
         override func viewDidLoad() {
            super.viewDidLoad()
         
-            DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).observe(.value) { (snapshot: FIRDataSnapshot) in
+            DataService.instance.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).observe(.value) { (snapshot: FIRDataSnapshot) in
             if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
             let key = snapshot.key
             self.user = Users(key: key, artistData: postDict)
@@ -82,7 +82,7 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
                 if error == nil {
                     let user = FIRAuth.auth()!.currentUser!
                     let userInfo = ["email": email, "name": name, "website": website, "uid": user.uid, "profileImg": String(describing: user.photoURL!)] as [String : Any]
-                    let userRef = DataService.ds.REF_USERS.child(user.uid)
+                    let userRef = DataService.instance.REF_USERS.child(user.uid)
                     userRef.updateChildValues(userInfo, withCompletionBlock: { (error, reference) in
                         
                     })

@@ -16,6 +16,10 @@ let Id_LogIn = "LogInVC"
 
 // Segue
 let Seg_Enter = "Enter"
+let Seg_ArtroomVC = "ArtRoomVC"
+let Seg_GalleryVC = "GalleryVC"
+let Seg_WallViewVC = "WallviewVC"
+let Seg_ReportVC = "ReportVC"
 
 // UserDefault
 

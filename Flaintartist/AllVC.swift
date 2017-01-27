@@ -44,7 +44,7 @@ class AllVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         layout.minimumLineSpacing = 0
         collectionView!.collectionViewLayout = layout
         
-        DataService.ds.REF_ARTS.queryOrdered(byChild: "type").queryEqual(toValue : "\(type!)").observe(.value) { (snapshot: FIRDataSnapshot) in
+        DataService.instance.REF_ARTS.queryOrdered(byChild: "type").queryEqual(toValue : "\(type!)").observe(.value) { (snapshot: FIRDataSnapshot) in
             self.posts = []
             if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
                 for snap in snapshot {

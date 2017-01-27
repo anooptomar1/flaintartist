@@ -20,6 +20,7 @@ class ProfileArtCell: UICollectionViewCell {
     @IBOutlet var typeLbl: UILabel!
     @IBOutlet var sizeLbl: UILabel!
     @IBOutlet var descLbl: UILabel!
+    @IBOutlet var timeLbl: UILabel!
     @IBOutlet var scnView: SCNView!
     @IBOutlet var swipeView: SwipeView!
     @IBOutlet var infoView: UIView!
@@ -52,7 +53,6 @@ class ProfileArtCell: UICollectionViewCell {
         scnView = self.scnView!
         let scene = artRoomScene
         scnView.scene = scene
-        //scnView.allowsCameraControl = true
         scnView.autoenablesDefaultLighting = true
         scnView.isJitteringEnabled = true
 
@@ -104,8 +104,6 @@ class ProfileArtCell: UICollectionViewCell {
             self.artRoomScene.boxnode.eulerAngles.y = Float(2 * M_PI) * widthRatio
             //self.artRoomScene.boxnode.eulerAngles.x = Float(M_PI) * heightRatio
             
-            print("Height: \(round(heightRatio*100))")
-            print("Width: \(round(widthRatio*100))")
             //for final check on fingers number
             lastFingersNumber = fingersNeededToPan
         }
@@ -115,7 +113,6 @@ class ProfileArtCell: UICollectionViewCell {
         if (gestureRecognize.state == .ended && lastFingersNumber==fingersNeededToPan) {
             lastWidthRatio = widthRatio
             lastHeightRatio = heightRatio
-            print("Pan with \(lastFingersNumber) finger\(lastFingersNumber>1 ? "s" : "")")
         }
     }
     
@@ -124,13 +121,10 @@ class ProfileArtCell: UICollectionViewCell {
     func handlePinch(gestureRecognize: UIPinchGestureRecognizer) {
         let zoom = gestureRecognize.scale
         let zoomLimits: [Float] = [5.0]
-        print("zoomLimits \(zoomLimits.max())")
-         print("zoomMAx \(zoomLimits.max())")
         var z = artRoomScene.cameraOrbit.position.z  * Float(1.0 / zoom)
         //z = fmaxf(zoomLimits.min()!, z)
         z = fminf(zoomLimits.max()!, z)
         DispatchQueue.main.async {
-            //self.artRoomScene.cameraNode.position = SCNVector3(0, 0, z)
             self.artRoomScene.cameraOrbit.position.z = z
         }
     }

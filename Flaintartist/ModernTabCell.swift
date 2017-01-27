@@ -80,7 +80,7 @@ extension ModernTabCell: UICollectionViewDelegate, UICollectionViewDataSource {
                 let artInfo = [artImage, post] as [Any]
                 
                 collectionView.deselectItem(at: indexPath, animated: true)
-                let identifier = "ArtRoomVC"
+                let identifier = Seg_ArtroomVC
                 if((delegate?.responds(to: Selector(("performSegue:")))) != nil) {
                     delegate?.performSeg(identifier, sender: artInfo)
                     

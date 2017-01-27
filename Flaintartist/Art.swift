@@ -121,7 +121,7 @@ class Art {
             self._price = price
         }
         
-        _artRef = DataService.ds.REF_ARTS.child(self._artID)
+        _artRef = DataService.instance.REF_ARTS.child(self._artID)
     }
 }
 

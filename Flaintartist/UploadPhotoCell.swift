@@ -22,11 +22,6 @@ class UploadPhotoCell: UICollectionViewCell {
             imageView.image = thumbnailImage
         }
     }
-    var livePhotoBadgeImage: UIImage! {
-        didSet {
-            livePhotoBadgeImageView.image = livePhotoBadgeImage
-        }
-    }
     
     override func prepareForReuse() {
         super.prepareForReuse()

@@ -84,7 +84,7 @@ class Users {
             self._userType = type
         }
         
-        self._userRef = DataService.ds.REF_USERS.child(self._userId)
+        self._userRef = DataService.instance.REF_USERS.child(self._userId)
     }
 }
 

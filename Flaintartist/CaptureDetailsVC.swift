@@ -7,12 +7,10 @@
 //
 
 import UIKit
+import Photos
 import SceneKit
 import Firebase
-import Photos
 import SDWebImage
-
-//@objc(keyboardWillHideWithNotification)
 
 class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, SwipeViewDelegate, SwipeViewDataSource, UITextFieldDelegate, UITextViewDelegate {
     
@@ -65,7 +63,7 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         let scnView = self.scnView!
         let scene = detailsScene
         scnView.scene = scene
-        scnView.backgroundColor = UIColor(red: 249, green: 249, blue: 249, alpha: 1)
+        scnView.backgroundColor = UIColor(red: 249/249, green: 249/249, blue: 249/249, alpha: 1.0)
         scnView.autoenablesDefaultLighting = true
         scnView.isJitteringEnabled = true
         
@@ -93,10 +91,6 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         NotificationCenter.default.addObserver(self, selector: #selector(CaptureDetailsVC.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(CaptureDetailsVC.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        
-        
-        //        let pan = UIPanGestureRecognizer(target: self, action: #selector(NextStepCaptureVC.pan(gesture:)))
-        //        view.addGestureRecognizer(pan)
         
         segmentedCtrl.tintColor = UIColor.flatBlack()
         heightSlider.value = Float(artImg.size.height / 100)
@@ -195,7 +189,7 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
                 "price": price as AnyObject
             ]
             
-            DataService.ds.createNewArt(newArt)
+            DataService.instance.createNewArt(newArt)
             let tabBarVC = storyboard?.instantiateViewController(withIdentifier: "TabBarVC")
             self.present(tabBarVC!, animated: true, completion: nil)
         } else {
@@ -357,10 +351,8 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     
     func keyboardWillShow(_ notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            print("ORIGIN:\(self.viewOrigin)")
             if self.view.frame.origin.y == self.viewOrigin {
                 self.view.frame.origin.y -= keyboardSize.height
-                print("OKAY")
             }
         }
     }
@@ -370,26 +362,10 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y != self.viewOrigin {
                 self.view.frame.origin.y += keyboardSize.height
-                print("NOOO")
             }
         }
     }
 
-    
-    // MARK: Gestures
-    
-    //    func pan(gesture: UIPanGestureRecognizer) {
-    //        // The amount of movement up/down since last change in slider
-    //        let yTranslation = gesture.translation(in: gesture.view).y
-    //        let tolerance: CGFloat = 40
-    //        if abs(yTranslation) >= tolerance {
-    //            let newValue = heightSlider.value - Float(yTranslation / tolerance)
-    //            heightSlider.setValue(newValue, animated: true)
-    //
-    //            // Reset the overall translation within the view
-    //            gesture.setTranslation(.zero, in: gesture.view)
-    //        }
-    //    }
     
     func done() {
         if let imgData =  UIImageJPEGRepresentation(artImg, 0.0) {
@@ -397,7 +373,7 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
             let metadata = FIRStorageMetadata()
             metadata.contentType = "image/jpeg"
             let userUID = (FIRAuth.auth()?.currentUser?.uid)!
-            DataService.ds.REF_STORAGE.reference().child("Arts").child(userUID).child(imgUID).put(imgData, metadata: metadata){(metaData,error) in
+            DataService.instance.REF_STORAGE.reference().child("Arts").child(userUID).child(imgUID).put(imgData, metadata: metadata){(metaData,error) in
                 if let error = error {
                     print(error.localizedDescription)
                     return

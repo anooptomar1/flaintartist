@@ -16,12 +16,12 @@ class LogInVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var logInBtn: UIButton!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
+    let alert = Alerts()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.tintColor = UIColor.flatWhite()
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style: .plain, target: nil, action: nil)
@@ -82,6 +82,7 @@ class LogInVC: UIViewController, UITextFieldDelegate {
     
     
     func logIn() {
+    
         logInBtn.BtnTapped()
         logInBtn.setTitle("", for: .normal)
         indicator.isHidden = false
@@ -89,7 +90,9 @@ class LogInVC: UIViewController, UITextFieldDelegate {
         indicator.startAnimating()
         passwordField.resignFirstResponder()
         if let email = emailField.text, let pwd = passwordField.text {
-            DataService.ds.logIn(email: email, password: pwd, vc: self)
+            AuthService.instance.logIn(email: email, password: pwd, onComplete: { (errMsg, data) in
+                //self.alert.showAlert("Error", message: errMsg!, target: self)
+            })
         }
     }
     

@@ -18,7 +18,6 @@ class CreateArtistSecondVC: UIViewController , UITextFieldDelegate, UITextViewDe
     
     @IBOutlet weak var gradientView: UIView!
     @IBOutlet weak var profileImg: BorderImg!
-    @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var doneBtn: UIButton!
     @IBOutlet weak var addProfilePicLbl: UILabel!
@@ -44,7 +43,6 @@ class CreateArtistSecondVC: UIViewController , UITextFieldDelegate, UITextViewDe
         profileImg.addGestureRecognizer(tapProfileGesture)
         
         nameTextField.delegate = self
-        nameTextField.addTarget(self, action: #selector(self.editingChanged), for: .editingChanged)
         
         NotificationCenter.default.addObserver(self, selector: #selector(FeedbackVC.textChanged(sender:)), name: NSNotification.Name.UITextFieldTextDidChange, object: nil)
         doneBtn.isEnabled = false
@@ -64,16 +62,7 @@ class CreateArtistSecondVC: UIViewController , UITextFieldDelegate, UITextViewDe
 
 
     //MARK: TextField
-    func editingChanged(_ sender: Any) {
-        if nameTextField.text != "" {
-            nameLbl.isHidden = false
-            nameLbl.text = nameTextField.text!
-        } else {
-            nameLbl.isHidden = true
-        }
-    }
-    
-    func addImgLbl() {
+      func addImgLbl() {
         if profileImg.image != nil {
             UIView.animate(withDuration: 3.0, animations: {
                 self.addProfilePicLbl.alpha = 0.0
@@ -132,7 +121,7 @@ class CreateArtistSecondVC: UIViewController , UITextFieldDelegate, UITextViewDe
         indicatorView.startAnimating()
         
         nameTextField.resignFirstResponder()
-        DataService.ds.signUp(name: name, email: email, password: pwd, pictureData: pictureData as NSData!, userType: "artist")
+        DataService.instance.signUp(name: name, email: email, password: pwd, pictureData: pictureData as NSData!, userType: "artist")
        }
 
 

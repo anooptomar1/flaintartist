@@ -11,11 +11,9 @@ import Firebase
 import FirebaseAuth
 import FirebaseStorage
 import FirebaseDatabase
-//import FirebaseInstanceID
-//import FirebaseMessaging
 
 
-class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, presentVCProtocol, UISearchControllerDelegate, UISearchBarDelegate {
+class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, presentVCProtocol {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet var typeLbl: UILabel!
@@ -42,8 +40,6 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // FIRMessaging.messaging().subscribe(toTopic: "/topics/news")
-        
         screenSize = UIScreen.main.bounds
         screenWidth = screenSize.width
         screenHeight = screenSize.height
@@ -56,49 +52,9 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
         tableView.addSubview(refreshControl)
         
         self.navigationController?.setToolbarHidden(true, animated: false)
-        
-        
-        // Search
-//        let searchVC = storyboard!.instantiateViewController(withIdentifier: "SearchControllerNav") as! UINavigationController
-//        let vc = searchVC.topViewController as! SearchControllerVC
-//        self.searchController = UISearchController(searchResultsController: vc)
-//        self.searchController?.searchResultsUpdater = vc
-//        self.searchController?.delegate = self
-//        self.searchController?.searchBar.delegate = self
-//        self.searchController?.searchBar.sizeToFit()
-//        self.searchController?.searchBar.placeholder = "Explore"
-//        self.searchController?.hidesNavigationBarDuringPresentation = false
-//        self.searchController?.dimsBackgroundDuringPresentation = true
-//        self.searchController?.searchBar.searchBarStyle = .minimal
-//        self.navigationItem.titleView = searchController?.searchBar
-//        self.definesPresentationContext = true
+    }
+    
 
-    }
-    
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        
-    }
-    
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-    }
-
-//
-//    func willPresentSearchController(_ searchController: UISearchController) {
-//        searchController.searchResultsController?.view.isHidden = false
-//    }
-//
-//    func didPresentSearchController(_ searchController: UISearchController) {
-//        searchController.searchResultsController?.view.isHidden = false
-//    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -112,19 +68,7 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
         refreshControl.endRefreshing()
     }
     
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        
-//       // let headerView = Bundle.main.loadNibNamed("HeaderView", owner: self, options: nil)?.first as! HeaderView
-////        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(NewsVC.seeMoreBtnTapped(_:)))
-////        seeMoreBtn.addGestureRecognizer(tapGesture)
-////
-//        typeLbl.text = categories[section]
-//        if section == 0 && section == 2 {
-//            self.seeMoreBtn.isHidden = true
-//        }
-//        return headerView
-//    }
-//    
+  
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         type = categories[section].capitalized
         return categories[section]
@@ -180,7 +124,6 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
     
     func performSeg(_ identifier: String, sender: Any) {
         performSegue(withIdentifier: identifier, sender: sender)
-        print("SENDER: \(sender)")
     }
 
     
@@ -189,7 +132,6 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
         if segue.identifier == "AllVC" {
             let vc = segue.destination as! AllVC
             if let type = sender as? String {
-                print("TYPE: \(type)")
                 vc.type = type
             }
         }
@@ -206,8 +148,6 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
         if segue.identifier == "GalleryVC" {
             let galleryVC = segue.destination as! GalleryVC
             galleryVC.hidesBottomBarWhenPushed = true
-            //let vc = navVC.topViewController as! GalleryVC
-            //vc.hidesBottomBarWhenPushed = true
            if let user = sender as? Users {
                 galleryVC.user = user
             }

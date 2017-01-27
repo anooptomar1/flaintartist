@@ -41,7 +41,6 @@ class ResetPasswordVC: UIViewController, UITextFieldDelegate {
     }
     
     
-    
     @IBAction func backBtnTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
@@ -69,6 +68,7 @@ class ResetPasswordVC: UIViewController, UITextFieldDelegate {
         }
     }
     
+    
     func send() {
         sendBtn.setTitle("", for: .normal)
         indicator.isHidden = false
@@ -83,7 +83,6 @@ class ResetPasswordVC: UIViewController, UITextFieldDelegate {
                 
             } else {
                 alert.showAlert("Email Sent", message: "We just send an email to \(email), to help you recover your account.", target: self)
-                print("PASSWORD RESET SEND")
                 self.indicator.stopAnimating()
                 self.sendBtn.setTitle("Send Link", for: .normal)
             }

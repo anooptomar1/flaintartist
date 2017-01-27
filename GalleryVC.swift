@@ -38,9 +38,8 @@ import ChameleonFramework
         collectionView.emptyDataSetDelegate = self
                 
         loadUserInfo()
-        //websiteTextView.delegate = self
                 
-        DataService.ds.REF_USERS.child((user.userId)).child("arts").observe(.value) { (snapshot: FIRDataSnapshot) in
+        DataService.instance.REF_USERS.child((user.userId)).child("arts").observe(.value) { (snapshot: FIRDataSnapshot) in
            self.arts = []
              if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
                for snap in snapshot {
@@ -147,7 +146,7 @@ import ChameleonFramework
             
             
     func loadUserInfo(){
-        DataService.ds.REF_USERS.child("\(user.userId)").observe(.value, with: { (snapshot) in
+        DataService.instance.REF_USERS.child("\(user.userId)").observe(.value, with: { (snapshot) in
             if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
                 let key = snapshot.key
                 self.user = Users(key: key, artistData: postDict)
@@ -234,8 +233,8 @@ import ChameleonFramework
     func remove(artID: String, artTitle: String) {
         let alert = UIAlertController(title: "", message: "Are you sure you want to remove \(artTitle). After removing it you can't get it back.", preferredStyle: .actionSheet)
         let delete = UIAlertAction(title: "Remove", style: .destructive) { (UIAlertAction) in
-            DataService.ds.REF_USERS.child(self.user.userId).child("arts").child(artID).removeValue(completionBlock: { (error, ref) in
-                DataService.ds.REF_ARTS.child(ref.key).removeValue()
+            DataService.instance.REF_USERS.child(self.user.userId).child("arts").child(artID).removeValue(completionBlock: { (error, ref) in
+                DataService.instance.REF_ARTS.child(ref.key).removeValue()
                 self.collectionView.reloadData()
             })
         }
@@ -282,7 +281,7 @@ import ChameleonFramework
     
     //MARK: Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ArtRoomVC" {
+        if segue.identifier == Seg_ArtroomVC {
             let artRoomVC = segue.destination as! ArtRoomVC
             artRoomVC.hidesBottomBarWhenPushed = true
             if let artInfo = sender as? [Any] {
@@ -290,13 +289,7 @@ import ChameleonFramework
             }
         }
         
-        if segue.identifier == "SettingsVC" {
-            let settingsVC = segue.destination as! SettingsVC
-            let userInfo = sender as! [AnyObject]
-            settingsVC.userInfo = userInfo
-        }
-        
-        if segue.identifier == "ReportVC" {
+        if segue.identifier == Seg_ReportVC {
             let navVC = segue.destination as! UINavigationController
             let reportVC = navVC.topViewController as! ReportVC
             reportVC.headerTitle = "Please choose a reason for reporting \(user.name)."

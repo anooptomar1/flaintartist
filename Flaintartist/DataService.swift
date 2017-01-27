@@ -22,7 +22,11 @@ let STORAGE = FIRStorage.storage().reference()
 
 class DataService {
     
-    static var ds = DataService()
+    private static let _instance = DataService()
+    
+    static var instance: DataService {
+        return _instance
+    }
     
     var alert = Alerts()
     
@@ -68,37 +72,37 @@ class DataService {
     
     
     
-    // Log In
-    
-    func logIn(email: String, password: String, vc: UIViewController? = nil){
-        FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
-            if error == nil {
-               self.userType(id: (user?.uid)!)
-                Defaults[.key_uid] = user?.uid
-                Defaults[.email] = email
-            }
-            else {
-                self.alert.showAlert("Error", message: "\(error!.localizedDescription)", target: vc!)
-                print(error!.localizedDescription)
-                
-            }
-        })
-    }
-    
-    
-    func userType(id: String) {
-        let usersRef = FIRDatabase.database().reference().child("users").child(id)
-        usersRef.observe(.value, with: { snapshot in
-            if let type =  ((snapshot.value as? NSDictionary)?["userType"] as! String?) {
-                if type == "artist" {
-                    let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
-                    appDel.logIn()
-                }
-            }
-            return
-        })
-    }
-    
+//    // Log In
+//    
+//    func logIn(email: String, password: String, vc: UIViewController? = nil){
+//        FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
+//            if error == nil {
+//               self.userType(id: (user?.uid)!)
+//                Defaults[.key_uid] = user?.uid
+//                Defaults[.email] = email
+//            }
+//            else {
+//                self.alert.showAlert("Error", message: "\(error!.localizedDescription)", target: vc!)
+//                print(error!.localizedDescription)
+//                
+//            }
+//        })
+//    }
+//    
+//    
+//    func userType(id: String) {
+//        let usersRef = FIRDatabase.database().reference().child("users").child(id)
+//        usersRef.observe(.value, with: { snapshot in
+//            if let type =  ((snapshot.value as? NSDictionary)?["userType"] as! String?) {
+//                if type == "artist" {
+//                    let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+//                    appDel.logIn()
+//                }
+//            }
+//            return
+//        })
+//    }
+//    
 
     func firebaseAuth(_ credential: FIRAuthCredential) {
         FIRAuth.auth()?.signIn(with: credential, completion: { (user, error) in
@@ -108,7 +112,7 @@ class DataService {
                 print("Kurbs: Successfully authenticated with Firebase")
                 if let user = user {
                     let userData = ["provider": credential.provider]
-                    DataService.ds.createFirebaseDBUser(user.uid, userData: userData)
+                    DataService.instance.createFirebaseDBUser(user.uid, userData: userData)
                 }
             }
         })
@@ -161,57 +165,26 @@ class DataService {
     
     func saveUserInfo(name: String, user: FIRUser!, password: String? = nil, userType: String){
         let userInfo = ["name": name, "email": user.email!, "uid": user.uid, "profileImg": String(describing: user.photoURL!), "userType": userType]
-        DataService.ds.REF_USERS.child(user.uid).setValue(userInfo) { (error, ref) in
+        DataService.instance.REF_USERS.child(user.uid).setValue(userInfo) { (error, ref) in
             if error == nil {
                 print("user info saved successfully")
-                self.logIn(email: user.email!, password: password!)
-            }else {
+                AuthService.instance.logIn(email: user.email!, password: password!, onComplete: nil)
+            } else {
                 print(error!.localizedDescription)
-                
             }
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
 
     func createFirebaseDBUser(_ uid: String, userData: Dictionary<String, String>) {
-        let newUser = DataService.ds.REF_USERS.child(uid)
+        let newUser = DataService.instance.REF_USERS.child(uid)
         newUser.updateChildValues(userData)
     }
     
     
     func createNewArt(_ art: Dictionary<String, AnyObject>) {
-        let userArt = DataService.ds.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).child("arts").childByAutoId()
+        let userArt = DataService.instance.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).child("arts").childByAutoId()
         let key = userArt.key
-        let NewArt = DataService.ds.REF_ARTS.child(key)
+        let NewArt = DataService.instance.REF_ARTS.child(key)
         NewArt.updateChildValues(art)
         userArt.updateChildValues(art)
     }
@@ -223,7 +196,7 @@ class DataService {
             metadata.contentType = "image/jpeg"
             let uid = uid
             metadata.contentType = "image/jpg"
-            DataService.ds.REF_STORAGE.reference().child("users").child(uid).child("profileImg").put(imgData, metadata: metadata){(metaData,error) in
+            DataService.instance.REF_STORAGE.reference().child("users").child(uid).child("profileImg").put(imgData, metadata: metadata){(metaData,error) in
                 if let error = error {
                     print(" Error saving img\(error.localizedDescription)")
                     return

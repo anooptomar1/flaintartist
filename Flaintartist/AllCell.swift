@@ -11,7 +11,5 @@ import SDWebImage
 import FirebaseStorage
 
 class AllCell: UICollectionViewCell {
-    
     @IBOutlet weak var artImgView: UIImageView!
-    
 }

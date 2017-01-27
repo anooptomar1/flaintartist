@@ -20,7 +20,7 @@ class RequestPhotoVC: UIViewController {
     @IBAction func requestBtnTapped(_ sender: Any) {
         
         let email = Defaults[.email]
-        DataService.ds.REF_MAILGUN.sendMessage(to: "kerby.jean@hotmail.fr", from: email, subject: "Photographer Request", body: "Photographer Request", success: { (success) in
+        DataService.instance.REF_MAILGUN.sendMessage(to: "kerby.jean@hotmail.fr", from: email, subject: "Photographer Request", body: "Photographer Request", success: { (success) in
             self.confirmAlert(title:"Photographer have been successfully Requested." , message: "The photographer will get in contact with you in approximatively one day.")
         }, failure: { (error) in
             self.confirmAlert(title: "Request failed" , message: "Please verify your network connection and try again.")

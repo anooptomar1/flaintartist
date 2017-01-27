@@ -133,7 +133,7 @@ class EditArtVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         let width = widthSlider.value
 
         let artDetails = self.artDetails as Art
-        let artRef = DataService.ds.REF_ARTS.child(artDetails.artID)
+        let artRef = DataService.instance.REF_ARTS.child(artDetails.artID)
         let newArtDetails = ["description": desc, "title": title, "height": height, "width": width, "price": price!, "userUID": uid!] as [String : Any]
         artRef.updateChildValues(newArtDetails) { (error, reference) in
             self.dismiss(animated: true, completion: nil)
@@ -374,7 +374,7 @@ class EditArtVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
             let metadata = FIRStorageMetadata()
             metadata.contentType = "image/jpeg"
             let userUID = (FIRAuth.auth()?.currentUser?.uid)!
-            DataService.ds.REF_STORAGE.reference().child("Arts").child(userUID).child(imgUID).put(imgData, metadata: metadata){(metaData,error) in
+            DataService.instance.REF_STORAGE.reference().child("Arts").child(userUID).child(imgUID).put(imgData, metadata: metadata){(metaData,error) in
                 if let error = error {
                     print(error.localizedDescription)
                     return
