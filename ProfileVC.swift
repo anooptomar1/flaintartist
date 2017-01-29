@@ -75,6 +75,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         
         NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.updateLbl), name: editNotif, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.updateLbl), name: cancelNotif, object: nil)
+        
     }
     
     

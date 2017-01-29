@@ -15,6 +15,7 @@ import FirebaseDatabase
 
 class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, presentVCProtocol {
     
+    @IBOutlet var titleLbl: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet var typeLbl: UILabel!
     @IBOutlet weak var seeMoreBtn: UIButton!
@@ -52,6 +53,7 @@ class NewsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, pres
         tableView.addSubview(refreshControl)
         
         self.navigationController?.setToolbarHidden(true, animated: false)
+        titleLbl.text = "Explore"
     }
     
 

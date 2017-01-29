@@ -635,7 +635,7 @@
             </objects>
             <point key="canvasLocation" x="-1702" y="139"/>
         </scene>
-        <!--Explore-->
+        <!--NewsVC-->
         <scene sceneID="wwA-dr-5DL">
             <objects>
                 <viewController id="vcV-t3-pt2" customClass="NewsVC" customModule="Flaintartist" customModuleProvider="target" sceneMemberID="viewController">
@@ -652,7 +652,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ModernTabCell" id="vFu-1Z-erx" customClass="ModernTabCell" customModule="Flaintartist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="375" height="270"/>
+                                        <rect key="frame" x="0.0" y="56" width="375" height="270"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vFu-1Z-erx" id="xPg-it-1dU">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="270"/>
@@ -709,7 +709,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AbstractTabCell" rowHeight="178" id="1cz-M5-jVn" customClass="AbstractTabCell" customModule="Flaintartist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="325.5" width="375" height="178"/>
+                                        <rect key="frame" x="0.0" y="326" width="375" height="178"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1cz-M5-jVn" id="DkO-5R-trH">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="178"/>
@@ -766,7 +766,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewArtistTabCell" rowHeight="205" id="gFA-Ce-zGV" customClass="NewArtistTabCell" customModule="Flaintartist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="503.5" width="375" height="205"/>
+                                        <rect key="frame" x="0.0" y="504" width="375" height="205"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gFA-Ce-zGV" id="mUA-MI-36c">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="205"/>
@@ -837,7 +837,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RealismTabCell" id="BXX-Yn-fqm" customClass="RealismTabCell" customModule="Flaintartist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="708.5" width="375" height="270"/>
+                                        <rect key="frame" x="0.0" y="709" width="375" height="270"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BXX-Yn-fqm" id="AIa-7t-fCp">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="270"/>
@@ -905,11 +905,33 @@
                             <constraint firstAttribute="trailing" secondItem="ZPZ-Jt-gun" secondAttribute="trailing" id="ey6-hS-2tR"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Explore" id="UsF-WI-4Cf"/>
+                    <navigationItem key="navigationItem" id="UsF-WI-4Cf">
+                        <nil key="title"/>
+                        <view key="titleView" contentMode="scaleToFill" id="QQT-H9-pMz">
+                            <rect key="frame" x="113" y="6" width="150" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ygc-Ge-es8">
+                                    <rect key="frame" x="8" y="6" width="134" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                    <color key="textColor" red="0.12637259066104889" green="0.12639245390892029" blue="0.12636536359786987" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="Ygc-Ge-es8" firstAttribute="leading" secondItem="QQT-H9-pMz" secondAttribute="leading" constant="8" id="0WQ-ry-LUq"/>
+                                <constraint firstAttribute="bottom" secondItem="Ygc-Ge-es8" secondAttribute="bottom" constant="6" id="VVv-uT-ugq"/>
+                                <constraint firstItem="Ygc-Ge-es8" firstAttribute="top" secondItem="QQT-H9-pMz" secondAttribute="top" constant="6" id="k1Q-Pd-pRX"/>
+                                <constraint firstAttribute="trailing" secondItem="Ygc-Ge-es8" secondAttribute="trailing" constant="8" id="uij-De-7Jm"/>
+                            </constraints>
+                        </view>
+                    </navigationItem>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="670"/>
                     <connections>
                         <outlet property="tableView" destination="ZPZ-Jt-gun" id="EtC-ue-UfS"/>
+                        <outlet property="titleLbl" destination="Ygc-Ge-es8" id="DFb-SE-zLN"/>
                         <segue destination="EVe-GM-6zn" kind="show" identifier="ArtRoomVC" id="lm1-1w-gIw"/>
                         <segue destination="5bH-xx-kER" kind="show" identifier="AllVC" id="AG3-2e-xNS"/>
                         <segue destination="QX3-hA-xqi" kind="show" identifier="GalleryVC" id="tD9-Up-Nlo"/>
@@ -917,7 +939,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WoW-59-nXf" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2391" y="-631"/>
+            <point key="canvasLocation" x="-2391.1999999999998" y="-631.48425787106453"/>
         </scene>
         <!--Search ControllerVC-->
         <scene sceneID="R1s-Fm-qv0">
@@ -1258,14 +1280,14 @@
                         <viewControllerLayoutGuide type="bottom" id="E0r-Q3-AA4"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="O5L-aB-DRt">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oGf-jE-Rjh" customClass="IPDFCameraViewController">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MbM-rK-ota" customClass="SCNView">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
                                         <color key="backgroundColor" red="0.19376453760000001" green="0.50850099329999998" blue="0.85232251879999998" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                 </subviews>
@@ -2825,7 +2847,7 @@
                     <navigationItem key="navigationItem" id="n8u-eG-10V">
                         <nil key="title"/>
                         <view key="titleView" contentMode="scaleToFill" id="pIS-0b-nlj">
-                            <rect key="frame" x="112.5" y="5.5" width="150" height="33"/>
+                            <rect key="frame" x="113" y="6" width="150" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Fc-fe-2aH">
@@ -2877,9 +2899,9 @@
         <image name="profile filled-22" width="21" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="lm1-1w-gIw"/>
-        <segue reference="bfR-LN-edH"/>
-        <segue reference="tD9-Up-Nlo"/>
+        <segue reference="bPj-2Z-qcd"/>
+        <segue reference="cdh-Ds-5B8"/>
         <segue reference="sow-rA-YQm"/>
+        <segue reference="DcI-70-PPp"/>
     </inferredMetricsTieBreakers>
 </document>

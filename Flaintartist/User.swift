@@ -6,8 +6,6 @@
 //  Copyright © 2017 Kerby Jean. All rights reserved.
 //
 
-import Foundation
-
 import UIKit
 import FirebaseDatabase
 import FirebaseStorage
