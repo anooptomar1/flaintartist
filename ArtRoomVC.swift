@@ -15,7 +15,6 @@ import SwiftyUserDefaults
     
 class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
         
-    @IBOutlet
     var scnView: SCNView!
     @IBOutlet var artInfoView: UIView!
     @IBOutlet var titleLbl: UILabel!
