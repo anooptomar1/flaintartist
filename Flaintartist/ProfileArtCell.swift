@@ -22,12 +22,12 @@ class ProfileArtCell: UICollectionViewCell {
     @IBOutlet var descLbl: UILabel!
     @IBOutlet var timeLbl: UILabel!
     @IBOutlet var scnView: SCNView!
-    @IBOutlet var swipeView: SwipeView!
     @IBOutlet var infoView: UIView!
+    @IBOutlet var priceTextField: UITextField!
+    @IBOutlet var titleTextField: UITextField!
+    @IBOutlet var descTextView: UITextView!
     
     var artImageView = UIImageView()
-    var SizeView = UIView()
-    var typesView = UIView()
     var DetailsView = UIView()
     
 
@@ -55,11 +55,11 @@ class ProfileArtCell: UICollectionViewCell {
         scnView.scene = scene
         scnView.autoenablesDefaultLighting = true
         scnView.isJitteringEnabled = true
-
-        if swipeView != nil {
-        swipeView.isHidden = true
-        swipeView.isScrollEnabled = false
-        }
+//
+//        if swipeView != nil {
+//        swipeView.isHidden = true
+//        swipeView.isScrollEnabled = false
+//        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(ProfileArtCell.swipe), name: editNotif, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ProfileArtCell.hide), name: cancelNotif, object: nil)
@@ -71,7 +71,6 @@ class ProfileArtCell: UICollectionViewCell {
         // add a pinch gesture recognizer
         let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ProfileArtCell.handlePinch(gestureRecognize:)))
         scnView.addGestureRecognizer(pinchGesture)
-
     }
     
     func handlePan(gestureRecognize: UIPanGestureRecognizer) {
@@ -131,12 +130,28 @@ class ProfileArtCell: UICollectionViewCell {
     
     
     func swipe() {
-        infoView.isHidden = true
-        self.swipeView.isHidden = false
+        titleLbl.isHidden = true
+        typeLbl.isHidden = true
+        sizeLbl.isHidden = true
+        descLbl.isHidden = true
+        timeLbl.isHidden = true
+        let theHeight = self.frame.size.height
+        DetailsView = Bundle.main.loadNibNamed("ProfileDetails", owner: self, options: nil)?[0] as! UIView
+        DetailsView.frame = CGRect(x: 0, y: Int(theHeight - 150), width: Int(DetailsView.frame.width) , height: Int(DetailsView.frame.width))
+        self.insertSubview(DetailsView, at: 1)
+        DetailsView.autoresizingMask = .flexibleTopMargin
+        priceTextField.isEnabled = false
+        //priceTextField.text = "\(post.price)"
+        //titleTextField.text = titleLbl.text
+        //descTextView.text = descLbl.text
     }
     
     func hide() {
-        infoView.isHidden = false
-        self.swipeView.isHidden = true
+        DetailsView.removeFromSuperview()
+        titleLbl.isHidden = false
+        typeLbl.isHidden = false
+        sizeLbl.isHidden = false
+        descLbl.isHidden = false
+        timeLbl.isHidden = false
     }
 }

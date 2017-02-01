@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2DFF30C4011313ABDC50DA2D /* Pods_FlaintartistTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24443F8858A14D648040863F /* Pods_FlaintartistTests.framework */; };
+		6D08A5151E405A69000468FA /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D08A5141E405A69000468FA /* DetailsView.swift */; };
+		6D08A5171E40F26D000468FA /* ProfileDetails.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D08A5161E40F26D000468FA /* ProfileDetails.xib */; };
 		6D0DBDFE1E36F92F00163299 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0DBDFD1E36F92F00163299 /* Time.swift */; };
 		6D1C78081E19E46600E2041C /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C78071E19E46600E2041C /* SettingsCell.swift */; };
 		6D1C780B1E19E49C00E2041C /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C780A1E19E49C00E2041C /* NewsCell.swift */; };
@@ -128,6 +130,8 @@
 		399C37CDB4AFE7DB2CD025E7 /* Pods-FlaintartistUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlaintartistUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FlaintartistUITests/Pods-FlaintartistUITests.release.xcconfig"; sourceTree = "<group>"; };
 		4A26F9D813BC835523BE55D1 /* Pods-Flaintartist.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flaintartist.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Flaintartist/Pods-Flaintartist.debug.xcconfig"; sourceTree = "<group>"; };
 		62D73A7833A90BAFFD1E9D0D /* Pods_Flaintartist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Flaintartist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D08A5141E405A69000468FA /* DetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
+		6D08A5161E40F26D000468FA /* ProfileDetails.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileDetails.xib; sourceTree = "<group>"; };
 		6D0DBDFD1E36F92F00163299 /* Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		6D1C78071E19E46600E2041C /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsCell.swift; path = Flaintartist/SettingsCell.swift; sourceTree = SOURCE_ROOT; };
 		6D1C780A1E19E49C00E2041C /* NewsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewsCell.swift; path = Flaintartist/NewsCell.swift; sourceTree = SOURCE_ROOT; };
@@ -288,6 +292,8 @@
 				6DC81C281E2BD0DB0021BBCF /* ArtView */,
 				6DC81C291E2BD0E50021BBCF /* ArtistView */,
 				6D4461C71E30231E003EE5BA /* SimilarView */,
+				6D08A5141E405A69000468FA /* DetailsView.swift */,
+				6D08A5161E40F26D000468FA /* ProfileDetails.xib */,
 			);
 			name = Nib;
 			sourceTree = "<group>";
@@ -812,6 +818,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D08A5171E40F26D000468FA /* ProfileDetails.xib in Resources */,
 				6DC81C211E2BB86C0021BBCF /* ArtView.xib in Resources */,
 				6D1C78321E19E88200E2041C /* Details.xib in Resources */,
 				6D1C782E1E19E83B00E2041C /* Size.xib in Resources */,
@@ -1022,6 +1029,7 @@
 				6D9EA4171E19DCEC0080D182 /* IPDFCameraViewController.m in Sources */,
 				6D1C78111E19E50900E2041C /* TrendingTabCell.swift in Sources */,
 				6D1C78081E19E46600E2041C /* SettingsCell.swift in Sources */,
+				6D08A5151E405A69000468FA /* DetailsView.swift in Sources */,
 				6D1C78481E19EEEA00E2041C /* TabBarVC.swift in Sources */,
 				6D9EA4231E19DE780080D182 /* DetailsScene.swift in Sources */,
 				6D9EA4271E19DF850080D182 /* GalleryVC.swift in Sources */,

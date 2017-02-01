@@ -34,20 +34,19 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     
     var sizeView = SizeView()
     var typesView = UIView()
-    var DetailsView = UIView()
+    // var DetailsView = UIView()
     var swipeView = SwipeView()
     var cell = ProfileArtCell()
+    var indexPath = NSIndexPath()
     
     override func viewDidLoad() {
+        loadUserInfo()
         super.viewDidLoad()
-
-        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.emptyDataSetSource = self
         collectionView.emptyDataSetDelegate = self
         
-        loadUserInfo()
         DataService.instance.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).child("arts").observe(.value) { (snapshot: FIRDataSnapshot) in
             self.arts = []
             if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
@@ -103,11 +102,6 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     
-    override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-    }
-    
-    
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return arts.count
     }
@@ -119,7 +113,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
             DispatchQueue.main.async {
             cell.artRoomScene.boxnode.removeFromParentNode()
         let myBlock: SDWebImageCompletionBlock! = {(image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
-        cell.artRoomScene.setup(artInfo: image, height: image!.size.height / 600, width: image!.size.width / 600)
+        cell.artRoomScene.setup(artInfo: image, height: image!.size.height / 500, width: image!.size.width / 500)
         }
            
         cell.artImageView.sd_setImage(with: URL(string: "\(art.imgUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
@@ -132,9 +126,6 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         let theDate = NSDate(timeIntervalSince1970: foo)
         let time = timeAgoSinceDate(date: theDate as Date, numericDates: true)
         cell.timeLbl.text = time
-        
-
-        
         self.tapGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.showAlert(sender:)))
         cell.addGestureRecognizer(self.tapGesture)
     }
@@ -198,15 +189,6 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         })
     }
 
-
-    @available(iOS 10.0, *)
-    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        let vc = storyboard?.instantiateViewController(withIdentifier: "WebVC") as! WebVC
-        vc.url = URL
-        present(vc, animated: true, completion: nil)
-        return false
-    }
-    
         
     //MARK: DZNEmptyDataSet
     func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
@@ -220,12 +202,11 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
  //MARK: Extension Edit Art
 
 extension ProfileVC {
-    
     func showAlert(sender : UITapGestureRecognizer) {
         
         let tapLocation = sender.location(in: self.collectionView)
-        let indexPath : IndexPath = self.collectionView.indexPathForItem(at: tapLocation)!
-        if let cell = self.collectionView.cellForItem(at: indexPath) as? ProfileArtCell {
+        indexPath = self.collectionView.indexPathForItem(at: tapLocation)! as NSIndexPath
+        if let cell = self.collectionView.cellForItem(at: indexPath as IndexPath) as? ProfileArtCell {
         let art = self.arts[indexPath.row]
         let image = cell.artImageView.image
             
@@ -239,20 +220,20 @@ extension ProfileVC {
             self.share(image: image!, title: art.title)
         })
         
-        _ = UIAlertAction(title: "Edit", style: .default, handler: { (UIAlertAction) in
-            self.edit()
+        let edit = UIAlertAction(title: "Edit", style: .default, handler: { (UIAlertAction) in
+            self.edit(indexPath: self.indexPath as IndexPath, price: art.price, title: art.title, description: art.description)
         })
         
         
         let remove = UIAlertAction(title: "Remove", style: .destructive, handler: { (UIAlertAction) in
-            self.remove(artID: art.artID, artTitle: art.title)
+            self.remove(artID: art.artID, artTitle: art.title, imgUrl: art.imgUrl)
         })
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alert.addAction(wallView)
         alert.addAction(share)
-        //alert.addAction(edit)
+        alert.addAction(edit)
         alert.addAction(remove)
         alert.addAction(cancel)
         self.present(alert, animated: true, completion: nil)
@@ -271,7 +252,7 @@ extension ProfileVC {
             //share.messengerShare(self, image: self.artInfo[0] as! UIImage)
         })
         
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alert.addAction(facebook)
         //alert.addAction(messenger)
@@ -281,10 +262,11 @@ extension ProfileVC {
     }
     
     
-    func remove(artID: String, artTitle: String) {
+    func remove(artID: String, artTitle: String, imgUrl: String) {
         let alert = UIAlertController(title: "", message: "Are you sure you want to remove \(artTitle). After removing it you can't get it back.", preferredStyle: .actionSheet)
         let delete = UIAlertAction(title: "Remove", style: .destructive) { (UIAlertAction) in
             DataService.instance.REF_USERS.child(self.user.userId).child("arts").child(artID).removeValue(completionBlock: { (error, ref) in
+                SDImageCache.shared().removeImage(forKey: imgUrl, fromDisk: true)
                 DataService.instance.REF_ARTS.child(ref.key).removeValue()
                 self.collectionView.reloadData()
             })
@@ -296,32 +278,38 @@ extension ProfileVC {
     }
     
     
-    func edit() {
+    func edit(indexPath: IndexPath, price: Int, title: String, description: String) {
         NotificationCenter.default.post(name: editNotif, object: self)
+        if let cell = self.collectionView.cellForItem(at: indexPath) as? ProfileArtCell {
+             let art = self.arts[indexPath.row]
+        self.titleLbl.textColor = UIColor.flatWhite()
+        self.navigationController?.navigationBar.barTintColor = UIColor.flatSkyBlue()
+        self.navigationController?.navigationBar.tintColor = UIColor.flatWhite()
         collectionView.isScrollEnabled = false
-        UIView.animate(withDuration: 0.3) {
         self.titleLbl.text = "Edit"
+            cell.priceTextField.text = "\(art.price)$"
+            cell.titleTextField.text = art.title
+            cell.descTextView.text = art.description
         let cancelBtn = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(ProfileVC.cancelBtnTapped))
-            let doneBtn = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(ProfileVC.doneBtnTapped))
+            let doneBtn = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(ProfileVC.doneBtnTapped))
         self.navigationItem.leftBarButtonItem = cancelBtn
         self.navigationItem.rightBarButtonItem = doneBtn
-        }
+        cell.descTextView.text = art.description
+            
         setTabBarVisible(visible: !tabBarIsVisible(), animated: true)
-        view.gestureRecognizers = nil
-        self.navigationController?.setToolbarHidden(false, animated: true)
-        
-        
-        let segItemsArray: [Any] = ["Size", "Type", "Modern"]
-        self.segmentedCtrl = UISegmentedControl(items: segItemsArray)
-        segmentedCtrl.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(250), height: CGFloat(30))
-        //segmentedControl.segmentedControlStyle = .bar
-        segmentedCtrl.selectedSegmentIndex = 0
-        segmentedCtrl.addTarget(self, action: #selector(ProfileVC.segmentTapped(_:)), for: .valueChanged)
-        let segmentedControlButtonItem = UIBarButtonItem(customView: (segmentedCtrl))
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let barArray: [UIBarButtonItem] = [flexibleSpace, segmentedControlButtonItem, flexibleSpace]
-        self.toolbarItems = barArray
-     }
+        self.view.gestureRecognizers = nil
+//        let segItemsArray: [Any] = ["Size", "Type", "Modern"]
+//        self.segmentedCtrl = UISegmentedControl(items: segItemsArray)
+//        segmentedCtrl.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(300), height: CGFloat(30))
+//        segmentedCtrl.selectedSegmentIndex = 0
+//        segmentedCtrl.tintColor = UIColor.flatBlack()
+//        segmentedCtrl.addTarget(self, action: #selector(ProfileVC.segmentTapped(_:)), for: .valueChanged)
+//        let segmentedControlButtonItem = UIBarButtonItem(customView: (segmentedCtrl))
+//        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+//        let barArray: [UIBarButtonItem] = [flexibleSpace, segmentedControlButtonItem, flexibleSpace]
+//        self.toolbarItems = barArray
+        }
+    }
     
     
     func updateLbl() {
@@ -342,36 +330,31 @@ extension ProfileVC {
     
     func doneBtnTapped() {
         NotificationCenter.default.removeObserver(self, name: editNotif, object: self)
-        NotificationCenter.default.post(name: cancelNotif, object: self)
-        self.titleLbl.text = user.name
-        let menuBtn = UIBarButtonItem(image: UIImage(named: "Menu-20"), style: .plain, target: self, action: #selector(ProfileVC.settingsBtnTapped(_:)))
-        self.navigationItem.leftBarButtonItem = nil
-        self.navigationItem.rightBarButtonItem = menuBtn
-        setTabBarVisible(visible: !tabBarIsVisible(), animated: true)
-        tapGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.showAlert))
-        self.navigationController?.setToolbarHidden(true, animated: true)
-        view.addGestureRecognizer(tapGesture)
-
+        if let cell = self.collectionView.cellForItem(at: indexPath as IndexPath) as? ProfileArtCell {
+            let art = self.arts[indexPath.row]
+            //let price:Int? = Int(cell.priceTextField.text!)
+            let title = cell.titleTextField.text!
+            let desc = cell.descTextView.text!
+            //print("\(price), \(title), \(desc)")
+            let newValues = ["title": title, "description": desc] as [String : Any]
+            DispatchQueue.main.async {
+            DataService.instance.REF_ARTS.child(art.artID).updateChildValues(newValues)
+            DataService.instance.REF_USERS.child(self.user.userId).child("arts").child(art.artID).updateChildValues(newValues)
+            }
+            NotificationCenter.default.post(name: cancelNotif, object: self)
+            collectionView.reloadData()
+            updateUI()
+        }
     }
     
     func cancelBtnTapped() {
         NotificationCenter.default.post(name: cancelNotif, object: self)
-        collectionView.isScrollEnabled = true
-        self.titleLbl.text = user.name
-        let menuBtn = UIBarButtonItem(image: UIImage(named: "Menu-20"), style: .plain, target: self, action: #selector(ProfileVC.settingsBtnTapped(_:)))
-        self.navigationItem.leftBarButtonItem = nil
-        self.navigationItem.rightBarButtonItem = menuBtn
-        setTabBarVisible(visible: !tabBarIsVisible(), animated: true)
-        tapGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.showAlert))
-         self.navigationController?.setToolbarHidden(true, animated: true)
-        view.addGestureRecognizer(tapGesture)
+        updateUI()
     }
 
     
   // SetTabBar Visible
     func setTabBarVisible(visible:Bool, animated:Bool) {
-        
-        
         if (tabBarIsVisible() == visible) { return }
         
         let frame = self.tabBarController?.tabBar.frame
@@ -383,7 +366,6 @@ extension ProfileVC {
         if frame != nil {
             UIView.animate(withDuration: duration) {
                 self.tabBarController?.tabBar.frame = frame!.offsetBy(dx: 0, dy: offsetY!)
-                
                 return
             }
         }
@@ -391,6 +373,21 @@ extension ProfileVC {
     
     func tabBarIsVisible() ->Bool {
         return (self.tabBarController?.tabBar.frame.origin.y)! < self.view.frame.maxY
+    }
+    
+    func updateUI() {
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
+        self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
+        self.titleLbl.textColor = UIColor.flatBlack()
+        collectionView.isScrollEnabled = true
+        self.titleLbl.text = user.name
+        let menuBtn = UIBarButtonItem(image: UIImage(named: "Menu-20"), style: .plain, target: self, action: #selector(ProfileVC.settingsBtnTapped(_:)))
+        self.navigationItem.leftBarButtonItem = nil
+        self.navigationItem.rightBarButtonItem = menuBtn
+        setTabBarVisible(visible: !tabBarIsVisible(), animated: true)
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.showAlert))
+        self.navigationController?.setToolbarHidden(true, animated: true)
+        view.addGestureRecognizer(tapGesture)
     }
 }
 

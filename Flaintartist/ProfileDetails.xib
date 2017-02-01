@@ -13,64 +13,63 @@
         </array>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CaptureDetailsVC" customModule="Flaintartist" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileArtCell" customModule="Flaintartist" customModuleProvider="target">
             <connections>
-                <outlet property="descTextView" destination="V4m-aU-9lG" id="TLu-6e-CoQ"/>
-                <outlet property="priceTextField" destination="4ef-1G-7no" id="TkY-lY-rcR"/>
-                <outlet property="titleTextField" destination="JpA-rw-09D" id="bjW-bW-89D"/>
-                <outlet property="wordCountLbl" destination="Aek-L4-yuG" id="FEg-It-hZt"/>
+                <outlet property="descTextView" destination="P0c-R8-0ZE" id="dhb-J2-gjw"/>
+                <outlet property="priceTextField" destination="aSq-IZ-9sZ" id="3Tg-fa-T8L"/>
+                <outlet property="titleTextField" destination="gCd-ew-Aji" id="TOi-7P-Rq0"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="fik-gy-BTa" customClass="DetailsView">
+        <view contentMode="scaleToFill" id="VMv-gr-LHb">
             <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="yYt-Ys-EpV">
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="l42-i5-UBz">
                     <rect key="frame" x="25" y="0.0" width="325" height="157"/>
                     <subviews>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Monthly price" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4ef-1G-7no">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Monthly price" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aSq-IZ-9sZ">
                             <rect key="frame" x="0.0" y="0.0" width="325" height="45"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="325" id="Pth-ww-fp5"/>
-                                <constraint firstAttribute="height" constant="45" id="sBa-ia-vgV"/>
+                                <constraint firstAttribute="height" constant="45" id="gcX-YB-Znb"/>
+                                <constraint firstAttribute="width" constant="325" id="hlZ-Fb-3KK"/>
                             </constraints>
                             <color key="textColor" red="0.12637259070000001" green="0.12639245390000001" blue="0.1263653636" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardType="decimalPad"/>
                         </textField>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YZZ-Rk-2Xi">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qeh-Ag-Anh">
                             <rect key="frame" x="0.0" y="50" width="325" height="1"/>
                             <color key="backgroundColor" red="0.68888300660000001" green="0.71366006140000005" blue="0.73448425530000006" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="1" id="ZD5-VU-vfa"/>
+                                <constraint firstAttribute="height" constant="1" id="CHy-Oj-jkR"/>
                             </constraints>
                         </view>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JpA-rw-09D">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gCd-ew-Aji">
                             <rect key="frame" x="0.0" y="56" width="325" height="45"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="45" id="38F-Jq-exH"/>
-                                <constraint firstAttribute="width" constant="325" id="ptx-6x-wth"/>
+                                <constraint firstAttribute="width" constant="325" id="flw-7s-3zk"/>
+                                <constraint firstAttribute="height" constant="45" id="svM-K1-7rm"/>
                             </constraints>
                             <color key="textColor" red="0.12637259070000001" green="0.12639245390000001" blue="0.1263653636" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                         </textField>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QL0-aA-tkI">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8IH-vV-qld">
                             <rect key="frame" x="0.0" y="106" width="325" height="1"/>
                             <color key="backgroundColor" red="0.68888300660000001" green="0.71366006140000005" blue="0.73448425530000006" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="1" id="CIC-X6-LrA"/>
+                                <constraint firstAttribute="height" constant="1" id="MXH-mi-ld5"/>
                             </constraints>
                         </view>
-                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="V4m-aU-9lG">
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="P0c-R8-0ZE">
                             <rect key="frame" x="0.0" y="112" width="325" height="45"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="325" id="SCj-aK-nlB"/>
-                                <constraint firstAttribute="height" constant="45" id="n7U-Ra-DNp"/>
+                                <constraint firstAttribute="height" constant="45" id="VCS-my-YwU"/>
+                                <constraint firstAttribute="width" constant="325" id="lZF-CE-XKB"/>
                             </constraints>
                             <color key="textColor" red="0.12637259070000001" green="0.12639245390000001" blue="0.1263653636" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -78,11 +77,11 @@
                         </textView>
                     </subviews>
                 </stackView>
-                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aek-L4-yuG">
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PcX-tD-DyH">
                     <rect key="frame" x="309" y="167" width="42" height="21"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="21" id="PwJ-zp-clT"/>
-                        <constraint firstAttribute="width" constant="42" id="h2j-QW-DND"/>
+                        <constraint firstAttribute="width" constant="42" id="qZK-dx-fCQ"/>
+                        <constraint firstAttribute="height" constant="21" id="rar-Yd-JDP"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                     <color key="textColor" red="0.12637259070000001" green="0.12639245390000001" blue="0.1263653636" alpha="1" colorSpace="calibratedRGB"/>
@@ -90,14 +89,14 @@
                 </label>
             </subviews>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="yYt-Ys-EpV" secondAttribute="trailing" constant="25" id="4pN-LP-AYG"/>
-                <constraint firstItem="yYt-Ys-EpV" firstAttribute="leading" secondItem="fik-gy-BTa" secondAttribute="leading" constant="25" id="FN3-Al-pF1"/>
-                <constraint firstItem="Aek-L4-yuG" firstAttribute="top" secondItem="yYt-Ys-EpV" secondAttribute="bottom" constant="10" id="cHq-1L-7UA"/>
-                <constraint firstAttribute="trailing" secondItem="Aek-L4-yuG" secondAttribute="trailing" constant="24" id="g15-ai-bFx"/>
-                <constraint firstItem="yYt-Ys-EpV" firstAttribute="top" secondItem="fik-gy-BTa" secondAttribute="top" id="y5b-mk-WpT"/>
+                <constraint firstAttribute="trailing" secondItem="PcX-tD-DyH" secondAttribute="trailing" constant="24" id="2Vf-do-wUG"/>
+                <constraint firstItem="PcX-tD-DyH" firstAttribute="top" secondItem="l42-i5-UBz" secondAttribute="bottom" constant="10" id="HQw-oo-dMl"/>
+                <constraint firstAttribute="trailing" secondItem="l42-i5-UBz" secondAttribute="trailing" constant="25" id="OVS-hk-VFC"/>
+                <constraint firstItem="l42-i5-UBz" firstAttribute="leading" secondItem="VMv-gr-LHb" secondAttribute="leading" constant="25" id="aIB-hh-RG1"/>
+                <constraint firstItem="l42-i5-UBz" firstAttribute="top" secondItem="VMv-gr-LHb" secondAttribute="top" id="ohQ-m1-Jb5"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-66" y="54"/>
+            <point key="canvasLocation" x="-263" y="25"/>
         </view>
     </objects>
 </document>

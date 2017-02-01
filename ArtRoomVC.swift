@@ -15,7 +15,8 @@ import SwiftyUserDefaults
     
 class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
         
-    @IBOutlet var scnView: SCNView!
+    @IBOutlet
+    var scnView: SCNView!
     @IBOutlet var artInfoView: UIView!
     @IBOutlet var titleLbl: UILabel!
     @IBOutlet var typeLbl: UILabel!
@@ -38,7 +39,6 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     var showSimilar: Bool = false
     let alert = Alerts()
 
-        
     //HANDLE PAN CAMERA
     var lastWidthRatio: Float = 0
     var lastHeightRatio: Float = 0.2
@@ -51,9 +51,7 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         //HANDLE PINCH CAMERA
     var pinchAttenuation = 100.0  //1.0: very fast ---- 100.0 very slow
     var lastFingersNumber = 0
-        
 
-        
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
         
     override var prefersStatusBarHidden: Bool {
@@ -63,8 +61,9 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
     override func viewDidLoad() {
         super.viewDidLoad()
-            
-        scnView = self.scnView!
+        
+        sceneView = SCNView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
+        sceneView = self.scnView
         let scene = artRoomScene
         scnView.scene = scene
             
@@ -88,8 +87,8 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             
         if let info = artInfo[1] as? Art {
            let image = artInfo[0] as? UIImage
-           let height = (image?.size.height)! / 1000
-           let width = (image?.size.width)! / 1000
+           let height = (image?.size.height)! / 600
+           let width = (image?.size.width)! / 600
            self.artRoomScene.setup(artInfo: image, height: height, width: width)
             titleLbl.text = info.title
             typeLbl.text = info.type
@@ -246,7 +245,7 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             showSimilar = true
             UIView.animate(withDuration: 0.5, animations: {
                 self.heightConstraint.constant = self.heightConstraint.constant + 20
-            self.stackView.insertArrangedSubview(self.collectionView, at: 1)
+            self.stackView.addArrangedSubview(self.collectionView)
                 print("SIMILAR")
             
             })
@@ -470,8 +469,8 @@ extension ArtRoomVC {
                 self.artInfo[0] = image! as UIImage
                 material.diffuse.contents = image
                 self.artRoomScene.geometry.firstMaterial =  material
-                self.artRoomScene.geometry.height = (image?.size.height)! / 1000
-                self.artRoomScene.geometry.width = (image?.size.width)! / 1000
+                self.artRoomScene.geometry.height = (image?.size.height)! / 600
+                self.artRoomScene.geometry.width = (image?.size.width)! / 600
               })
            }
         }

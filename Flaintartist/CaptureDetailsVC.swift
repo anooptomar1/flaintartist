@@ -100,7 +100,6 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("ORIGIN:\(viewOrigin)")
         viewOrigin = self.view.frame.origin.y
 
     }

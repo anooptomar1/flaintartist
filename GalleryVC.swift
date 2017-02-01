@@ -296,6 +296,13 @@ import ChameleonFramework
             reportVC.user = user
             reportVC.reportsTitle = sender as! [String]
         }
+        
+        if segue.identifier == Seg_WallViewVC {
+            let wallViewVC = segue.destination as! WallViewVC
+            if let art = sender as? UIImage {
+                wallViewVC.artImage = art
+            }
+        }
     }
     
     //MARK: EmptyDataSet

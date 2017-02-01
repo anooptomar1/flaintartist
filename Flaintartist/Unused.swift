@@ -125,6 +125,16 @@
     } */
 
 
+//
+//func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+//    let vc = storyboard?.instantiateViewController(withIdentifier: "WebVC") as! WebVC
+//    vc.url = URL
+//    present(vc, animated: true, completion: nil)
+//    return false
+//}
+//
+//
+
 
 
 
