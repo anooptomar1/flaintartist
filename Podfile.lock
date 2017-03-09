@@ -1,5 +1,6 @@
 PODS:
   - AFNetworking (1.3.4)
+  - BTNavigationDropdownMenu (0.4.1)
   - ChameleonFramework (2.1.0):
     - ChameleonFramework/Default (= 2.1.0)
   - ChameleonFramework/Default (2.1.0)
@@ -56,6 +57,7 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.1.1)
     - GoogleToolboxForMac/NSString+URLArguments (= 2.1.1)
   - GoogleToolboxForMac/NSString+URLArguments (2.1.1)
+  - GSMessages (1.3.3)
   - GTMSessionFetcher/Core (1.1.8)
   - SDWebImage (3.8.2):
     - SDWebImage/Core (= 3.8.2)
@@ -65,6 +67,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 1.3.3)
+  - BTNavigationDropdownMenu
   - ChameleonFramework
   - DZNEmptyDataSet
   - Firebase
@@ -72,12 +75,14 @@ DEPENDENCIES:
   - Firebase/Messaging
   - FirebaseDatabase
   - FirebaseStorage
+  - GSMessages
   - SDWebImage (~> 3.8)
   - SwiftyUserDefaults
   - TOCropViewController
 
 SPEC CHECKSUMS:
   AFNetworking: cf8e418e16f0c9c7e5c3150d019a3c679d015018
+  BTNavigationDropdownMenu: 093f3cbfad1572f2c222bdf8d17584d1e13380d4
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   Firebase: 53b2343db1ebfa3eb16bdb4318b8bb65360b2220
@@ -91,11 +96,12 @@ SPEC CHECKSUMS:
   GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
+  GSMessages: f822671f3a3214b96926e836d88606667d3cf30e
   GTMSessionFetcher: 6f8d8b28b7e345549ac471071608170b31cb4977
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   SwiftyUserDefaults: 0f1d45fc3aafb9064dac661e367f8f83fe21a4b4
   TOCropViewController: fe91aaab9e95d72ac38654d1174c8c8339585ee5
 
-PODFILE CHECKSUM: 8123da6de88cd158b35017aab3bfd617de8b4bd0
+PODFILE CHECKSUM: 65be326cde355cbfca36d011b61f5a3f82387b39
 
 COCOAPODS: 1.0.0

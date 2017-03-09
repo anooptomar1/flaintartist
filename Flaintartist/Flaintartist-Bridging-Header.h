@@ -4,5 +4,6 @@
 
 
 #import "SwipeView.h"
+#import "GeoFire.h"
 #import "IPDFCameraViewController.h"
 #import "Mailgun.h"

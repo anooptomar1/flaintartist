@@ -11,28 +11,20 @@ import SceneKit
 import SDWebImage
 import FirebaseStorage
 
-class ProfileArtCell: UICollectionViewCell {
+class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     
-    let editNotif = NSNotification.Name("edit")
-    let cancelNotif = NSNotification.Name("cancel")
-    
-    @IBOutlet var titleLbl: UILabel!
-    @IBOutlet var typeLbl: UILabel!
-    @IBOutlet var sizeLbl: UILabel!
-    @IBOutlet var descLbl: UILabel!
-    @IBOutlet var timeLbl: UILabel!
-    @IBOutlet var scnView: SCNView!
-    @IBOutlet var infoView: UIView!
-    @IBOutlet var priceTextField: UITextField!
-    @IBOutlet var titleTextField: UITextField!
-    @IBOutlet var descTextView: UITextView!
+    @IBOutlet weak var titleLbl: UILabel!
+    @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var scnView: SCNView!
+    @IBOutlet weak var infoView: UIView!
     
     var artImageView = UIImageView()
+    var SizeView = UIView()
+    var typesView = UIView()
     var DetailsView = UIView()
     
-
     var artRoomScene = ArtRoomScene(create: true)
-    var post: Art!
+    var art: Art?
     
     //HANDLE PAN CAMERA
     var lastWidthRatio: Float = 0
@@ -44,45 +36,79 @@ class ProfileArtCell: UICollectionViewCell {
     var maxHeightRatioXUp: Float = 0.4
     
     //HANDLE PINCH CAMERA
-    var pinchAttenuation = 100.0 
+    var pinchAttenuation = 80.0
     var lastFingersNumber = 0
+    
+    var panGesture = UIPanGestureRecognizer()
+    
+    let editNotif = NSNotification.Name("Show")
+    let cancelNotif = NSNotification.Name("Hide")
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        scnView = self.scnView!
+        weak var weakSelf = self
+        let strongSelf = weakSelf!
+        scnView = strongSelf.scnView!
         let scene = artRoomScene
         scnView.scene = scene
         scnView.autoenablesDefaultLighting = true
         scnView.isJitteringEnabled = true
-//
-//        if swipeView != nil {
-//        swipeView.isHidden = true
-//        swipeView.isScrollEnabled = false
-//        }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(ProfileArtCell.swipe), name: editNotif, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(ProfileArtCell.hide), name: cancelNotif, object: nil)
-        
-        
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(ProfileArtCell.handlePan(gestureRecognize:)))
+        panGesture = UIPanGestureRecognizer(target: self, action: #selector(ProfileArtCell.handlePan(gestureRecognize:)))
+        panGesture.delegate = self
         scnView.addGestureRecognizer(panGesture)
         
         // add a pinch gesture recognizer
         let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ProfileArtCell.handlePinch(gestureRecognize:)))
+        pinchGesture.delegate = self
         scnView.addGestureRecognizer(pinchGesture)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(ProfileArtCell.test), name: editNotif, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ProfileArtCell.test), name: cancelNotif, object: nil)
     }
     
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    
+    func test() {
+        
+    }
+    
+    
+    func configureCell(forArt: Art) {
+        self.art = forArt
+        let myBlock: SDWebImageCompletionBlock! = { [weak self] (image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
+            if let img = image {
+                DispatchQueue.main.async {
+                    self?.artRoomScene.setup(artInfo: img, height: img.size.height / 700, width: img.size.width / 700)
+                }
+            }
+        }
+        queue.async(qos: .background) {
+            self.artImageView.sd_setImage(with: URL(string: self.art!.imgUrl) , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
+        }
+        
+        DispatchQueue.main.async {
+            self.titleLbl.text = self.art!.title
+            let date =  self.art!.postDate/1000
+            let foo: TimeInterval = TimeInterval(date)
+            let theDate = NSDate(timeIntervalSince1970: foo)
+            let time = timeAgoSinceDate(date: theDate as Date, numericDates: true)
+            self.textView.text = "\( self.art!.artHeight)'H x \(self.art!.artWidth)'W - \(self.art!.price)$ / month - \(self.art!.type) \n \(time) \n \(self.art!.description)."
+        }
+    }
+    
+    
+    
     func handlePan(gestureRecognize: UIPanGestureRecognizer) {
-        
         let numberOfTouches = gestureRecognize.numberOfTouches
-        
         let translation = gestureRecognize.translation(in: gestureRecognize.view!)
         var widthRatio = Float(translation.x) / Float(gestureRecognize.view!.frame.size.width) - lastWidthRatio
         var heightRatio = Float(translation.y) / Float(gestureRecognize.view!.frame.size.height) - lastHeightRatio
         
         if (numberOfTouches == fingersNeededToPan) {
-            
             //  HEIGHT constraints
             if (heightRatio >= maxHeightRatioXUp ) {
                 heightRatio = maxHeightRatioXUp
@@ -90,7 +116,6 @@ class ProfileArtCell: UICollectionViewCell {
             if (heightRatio <= maxHeightRatioXDown ) {
                 heightRatio = maxHeightRatioXDown
             }
-            
             
             //  WIDTH constraints
             if(widthRatio >= maxWidthRatioRight) {
@@ -101,7 +126,6 @@ class ProfileArtCell: UICollectionViewCell {
             }
             
             self.artRoomScene.boxnode.eulerAngles.y = Float(2 * M_PI) * widthRatio
-            //self.artRoomScene.boxnode.eulerAngles.x = Float(M_PI) * heightRatio
             
             //for final check on fingers number
             lastFingersNumber = fingersNeededToPan
@@ -112,9 +136,21 @@ class ProfileArtCell: UICollectionViewCell {
         if (gestureRecognize.state == .ended && lastFingersNumber==fingersNeededToPan) {
             lastWidthRatio = widthRatio
             lastHeightRatio = heightRatio
+            print("Pan with \(lastFingersNumber) finger\(lastFingersNumber>1 ? "s" : "")")
+        }
+        
+        if gestureRecognize.state == .began ||  gestureRecognize.state == .changed {
+            NotificationCenter.default.post(name: editNotif, object: self)
+            UIView.animate(withDuration: 2.5) {
+                self.infoView.alpha = 0
+            }
+        } else if gestureRecognize.state == .cancelled || gestureRecognize.state == .ended {
+            NotificationCenter.default.post(name: cancelNotif, object: self)
+            UIView.animate(withDuration: 1.3) {
+                self.infoView.alpha = 1
+            }
         }
     }
-    
     
     
     func handlePinch(gestureRecognize: UIPinchGestureRecognizer) {
@@ -126,32 +162,17 @@ class ProfileArtCell: UICollectionViewCell {
         DispatchQueue.main.async {
             self.artRoomScene.cameraOrbit.position.z = z
         }
-    }
-    
-    
-    func swipe() {
-        titleLbl.isHidden = true
-        typeLbl.isHidden = true
-        sizeLbl.isHidden = true
-        descLbl.isHidden = true
-        timeLbl.isHidden = true
-        let theHeight = self.frame.size.height
-        DetailsView = Bundle.main.loadNibNamed("ProfileDetails", owner: self, options: nil)?[0] as! UIView
-        DetailsView.frame = CGRect(x: 0, y: Int(theHeight - 150), width: Int(DetailsView.frame.width) , height: Int(DetailsView.frame.width))
-        self.insertSubview(DetailsView, at: 1)
-        DetailsView.autoresizingMask = .flexibleTopMargin
-        priceTextField.isEnabled = false
-        //priceTextField.text = "\(post.price)"
-        //titleTextField.text = titleLbl.text
-        //descTextView.text = descLbl.text
-    }
-    
-    func hide() {
-        DetailsView.removeFromSuperview()
-        titleLbl.isHidden = false
-        typeLbl.isHidden = false
-        sizeLbl.isHidden = false
-        descLbl.isHidden = false
-        timeLbl.isHidden = false
+        if gestureRecognize.state == .began ||  gestureRecognize.state == .changed {
+            NotificationCenter.default.post(name: editNotif, object: self)
+            UIView.animate(withDuration: 2.5) {
+                self.infoView.alpha = 0
+            }
+        } else if gestureRecognize.state == .cancelled || gestureRecognize.state == .ended {
+            NotificationCenter.default.post(name: cancelNotif, object: self)
+            UIView.animate(withDuration: 1.3) {
+                self.infoView.alpha = 1
+            }
+        }
     }
 }
+

@@ -6,7 +6,8 @@
 //  Copyright © 2017 Kerby Jean. All rights reserved.
 //
 
-
+import FBSDKCoreKit
+import FBSDKLoginKit
 import FirebaseAuth
 import FirebaseDatabase
 import SwiftyUserDefaults
@@ -20,7 +21,6 @@ class AuthService {
     }
     
     
-
     func logIn(email: String, password: String, onComplete: Completion?){
         FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
             if error != nil {
@@ -28,22 +28,98 @@ class AuthService {
             } else {
                 //Successfully logged in
                 onComplete?(nil, user)
-                self.userType(id: (user?.uid)!)
-                Defaults[.key_uid] = user?.uid
-                Defaults[.email] = email
-
+                self.userType(id: (user?.uid)!, email: email)
+                
             }
         })
     }
     
     
-    func userType(id: String) {
+    func logIn_Fb(vc: UIViewController) {
+        let facebookLogin = FBSDKLoginManager()
+        facebookLogin.logIn(withReadPermissions: ["email"], from: vc) { (result, error) in
+            if error != nil {
+                print("KURBS: Unable to authenticate with Facebook - \(error)")
+            } else if result?.isCancelled == true {
+                print("KURBS: User cancelled Facebook authentication")
+            } else {
+                print("KURBS: Successfully authenticated with Facebook")
+                let credential = FIRFacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
+                self.firebaseAuth(credential,  onComplete: nil)
+            }
+        }
+    }
+    
+    
+    
+    func firebaseAuth(_ credential: FIRAuthCredential, onComplete: Completion?) {
+        FIRAuth.auth()?.signIn(with: credential, completion: { (user, error) in
+            if error == nil {
+                print("Kurbs: Successfully authenticated with Firebase")
+                onComplete?(nil, user)
+                if let user = user {
+                    let ref = DataService.instance.REF_USERS.child(user.uid)
+                    
+                    let grapshRequest: FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, email, picture"])
+                    grapshRequest.start(completionHandler: { (connection, result, error) in
+                        if error != nil {
+                            // Process error
+                            print("Error: \(error)")
+                        } else {
+                            print("fetched user: \(result)")
+                            let values: [String:AnyObject] = result as! [String : AnyObject]
+                            
+                            ref.updateChildValues(values, withCompletionBlock: { (err, ref) in
+                                if err != nil {
+                                    return
+                                }
+                                print("Save the user successfully into Firebase database")
+                            })
+                        }
+                        
+                    })
+                    let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                    appDel.logIn()
+                }
+                
+                print("Kurbs: Unable to authenticate with Firebase - \(error)")
+            } else {
+                
+                self.handleFirebaseError(error: error! as NSError, onComplete: onComplete)
+                
+            }
+        })
+    }
+    
+    
+    func userType(id: String, email: String) {
         let usersRef = FIRDatabase.database().reference().child("users").child(id)
         usersRef.observe(.value, with: { snapshot in
             if let type =  ((snapshot.value as? NSDictionary)?["userType"] as! String?) {
                 if type == "artist" {
+                    Defaults[.key_uid] = id
+                    Defaults[.email] = email
                     let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     appDel.logIn()
+                } else {
+                    let instagramHooks = "flaint://user?username=jkurbs"
+                    let instagramUrl = URL(string: instagramHooks)
+                    if UIApplication.shared.canOpenURL(instagramUrl! as URL) {
+                        if #available(iOS 10.0, *) {
+                            UIApplication.shared.open(instagramUrl!)
+                        } else {
+                            // Fallback on earlier versions
+                        }
+                        
+                    } else {
+                        //redirect to safari because the user doesn't have Instagram
+                        print("App not installed")
+                        if #available(iOS 10.0, *) {
+                            UIApplication.shared.open(URL(string: "https://itunes.apple.com/ca/app/flaint-artist/id1191196593?mt=8")!)
+                        } else {
+                            
+                        }
+                    }
                 }
             }
             return
@@ -67,17 +143,18 @@ class AuthService {
     
     
     // Sign Up
-    func signUp (name: String, email: String, password: String, pictureData: NSData!, userType: String, onComplete: Completion?) {
+    func signUp (name: String, email: String, password: String, pictureData: NSData? = nil, userType: String, onComplete: Completion?) {
         FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user, error) in
             if error != nil {
+                print("ERROR:\(error?.localizedDescription)")
                 self.handleFirebaseError(error: error! as NSError, onComplete: onComplete)
             } else {
                 DataService.instance.setUserInfo(name: name, user: user, password: password, pictureData: pictureData, userType: userType)
             }
         })
     }
-
-
+    
+    
     // Handle Errors
     func handleFirebaseError(error: NSError, onComplete: Completion?) {
         print(error.debugDescription)
@@ -104,4 +181,3 @@ class AuthService {
         }
     }
 }
-

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GSMessages
 
 class Alerts {
     
@@ -29,7 +30,6 @@ class Alerts {
     
     
     func deteteArt(_ target: ProfileVC)  {
-        
         let alert = UIAlertController(title: "", message: "Are you sure you want to remove it from your Gallery? After removing, the action is irreversible.", preferredStyle: .actionSheet)
         
         let action = UIAlertAction(title: "Remove from My Gallery", style: .destructive) { (UIAlertAction) in
@@ -43,6 +43,25 @@ class Alerts {
         target.present(alert, animated: true, completion: nil)
         
     }
+    
+    
+    func showNotif(vc: UIViewController, backgroundColor: UIColor) {
+        GSMessage.successBackgroundColor = backgroundColor
+        vc.showMessage("Successfully added to favorites.", type: .success, options: [
+            .animation(.slide),
+            .animationDuration(0.3),
+            .autoHide(true),
+            .autoHideDelay(3.0),
+            .height(44.0),
+            .hideOnTap(true),
+            .position(.top),
+            .textAlignment(.center),
+            .textColor(UIColor.flatSkyBlue()),
+            .textNumberOfLines(1),
+            .textPadding(30.0)
+            ])
+    }
+    
     
     // Change picture alert
     func changeProfilePicture(_ target: UIViewController) {

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -22,29 +21,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Flaint Artist" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JEx-EP-52I">
-                                <rect key="frame" x="16" y="130" width="341" height="64"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="42"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please Wait..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vdm-YU-aBG">
+                                <rect key="frame" x="16" y="186" width="341" height="32"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="27"/>
                                 <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A new way to experience Art." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QSo-0f-VvQ">
-                                <rect key="frame" x="17" y="169" width="341" height="53"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
-                                <color key="textColor" red="0.42655369640000002" green="0.475846082" blue="0.4802647531" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="QSo-0f-VvQ" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="1" id="2G6-NW-in8"/>
-                            <constraint firstItem="JEx-EP-52I" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="110" id="C7U-Vs-OrB"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="JEx-EP-52I" secondAttribute="bottom" constant="473" id="KcD-cj-PBQ"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="QSo-0f-VvQ" secondAttribute="bottom" constant="445" id="bdd-SA-SXe"/>
-                            <constraint firstItem="QSo-0f-VvQ" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="deK-OB-Rgz"/>
-                            <constraint firstItem="QSo-0f-VvQ" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="149" id="dho-PM-J0B"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="JEx-EP-52I" secondAttribute="trailing" constant="2" id="wQG-1U-X6L"/>
-                            <constraint firstItem="JEx-EP-52I" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" id="xI4-hB-Jkw"/>
+                            <constraint firstItem="Vdm-YU-aBG" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="166" id="JhP-O1-4UR"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Vdm-YU-aBG" secondAttribute="trailing" constant="2" id="OGX-fN-zEj"/>
+                            <constraint firstItem="Vdm-YU-aBG" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" id="rjA-h5-C4l"/>
                         </constraints>
                     </view>
                 </viewController>

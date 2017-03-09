@@ -24,11 +24,11 @@ class Users {
     fileprivate var _arts = [Art?]()
     
     
-    var userId: String {
+    var userId: String? {
         return _userId
     }
     
-    var profilePicUrl: String {
+    var profilePicUrl: String? {
         return _profilePicUrl
     }
     

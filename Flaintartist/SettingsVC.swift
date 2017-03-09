@@ -24,9 +24,14 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.navigationItem.title = "Settings"
         tableView.delegate = self
         tableView.dataSource = self
-        options = ["Edit Account", "Request a photographer", "Privacy Policy", "Log Out"]
+        options = ["Edit Account", "History", "Request a photographer", "Privacy Policy", "Log Out"]
     }
     
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        userInfo.removeAll()
+    }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -51,11 +56,14 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EditProfileCell", for: indexPath) as! EditProfileCell
-            cell.profileImgView.sd_setImage(with: URL(string: "\(user.profilePicUrl)") , placeholderImage: nil , options: .continueInBackground)
-            cell.nameLbl.text = user.name
+            DispatchQueue.main.async {
+                if let url = self.user.profilePicUrl {
+                    cell.profileImgView.sd_setImage(with: URL(string: "\(url)") , placeholderImage: UIImage(named: "Placeholder") , options: .continueInBackground)
+                }
+                cell.nameLbl.text = self.user.name
+            }
             return cell
         }
-        
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell", for: indexPath) as! SettingsCell
         cell.optionLbl.text = options[indexPath.row]
@@ -70,16 +78,25 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
         
         if indexPath.row == 1 {
-            performSegue(withIdentifier: "Request", sender: nil)
+            performSegue(withIdentifier: "HistoryVC", sender: nil)
         }
         
         if indexPath.row == 2 {
-            performSegue(withIdentifier: "PrivacyVC", sender: nil)
+            performSegue(withIdentifier: "RequestVC", sender: nil)
         }
         
         if indexPath.row == 3 {
+            performSegue(withIdentifier: "PrivacyVC", sender: nil)
+        }
+        
+        if indexPath.row == 4 {
             logoutAlert()
-        }        
+        }
+    }
+    
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0.1
     }
     
     
@@ -113,9 +130,12 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             let firebaseAuth = FIRAuth.auth()
             do {
+                
                 try firebaseAuth!.signOut()
-                let controller = self.storyboard!.instantiateViewController(withIdentifier: "LogInNav")
-                self.present(controller, animated: true, completion: nil)
+                DispatchQueue.main.async {
+                    let controller = self.storyboard!.instantiateViewController(withIdentifier: "LogInNav")
+                    self.present(controller, animated: true, completion: nil)
+                }
             } catch let signOutError as NSError {
                 print("SIGNOUT ERROR:\(signOutError)")
             }

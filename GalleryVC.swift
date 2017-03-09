@@ -13,22 +13,26 @@ import SDWebImage
 import DZNEmptyDataSet
 import ChameleonFramework
 
-  class GalleryVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
-            
-    @IBOutlet var titleLbl: UILabel!
-    @IBOutlet var profileImageView: UIImageView!
+class GalleryVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
+    
+    @IBOutlet weak var titleLbl: UILabel!
+    @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var nameLbl: UILabel!
-    @IBOutlet var artworkCountLbl: UILabel!
-    @IBOutlet var collectionView: UICollectionView!
-            
-            
+    @IBOutlet weak var artworkCountLbl: UILabel!
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    
     var user: Users!
     var arts = [Art]()
     var art: Art!
     var artImg = UIImage()
     
     var tapGesture = UITapGestureRecognizer()
-            
+    
+    let editNotif = NSNotification.Name("Show")
+    let cancelNotif = NSNotification.Name("Hide")
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,28 +40,6 @@ import ChameleonFramework
         collectionView.dataSource = self
         collectionView.emptyDataSetSource = self
         collectionView.emptyDataSetDelegate = self
-                
-        loadUserInfo()
-                
-        DataService.instance.REF_USERS.child((user.userId)).child("arts").observe(.value) { (snapshot: FIRDataSnapshot) in
-           self.arts = []
-             if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
-               for snap in snapshot {
-                  if let postDict = snap.value as? Dictionary<String, AnyObject> {
-                  let key = snap.key
-                  let post = Art(key: key, artData: postDict)
-                  self.arts.insert(post, at: 0)
-                }
-             }
-          }
-           self.collectionView.reloadData()
-       }
-
-                
-
-        let backBtn = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(GalleryVC.backBtnTapped))
-        navigationItem.leftBarButtonItem = backBtn
-        navigationItem.title = "\(user.name)'s gallery"
         
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = UIColor.flatBlack()
@@ -68,20 +50,79 @@ import ChameleonFramework
             // Fallback on earlier versions
         }
         
-        let moreBtn = UIBarButtonItem(image: UIImage(named:"More Filled-25"), style: .plain, target: self, action: #selector(GalleryVC.moreBtnTapped(_:)))
+        let moreBtn = UIBarButtonItem(image: UIImage(named:"More Filled-15"), style: .plain, target: self, action: #selector(GalleryVC.moreBtnTapped(_:)))
         navigationItem.rightBarButtonItem = moreBtn
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(GalleryVC.showBars), name: editNotif, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(GalleryVC.hideBars), name: cancelNotif, object: nil)
+        
     }
     
-            
+    
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        queue.async(qos: .userInitiated) {
+            DataService.instance.REF_USERS.child((self.user.userId)!).child("arts").observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
+                self?.arts = []
+                if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
+                    for snap in snapshot {
+                        if let postDict = snap.value as? Dictionary<String, AnyObject> {
+                            let key = snap.key
+                            let post = Art(key: key, artData: postDict)
+                            self?.arts.insert(post, at: 0)
+                        }
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    self?.collectionView.reloadData()
+                }
+            }
+        }
+        
+        
+        loadUserInfo()
+        
+        self.navigationController?.setToolbarHidden(true, animated: false)
+        self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
+        self.navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    func loadUserInfo(){
+        DispatchQueue.main.async {
+            self.titleLbl.text = "\(self.user.name)'s gallery"
+            self.nameLbl.text = self.user.name
+            self.profileImageView.sd_setImage(with: URL(string: "\(self.user.profilePicUrl!)") , placeholderImage: nil , options: .continueInBackground)
+        }
+    }
+    
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        DataService.instance.REF_USERS.child((self.user.userId)!).child("arts").removeAllObservers()
+        self.arts.removeAll()
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    
+    deinit {
+        print("Gallery is being dealloc")
+    }
+    
+    
     func moreBtnTapped(_ sender: Any) {
         self.showAlert()
     }
     
     func backBtnTapped() {
-        _ = navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
-
-            
+    
+    
     func refresh() {
         tableView.reloadData()
         if #available(iOS 10.0, *) {
@@ -90,52 +131,39 @@ import ChameleonFramework
             // Fallback on earlier versions
         }
     }
-            
-            
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationItem.hidesBackButton = true
-        self.navigationController?.setToolbarHidden(true, animated: false)
-        self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
-        self.navigationController?.navigationBar.isTranslucent = false
-    }
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         self.artworkCountLbl.text = "\(arts.count)"
-         return arts.count
+        return arts.count
     }
-            
-            
-            
+    
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            let art = arts[indexPath.row]
-                
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileArtCell", for: indexPath) as? ProfileArtCell {
-                DispatchQueue.main.async {
-                cell.artRoomScene.boxnode.removeFromParentNode()
-            let myBlock: SDWebImageCompletionBlock! = {(image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
-                    cell.artRoomScene.setup(artInfo: image, height: image!.size.height / 700, width: image!.size.width / 700)
-                }
-                cell.artImageView.sd_setImage(with: URL(string: "\(art.imgUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
-                
-                cell.titleLbl.text = art.title
-                cell.typeLbl.text = art.type
-                cell.sizeLbl.text = "\(art.artHeight)'H x \(art.artWidth)'W - \(art.price)$ / month"
-                cell.descLbl.text = art.description
-               }
-                self.tapGesture = UITapGestureRecognizer(target: self, action: #selector(GalleryVC.artAlert(sender:)))
-                cell.addGestureRecognizer(self.tapGesture)
-                 return cell
-            } else {
+        let art = arts[indexPath.row]
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileArtCell", for: indexPath) as? ProfileArtCell {
+            cell.artRoomScene.boxnode.removeFromParentNode()
+            cell.configureCell(forArt: art)
+            return cell
+        } else {
             return ProfileArtCell()
         }
     }
-            
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-         return 1
+        return 1
     }
-            
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let art = arts[indexPath.row]
+        if let cell = collectionView.cellForItem(at: indexPath) as? ProfileArtCell {
+            let artImage = cell.artImageView.image
+            self.artAlert(artImage: artImage!, art: art)
+        }
+    }
+    
+    
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
@@ -143,24 +171,7 @@ import ChameleonFramework
             picker.dismiss(animated: true, completion: nil)
         }
     }
-            
-            
-    func loadUserInfo(){
-        DataService.instance.REF_USERS.child("\(user.userId)").observe(.value, with: { (snapshot) in
-            if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
-                let key = snapshot.key
-                self.user = Users(key: key, artistData: postDict)
-                        
-                if let user = self.user {
-                    self.titleLbl.text = "\( user.name)'s gallery"
-                    self.nameLbl.text = user.name
-                    //self.websiteTextView.text = user.website
-                    self.profileImageView.sd_setImage(with: URL(string: "\(self.user.profilePicUrl)") , placeholderImage: nil , options: .continueInBackground)
-                }
-            }
-        })
-    }
-            
+    
     
     @available(iOS 10.0, *)
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
@@ -170,44 +181,46 @@ import ChameleonFramework
         return false
     }
     
-    func artAlert(sender : UITapGestureRecognizer) {
-        let tapLocation = sender.location(in: self.collectionView)
-        let indexPath : IndexPath = self.collectionView.indexPathForItem(at: tapLocation)!
-        if let cell = self.collectionView.cellForItem(at: indexPath) as? ProfileArtCell {
-            let art = self.arts[indexPath.row]
-            let image = cell.artImageView.image
-            
-            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            
-            let wallView = UIAlertAction(title: "Wallview", style: .default, handler: { (UIAlertAction) in
-                self.performSegue(withIdentifier: "WallviewVC", sender: image)
-            })
-            
-            let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
-                self.share(image: image!, title: art.title)
-            })
-            
-            _ = UIAlertAction(title: "Edit", style: .default, handler: { (UIAlertAction) in
-                //self.edit()
-            })
-            
-            _ = UIAlertAction(title: "Report", style: .destructive, handler: { (UIAlertAction) in
-                let navVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportNav") as! UINavigationController
-                let reportVC = navVC.topViewController as! ReportVC
-                reportVC.headerTitle = "Please choose the reason for reporting the piece."
-                let artInfo = [art]
-                reportVC.artInfo = artInfo
-                self.present(navVC, animated: true, completion: nil)
-            })
-            
-            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            alert.addAction(wallView)
-            alert.addAction(share)
-            //alert.addAction(report)
-            alert.addAction(cancel)
-            self.present(alert, animated: true, completion: nil)
-        }
+    func artAlert(artImage: UIImage, art: Art) {
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let request = UIAlertAction(title: "Request", style: .default, handler: { (UIAlertAction) in
+            DataService.instance.request(artUID: art.artID, imgUrl: art.imgUrl ,title: art.title, description: art.description, price: art.price, height: art.artHeight, width: art.artWidth, type: art.type, date: art.postDate, userUID: art.userUid)
+        })
+        
+        let wallView = UIAlertAction(title: "Wallview", style: .default, handler: { (UIAlertAction) in
+            self.performSegue(withIdentifier: "WallviewVC", sender: artImage)
+        })
+        
+        let favorite = UIAlertAction(title: "Add to favorites", style: .default, handler: { (UIAlertAction) in
+            DataService.instance.addToFavorite(artUID: art.artID, imgUrl: art.imgUrl ,title: art.title, description: art.description, price: art.price, height: art.artHeight, width: art.artWidth, type: art.type, date: art.postDate, userUID: art.userUid, vc: self)
+        })
+        
+        
+        let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
+            self.share(image: artImage, title: art.title)
+        })
+        
+        
+        _ = UIAlertAction(title: "Report", style: .destructive, handler: { (UIAlertAction) in
+            let navVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportNav") as! UINavigationController
+            let reportVC = navVC.topViewController as! ReportVC
+            reportVC.headerTitle = "Please choose the reason for reporting the piece."
+            let artInfo = [art]
+            reportVC.artInfo = artInfo
+            self.present(navVC, animated: true, completion: nil)
+        })
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(request)
+        alert.addAction(wallView)
+        alert.addAction(favorite)
+        alert.addAction(share)
+        //alert.addAction(report)
+        alert.addAction(cancel)
+        self.present(alert, animated: true, completion: nil)
     }
     
     func share(image: UIImage, title: String) {
@@ -233,7 +246,7 @@ import ChameleonFramework
     func remove(artID: String, artTitle: String) {
         let alert = UIAlertController(title: "", message: "Are you sure you want to remove \(artTitle). After removing it you can't get it back.", preferredStyle: .actionSheet)
         let delete = UIAlertAction(title: "Remove", style: .destructive) { (UIAlertAction) in
-            DataService.instance.REF_USERS.child(self.user.userId).child("arts").child(artID).removeValue(completionBlock: { (error, ref) in
+            DataService.instance.REF_USERS.child(self.user.userId!).child("arts").child(artID).removeValue(completionBlock: { (error, ref) in
                 DataService.instance.REF_ARTS.child(ref.key).removeValue()
                 self.collectionView.reloadData()
             })
@@ -250,12 +263,11 @@ import ChameleonFramework
         
         let website = UIAlertAction(title: "Visit website", style: .default) { (UIAlertAction) in
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "WebVC") as! WebVC
-          let url = URL(string: "\(self.user.website)")
-                print("FIRSTURL: \(url)")
-                vc.url = url
-                self.present(vc, animated: true, completion: nil)
+            let url = URL(string: "\(self.user.website)")
+            print("FIRSTURL: \(url)")
+            vc.url = url
+            self.present(vc, animated: true, completion: nil)
         }
-        
         
         let report = UIAlertAction(title: "Report \(user.name)", style: .destructive) { (UIAlertAction) in
             
@@ -266,12 +278,12 @@ import ChameleonFramework
             reportVC.user = self.user
             self.present(navVC, animated: true, completion: nil)
         }
-    
-    
+        
+        
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         if user.website != nil {
-        alert.addAction(website)
+            alert.addAction(website)
         }
         alert.addAction(report)
         alert.addAction(cancel)
@@ -281,6 +293,15 @@ import ChameleonFramework
     
     //MARK: Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Seg_WallViewVC {
+            let wallViewVC = segue.destination as! WallViewVC
+            wallViewVC.hidesBottomBarWhenPushed = true
+            if let artImage = sender as? UIImage {
+                wallViewVC.artImage = artImage
+            }
+        }
+        
+        
         if segue.identifier == Seg_ArtroomVC {
             let artRoomVC = segue.destination as! ArtRoomVC
             artRoomVC.hidesBottomBarWhenPushed = true
@@ -296,13 +317,6 @@ import ChameleonFramework
             reportVC.user = user
             reportVC.reportsTitle = sender as! [String]
         }
-        
-        if segue.identifier == Seg_WallViewVC {
-            let wallViewVC = segue.destination as! WallViewVC
-            if let art = sender as? UIImage {
-                wallViewVC.artImage = art
-            }
-        }
     }
     
     //MARK: EmptyDataSet
@@ -310,6 +324,19 @@ import ChameleonFramework
         let str = "\(user.name) haven't share any artwork yet."
         let attrs = [NSFontAttributeName: UIFont.systemFont(ofSize: 14)]
         return NSAttributedString(string: str, attributes: attrs)
+    }
+    
+    
+    func hideBars() {
+        UIView.animate(withDuration: 1.3) {
+            self.navigationController?.navigationBar.alpha = 1
+        }
+    }
+    
+    func showBars() {
+        UIView.animate(withDuration: 2.5) {
+            self.navigationController?.navigationBar.alpha = 0
+        }
     }
     
 }

@@ -15,10 +15,11 @@ import ChameleonFramework
 import SwiftyUserDefaults
 
 
-class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource, SDWebImagePrefetcherDelegate {
+class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
     
-    @IBOutlet var titleLbl: UILabel!
-    @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet weak var titleLbl: UILabel!
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var settingsBtn: UIBarButtonItem!
     
     var user: Users!
     var arts = [Art]()
@@ -28,55 +29,39 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     var tapGesture = UITapGestureRecognizer()
     var segmentedCtrl = UISegmentedControl()
     
-    let editNotif = NSNotification.Name("edit")
-    let cancelNotif = NSNotification.Name("cancel")
+    
     let kPrefetchRowCount = 10
     
-    var sizeView = SizeView()
-    var typesView = UIView()
-    // var DetailsView = UIView()
-    var swipeView = SwipeView()
-    var cell = ProfileArtCell()
-    var indexPath = NSIndexPath()
+    let editNotif = NSNotification.Name("Show")
+    let cancelNotif = NSNotification.Name("Hide")
+    
+    var dmzMessage = ""
+    
+    let ref =  DataService.instance.REF_ARTISTARTS.child(userID!)
     
     override func viewDidLoad() {
-        loadUserInfo()
         super.viewDidLoad()
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.emptyDataSetSource = self
         collectionView.emptyDataSetDelegate = self
-        
-        DataService.instance.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).child("arts").observe(.value) { (snapshot: FIRDataSnapshot) in
-            self.arts = []
-            if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
-                for snap in snapshot {
-                    if let postDict = snap.value as? Dictionary<String, AnyObject> {
-                        let key = snap.key
-                        let post = Art(key: key, artData: postDict)
-                        self.art = Art(key: key, artData: postDict)
-                        self.arts.insert(post, at: 0)
-                    }
-                }
-            }
-            
-            self.collectionView.reloadData()
-        }
-        
+        dmzMessage = "You have no artwork yet. Click on the capture button to start sharing."
+        loadArts(ref: ref)
         refreshCtrl.tintColor = UIColor.flatBlack()
         refreshCtrl.addTarget(self, action: #selector(ProfileVC.refresh), for: UIControlEvents.valueChanged)
-
+        
         if #available(iOS 10.0, *) {
             tableView.refreshControl = refreshControl
         } else {
             tableView.addSubview(refreshCtrl)
         }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.updateLbl), name: editNotif, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.updateLbl), name: cancelNotif, object: nil)
-        
     }
     
+    
+    deinit {
+        print("ProfileVC is being dealloc")
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -84,8 +69,44 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         self.navigationController?.setToolbarHidden(true, animated: false)
         self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
         self.navigationController?.navigationBar.isTranslucent = false
+        self.collectionView.reloadData()
+        loadUserInfo()
+        NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.showBars), name: editNotif, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.hideBars), name: cancelNotif, object: nil)
     }
-
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        //self.collectionView.removeFromSuperview()
+        NotificationCenter.default.removeObserver(self)
+        ref.removeAllObservers()
+        DataService.instance.REF_USERS.child("\(FIRAuth.auth()!.currentUser!.uid)").removeAllObservers()
+        user = nil
+        art = nil
+    }
+    
+    
+    func loadArts(ref: FIRDatabaseReference) {
+        queue.async(qos: .userInitiated) {
+            ref.observe(.value, with: { [weak self] (snapshot) in
+                self?.arts = []
+                if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
+                    for snap in snapshot {
+                        if let postDict = snap.value as? Dictionary<String, AnyObject> {
+                            let key = snap.key
+                            let art = Art(key: key, artData: postDict)
+                            self?.art = Art(key: key, artData: postDict)
+                            self?.arts.append(art)
+                        }
+                    }
+                }
+                DispatchQueue.main.async {
+                    self?.collectionView.reloadData()
+                }
+            })
+        }
+    }
+    
     
     @IBAction func settingsBtnTapped(_ sender: Any) {
         performSegue(withIdentifier: "SettingsVC", sender: user)
@@ -102,52 +123,43 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return arts.count
     }
-
+    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let art = arts[indexPath.row]
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileArtCell", for: indexPath) as? ProfileArtCell {
-            DispatchQueue.main.async {
             cell.artRoomScene.boxnode.removeFromParentNode()
-        let myBlock: SDWebImageCompletionBlock! = {(image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
-        cell.artRoomScene.setup(artInfo: image, height: image!.size.height / 500, width: image!.size.width / 500)
-        }
-           
-        cell.artImageView.sd_setImage(with: URL(string: "\(art.imgUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
-        cell.titleLbl.text = art.title
-        cell.typeLbl.text = art.type
-        cell.sizeLbl.text = "\(art.artHeight)'H x \(art.artWidth)'W - \(art.price)$ / month"
-        cell.descLbl.text = art.description
-        let date = art.postDate/1000
-        let foo: TimeInterval = TimeInterval(date)
-        let theDate = NSDate(timeIntervalSince1970: foo)
-        let time = timeAgoSinceDate(date: theDate as Date, numericDates: true)
-        cell.timeLbl.text = time
-        self.tapGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.showAlert(sender:)))
-        cell.addGestureRecognizer(self.tapGesture)
-    }
-
-        return cell
-            
+            cell.configureCell(forArt: art)
+            return cell
         } else {
             return ProfileArtCell()
         }
     }
     
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let art = arts[indexPath.row]
+        if let cell = collectionView.cellForItem(at: indexPath) as? ProfileArtCell {
+            let artImage = cell.artImageView.image
+            self.showRequestAlert(artImage: artImage!, art: art)
+        }
     }
-
+    
     
     func tapProfilePicture(_ gesture: UITapGestureRecognizer) {
         let alert = Alerts()
         alert.changeProfilePicture(self)
     }
-
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Seg_ArtroomVC {
@@ -168,7 +180,6 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         
         if segue.identifier == "SettingsVC" {
             let settingsVC = segue.destination as! SettingsVC
-            settingsVC.hidesBottomBarWhenPushed = true
             if let user = sender as? Users {
                 settingsVC.user = user
             }
@@ -177,68 +188,63 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     
     
     func loadUserInfo(){
-        DataService.instance.REF_USERS.child("\(FIRAuth.auth()!.currentUser!.uid)").observe(.value, with: { (snapshot) in
-            if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
-                let key = snapshot.key
-                self.user = Users(key: key, artistData: postDict)
-                
-                if let user = self.user {
-                    self.titleLbl.text = user.name
+        queue.async(qos: .utility) {
+            DataService.instance.REF_USERS.child(userID!).observe(.value, with: { (snapshot) in
+                if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
+                    let key = snapshot.key
+                    self.user = Users(key: key, artistData: postDict)
+                    if (self.user) != nil {
+                        DispatchQueue.main.async {
+                            self.titleLbl.text = self.user.name
+                        }
+                    }
                 }
-            }
-        })
+            })
+        }
     }
-
-        
+    
+    
+    @available(iOS 10.0, *)
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "WebVC") as! WebVC
+        vc.url = URL
+        present(vc, animated: true, completion: nil)
+        return false
+    }
+    
+    
     //MARK: DZNEmptyDataSet
     func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        let str = "You have no artwork yet. Click on the capture button to start sharing"
         let attrs = [NSFontAttributeName: UIFont.systemFont(ofSize: 14)]
-        return NSAttributedString(string: str, attributes: attrs)
+        return NSAttributedString(string: dmzMessage, attributes: attrs)
     }
 }
 
 
- //MARK: Extension Edit Art
-
+//MARK: Extension Edit Art
 extension ProfileVC {
-    func showAlert(sender : UITapGestureRecognizer) {
-        
-        let tapLocation = sender.location(in: self.collectionView)
-        indexPath = self.collectionView.indexPathForItem(at: tapLocation)! as NSIndexPath
-        if let cell = self.collectionView.cellForItem(at: indexPath as IndexPath) as? ProfileArtCell {
-        let art = self.arts[indexPath.row]
-        let image = cell.artImageView.image
-            
+    
+    func showRequestAlert(artImage: UIImage, art: Art) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
         let wallView = UIAlertAction(title: "Wallview", style: .default, handler: { (UIAlertAction) in
-            self.performSegue(withIdentifier: "WallviewVC", sender: image)
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "WallviewVC", sender: artImage)
+            }
         })
-        
         let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
-            self.share(image: image!, title: art.title)
+            self.share(image: artImage, title: art.title)
         })
-        
-        let edit = UIAlertAction(title: "Edit", style: .default, handler: { (UIAlertAction) in
-            self.edit(indexPath: self.indexPath as IndexPath, price: art.price, title: art.title, description: art.description)
+        let remove = UIAlertAction(title: "Cancel Request", style: .destructive, handler: { (UIAlertAction) in
+            self.removeRequest(artID: art.artID, artTitle: art.title)
         })
-        
-        
-        let remove = UIAlertAction(title: "Remove", style: .destructive, handler: { (UIAlertAction) in
-            self.remove(artID: art.artID, artTitle: art.title, imgUrl: art.imgUrl)
-        })
-        
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
         alert.addAction(wallView)
         alert.addAction(share)
-        alert.addAction(edit)
         alert.addAction(remove)
         alert.addAction(cancel)
         self.present(alert, animated: true, completion: nil)
-       }
     }
+    
     
     
     func share(image: UIImage, title: String) {
@@ -252,24 +258,31 @@ extension ProfileVC {
             //share.messengerShare(self, image: self.artInfo[0] as! UIImage)
         })
         
-         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alert.addAction(facebook)
         //alert.addAction(messenger)
         alert.addAction(cancel)
-        
         self.present(alert, animated: true, completion: nil)
     }
     
     
-    func remove(artID: String, artTitle: String, imgUrl: String) {
-        let alert = UIAlertController(title: "", message: "Are you sure you want to remove \(artTitle). After removing it you can't get it back.", preferredStyle: .actionSheet)
-        let delete = UIAlertAction(title: "Remove", style: .destructive) { (UIAlertAction) in
-            DataService.instance.REF_USERS.child(self.user.userId).child("arts").child(artID).removeValue(completionBlock: { (error, ref) in
-                SDImageCache.shared().removeImage(forKey: imgUrl, fromDisk: true)
-                DataService.instance.REF_ARTS.child(ref.key).removeValue()
-                self.collectionView.reloadData()
-            })
+    func removeRequest(artID: String, artTitle: String) {
+        let alert = UIAlertController(title: "", message: "Are you sure you want to cancel \(artTitle). After canceling, you can't get it back.", preferredStyle: .actionSheet)
+        let delete = UIAlertAction(title: "Cancel Request", style: .destructive) { (UIAlertAction) in
+            queue.async(qos: .background) {
+                self.ref.child(artID).removeValue()
+                let email = Defaults[.email]
+                let name = Defaults[.name]
+                DataService.instance.REF_MAILGUN.sendMessage(to: "kerby.jean@hotmail.fr", from: email , subject: "REQUEST CANCELLED", body: "\(name) is cancelling \(artTitle), artID\(artID)", success: { (success) in
+                    print(success!)
+                }, failure: { (error) in
+                    print(error!)
+                })
+                //                DispatchQueue.main.async {
+                //                    self.collectionView.reloadData()
+                //                }
+            }
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alert.addAction(delete)
@@ -278,89 +291,30 @@ extension ProfileVC {
     }
     
     
-    func edit(indexPath: IndexPath, price: Int, title: String, description: String) {
-        NotificationCenter.default.post(name: editNotif, object: self)
-        if let cell = self.collectionView.cellForItem(at: indexPath) as? ProfileArtCell {
-             let art = self.arts[indexPath.row]
-        self.titleLbl.textColor = UIColor.flatWhite()
-        self.navigationController?.navigationBar.barTintColor = UIColor.flatSkyBlue()
-        self.navigationController?.navigationBar.tintColor = UIColor.flatWhite()
-        collectionView.isScrollEnabled = false
-        self.titleLbl.text = "Edit"
-            cell.priceTextField.text = "\(art.price)$"
-            cell.titleTextField.text = art.title
-            cell.descTextView.text = art.description
-        let cancelBtn = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(ProfileVC.cancelBtnTapped))
-            let doneBtn = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(ProfileVC.doneBtnTapped))
-        self.navigationItem.leftBarButtonItem = cancelBtn
-        self.navigationItem.rightBarButtonItem = doneBtn
-        cell.descTextView.text = art.description
-            
-        setTabBarVisible(visible: !tabBarIsVisible(), animated: true)
-        self.view.gestureRecognizers = nil
-//        let segItemsArray: [Any] = ["Size", "Type", "Modern"]
-//        self.segmentedCtrl = UISegmentedControl(items: segItemsArray)
-//        segmentedCtrl.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(300), height: CGFloat(30))
-//        segmentedCtrl.selectedSegmentIndex = 0
-//        segmentedCtrl.tintColor = UIColor.flatBlack()
-//        segmentedCtrl.addTarget(self, action: #selector(ProfileVC.segmentTapped(_:)), for: .valueChanged)
-//        let segmentedControlButtonItem = UIBarButtonItem(customView: (segmentedCtrl))
-//        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-//        let barArray: [UIBarButtonItem] = [flexibleSpace, segmentedControlButtonItem, flexibleSpace]
-//        self.toolbarItems = barArray
+    
+    func hideBars() {
+        UIView.animate(withDuration: 1.3) {
+            self.navigationController?.navigationBar.alpha = 1
+            self.setTabBarVisible(visible: true, animated: true)
+        }
+    }
+    
+    func showBars() {
+        UIView.animate(withDuration: 2.5) {
+            self.navigationController?.navigationBar.alpha = 0
+            self.setTabBarVisible(visible: false, animated: true)
         }
     }
     
     
-    func updateLbl() {
-        titleLbl.text = "Work"
-    }
-    
-    
-    func segmentTapped(_ sender: AnyObject) {
-        if sender.selectedSegmentIndex == 0 {
-            swipeView.scrollToItem(at: 0, duration: 0.5)
-        } else if  segmentedCtrl.selectedSegmentIndex == 1 {
-            swipeView.scrollToItem(at: 1, duration: 0.5)
-        } else if segmentedCtrl.selectedSegmentIndex == 2 {
-            swipeView.scrollToItem(at: 2, duration: 0.5)
-        }
-    }
-    
-    
-    func doneBtnTapped() {
-        NotificationCenter.default.removeObserver(self, name: editNotif, object: self)
-        if let cell = self.collectionView.cellForItem(at: indexPath as IndexPath) as? ProfileArtCell {
-            let art = self.arts[indexPath.row]
-            //let price:Int? = Int(cell.priceTextField.text!)
-            let title = cell.titleTextField.text!
-            let desc = cell.descTextView.text!
-            //print("\(price), \(title), \(desc)")
-            let newValues = ["title": title, "description": desc] as [String : Any]
-            DispatchQueue.main.async {
-            DataService.instance.REF_ARTS.child(art.artID).updateChildValues(newValues)
-            DataService.instance.REF_USERS.child(self.user.userId).child("arts").child(art.artID).updateChildValues(newValues)
-            }
-            NotificationCenter.default.post(name: cancelNotif, object: self)
-            collectionView.reloadData()
-            updateUI()
-        }
-    }
-    
-    func cancelBtnTapped() {
-        NotificationCenter.default.post(name: cancelNotif, object: self)
-        updateUI()
-    }
-
-    
-  // SetTabBar Visible
+    // SetTabBar Visible
     func setTabBarVisible(visible:Bool, animated:Bool) {
         if (tabBarIsVisible() == visible) { return }
         
         let frame = self.tabBarController?.tabBar.frame
         let height = frame?.size.height
         let offsetY = (visible ? -height! : height)
-
+        
         let duration:TimeInterval = (animated ? 0.3 : 0.0)
         
         if frame != nil {
@@ -372,29 +326,10 @@ extension ProfileVC {
     }
     
     func tabBarIsVisible() ->Bool {
-        return (self.tabBarController?.tabBar.frame.origin.y)! < self.view.frame.maxY
-    }
-    
-    func updateUI() {
-        self.navigationController?.navigationBar.barTintColor = UIColor.white
-        self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
-        self.titleLbl.textColor = UIColor.flatBlack()
-        collectionView.isScrollEnabled = true
-        self.titleLbl.text = user.name
-        let menuBtn = UIBarButtonItem(image: UIImage(named: "Menu-20"), style: .plain, target: self, action: #selector(ProfileVC.settingsBtnTapped(_:)))
-        self.navigationItem.leftBarButtonItem = nil
-        self.navigationItem.rightBarButtonItem = menuBtn
-        setTabBarVisible(visible: !tabBarIsVisible(), animated: true)
-        tapGesture = UITapGestureRecognizer(target: self, action: #selector(ProfileVC.showAlert))
-        self.navigationController?.setToolbarHidden(true, animated: true)
-        view.addGestureRecognizer(tapGesture)
+        if tabBarController != nil {
+            return (self.tabBarController?.tabBar.frame.origin.y)! < self.view.frame.maxY
+        }
+        return true
     }
 }
-
-
-
-
-
-
-
 

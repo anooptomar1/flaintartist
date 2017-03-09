@@ -8,25 +8,21 @@
 
 import UIKit
 import FirebaseDatabase
-import FirebaseStorage
 import FirebaseAuth
 
-class Art {
-    
-    fileprivate var _artID: String!
-    fileprivate var _imgUrl: String!
-    fileprivate var _price: Int!
-    fileprivate var _title: String!
-    fileprivate var _description: String!
-    fileprivate var _type: String!
-    fileprivate var _artHeight: Int!
-    fileprivate var _artWidth: Int!
-    fileprivate var _artLenght: Int!
-    fileprivate var _artRef: FIRDatabaseReference!
-    fileprivate var _userUid: String!
-    fileprivate var _postDate: Int!
-    
-    
+struct Art  {
+    private var _artID: String!
+    private var _imgUrl: String!
+    private var _price: Int!
+    private var _title: String!
+    private var _description: String!
+    private var _type: String!
+    private var _artHeight: Int!
+    private var _artWidth: Int!
+    private var _artLenght: Int!
+    private var _artRef: FIRDatabaseReference!
+    private var _userUid: String!
+    private var _postDate: Int!
     
     var title: String {
         return _title
@@ -78,7 +74,6 @@ class Art {
         self._artWidth = width
         self._postDate = postDate
         self._price = price
-        
     }
     
     init(key: String, artData: Dictionary<String, AnyObject>) {
@@ -120,9 +115,10 @@ class Art {
         if let price = artData["price"] as? Int {
             self._price = price
         }
-        
         _artRef = DataService.instance.REF_ARTS.child(self._artID)
     }
+    
+    //    deinit{
+    //        print("Title with name \(title) is being released")
+    //    }
 }
-
-
