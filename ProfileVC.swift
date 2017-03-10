@@ -96,7 +96,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
                             let key = snap.key
                             let art = Art(key: key, artData: postDict)
                             self?.art = Art(key: key, artData: postDict)
-                            self?.arts.append(art)
+                            self?.arts.insert(art, at: 0)
                         }
                     }
                 }

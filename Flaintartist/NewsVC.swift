@@ -122,7 +122,9 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
                         if let postDict = snap.value as? Dictionary<String, AnyObject> {
                             let key = snap.key
                             let art = Art(key: key, artData: postDict)
+                            if art.isPrivate == false {
                             self?.modern.append(art)
+                            }
                         }
                     }
                 }
@@ -138,7 +140,9 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
                         if let postDict = snap.value as? Dictionary<String, AnyObject> {
                             let key = snap.key
                             let art = Art(key: key, artData: postDict)
+                            if art.isPrivate == false {
                             self?.abstract.append(art)
+                            }
                         }
                     }
                 }
@@ -154,7 +158,9 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
                         if let postDict = snap.value as? Dictionary<String, AnyObject> {
                             let key = snap.key
                             let art = Art(key: key, artData: postDict)
+                            if art.isPrivate == false {
                             self?.realism.append(art)
+                            }
                         }
                     }
                 }

@@ -15,6 +15,7 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var isPrivateImgView: UIImageView!
     @IBOutlet weak var scnView: SCNView!
     @IBOutlet weak var infoView: UIView!
     
@@ -91,7 +92,14 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         }
         
         DispatchQueue.main.async {
-            self.titleLbl.text = self.art!.title
+            let attributedString = NSMutableAttributedString(string: "\(self.art!.title)")
+            let loveAttachment = NSTextAttachment()
+            if self.art?.isPrivate == true {
+            loveAttachment.image = UIImage(named: "Lock Filled-10")
+            }
+            attributedString.append(NSAttributedString(attachment: loveAttachment))
+            self.titleLbl.attributedText = attributedString
+            //self.titleLbl.text = self.art!.title
             let date =  self.art!.postDate/1000
             let foo: TimeInterval = TimeInterval(date)
             let theDate = NSDate(timeIntervalSince1970: foo)

@@ -11,6 +11,7 @@ import FirebaseDatabase
 import FirebaseAuth
 
 struct Art  {
+    
     private var _artID: String!
     private var _imgUrl: String!
     private var _price: Int!
@@ -23,6 +24,7 @@ struct Art  {
     private var _artRef: FIRDatabaseReference!
     private var _userUid: String!
     private var _postDate: Int!
+    var isPrivate: Bool = false
     
     var title: String {
         return _title
@@ -64,7 +66,7 @@ struct Art  {
         return _price
     }
     
-    init(artID: String, imgUrl: String, price: Int, title: String, description: String, type: String, height: Int, width: Int, postDate: Int) {
+    init(artID: String, imgUrl: String, price: Int, title: String, description: String, type: String, height: Int, width: Int, postDate: Int, isPrivate: Bool) {
         self._artID = artID
         self._imgUrl = imgUrl
         self._title = title
@@ -115,6 +117,11 @@ struct Art  {
         if let price = artData["price"] as? Int {
             self._price = price
         }
+        
+        if let isPrivate = artData["private"] as? Bool {
+            self.isPrivate = isPrivate
+        }
+        
         _artRef = DataService.instance.REF_ARTS.child(self._artID)
     }
     

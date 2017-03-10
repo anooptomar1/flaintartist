@@ -47,8 +47,10 @@ class SearchArtsVC: UIViewController, UICollectionViewDelegate, UICollectionView
                     for snap in snapshot {
                         if let postDict = snap.value as? Dictionary<String, AnyObject> {
                             let key = snap.key
-                            let post = Art(key: key, artData: postDict)
-                            self?.arts.insert(post, at: 0)
+                            let art = Art(key: key, artData: postDict)
+                            if art.isPrivate == false {
+                            self?.arts.insert(art, at: 0)
+                            }
                         }
                     }
                 }

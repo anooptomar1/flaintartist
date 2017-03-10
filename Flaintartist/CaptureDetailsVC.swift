@@ -14,17 +14,17 @@ import SDWebImage
 
 class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, SwipeViewDelegate, SwipeViewDataSource, UITextFieldDelegate, UITextViewDelegate {
     
-    @IBOutlet var scnView: SCNView!
-    @IBOutlet var heightLbl: UILabel!
-    @IBOutlet var widthLbl: UILabel!
+    @IBOutlet weak var scnView: SCNView!
+    @IBOutlet weak var heightLbl: UILabel!
+    @IBOutlet weak var widthLbl: UILabel!
     @IBOutlet weak var heightSlider: UISlider!
     @IBOutlet weak var widthSlider: UISlider!
     @IBOutlet weak var swipeView: SwipeView!
     @IBOutlet weak var segmentedCtrl: UISegmentedControl!
-    @IBOutlet var priceTextField: UITextField!
+    @IBOutlet weak var priceTextField: UITextField!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descTextView: UITextView!
-    @IBOutlet weak var wordCountLbl: UILabel!
+    @IBOutlet weak var privateSwitch: UISwitch!
     @IBOutlet weak var typePickerView: UIPickerView!
     @IBOutlet weak var imgContentView: UIView!
     @IBOutlet weak var navigationBar: UINavigationBar!
@@ -44,6 +44,7 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     var descText: String = ""
     var types = ["Modern", "Abstract", "Realism"]
     var type = ""
+    var isPrivate:Bool = false
     
     
     var detailsScene = DetailsScene(create: true)
@@ -167,6 +168,14 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         }
     }
     
+    @IBAction func swichValueChanged(_ sender: UISwitch) {
+        if sender.isOn {
+            isPrivate = true
+        } else {
+            isPrivate = false
+        }
+    }
+    
     
     func postToFirebase(imgUrl: String) {
         let uid = FIRAuth.auth()?.currentUser?.uid
@@ -185,7 +194,8 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
                 "imageUrl":  imgUrl as AnyObject,
                 "type":  type as AnyObject,
                 "postDate": FIRServerValue.timestamp() as AnyObject,
-                "price": price as AnyObject
+                "price": price as AnyObject,
+                "private": isPrivate as AnyObject
             ]
             
             DataService.instance.createNewArt(newArt)
@@ -281,15 +291,15 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     
     
     //MARK: TextViewDelegate
-    func textViewDidChange(_ textView: UITextView) {
-        let len = textView.text.characters.count
-        wordCountLbl.text = "\(100 - len)"
-        if len != 0 {
-            wordCountLbl.isHidden = false
-        } else {
-            wordCountLbl.isHidden = true
-        }
-    }
+//    func textViewDidChange(_ textView: UITextView) {
+//        let len = textView.text.characters.count
+//        wordCountLbl.text = "\(100 - len)"
+//        if len != 0 {
+//            wordCountLbl.isHidden = false
+//        } else {
+//            wordCountLbl.isHidden = true
+//        }
+//    }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         

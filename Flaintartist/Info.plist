@@ -27,6 +27,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>FlaintArtist uses this to customize your experience and let you explore more beauty around you.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Flaint would to have access to your Camera.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

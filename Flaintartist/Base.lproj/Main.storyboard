@@ -201,7 +201,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VW2-Wn-Mk8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-279" y="140"/>
+            <point key="canvasLocation" x="-343" y="141"/>
         </scene>
         <!--First StepVC-->
         <scene sceneID="XaN-2e-Rwv">
@@ -2216,7 +2216,7 @@
                                                     </collectionViewFlowLayout>
                                                     <cells>
                                                         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProfileArtCell" id="N6h-df-3WU" customClass="ProfileArtCell" customModule="Flaintartist" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="54.5" width="375" height="466"/>
+                                                            <rect key="frame" x="0.0" y="55" width="375" height="466"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="466"/>
@@ -2330,7 +2330,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jpd-eI-vez" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2142" y="141"/>
+            <point key="canvasLocation" x="2141.5999999999999" y="140.77961019490255"/>
         </scene>
         <!--HistoryVC-->
         <scene sceneID="Kow-3M-27X">
