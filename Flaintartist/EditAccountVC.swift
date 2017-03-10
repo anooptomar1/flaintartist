@@ -34,6 +34,7 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
             if let user = self?.user {
                 self?.nameField.text = user.name
                 self?.emailField.text = FIRAuth.auth()?.currentUser?.email
+                self?.websiteField.text = user.website
                 if let url = self?.user.profilePicUrl {
                     self?.profileImage.sd_setImage(with: URL(string: "\(url)") , placeholderImage: UIImage(named: "Placeholder") , options: .continueInBackground)
                 }
