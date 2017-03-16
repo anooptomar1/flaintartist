@@ -6,8 +6,8 @@
 //  Copyright © 2017 Kerby Jean. All rights reserved.
 //
 
-import FBSDKCoreKit
-import FBSDKLoginKit
+//import FBSDKCoreKit
+//import FBSDKLoginKit
 import FirebaseAuth
 import FirebaseDatabase
 import SwiftyUserDefaults
@@ -35,61 +35,61 @@ class AuthService {
     }
     
     
-    func logIn_Fb(vc: UIViewController) {
-        let facebookLogin = FBSDKLoginManager()
-        facebookLogin.logIn(withReadPermissions: ["email"], from: vc) { (result, error) in
-            if error != nil {
-                print("KURBS: Unable to authenticate with Facebook - \(error)")
-            } else if result?.isCancelled == true {
-                print("KURBS: User cancelled Facebook authentication")
-            } else {
-                print("KURBS: Successfully authenticated with Facebook")
-                let credential = FIRFacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
-                self.firebaseAuth(credential,  onComplete: nil)
-            }
-        }
-    }
+//    func logIn_Fb(vc: UIViewController) {
+//        let facebookLogin = FBSDKLoginManager()
+//        facebookLogin.logIn(withReadPermissions: ["email"], from: vc) { (result, error) in
+//            if error != nil {
+//                print("KURBS: Unable to authenticate with Facebook - \(error)")
+//            } else if result?.isCancelled == true {
+//                print("KURBS: User cancelled Facebook authentication")
+//            } else {
+//                print("KURBS: Successfully authenticated with Facebook")
+//                let credential = FIRFacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
+//                self.firebaseAuth(credential,  onComplete: nil)
+//            }
+//        }
+//    }
     
     
-    
-    func firebaseAuth(_ credential: FIRAuthCredential, onComplete: Completion?) {
-        FIRAuth.auth()?.signIn(with: credential, completion: { (user, error) in
-            if error == nil {
-                print("Kurbs: Successfully authenticated with Firebase")
-                onComplete?(nil, user)
-                if let user = user {
-                    let ref = DataService.instance.REF_USERS.child(user.uid)
-                    
-                    let grapshRequest: FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, email, picture"])
-                    grapshRequest.start(completionHandler: { (connection, result, error) in
-                        if error != nil {
-                            // Process error
-                            print("Error: \(error)")
-                        } else {
-                            print("fetched user: \(result)")
-                            let values: [String:AnyObject] = result as! [String : AnyObject]
-                            
-                            ref.updateChildValues(values, withCompletionBlock: { (err, ref) in
-                                if err != nil {
-                                    return
-                                }
-                                print("Save the user successfully into Firebase database")
-                            })
-                        }
-                        
-                    })
-                    let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
-                    appDel.logIn()
-                }
-                
-                print("Kurbs: Unable to authenticate with Firebase - \(error)")
-            } else {
-                
-                self.handleFirebaseError(error: error! as NSError, onComplete: onComplete)
-                
-            }
-        })
-    }
+//    
+//    func firebaseAuth(_ credential: FIRAuthCredential, onComplete: Completion?) {
+//        FIRAuth.auth()?.signIn(with: credential, completion: { (user, error) in
+//            if error == nil {
+//                print("Kurbs: Successfully authenticated with Firebase")
+//                onComplete?(nil, user)
+//                if let user = user {
+//                    let ref = DataService.instance.REF_USERS.child(user.uid)
+//                    
+//                    let grapshRequest: FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, email, picture"])
+//                    grapshRequest.start(completionHandler: { (connection, result, error) in
+//                        if error != nil {
+//                            // Process error
+//                            print("Error: \(error)")
+//                        } else {
+//                            print("fetched user: \(result)")
+//                            let values: [String:AnyObject] = result as! [String : AnyObject]
+//                            
+//                            ref.updateChildValues(values, withCompletionBlock: { (err, ref) in
+//                                if err != nil {
+//                                    return
+//                                }
+//                                print("Save the user successfully into Firebase database")
+//                            })
+//                        }
+//                        
+//                    })
+//                    let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+//                    appDel.logIn()
+//                }
+//                
+//                print("Kurbs: Unable to authenticate with Firebase - \(error)")
+//            } else {
+//                
+//                self.handleFirebaseError(error: error! as NSError, onComplete: onComplete)
+//                
+//            }
+//        })
+//    }
     
     
     func userType(id: String, email: String) {

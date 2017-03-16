@@ -145,16 +145,12 @@ class UploadPhotoVC: UIViewController, UICollectionViewDataSource, UICollectionV
         let dim = (collectionView.bounds.width - (cellsAcross - 1) * spaceBetweenCells) / cellsAcross
         return CGSize(width: dim, height: dim)
     }
+
     
-    
-    // MARK: TOCropViewController
-    func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
-        cropViewController.dismiss(animated: true) {
-            self.descLbl.isHidden = true
-            self.photoImageView.image = image
-            self.nextBtn.isEnabled = true
-    
-        }
+    func cropViewController(_ cropViewController: TOCropViewController, didCropToImage image: UIImage, rect cropRect: CGRect, angle: Int) {
+        self.descLbl.isHidden = true
+        self.photoImageView.image = image
+        self.nextBtn.isEnabled = true
     }
     
     
@@ -200,6 +196,7 @@ class UploadPhotoVC: UIViewController, UICollectionViewDataSource, UICollectionV
     func cropViewController(_ cropViewController: TOCropViewController, didFinishCancelled cancelled: Bool) {
         cropViewController.dismiss(animated: true, completion: nil)
     }
+    
 
     
     // MARK: Asset Caching

@@ -7,19 +7,19 @@ target 'Flaintartist' do
 
   # Pods for Flaintartist
 
-pod 'Firebase'
-pod 'Firebase/Auth'
-pod 'FirebaseStorage'
-pod 'FirebaseDatabase'
-pod 'Firebase/Messaging'
-pod 'ChameleonFramework'
-pod 'SDWebImage', '~>3.8'
-pod 'SwiftyUserDefaults'
-pod 'DZNEmptyDataSet'
-pod 'BTNavigationDropdownMenu'
-pod 'AFNetworking', '~> 1.3.3'
-pod 'GSMessages'
-pod 'TOCropViewController'
+  pod 'Firebase'
+  pod 'Firebase/Auth'
+  pod 'FirebaseStorage'
+  pod 'FirebaseDatabase'
+  pod 'Firebase/Messaging'
+  pod 'ChameleonFramework'
+  pod 'SDWebImage', '~>3.8'
+  pod 'SwiftyUserDefaults'
+  pod 'DZNEmptyDataSet'
+  pod 'BTNavigationDropdownMenu'
+  pod 'AFNetworking', '~> 1.3.3'
+  pod 'GSMessages'
+  pod 'TOCropViewController'
 
 
   target 'FlaintartistTests' do

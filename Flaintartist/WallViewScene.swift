@@ -12,42 +12,65 @@ import CoreMotion
 
 class WallViewScene: SCNScene, SCNSceneRendererDelegate {
     
-    var image = UIImage()
+    var artImage = UIImage()
+    var height: CGFloat = 0
+    var width: CGFloat = 0
     var geometry = SCNBox()
+    var boxnode = SCNNode()
+    var cameraOrbit = SCNNode()
+    var cameraNode = SCNNode()
+    var camera = SCNCamera()
+    
+    //HANDLE PAN CAMERA
+    var lastWidthRatio: Float = 0
+    var lastHeightRatio: Float = 0.2
     
     convenience init(create: Bool) {
         self.init()
-        
-        setup(artImage: image)
+        setup(artInfo: artImage, height: height, width: width)
     }
     
-    func setup(artImage: UIImage?)  {
-        self.image = artImage!
-        let lenght: CGFloat = 50
-        let width: CGFloat = image.size.width
-        let height: CGFloat = image.size.height
+    func setup(artInfo: UIImage?, height: CGFloat? = nil, width: CGFloat? = nil)  {
+        weak var weakSelf = self
+        let strongSelf = weakSelf!
         
-        self.geometry = SCNBox(width: width / 1000 , height: height / 1000, length: lenght / 1000, chamferRadius: 0.005)
-        self.geometry.firstMaterial?.diffuse.contents = UIColor.red
-        self.geometry.firstMaterial?.specular.contents = UIColor.white
-        self.geometry.firstMaterial?.emission.contents = UIColor.blue
-        let boxnode = SCNNode(geometry: self.geometry)
-        boxnode.rotation = SCNVector4(0,60,0,-55.8)
-        self.rootNode.addChildNode(boxnode)
+        strongSelf.artImage = artInfo!
+        strongSelf.height = height!
+        strongSelf.width = width!
         
-        let cameraNode = SCNNode()
-        cameraNode.camera = SCNCamera()
-        cameraNode.position = SCNVector3(0, 0, 4)
-        self.rootNode.addChildNode(cameraNode)
+        strongSelf.geometry = SCNBox(width: width!, height: height!, length: 57 / 1000, chamferRadius: 0.008)
+        strongSelf.geometry.firstMaterial?.diffuse.contents = UIColor.red
+        strongSelf.geometry.firstMaterial?.specular.contents = UIColor.white
+        strongSelf.geometry.firstMaterial?.emission.contents = UIColor.blue
+        boxnode = SCNNode(geometry: strongSelf.geometry)
+        let yPos = -1.5
+        
+        boxnode.position = SCNVector3(0, 0.4, yPos)
+        boxnode.rotation = SCNVector4(0,60,0,-56)
+        
+        strongSelf.rootNode.addChildNode(boxnode)
+        
+        cameraNode = SCNNode()
+        cameraNode.camera = camera
+        //camera.usesOrthographicProjection = true
+        camera.orthographicScale = 9
+        camera.zNear = 1
+        camera.zFar = 90
+        cameraOrbit.position = SCNVector3(0, 0, 3)
+        
+        cameraOrbit.addChildNode(cameraNode)
+        strongSelf.rootNode.addChildNode(cameraOrbit)
         
         let material = SCNMaterial()
-        material.diffuse.contents = image
+        material.diffuse.contents = artImage
         let borderMat = SCNMaterial()
-        borderMat.diffuse.contents = UIImage(named: "texture")
-        let backMat = SCNMaterial()
-        backMat.diffuse.contents = UIColor.gray
-        self.geometry.materials = [material, borderMat, backMat, borderMat, borderMat]
+        borderMat.diffuse.contents = UIColor.flatWhite()
+        self.geometry.materials = [material, borderMat]
+    }
+    
+    func remove() {
+        boxnode.removeFromParentNode()
+        cameraNode.removeFromParentNode()
+        cameraOrbit.removeFromParentNode()
     }
 }
-
-

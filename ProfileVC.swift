@@ -226,6 +226,15 @@ extension ProfileVC {
     
     func showRequestAlert(artImage: UIImage, art: Art) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let remove = UIAlertAction(title: "Remove", style: .destructive, handler: { (UIAlertAction) in
+            self.removeRequest(artID: art.artID, artTitle: art.title)
+        })
+        
+        let edit = UIAlertAction(title: "Edit", style: .default) { (action) in
+            
+        }
+        
         let wallView = UIAlertAction(title: "Wallview", style: .default, handler: { (UIAlertAction) in
             DispatchQueue.main.async {
                 self.performSegue(withIdentifier: "WallviewVC", sender: artImage)
@@ -234,15 +243,20 @@ extension ProfileVC {
         let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
             self.share(image: artImage, title: art.title)
         })
-        let remove = UIAlertAction(title: "Cancel Request", style: .destructive, handler: { (UIAlertAction) in
-            self.removeRequest(artID: art.artID, artTitle: art.title)
-        })
+        
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(remove)
         alert.addAction(wallView)
         alert.addAction(share)
-        alert.addAction(remove)
         alert.addAction(cancel)
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    
+    func edit() {
+        
+        
     }
     
     
@@ -276,12 +290,10 @@ extension ProfileVC {
                 let name = Defaults[.name]
                 DataService.instance.REF_MAILGUN.sendMessage(to: "kerby.jean@hotmail.fr", from: email , subject: "REQUEST CANCELLED", body: "\(name) is cancelling \(artTitle), artID\(artID)", success: { (success) in
                     print(success!)
+                    self.collectionView.reloadData()
                 }, failure: { (error) in
                     print(error!)
                 })
-                //                DispatchQueue.main.async {
-                //                    self.collectionView.reloadData()
-                //                }
             }
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
