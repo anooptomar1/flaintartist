@@ -119,11 +119,13 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
                 self?.modern = []
                 if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
                     for snap in snapshot {
-                        if let postDict = snap.value as? Dictionary<String, AnyObject> {
-                            let key = snap.key
-                            let art = Art(key: key, artData: postDict)
-                            if art.isPrivate == false {
-                            self?.modern.append(art)
+                        if let dict = snap.value as? NSDictionary, let isPrivate = dict["private"] as? Bool {
+                            if isPrivate == false {
+                                if let postDict = snap.value as? Dictionary<String, AnyObject> {
+                                    let key = snap.key
+                                    let art = Art(key: key, artData: postDict)
+                                       self?.modern.append(art)
+                                }
                             }
                         }
                     }
@@ -137,11 +139,13 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
                 self?.abstract = []
                 if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
                     for snap in snapshot {
-                        if let postDict = snap.value as? Dictionary<String, AnyObject> {
-                            let key = snap.key
-                            let art = Art(key: key, artData: postDict)
-                            if art.isPrivate == false {
-                            self?.abstract.append(art)
+                        if let dict = snap.value as? NSDictionary, let isPrivate = dict["private"] as? Bool {
+                            if isPrivate == false {
+                                if let postDict = snap.value as? Dictionary<String, AnyObject> {
+                                    let key = snap.key
+                                    let art = Art(key: key, artData: postDict)
+                                    self?.abstract.append(art)
+                                }
                             }
                         }
                     }
@@ -155,11 +159,13 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
                 self?.realism = []
                 if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
                     for snap in snapshot {
-                        if let postDict = snap.value as? Dictionary<String, AnyObject> {
-                            let key = snap.key
-                            let art = Art(key: key, artData: postDict)
-                            if art.isPrivate == false {
-                            self?.realism.append(art)
+                        if let dict = snap.value as? NSDictionary, let isPrivate = dict["private"] as? Bool {
+                            if isPrivate == false {
+                                if let postDict = snap.value as? Dictionary<String, AnyObject> {
+                                    let key = snap.key
+                                    let art = Art(key: key, artData: postDict)
+                                    self?.realism.append(art)
+                                }
                             }
                         }
                     }
@@ -176,9 +182,9 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.modern.removeAll()
-        self.abstract.removeAll()
-        self.realism.removeAll()
+//        self.modern.removeAll()
+//        self.abstract.removeAll()
+//        self.realism.removeAll()
         DataService.instance.REF_ARTS.removeAllObservers()
     }
     
@@ -226,7 +232,10 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewCell", for: indexPath) as? NewCell {
-            var art = modern[indexPath.row]
+            var art: Art!
+            if indexPath.section == 0 {
+                art = modern[indexPath.row]
+            }
             
             if indexPath.section == 1 {
                 art = abstract[indexPath.row]
@@ -235,7 +244,6 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
             if indexPath.section == 2 {
                 art = realism[indexPath.row]
             }
-            
             cell.otherScene.boxnode.removeFromParentNode()
             cell.configureCell(forArt: art, indexPath: indexPath)
             return cell
@@ -247,7 +255,10 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        var art = modern[indexPath.row]
+        var art: Art!
+        if indexPath.section == 0 {
+            art = modern[indexPath.row]
+        }
         if indexPath.section == 1 {
             art = abstract[indexPath.row]
         }

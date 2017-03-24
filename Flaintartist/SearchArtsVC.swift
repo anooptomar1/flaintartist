@@ -41,15 +41,17 @@ class SearchArtsVC: UIViewController, UICollectionViewDelegate, UICollectionView
         super.viewWillAppear(animated)
         
         queue.async(qos: .userInitiated) {
-            DataService.instance.REF_ARTS.observe(.value, with: { [weak self] (snapshot) in
+            DataService.instance.REF_ARTS.queryLimited(toFirst: 10).observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
                 self?.arts = []
                 if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
                     for snap in snapshot {
-                        if let postDict = snap.value as? Dictionary<String, AnyObject> {
-                            let key = snap.key
-                            let art = Art(key: key, artData: postDict)
-                            if art.isPrivate == false {
-                            self?.arts.insert(art, at: 0)
+                        if let dict = snap.value as? NSDictionary, let isPrivate = dict["private"] as? Bool {
+                            if isPrivate == false {
+                                if let postDict = snap.value as? Dictionary<String, AnyObject> {
+                                    let key = snap.key
+                                    let art = Art(key: key, artData: postDict)
+                                    self?.arts.append(art)
+                                }
                             }
                         }
                     }
@@ -57,7 +59,7 @@ class SearchArtsVC: UIViewController, UICollectionViewDelegate, UICollectionView
                 DispatchQueue.main.async {
                     self?.collectionView.reloadData()
                 }
-            })
+            }
         }
         
     }

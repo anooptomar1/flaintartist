@@ -75,7 +75,6 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
             let metaData = FIRStorageMetadata()
             metaData.contentType = "image/jpeg"
             
-            
             imageRef.put(imageData!, metadata: metaData) { (metaData, error) in
                 let changeRequest = FIRAuth.auth()?.currentUser?.profileChangeRequest()
                 changeRequest?.displayName = name

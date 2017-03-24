@@ -79,8 +79,6 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         swipeView.bounces = false
         swipeView.isScrollEnabled = false
         
-        
-        
         doneBtn = UIBarButtonItem(title: "Done", style: .done, target: self, action:  #selector(CaptureDetailsVC.doneBtnTapped(_:)))
         doneBtn.tintColor = UIColor.flatSkyBlue()
         self.navigationItem.rightBarButtonItem = doneBtn
@@ -231,17 +229,14 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     
     func swipeView(_ swipeView: SwipeView!, viewForItemAt index: Int, reusing view: UIView!) -> UIView! {
         if index == 0 {
-            UIView.animate(withDuration: 2, animations: {
                 self.SizeView = Bundle.main.loadNibNamed("Size", owner: self, options: nil)?[0] as! UIView
                 self.segmentedCtrl.selectedSegmentIndex = 0
                 self.SizeView.isUserInteractionEnabled = true
                 self.SizeView.frame = CGRect(x: 0, y: 0, width: self.swipeView.frame.width, height: self.swipeView.frame.height)
                 self.heightSlider.value = Float(self.artImg.size.height/100)
                 self.widthSlider.value = Float(self.artImg.size.width/100)
-            })
             return SizeView
         } else if index == 1 {
-            UIView.animate(withDuration: 2, animations: {
                 self.typesView = Bundle.main.loadNibNamed("Types", owner: self, options: nil)?[0] as! UIView
                 self.segmentedCtrl.selectedSegmentIndex = 1
                 self.typesView.isUserInteractionEnabled = true
@@ -250,10 +245,8 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
                 self.typePickerView.dataSource = self
                 let row = self.typePickerView.selectedRow(inComponent: 0)
                 self.pickerView(self.typePickerView, didSelectRow: row, inComponent:0)
-            })
             return typesView
         } else if index == 2 {
-            UIView.animate(withDuration: 2, animations: {
                 self.DetailsView = Bundle.main.loadNibNamed("Details", owner: self, options: nil)?[0] as! UIView
                 self.segmentedCtrl.selectedSegmentIndex = 2
                 self.DetailsView.isUserInteractionEnabled = true
@@ -263,7 +256,6 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
                 self.descTextView.delegate = self
                 self.descTextView.text = "Description..."
                 self.descTextView.textColor = UIColor.lightGray
-            })
             return DetailsView
         }
         return view

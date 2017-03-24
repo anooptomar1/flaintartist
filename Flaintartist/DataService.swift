@@ -72,10 +72,10 @@ class DataService {
             let ref = DataService.instance.REF_BASE.child("favorites").child(userID!).child(artUID)
             ref.updateChildValues(["artUID": artUID, "imageUrl": imgUrl ,"title": title, "description": description, "price": price, "height": height, "width": width, "type": type, "postDate": FIRServerValue.timestamp() as AnyObject]) { (error, ref) in
                 if error != nil {
-                    alert.showNotif(vc: vc, backgroundColor: UIColor.flatRed())
+                    alert.showNotif(text: "Error", vc: vc, backgroundColor: UIColor.flatRed())
                 } else {
                     DispatchQueue.main.async {
-                        alert.showNotif(vc: vc, backgroundColor: UIColor.flatWhite())
+                        alert.showNotif(text: "Successfully added to favorites", vc: vc, backgroundColor: UIColor.flatWhite())
                     }
                 }
             }

@@ -55,6 +55,7 @@ PODS:
   - SDWebImage (3.8.2):
     - SDWebImage/Core (= 3.8.2)
   - SDWebImage/Core (3.8.2)
+  - SwiftMessages (3.3.1)
   - SwiftyUserDefaults (3.0.0)
   - TOCropViewController (2.0.12)
 
@@ -70,6 +71,7 @@ DEPENDENCIES:
   - FirebaseStorage
   - GSMessages
   - SDWebImage (~> 3.8)
+  - SwiftMessages
   - SwiftyUserDefaults
   - TOCropViewController
 
@@ -91,9 +93,10 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 5c046c76a1f859bc9c187e918f18e4fc7bb57b5e
   Protobuf: 745f59e122e5de98d4d7ef291e264a0eef80f58e
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
+  SwiftMessages: 31e27e35c2f11b116ad7ec3232b56ca9bd242475
   SwiftyUserDefaults: 0f1d45fc3aafb9064dac661e367f8f83fe21a4b4
   TOCropViewController: e6e31b38d785a901e5651a1e7fff71bcda6c5214
 
-PODFILE CHECKSUM: a71beafd7af6224ce0f6d26841629b6160a52c4f
+PODFILE CHECKSUM: 9ae1143aa14a7e854c2133411dd800f021839b52
 
 COCOAPODS: 1.0.0

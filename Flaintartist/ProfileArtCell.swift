@@ -83,7 +83,7 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         let myBlock: SDWebImageCompletionBlock! = { [weak self] (image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
             if let img = image {
                 DispatchQueue.main.async {
-                    self?.artRoomScene.setup(artInfo: img, height: img.size.height / 700, width: img.size.width / 700)
+                    self?.artRoomScene.setup(artInfo: img, height: img.size.height / 600, width: img.size.width / 600)
                 }
             }
         }

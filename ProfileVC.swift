@@ -10,6 +10,7 @@ import UIKit
 import SceneKit
 import Firebase
 import SDWebImage
+import SwiftMessages
 import DZNEmptyDataSet
 import ChameleonFramework
 import SwiftyUserDefaults
@@ -36,12 +37,15 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     let cancelNotif = NSNotification.Name("Hide")
     
     var dmzMessage = ""
+    var viewOrigin: CGFloat = 0.0
+
+    
+    weak var detailsView: EditArtDetails!
     
     let ref =  DataService.instance.REF_ARTISTARTS.child(userID!)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.emptyDataSetSource = self
@@ -56,6 +60,9 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         } else {
             tableView.addSubview(refreshCtrl)
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     
@@ -232,7 +239,7 @@ extension ProfileVC {
         })
         
         let edit = UIAlertAction(title: "Edit", style: .default) { (action) in
-            
+            self.edit(forArt: art)
         }
         
         let wallView = UIAlertAction(title: "Wallview", style: .default, handler: { (UIAlertAction) in
@@ -246,7 +253,9 @@ extension ProfileVC {
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
+
         alert.addAction(remove)
+        alert.addAction(edit)
         alert.addAction(wallView)
         alert.addAction(share)
         alert.addAction(cancel)
@@ -254,13 +263,59 @@ extension ProfileVC {
     }
     
     
-    func edit() {
-        
-        
+    func edit(forArt: Art) {
+        let view: EditArtDetails = try! SwiftMessages.viewFromNib()
+        view.saveAction = {self.done()}
+        self.detailsView = view
+        view.configureView(forArt: forArt)
+        //view.configureDropShadow()
+        var config = SwiftMessages.defaultConfig
+        config.presentationContext = .automatic
+        config.duration = .forever
+        config.presentationStyle = .bottom
+        config.dimMode = .gray(interactive: true)
+        self.setTabBarVisible(visible: false, animated: true)
+        SwiftMessages.show(config: config, view: view)
     }
     
+
     
     
+    func cancel() {
+        self.titleLbl.text = "\(user.name)"
+        self.titleLbl.textColor = UIColor.flatBlack()
+    }
+    
+    func done() {
+        let price:Int? = Int(self.detailsView.priceField.text!)
+        let title = self.detailsView.titleField.text!
+        let desc = self.detailsView.descField.text!
+        let isPrivate = self.detailsView.art.isPrivate
+        queue.async(qos: .background) {        
+        DataService.instance.REF_ARTS.child("\(self.detailsView.art.artID)").updateChildValues(["price": price!, "title": title, "description" : desc, "private": isPrivate]) { (error, ref) in
+            if error != nil {
+                print("ERROR ")
+            } else {
+                DataService.instance.REF_ARTS.child("\(self.detailsView.art.artID)").updateChildValues(["price": price!, "title": title, "description" : desc, "private": isPrivate])
+                DataService.instance.REF_ARTISTARTS.child(self.detailsView.art.userUid).child("\(self.detailsView.art.artID)").updateChildValues(["price": price!, "title": title, "description" : desc, "private": isPrivate])
+                
+                DataService.instance.REF_HISTORY.child(self.user.userId!).child("\(self.detailsView.art.artID)").updateChildValues(["price": price!, "title": title, "description" : desc, "private": isPrivate])
+                
+                DataService.instance.REF_FAVORITES.child(self.user.userId!).child("\(self.detailsView.art.artID)").updateChildValues(["price": price!, "title": title, "description" : desc, "private": isPrivate])
+                }
+                DispatchQueue.main.async {
+                    self.setTabBarVisible(visible: true, animated: true)
+                    let alert = Alerts()
+                    SwiftMessages.hide()
+                    alert.showNotif(text: "Edit has been successfull", vc: self, backgroundColor: UIColor.flatWhite())
+                }
+            }
+        }
+    }
+
+
+    
+
     func share(image: UIImage, title: String) {
         let share = Share()
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -268,29 +323,30 @@ extension ProfileVC {
             share.facebookShare(self, image: image, text: title)
         })
         
-        _ = UIAlertAction(title: "Mesenger", style: .default, handler: { (UIAlertAction) in
-            //share.messengerShare(self, image: self.artInfo[0] as! UIImage)
+        _ = UIAlertAction(title: "Messenger", style: .default, handler: { (UIAlertAction) in
         })
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alert.addAction(facebook)
-        //alert.addAction(messenger)
         alert.addAction(cancel)
         self.present(alert, animated: true, completion: nil)
     }
     
     
     func removeRequest(artID: String, artTitle: String) {
-        let alert = UIAlertController(title: "", message: "Are you sure you want to cancel \(artTitle). After canceling, you can't get it back.", preferredStyle: .actionSheet)
-        let delete = UIAlertAction(title: "Cancel Request", style: .destructive) { (UIAlertAction) in
+        let alert = UIAlertController(title: "", message: "Are you sure you want to remove \(artTitle). After removing it, you can't get it back.", preferredStyle: .actionSheet)
+        let delete = UIAlertAction(title: "Remove from gallery", style: .destructive) { (UIAlertAction) in
             queue.async(qos: .background) {
                 self.ref.child(artID).removeValue()
+                DataService.instance.REF_HISTORY.child(artID).removeValue()
                 let email = Defaults[.email]
                 let name = Defaults[.name]
                 DataService.instance.REF_MAILGUN.sendMessage(to: "kerby.jean@hotmail.fr", from: email , subject: "REQUEST CANCELLED", body: "\(name) is cancelling \(artTitle), artID\(artID)", success: { (success) in
                     print(success!)
-                    self.collectionView.reloadData()
+                    DispatchQueue.main.async {
+                       self.collectionView.reloadData()
+                    }
                 }, failure: { (error) in
                     print(error!)
                 })
@@ -342,6 +398,29 @@ extension ProfileVC {
             return (self.tabBarController?.tabBar.frame.origin.y)! < self.view.frame.maxY
         }
         return true
+    }
+    
+    
+    // MARK: Keyboard
+    func keyboardWillShow(_ notification: NSNotification) {
+        self.viewOrigin = self.detailsView.frame.origin.y
+        print("ORIGINE:\(self.viewOrigin)")
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.detailsView.frame.origin.y == self.viewOrigin {
+                self.detailsView.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    
+    
+    func keyboardWillHide(_ notification: NSNotification) {
+        self.viewOrigin = 0.0
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.detailsView.frame.origin.y != 0 {
+                print("HIDE")
+                self.detailsView.frame.origin.y += keyboardSize.height
+            }
+        }
     }
 }
 

@@ -21,7 +21,6 @@ class GalleryVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var artworkCountLbl: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     
-    
     var user: Users!
     var arts = [Art]()
     var art: Art!
@@ -65,19 +64,23 @@ class GalleryVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         super.viewWillAppear(animated)
         
         queue.async(qos: .userInitiated) {
-            DataService.instance.REF_USERS.child((self.user.userId)!).child("arts").observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
+            DataService.instance.REF_ARTISTARTS.child((self.user.userId)!).observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
                 self?.arts = []
                 if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
                     for snap in snapshot {
+                        if let dict = snap.value as? NSDictionary, let isPrivate = dict["private"] as? Bool {
+                            if isPrivate == false {
                         if let postDict = snap.value as? Dictionary<String, AnyObject> {
                             let key = snap.key
                             let art = Art(key: key, artData: postDict)
                             if art.isPrivate == false {
                                 self?.arts.insert(art, at: 0)
+                                }
                             }
                         }
                     }
                 }
+            }
                 
                 DispatchQueue.main.async {
                     self?.collectionView.reloadData()

@@ -64,6 +64,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SwiftMessages-SwiftMessages.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SwiftMessages.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>SwiftyUserDefaults.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -92,22 +102,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>1B81B8D6D06F7F9308A582F2D3357870</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>1E7BC49217F1FF4E9347405630744E71</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>23BA9083ED0D2392A167A8AFA04427FA</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>292B4CE816EB69F4E166C58AA583308A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -117,7 +112,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7F227AFAFE2DEEAF9C88C1F5C1401AC8</key>
+		<key>645A153DB63BD7215AA1D15669621FAC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>66B9D902CF1DD59EB77A08BE883B9AAF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -127,12 +127,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>91D94C375CBA4DD4E65D8092C786CB59</key>
+		<key>8B8BFA4FC5CB0F3918E165AE42BE5B1B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>921BC573CDA0E8DEA926F7EF2326CB61</key>
+		<key>91D94C375CBA4DD4E65D8092C786CB59</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -142,12 +142,32 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E30CF195D819C9A7E42F3385C685685C</key>
+		<key>B088E765B7107AADF7DBF6A319292ACB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B30973E801DF9FADCC8A853A5E12E92E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C5F483DA547B3575980983A00C1F3564</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CA6AD38772B942B04F4F69517F56AC0D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>EBB70B39B24BFA8A41C2439A78FAC47B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F04636DAAA93C4C677861209715C3EBD</key>
 		<dict>
 			<key>primary</key>
 			<true/>

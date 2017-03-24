@@ -750,20 +750,20 @@
         <!--Wall ViewVC-->
         <scene sceneID="T6l-xw-Xcs">
             <objects>
-                <viewController id="YOX-8T-sUg" customClass="WallViewVC" customModule="Flaintartist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WallviewVC" id="YOX-8T-sUg" customClass="WallViewVC" customModule="Flaintartist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ozq-7K-grb"/>
                         <viewControllerLayoutGuide type="bottom" id="E0r-Q3-AA4"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="O5L-aB-DRt">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oGf-jE-Rjh" customClass="IPDFCameraViewController">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MbM-rK-ota" customClass="SCNView">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
                                         <color key="backgroundColor" red="0.19376453760000001" green="0.50850099329999998" blue="0.85232251879999998" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                 </subviews>
@@ -2181,6 +2181,7 @@
                         <outlet property="textView" destination="Hgp-m3-CM2" id="74z-TM-BYK"/>
                         <outlet property="timeLbl" destination="bjt-4q-dgX" id="gwh-AX-k2a"/>
                         <segue destination="v28-s4-pGk" kind="presentation" identifier="ReportVC" id="uS1-wH-aky"/>
+                        <segue destination="YOX-8T-sUg" kind="show" identifier="WallviewVC" id="fyb-iZ-i2M"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6da-Lk-hjh" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2840,5 +2841,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="m7K-wp-2Jo"/>
+        <segue reference="fyb-iZ-i2M"/>
     </inferredMetricsTieBreakers>
 </document>

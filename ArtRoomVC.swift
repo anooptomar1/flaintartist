@@ -73,8 +73,8 @@ class ArtRoomVC: UIViewController {
             DataService.instance.seen(artUID: info.artID, imgUrl: info.imgUrl, title: info.title, description: info.description, price: info.price, height: info.artHeight, width: info.artWidth, type: info.type, date: info.postDate, userUID: info.userUid)
             self.userID = info.userUid
             let image = strongSelf.artInfo[0] as? UIImage
-            let height = (image?.size.height)! / 900
-            let width = (image?.size.width)! / 900
+            let height = (image?.size.height)! / 700
+            let width = (image?.size.width)! / 700
             strongSelf.artRoomScene.setup(artInfo: image, height: height, width: width)
             strongSelf.mainTitleLbl.text = info.title
             let date = info.postDate / 1000

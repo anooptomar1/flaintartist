@@ -45,11 +45,11 @@ class Alerts {
     }
     
     
-    func showNotif(vc: UIViewController, backgroundColor: UIColor) {
+    func showNotif(text: String, vc: UIViewController, backgroundColor: UIColor) {
         GSMessage.successBackgroundColor = backgroundColor
-        vc.showMessage("Successfully added to favorites.", type: .success, options: [
+        vc.showMessage(text, type: .success, options: [
             .animation(.slide),
-            .animationDuration(0.3),
+            .animationDuration(0.6),
             .autoHide(true),
             .autoHideDelay(3.0),
             .height(44.0),

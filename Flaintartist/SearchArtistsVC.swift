@@ -86,7 +86,7 @@ class SearchVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     func findNearbyUsers(){
         weak var weakSelf = self
         let strongSelf = weakSelf!
-        let location = CLLocation(latitude: 20000, longitude: 20000)
+        let location = CLLocation(latitude: Defaults[.latitude], longitude: Defaults[.longitude])
         let geoFireRef = DataService.instance.REF_BASE.child("users_location")
         strongSelf.geoFire = GeoFire(firebaseRef: geoFireRef)
         let circleQuery = geoFire!.query(at: location, withRadius: 1000)
