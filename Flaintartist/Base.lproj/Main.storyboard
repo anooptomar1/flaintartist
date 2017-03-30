@@ -756,14 +756,14 @@
                         <viewControllerLayoutGuide type="bottom" id="E0r-Q3-AA4"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="O5L-aB-DRt">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oGf-jE-Rjh" customClass="IPDFCameraViewController">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MbM-rK-ota" customClass="SCNView">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
                                         <color key="backgroundColor" red="0.19376453760000001" green="0.50850099329999998" blue="0.85232251879999998" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                 </subviews>
@@ -1982,7 +1982,7 @@
                     <navigationItem key="navigationItem" id="iFL-jv-ZKk">
                         <nil key="title"/>
                         <view key="titleView" contentMode="scaleToFill" id="jmK-Lf-ylV">
-                            <rect key="frame" x="113" y="6" width="150" height="33"/>
+                            <rect key="frame" x="112.5" y="5.5" width="150" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jj0-S5-h08">
@@ -2103,7 +2103,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="uId-I5-Mqu">
                                                 <rect key="frame" x="8" y="8" width="359" height="119"/>
                                                 <subviews>
-                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" indicatorStyle="white" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Hgp-m3-CM2">
+                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" indicatorStyle="white" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hgp-m3-CM2">
                                                         <rect key="frame" x="41" y="0.0" width="277" height="50"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <constraints>
@@ -2124,7 +2124,7 @@
                                                         </collectionViewFlowLayout>
                                                         <cells>
                                                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SimilarCell" id="eiy-5W-osF" customClass="SimilarCell" customModule="Flaintartist" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="5" width="60" height="60"/>
+                                                                <rect key="frame" x="0.0" y="4.5" width="60" height="60"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                                     <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
@@ -2160,7 +2160,7 @@
                                                     <constraint firstAttribute="height" constant="43" id="6Ue-yj-S25"/>
                                                     <constraint firstAttribute="width" constant="66" id="KKS-8V-6fF"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                                                 <color key="textColor" red="0.12549019607843137" green="0.12549019607843137" blue="0.12549019607843137" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -2207,7 +2207,7 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="Ckg-gQ-mSZ">
                         <view key="titleView" contentMode="scaleToFill" id="8ok-ek-i7y">
-                            <rect key="frame" x="113" y="6" width="150" height="33"/>
+                            <rect key="frame" x="112.5" y="5.5" width="150" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VZ9-S6-hpz">
@@ -2358,7 +2358,7 @@
                     <tabBarItem key="tabBarItem" title="Item" id="rvl-cP-n9k"/>
                     <navigationItem key="navigationItem" id="mdq-T1-NgF">
                         <view key="titleView" contentMode="scaleToFill" id="tvp-Zs-TWU">
-                            <rect key="frame" x="113" y="6" width="150" height="33"/>
+                            <rect key="frame" x="112.5" y="5.5" width="150" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yJO-LI-xnp">
@@ -2902,6 +2902,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="AFT-Si-2Xd"/>
-        <segue reference="Qe5-sR-zml"/>
+        <segue reference="fyb-iZ-i2M"/>
     </inferredMetricsTieBreakers>
 </document>
