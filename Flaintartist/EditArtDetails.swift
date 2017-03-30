@@ -18,7 +18,6 @@ class EditArtDetails: MessageView, UITextFieldDelegate, UITextViewDelegate {
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     var art: Art!
-    var viewOrigin: CGFloat = 0.0
 
     var saveAction: (() -> Void)?
 
@@ -54,7 +53,6 @@ class EditArtDetails: MessageView, UITextFieldDelegate, UITextViewDelegate {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        print("ORIGIN: \(self.frame.origin.y)")
     }
     
     // MARK: TextFieldDelegate

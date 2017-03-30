@@ -235,7 +235,7 @@ extension ProfileVC {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let remove = UIAlertAction(title: "Remove", style: .destructive, handler: { (UIAlertAction) in
-            self.removeRequest(artID: art.artID, artTitle: art.title)
+            self.removeRequest(artUrl: art.imgUrl ,artID: art.artID, artTitle: art.title)
         })
         
         let edit = UIAlertAction(title: "Edit", style: .default) { (action) in
@@ -277,6 +277,7 @@ extension ProfileVC {
         self.setTabBarVisible(visible: false, animated: true)
         SwiftMessages.show(config: config, view: view)
     }
+
     
 
     
@@ -334,12 +335,13 @@ extension ProfileVC {
     }
     
     
-    func removeRequest(artID: String, artTitle: String) {
+    func removeRequest(artUrl: String, artID: String, artTitle: String) {
         let alert = UIAlertController(title: "", message: "Are you sure you want to remove \(artTitle). After removing it, you can't get it back.", preferredStyle: .actionSheet)
         let delete = UIAlertAction(title: "Remove from gallery", style: .destructive) { (UIAlertAction) in
             queue.async(qos: .background) {
                 self.ref.child(artID).removeValue()
                 DataService.instance.REF_HISTORY.child(artID).removeValue()
+                SDImageCache.shared().removeImage(forKey: artUrl, fromDisk: true)
                 let email = Defaults[.email]
                 let name = Defaults[.name]
                 DataService.instance.REF_MAILGUN.sendMessage(to: "kerby.jean@hotmail.fr", from: email , subject: "REQUEST CANCELLED", body: "\(name) is cancelling \(artTitle), artID\(artID)", success: { (success) in

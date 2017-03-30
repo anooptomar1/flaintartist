@@ -67,7 +67,7 @@ class NewCell: UICollectionViewCell {
                     self?.otherScene.rotate(w: 0, cameraZ: 3, yPoz: -3.0)
                 }
             }
-            self?.otherScene.setup(artInfo: image, height: image!.size.height / 335, width: image!.size.width / 335)
+            self?.otherScene.setup(artInfo: image, height: image!.size.height / 350, width: image!.size.width / 350)
         }
         self.artImgView.sd_setImage(with: URL(string: "\(self.art.imgUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
     }

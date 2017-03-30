@@ -7,24 +7,27 @@
 //
 
 import UIKit
-import SceneKit
 import Firebase
-import SDWebImage
+import SceneKit
 import GSMessages
+import SDWebImage
+import SwiftMessages
 import ChameleonFramework
 import SwiftyUserDefaults
 
-class ArtRoomVC: UIViewController {
+class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource  {
     
     @IBOutlet weak var scnView: SCNView!
     @IBOutlet weak var artInfoView: UIView!
     @IBOutlet weak var mainTitleLbl: UILabel!
     @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var timeLbl: UILabel!
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var artistImg: RoundImage!
     @IBOutlet weak var artistNameLbl: UILabel!
     @IBOutlet weak var artistView: UIView!
+    @IBOutlet weak var similarLbl: UILabel!
     
     var artRoomScene = ArtRoomScene(create: true)
     var artImage = UIImage()
@@ -33,10 +36,9 @@ class ArtRoomVC: UIViewController {
     var post: Art!
     var user: Users!
     var showInfo: Bool = false
-    var showSimilar: Bool = false
     let alert = Alerts()
     
-    
+    var arts = [Art]()
     
     //HANDLE PAN CAMERA
     var lastWidthRatio: Float = 0
@@ -51,6 +53,8 @@ class ArtRoomVC: UIViewController {
     var pinchAttenuation = 100.0
     var lastFingersNumber = 0
     var userID = ""
+    
+    var showSimilar: Bool = false
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -97,14 +101,50 @@ class ArtRoomVC: UIViewController {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(ArtRoomVC.handlePan(gestureRecognize:)))
         scnView.addGestureRecognizer(panGesture)
         let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ArtRoomVC.handlePinch(gestureRecognize:)))
+        let similarGesture = UITapGestureRecognizer(target: self, action: #selector(ArtRoomVC.similarLblTapped))
+        similarLbl.addGestureRecognizer(similarGesture)
         scnView.addGestureRecognizer(pinchGesture)
         
+        let attributedString = NSMutableAttributedString(string: "Similar ")
+        let attachment = NSTextAttachment()
+            attachment.image = UIImage(named: "Expand Arrow-10")
+        attributedString.append(NSAttributedString(attachment: attachment))
+        self.similarLbl.attributedText = attributedString
+
+        collectionView.dataSource = self
+        collectionView.delegate = self
     }
     
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        DispatchQueue.global(qos: .background).async {
+            if let info = self.artInfo[1] as? Art {
+                DataService.instance.REF_ARTS.queryOrdered(byChild: "type").queryEqual(toValue: info.type).queryLimited(toFirst: 6).observe(.value, with: { [weak self] (snapshot) in
+                self?.arts = []
+                if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
+                    for snap in snapshot {
+                        if let dict = snap.value as? NSDictionary, let isPrivate = dict["private"] as? Bool {
+                            if isPrivate == false {
+                                if let postDict = snap.value as? Dictionary<String, AnyObject> {
+                                    let key = snap.key
+                                    let art = Art(key: key, artData: postDict)
+                                    if art.artID != info.artID {
+                                    self?.arts.append(art)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                DispatchQueue.main.async {
+                    self?.collectionView.reloadData()
+                }
+            })
+          }
+        }
         
         self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
         DispatchQueue.global(qos: .userInitiated).async {
@@ -116,6 +156,8 @@ class ArtRoomVC: UIViewController {
                         DispatchQueue.main.async {
                             self?.artistNameLbl.text = user.name
                             self?.artistImg.sd_setImage(with: URL(string: "\(user.profilePicUrl!)") , placeholderImage: UIImage(named:"Placeholder") , options: .continueInBackground)
+                            print("LOAD")
+
                         }
                     }
                 }
@@ -134,6 +176,29 @@ class ArtRoomVC: UIViewController {
     }
     
     
+    
+     func similarLblTapped() {
+        if showSimilar {
+            showSimilar = false
+            let attributedString = NSMutableAttributedString(string: "Similar ")
+            let attachment = NSTextAttachment()
+            attachment.image = UIImage(named: "Expand Arrow-10")
+            attributedString.append(NSAttributedString(attachment: attachment))
+            self.similarLbl.attributedText = attributedString
+            collectionView.isHidden = true
+        } else {
+            showSimilar = true
+            let attributedString = NSMutableAttributedString(string: "Similar ")
+            let attachment = NSTextAttachment()
+            attachment.image = UIImage(named: "Collapse Arrow-10")
+            attributedString.append(NSAttributedString(attachment: attachment))
+            self.similarLbl.attributedText = attributedString
+            collectionView.isHidden = false
+        }
+    }
+    
+    
+
     func handlePan(gestureRecognize: UIPanGestureRecognizer) {
         let numberOfTouches = gestureRecognize.numberOfTouches
         let translation = gestureRecognize.translation(in: gestureRecognize.view!)
@@ -208,9 +273,9 @@ class ArtRoomVC: UIViewController {
     
     func showAlert() {
         if let info = artInfo[1] as? Art {
-            let request = UIAlertAction(title: "Request", style: .default, handler: { (UIAlertAction) in
-                DataService.instance.request(artUID: info.artID, imgUrl: info.imgUrl ,title: info.title, description: info.description, price: info.price, height: info.artHeight, width: info.artWidth, type: info.type, date: info.postDate, userUID: info.userUid)
-            })
+//            let request = UIAlertAction(title: "Request", style: .default, handler: { (UIAlertAction) in
+//                DataService.instance.request(artUID: info.artID, imgUrl: info.imgUrl ,title: info.title, description: info.description, price: info.price, height: info.artHeight, width: info.artWidth, type: info.type, date: info.postDate, userUID: info.userUid)
+//            })
             
             let wallView = UIAlertAction(title: "Wallview", style: .default, handler: { (UIAlertAction) in
                 self.performSegue(withIdentifier: "WallviewVC", sender:self.artInfo[0] as! UIImage)
@@ -233,7 +298,7 @@ class ArtRoomVC: UIViewController {
             
             let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             
-            alert.addAction(request)
+            //alert.addAction(request)
             alert.addAction(wallView)
             //alert.addAction(favorite)
             alert.addAction(share)
@@ -268,16 +333,6 @@ class ArtRoomVC: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        //        if segue.identifier == "GalleryVC" {
-        //            let navVC = segue.destination as! UINavigationController
-        //            let galleryVC =  navVC.topViewController as! GalleryVC
-        //            galleryVC.hidesBottomBarWhenPushed = true
-        //            if let user = sender as? Users {
-        //                galleryVC.user = user
-        //                print("USER: \(user)")
-        //            }
-        //        }
-        
         if segue.identifier == "WallviewVC" {
             let vc = segue.destination as! WallViewVC
             if let artImage = sender as? UIImage {
@@ -290,7 +345,63 @@ class ArtRoomVC: UIViewController {
             let reportVC = navVC.topViewController as! ReportVC
             reportVC.headerTitle = "Please choose the reason for reporting the Piece."
             reportVC.artInfo = artInfo
-            
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return arts.count
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SimilarCell", for: indexPath) as? SimilarCell {
+            let art = arts[indexPath.row]
+            cell.configureCell(forArt: art)
+            return cell
+        } else {
+            return SimilarCell()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let cell = collectionView.cellForItem(at: indexPath) as! SimilarCell
+        let artImage = cell.artImageView.image
+        self.artInfo[0] = artImage!
+        let art = arts[indexPath.row]
+        self.userID = art.userUid
+        let height = (artImage?.size.height)! / 700
+        let width = (artImage?.size.width)! / 700
+        artRoomScene.boxnode.removeFromParentNode()
+        artRoomScene.setup(artInfo: artImage, height: height, width: width)
+        mainTitleLbl.text = art.title
+        let date = art.postDate / 1000
+        let foo: TimeInterval = TimeInterval(date)
+        let theDate = NSDate(timeIntervalSince1970: foo)
+        let time = timeAgoSinceDate(date: theDate as Date, numericDates: true)
+        timeLbl.text = "\(time)"
+        textView.text = "\(art.artHeight)'H x \(art.artWidth)'W - \(art.price)$ / month - \(art.type) \n \(art.description)."
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            DataService.instance.REF_USERS.child("\(art.userUid)").observe(.value, with: { [weak self] (snapshot) in
+                if let postDict = snapshot.value as? Dictionary<String, AnyObject>{
+                    let key = snapshot.key
+                    self?.user = Users(key: key, artistData: postDict)
+                    if let user = self?.user {
+                        DispatchQueue.main.async {
+                            self?.artistNameLbl.text = user.name
+                            self?.artistImg.sd_setImage(with: URL(string: "\(user.profilePicUrl!)") , placeholderImage: UIImage(named:"Placeholder") , options: .continueInBackground)
+                        }
+                    }
+                }
+            })
         }
     }
 }
+
+
+

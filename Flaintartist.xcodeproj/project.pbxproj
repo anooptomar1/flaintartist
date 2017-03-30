@@ -51,6 +51,8 @@
 		6D46303F1E318DC800EEB3D8 /* RoundImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D46303E1E318DC800EEB3D8 /* RoundImage.swift */; };
 		6D4DE4AB1E29C39700AFAAAA /* EditArtVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4DE4AA1E29C39700AFAAAA /* EditArtVC.swift */; };
 		6D4E473A1E24075A00970CE3 /* Mailgun.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E47391E24075A00970CE3 /* Mailgun.m */; };
+		6D6CC4881E84A8B800CC18F5 /* SimilarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D6CC4871E84A8B800CC18F5 /* SimilarView.xib */; };
+		6D6CC48A1E84A95A00CC18F5 /* SimilarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6CC4891E84A95A00CC18F5 /* SimilarView.swift */; };
 		6D8F01441E269E9800651664 /* ProfileArtCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F01431E269E9800651664 /* ProfileArtCell.swift */; };
 		6D8F01461E26A5D100651664 /* ProfileArtTabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F01451E26A5D100651664 /* ProfileArtTabCell.swift */; };
 		6D9C8C451E3A9ACB00824C93 /* Unused.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9C8C441E3A9ACB00824C93 /* Unused.swift */; };
@@ -182,6 +184,8 @@
 		6D4E47381E24075A00970CE3 /* Mailgun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mailgun.h; sourceTree = "<group>"; };
 		6D4E47391E24075A00970CE3 /* Mailgun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mailgun.m; sourceTree = "<group>"; };
 		6D63BB1A1E20B03D00D9271E /* Flaintartist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flaintartist.entitlements; sourceTree = "<group>"; };
+		6D6CC4871E84A8B800CC18F5 /* SimilarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimilarView.xib; sourceTree = "<group>"; };
+		6D6CC4891E84A95A00CC18F5 /* SimilarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimilarView.swift; sourceTree = "<group>"; };
 		6D8F01431E269E9800651664 /* ProfileArtCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileArtCell.swift; path = Flaintartist/ProfileArtCell.swift; sourceTree = SOURCE_ROOT; };
 		6D8F01451E26A5D100651664 /* ProfileArtTabCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileArtTabCell.swift; path = Flaintartist/ProfileArtTabCell.swift; sourceTree = SOURCE_ROOT; };
 		6D9C8C441E3A9ACB00824C93 /* Unused.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unused.swift; sourceTree = "<group>"; };
@@ -452,6 +456,8 @@
 			children = (
 				6D4461C81E302333003EE5BA /* SimilarCell.xib */,
 				6D4461CA1E30266E003EE5BA /* SimilarCell.swift */,
+				6D6CC4871E84A8B800CC18F5 /* SimilarView.xib */,
+				6D6CC4891E84A95A00CC18F5 /* SimilarView.swift */,
 			);
 			name = SimilarView;
 			sourceTree = "<group>";
@@ -917,6 +923,7 @@
 				6DC81C271E2BCF1D0021BBCF /* ArtistViewCell.xib in Resources */,
 				6DC81C231E2BB9F70021BBCF /* ArtViewCell.xib in Resources */,
 				6D1C78401E19EC8C00E2041C /* GoogleService-Info.plist in Resources */,
+				6D6CC4881E84A8B800CC18F5 /* SimilarView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1130,6 +1137,7 @@
 				6D9EA4211E19DE540080D182 /* WallViewScene.swift in Sources */,
 				6D4609B01E1F505F00FC75C3 /* MGMessage.m in Sources */,
 				6DC81C2D1E2BD2F70021BBCF /* ArtistViewCell.swift in Sources */,
+				6D6CC48A1E84A95A00CC18F5 /* SimilarView.swift in Sources */,
 				6DA7BC3B1E6F98A500DE61FB /* SearchArtsCell.swift in Sources */,
 				6D4609B21E1F5FAC00FC75C3 /* ReportNav.swift in Sources */,
 				6DF28DC51E199BF900C8A3B0 /* Alerts.swift in Sources */,
