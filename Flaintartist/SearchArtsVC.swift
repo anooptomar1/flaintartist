@@ -68,7 +68,7 @@ class SearchArtsVC: UIViewController, UICollectionViewDelegate, UICollectionView
         super.viewWillDisappear(animated)
         DataService.instance.REF_ARTS.removeAllObservers()
         //self.arts = []
-        self.filteredArts = []
+        //self.filteredArts = []
     }
     
     

@@ -340,6 +340,7 @@ extension ProfileVC {
         let delete = UIAlertAction(title: "Remove from gallery", style: .destructive) { (UIAlertAction) in
             queue.async(qos: .background) {
                 self.ref.child(artID).removeValue()
+                DataService.instance.REF_ARTS.child(artID).removeValue()
                 DataService.instance.REF_HISTORY.child(artID).removeValue()
                 SDImageCache.shared().removeImage(forKey: artUrl, fromDisk: true)
                 let email = Defaults[.email]
