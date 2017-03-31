@@ -26,19 +26,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         userIsLoggingIn()
         
-        
-        if !UserDefaults.standard.bool(forKey: "FirstTime") {
-            UserDefaults.standard.set(false, forKey: "FirstTime")
-        }
-        
-        if UserDefaults.standard.bool(forKey: "FirstTime") {
+        if Defaults.hasKey(.email) {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let initialViewController = storyboard.instantiateViewController(withIdentifier: "ChooseAccountTypeNav")
+            let initialViewController = storyboard.instantiateViewController(withIdentifier: "LogInNav")
             self.window?.rootViewController = initialViewController
             self.window?.makeKeyAndVisible()
         } else {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let initialViewController = storyboard.instantiateViewController(withIdentifier: "LogInNav")
+            let initialViewController = storyboard.instantiateViewController(withIdentifier: "New")
             self.window?.rootViewController = initialViewController
             self.window?.makeKeyAndVisible()
         }
