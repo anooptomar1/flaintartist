@@ -42,7 +42,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     
     weak var detailsView: EditArtDetails!
     
-    let ref =  DataService.instance.REF_ARTISTARTS.child(userID!)
+    let ref =  DataService.instance.REF_ARTISTARTS.child((FIRAuth.auth()?.currentUser?.uid)!)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -196,7 +196,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     
     func loadUserInfo(){
         queue.async(qos: .utility) {
-            DataService.instance.REF_USERS.child(userID!).observe(.value, with: { (snapshot) in
+            DataService.instance.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).observe(.value, with: { (snapshot) in
                 if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
                     let key = snapshot.key
                     self.user = Users(key: key, artistData: postDict)

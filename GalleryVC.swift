@@ -100,7 +100,9 @@ class GalleryVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         DispatchQueue.main.async {
             self.titleLbl.text = "\(self.user.name)'s gallery"
             self.nameLbl.text = self.user.name
-            self.profileImageView.sd_setImage(with: URL(string: "\(self.user.profilePicUrl!)") , placeholderImage: nil , options: .continueInBackground)
+            if let url = self.user.profilePicUrl {
+            self.profileImageView.sd_setImage(with: URL(string: "\(url)") , placeholderImage: nil , options: .continueInBackground)
+            }
         }
     }
     

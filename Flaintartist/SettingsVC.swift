@@ -125,10 +125,11 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let no = UIAlertAction(title: "No", style: .cancel, handler: nil)
         let yes = UIAlertAction(title: "Yes", style: .default) { (UIAlertAction) in
             
-            Defaults.remove(.key_uid)
-            Defaults.remove(.accountType)
+                Defaults.remove(.key_uid)
+                Defaults.remove(.accountType)
             
-            let firebaseAuth = FIRAuth.auth()
+            
+                let firebaseAuth = FIRAuth.auth()
             do {
                 
                 try firebaseAuth!.signOut()

@@ -18,7 +18,9 @@ class SearchCell: UICollectionViewCell {
     func configureCell(forUser: Users) {
         self.user = forUser
         DispatchQueue.main.async {
-            self.artistImageView.sd_setImage(with: URL(string: self.user.profilePicUrl!) , placeholderImage: UIImage(named:"Placeholder") , options: .continueInBackground, completed: nil)
+            if let url = self.user.profilePicUrl {
+            self.artistImageView.sd_setImage(with: URL(string: url) , placeholderImage: UIImage(named:"Placeholder") , options: .continueInBackground, completed: nil)
+            }
             self.nameLbl.text = self.user.name
             
         }

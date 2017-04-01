@@ -15,7 +15,7 @@ import FirebaseDatabase
 import SwiftyUserDefaults
 
 
-class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate, UICollectionViewDelegate, UICollectionViewDataSource, CLLocationManagerDelegate {
+class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, CLLocationManagerDelegate {
     
     @IBOutlet weak var mainLbl: UILabel!
     @IBOutlet var collectionView: UICollectionView!
@@ -26,9 +26,10 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
     var modern = [Art]()
     var abstract = [Art]()
     var realism = [Art]()
+    var users = [Users]()
     var art: Art!
     
-    var categories = ["Modern", "Abstract", "Realism"]
+    var categories = ["Modern", "New Artists", "Abstract", "Realism"]
     
     let headBttn:UIButton = UIButton(type: .system)
     var refreshControl: UIRefreshControl!
@@ -135,6 +136,26 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
                 }
             }
             
+                DataService.instance.REF_USERS.queryOrdered(byChild: "userType").queryEqual(toValue: "artist").queryLimited(toFirst: 7).observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
+                    self?.users = []
+                    if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
+                        for snap in snapshot {
+                            if let dict = snap.value as? NSDictionary, let uid = dict["uid"] as? String {
+                                    if let postDict = snap.value as? Dictionary<String, AnyObject> {
+                                        let key = snap.key
+                                        let user = Users(key: key, artistData: postDict)
+                                        if uid != Defaults[.key_uid] {
+                                        self?.users.insert(user, at: 0)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        self?.collectionView.reloadData()
+                    }
+                }
+            
             DataService.instance.REF_ARTS.queryOrdered(byChild: "type").queryEqual(toValue: "Abstract").queryLimited(toLast: 4).observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
                 self?.abstract = []
                 if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
@@ -193,18 +214,8 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
         tableView.reloadData()
         refreshControl.endRefreshing()
     }
-    
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width : CGFloat
-        let height : CGFloat
-        width = collectionView.frame.width
-        height = 600
-        return CGSize(width: width, height: height)
-    }
-    
-    
-    
+
+
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "NewsHeaderView", for: indexPath) as! HeaderCollectionReusableView
@@ -222,12 +233,31 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
             return modern.count
         }
         if section == 1 {
+            return users.count
+        }
+        if section == 2 {
             return abstract.count
         } else {
             return realism.count
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let width : CGFloat
+        let height : CGFloat
+        
+        if indexPath.section == 1 {
+            // First section
+            width = collectionView.frame.width/4
+            height = 100
+            return CGSize(width: width, height: height)
+        } else {
+            width = 153
+            height = 153
+            return CGSize(width: width, height: height)
+        }
+    }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -238,10 +268,17 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
             }
             
             if indexPath.section == 1 {
-                art = abstract[indexPath.row]
+                let user = users[indexPath.row]
+                let newArtistsCell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewArtistCell", for: indexPath) as! NewArtistCell
+                newArtistsCell.configureCell(forUser: user)
+                return newArtistsCell
             }
             
             if indexPath.section == 2 {
+                art = abstract[indexPath.row]
+            }
+            
+            if indexPath.section == 3 {
                 art = realism[indexPath.row]
             }
             cell.otherScene.boxnode.removeFromParentNode()
@@ -256,14 +293,21 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         var art: Art!
+        var user: Users!
         if indexPath.section == 0 {
             art = modern[indexPath.row]
         }
         if indexPath.section == 1 {
-            art = abstract[indexPath.row]
+            user = users[indexPath.row]
+            print("USER:\(user)")
+            self.performSegue(withIdentifier: "GalleryVC", sender: user)
         }
         
         if indexPath.section == 2 {
+            art = abstract[indexPath.row]
+        }
+        
+        if indexPath.section == 3 {
             art = realism[indexPath.row]
         }
         

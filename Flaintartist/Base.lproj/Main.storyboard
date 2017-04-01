@@ -950,7 +950,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="146.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="artist" translatesAutoresizingMaskIntoConstraints="NO" id="L3w-IW-VuE" customClass="RoundImage" customModule="Flaintartist" customModuleProvider="target">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="L3w-IW-VuE" customClass="RoundImage" customModule="Flaintartist" customModuleProvider="target">
                                                     <rect key="frame" x="152" y="38.5" width="70" height="70"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="70" id="60F-5q-YTe"/>
@@ -1309,7 +1309,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Flc-Pd-Xdy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3034" y="-1419"/>
+            <point key="canvasLocation" x="1993" y="-1424"/>
         </scene>
         <!--PrivacyVC-->
         <scene sceneID="A3I-LF-J0j">
@@ -1361,7 +1361,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gO6-Dm-bCU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2190" y="-1424"/>
+            <point key="canvasLocation" x="1223" y="-1424"/>
         </scene>
         <!--WebVC-->
         <scene sceneID="H2w-2l-Did">
@@ -1685,11 +1685,11 @@
                                     <size key="itemSize" width="153" height="153"/>
                                     <size key="headerReferenceSize" width="50" height="50"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NewCell" id="oTa-fk-apC" customClass="NewCell" customModule="Flaintartist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="153" height="153"/>
+                                        <rect key="frame" x="10" y="50" width="153" height="153"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="153" height="153"/>
@@ -1709,6 +1709,41 @@
                                         </constraints>
                                         <connections>
                                             <outlet property="scnView" destination="Mcx-WE-qLo" id="zit-JA-jGV"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NewArtistCell" id="qMp-JN-Dec" customClass="NewArtistCell" customModule="Flaintartist" customModuleProvider="target">
+                                        <rect key="frame" x="173" y="77" width="100" height="100"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="artist" translatesAutoresizingMaskIntoConstraints="NO" id="oc7-tB-7mT" customClass="RoundImage" customModule="Flaintartist" customModuleProvider="target">
+                                                    <rect key="frame" x="21" y="0.0" width="60" height="60"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="9g4-y3-esL"/>
+                                                        <constraint firstAttribute="height" constant="60" id="cTQ-TM-BkD"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="m1f-cy-sb3">
+                                                    <rect key="frame" x="8" y="65.5" width="84" height="14.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="0.12637259066104889" green="0.12639245390892029" blue="0.12636536359786987" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="oc7-tB-7mT" firstAttribute="centerX" secondItem="qMp-JN-Dec" secondAttribute="centerX" constant="1" id="GDt-Sc-8YX"/>
+                                            <constraint firstAttribute="trailing" secondItem="m1f-cy-sb3" secondAttribute="trailing" constant="8" id="NDi-F1-0W3"/>
+                                            <constraint firstItem="m1f-cy-sb3" firstAttribute="leading" secondItem="qMp-JN-Dec" secondAttribute="leading" constant="8" id="UL5-Na-UDN"/>
+                                            <constraint firstAttribute="bottom" secondItem="m1f-cy-sb3" secondAttribute="bottom" constant="20" id="ayR-Y3-uX8"/>
+                                            <constraint firstItem="oc7-tB-7mT" firstAttribute="top" secondItem="qMp-JN-Dec" secondAttribute="top" id="spF-dl-Ln7"/>
+                                        </constraints>
+                                        <size key="customSize" width="100" height="100"/>
+                                        <connections>
+                                            <outlet property="artistImageView" destination="oc7-tB-7mT" id="pco-Qc-aM6"/>
+                                            <outlet property="artistNameLbl" destination="m1f-cy-sb3" id="A4O-nO-jE5"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -1779,11 +1814,12 @@
                         <outlet property="collectionView" destination="lfd-Lc-3pd" id="JYi-Id-gag"/>
                         <outlet property="mainLbl" destination="jj0-S5-h08" id="f7i-kC-tjL"/>
                         <segue destination="qJN-g4-lnb" kind="show" identifier="ArtRoomVC" id="m7K-wp-2Jo"/>
+                        <segue destination="22t-ny-8aj" kind="show" identifier="GalleryVC" id="bnP-co-A98"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P7y-vx-t9w" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2454" y="-632"/>
+            <point key="canvasLocation" x="-2455.1999999999998" y="-632.38380809595208"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="yqC-aM-fxU">
@@ -1971,7 +2007,7 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="Ckg-gQ-mSZ">
                         <view key="titleView" contentMode="scaleToFill" id="8ok-ek-i7y">
-                            <rect key="frame" x="112.5" y="5.5" width="150" height="33"/>
+                            <rect key="frame" x="113" y="6" width="150" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VZ9-S6-hpz">
@@ -2436,7 +2472,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="GalleryVC" id="22t-ny-8aj" customClass="GalleryVC" customModule="Flaintartist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="B80-jD-p23">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -2595,7 +2631,7 @@
                     <navigationItem key="navigationItem" id="VW2-An-zEr">
                         <nil key="title"/>
                         <view key="titleView" contentMode="scaleToFill" id="use-j3-5vS">
-                            <rect key="frame" x="112.5" y="5.5" width="150" height="33"/>
+                            <rect key="frame" x="113" y="6" width="150" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aww-H8-o1d">
@@ -2624,7 +2660,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VOt-7O-NBX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1255" y="-1421"/>
+            <point key="canvasLocation" x="399" y="-1424"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jhg-U3-dFV">
@@ -2642,7 +2678,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i7J-Ya-aqB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="318" y="-1421"/>
+            <point key="canvasLocation" x="-484" y="-1429"/>
         </scene>
         <!--Create AccountVC-->
         <scene sceneID="27E-Pj-brh">
@@ -2844,7 +2880,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="SHO-6x-0Kh"/>
+        <segue reference="m7K-wp-2Jo"/>
+        <segue reference="bnP-co-A98"/>
         <segue reference="Qe5-sR-zml"/>
-        <segue reference="AFT-Si-2Xd"/>
     </inferredMetricsTieBreakers>
 </document>

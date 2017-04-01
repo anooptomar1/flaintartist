@@ -58,7 +58,7 @@ extension NewArtistTabCell: UICollectionViewDelegate, UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let user = users[indexPath.row]
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewArtistColCell", for: indexPath) as? NewArtistColCell {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewArtistColCell", for: indexPath) as? NewArtistCell {
             let myBlock: SDWebImageCompletionBlock! = {(image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
                 
             }
@@ -66,7 +66,7 @@ extension NewArtistTabCell: UICollectionViewDelegate, UICollectionViewDataSource
             cell.artistNameLbl.text = user.name
             return cell
         } else {
-            return NewArtistColCell()
+            return NewArtistCell()
         }
     }
     
