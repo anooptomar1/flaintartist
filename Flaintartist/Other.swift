@@ -34,13 +34,13 @@ final class Other: SCNScene {
         self.artImage = artInfo!
         self.height = height!
         self.width = width!
-        
-        self.geometry = SCNBox(width: width!, height: height!, length: 40 / 100, chamferRadius: 0.008)
+        geometry = SCNBox(width: width!, height: height!, length: 40 / 100, chamferRadius: 0.008)        
         self.geometry.firstMaterial?.diffuse.contents = UIColor.red
         self.geometry.firstMaterial?.specular.contents = UIColor.white
         self.geometry.firstMaterial?.emission.contents = UIColor.blue
         boxnode = SCNNode(geometry: self.geometry)
         let yPos = -1.0
+        
         
         boxnode.position = SCNVector3(0, 0.4, yPos)
         
@@ -68,6 +68,5 @@ final class Other: SCNScene {
         cameraOrbit.position = SCNVector3(0, 0, cameraZ)
         let yPos = yPoz
         boxnode.position = SCNVector3(0, 0.4, yPos)
-        
     }
 }

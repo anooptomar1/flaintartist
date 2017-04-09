@@ -27,6 +27,7 @@ extension DefaultsKeys {
     static let key_uid = DefaultsKey<String?>("uid")
     static let email = DefaultsKey<String>("email")
     static let name = DefaultsKey<String>("name")
+    static let profileImg = DefaultsKey<String>("profileImg")
     static let accountType = DefaultsKey<String>("type")
     static let latitude = DefaultsKey<CLLocationDegrees>("latitude")
     static let longitude = DefaultsKey<CLLocationDegrees>("longitude")

@@ -51,7 +51,6 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         collectionView.emptyDataSetSource = self
         collectionView.emptyDataSetDelegate = self
         dmzMessage = "You have no artwork yet. Click on the capture button to start sharing."
-        loadArts(ref: ref)
         refreshCtrl.tintColor = UIColor.flatBlack()
         refreshCtrl.addTarget(self, action: #selector(ProfileVC.refresh), for: UIControlEvents.valueChanged)
         
@@ -78,6 +77,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         self.navigationController?.navigationBar.isTranslucent = false
         self.collectionView.reloadData()
         loadUserInfo()
+        loadArts(ref: ref)
         NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.showBars), name: editNotif, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.hideBars), name: cancelNotif, object: nil)
     }

@@ -84,11 +84,9 @@ class WallViewVC: UIViewController{
             let image = strongSelf.artInfo[0] as? UIImage
               strongSelf.artScene.setup(artInfo: image, height: height, width: width, position: position, rotation: rotation)
             strongSelf.mainTitleLbl.text = info.title
-            let date = info.postDate / 1000
-            let foo: TimeInterval = TimeInterval(date)
-            let theDate = NSDate(timeIntervalSince1970: foo)
-            let time = timeAgoSinceDate(date: theDate as Date, numericDates: true)
-            strongSelf.timeLbl.text = "\(time)"
+
+            let date = convertDate(postDate: info.postDate)
+            strongSelf.timeLbl.text = date
             strongSelf.textView.text = "\(info.artHeight)'H x \(info.artWidth)'W - \(info.price)$ / month - \(info.type) \n \(info.description)."
             if let url = user.profilePicUrl {
                 artistImg.sd_setImage(with: URL(string: "\(url)") , placeholderImage: UIImage(named:"Placeholder"))

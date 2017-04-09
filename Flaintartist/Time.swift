@@ -58,17 +58,26 @@ func timeAgoSinceDate(date: Date, numericDates:Bool) -> String {
             return "An hour ago"
         }
     } else if (components.minute! >= 2) {
-        return "\(components.minute!) minutes ago"
+        return "\(components.minute!) mins ago"
     } else if (components.minute! >= 1){
         if (numericDates){
-            return "1 minute ago"
+            return "1 min ago"
         } else {
-            return "A minute ago"
+            return "A min ago"
         }
     } else if (components.second! >= 3) {
         return "\(components.second!) seconds ago"
     } else {
         return "Just now"
     }
+}
+
+
+func convertDate(postDate: Int) -> String {
+    let date = postDate / 1000
+    let foo: TimeInterval = TimeInterval(date)
+    let theDate = NSDate(timeIntervalSince1970: foo)
+    let time = timeAgoSinceDate(date: theDate as Date, numericDates: true)
+    return time.uppercased()
     
 }

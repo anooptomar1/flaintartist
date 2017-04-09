@@ -82,11 +82,9 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             let width = (image?.size.width)! / 700
             strongSelf.artRoomScene.setup(artInfo: image, height: height, width: width)
             strongSelf.mainTitleLbl.text = info.title
-            let date = info.postDate / 1000
-            let foo: TimeInterval = TimeInterval(date)
-            let theDate = NSDate(timeIntervalSince1970: foo)
-            let time = timeAgoSinceDate(date: theDate as Date, numericDates: true)
-            strongSelf.timeLbl.text = "\(time)"
+
+            let date = convertDate(postDate: info.postDate)
+            strongSelf.timeLbl.text = date
             strongSelf.textView.text = "\(info.artHeight)'H x \(info.artWidth)'W - \(info.price)$ / month - \(info.type) \n \(info.description)."
         }
         
@@ -198,7 +196,7 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             showSimilar = true
             let attributedString = NSMutableAttributedString(string: "Similar ")
             let attachment = NSTextAttachment()
-            attachment.image = UIImage(named: "Expand Arrow Filled-10")
+            attachment.image = UIImage(named: "Collapse Arrow-10")
             attributedString.append(NSAttributedString(attachment: attachment))
             self.similarLbl.attributedText = attributedString
             collectionView.isHidden = false
@@ -292,8 +290,8 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                     wallViewVC.user = self.user
                     wallViewVC.position = self.artRoomScene.boxnode.position
                     wallViewVC.rotation = self.artRoomScene.boxnode.rotation
-                    wallViewVC.width = self.artRoomScene.width
-                    wallViewVC.height = self.artRoomScene.height
+                    wallViewVC.width = self.artRoomScene.geometry.width
+                    wallViewVC.height = self.artRoomScene.geometry.height
                 
                 self.navigationController?.pushViewController(wallViewVC, animated: false)
             })
@@ -383,11 +381,11 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         artRoomScene.boxnode.removeFromParentNode()
         artRoomScene.setup(artInfo: artImage, height: height, width: width)
         mainTitleLbl.text = art.title
-        let date = art.postDate / 1000
-        let foo: TimeInterval = TimeInterval(date)
-        let theDate = NSDate(timeIntervalSince1970: foo)
-        let time = timeAgoSinceDate(date: theDate as Date, numericDates: true)
-        timeLbl.text = "\(time)"
+//        let date = art.postDate / 1000
+//        let foo: TimeInterval = TimeInterval(date)
+//        let theDate = NSDate(timeIntervalSince1970: foo)
+//        let time = timeAgoSinceDate(date: theDate as Date, numericDates: true)
+        timeLbl.text = "\(art.postDate)"
         textView.text = "\(art.artHeight)'H x \(art.artWidth)'W - \(art.price)$ / month - \(art.type) \n \(art.description)."
         
         DispatchQueue.global(qos: .userInitiated).async {

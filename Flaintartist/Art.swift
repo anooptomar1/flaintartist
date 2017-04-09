@@ -23,6 +23,8 @@ struct Art  {
     private var _artLenght: Int!
     private var _artRef: FIRDatabaseReference!
     private var _userUid: String!
+    private var _userName: String!
+    private var _profileImgUrl: String!
     private var _postDate: Int!
     var isPrivate: Bool = false
     
@@ -56,6 +58,14 @@ struct Art  {
     
     var userUid: String {
         return _userUid
+    }
+    
+    var userName: String {
+        return _userName
+    }
+    
+    var profileImgUrl: String? {
+        return _profileImgUrl
     }
     
     var postDate: Int {
@@ -109,6 +119,15 @@ struct Art  {
         if let img = artData["imageUrl"] as? String {
             self._imgUrl = img
         }
+        
+        if let userName = artData["userName"] as? String {
+            self._userName = userName
+        }
+        
+        if let profileImgUrl = artData["profileImg"] as? String {
+            self._profileImgUrl = profileImgUrl
+        }
+
         
         if let postDate = artData["postDate"] as? Int {
             self._postDate = postDate

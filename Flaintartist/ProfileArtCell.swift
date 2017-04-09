@@ -99,12 +99,8 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
             }
             attributedString.append(NSAttributedString(attachment: loveAttachment))
             self.titleLbl.attributedText = attributedString
-            //self.titleLbl.text = self.art!.title
-            let date =  self.art!.postDate/1000
-            let foo: TimeInterval = TimeInterval(date)
-            let theDate = NSDate(timeIntervalSince1970: foo)
-            let time = timeAgoSinceDate(date: theDate as Date, numericDates: true)
-            self.textView.text = "\( self.art!.artHeight)'H x \(self.art!.artWidth)'W - \(self.art!.price)$ / month - \(self.art!.type) \n \(time) \n \(self.art!.description)."
+            let date = convertDate(postDate: self.art!.postDate)
+            self.textView.text = "\( self.art!.artHeight)'H x \(self.art!.artWidth)'W - \(self.art!.price)$ / month - \(self.art!.type) \n \(date) \n \(self.art!.description)."
         }
     }
     

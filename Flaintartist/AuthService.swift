@@ -95,10 +95,12 @@ class AuthService {
     func userType(id: String, email: String) {
         let usersRef = FIRDatabase.database().reference().child("users").child(id)
         usersRef.observe(.value, with: { snapshot in
-            if let type =  ((snapshot.value as? NSDictionary)?["userType"] as! String?) {
+            if let type =  ((snapshot.value as? NSDictionary)?["userType"] as! String?), let name = ((snapshot.value as? NSDictionary)?["name"] as! String?), let profileImg = ((snapshot.value as? NSDictionary)?["profileImg"] as! String?) {
                 if type == "artist" {
                     Defaults[.key_uid] = id
                     Defaults[.email] = email
+                    Defaults[.name] = name
+                    Defaults[.profileImg] = profileImg
                     let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     appDel.logIn()
                 } else {

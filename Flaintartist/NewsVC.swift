@@ -26,6 +26,7 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
     var modern = [Art]()
     var abstract = [Art]()
     var realism = [Art]()
+    var newUsers = [Users]()
     var users = [Users]()
     var art: Art!
     
@@ -46,74 +47,13 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        mainLbl.text = "Explore"
-        
+
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(NewsVC.refresh), for: UIControlEvents.valueChanged)
         
         self.navigationController?.setToolbarHidden(true, animated: false)
         collectionView.delegate = self
         collectionView.dataSource = self
-        
-        //        searchBar.showsCancelButton = false
-        //        searchBar.placeholder = "Explore artists & arts"
-        //        searchBar.searchBarStyle = .default
-        //        searchBar.delegate = self
-        //        self.navigationItem.titleView = searchBar
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.startUpdatingLocation()
-        
-        let geoFireRef = DataService.instance.REF_BASE.child("users_location")
-        geoFire = GeoFire(firebaseRef: geoFireRef)
-        self.locationAuthStatus()
-    }
-    
-    @IBAction func searchBtnTapped(_ sender: Any) {
-        var vc = storyboard?.instantiateViewController(withIdentifier: "PageMenuVC")
-        if #available(iOS 10.0, *) {
-            vc = storyboard?.instantiateViewController(withIdentifier: "PageMenuVC") as! PageMenuVC
-        } else {
-            vc = storyboard?.instantiateViewController(withIdentifier: "PageMenuVC")
-        }
-        vc?.navigationItem.setHidesBackButton(true, animated:true)
-        searchBar.endEditing(true)
-        searchBar.resignFirstResponder()
-        navigationController?.pushViewController(vc!, animated: true)
-    }
-    
-    
-    func locationAuthStatus() {
-        print("LOCATION")
-        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
-        } else {
-            locationManager.requestWhenInUseAuthorization()
-        }
-    }
-    
-    
-    func setLocation(location: CLLocation) {
-        queue.async(qos: .background) {
-            Defaults[.latitude] = location.coordinate.latitude
-            Defaults[.longitude] = location.coordinate.longitude
-            self.geoFire.setLocation(location, forKey: self.userId)
-            
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        self.locationManager.stopUpdatingLocation()
-        let locationArray = locations as NSArray
-        let locationObj = locationArray.lastObject as! CLLocation
-        let coord = locationObj.coordinate
-        let location = CLLocation(latitude: coord.latitude, longitude: coord.longitude)
-        self.setLocation(location: location)
-    }
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
         queue.async(qos: .userInitiated) {
             DataService.instance.REF_ARTS.queryOrdered(byChild: "type").queryEqual(toValue: "Modern").queryLimited(toLast: 4).observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
@@ -125,7 +65,7 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
                                 if let postDict = snap.value as? Dictionary<String, AnyObject> {
                                     let key = snap.key
                                     let art = Art(key: key, artData: postDict)
-                                       self?.modern.append(art)
+                                    self?.modern.append(art)
                                 }
                             }
                         }
@@ -136,25 +76,25 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
                 }
             }
             
-                DataService.instance.REF_USERS.queryOrdered(byChild: "userType").queryEqual(toValue: "artist").queryLimited(toFirst: 7).observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
-                    self?.users = []
-                    if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
-                        for snap in snapshot {
-                            if let dict = snap.value as? NSDictionary, let uid = dict["uid"] as? String {
-                                    if let postDict = snap.value as? Dictionary<String, AnyObject> {
-                                        let key = snap.key
-                                        let user = Users(key: key, artistData: postDict)
-                                        if uid != Defaults[.key_uid] {
-                                        self?.users.insert(user, at: 0)
-                                    }
+            DataService.instance.REF_USERS.queryOrdered(byChild: "userType").queryEqual(toValue: "artist").queryLimited(toFirst: 7).observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
+                self?.newUsers = []
+                if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
+                    for snap in snapshot {
+                        if let dict = snap.value as? NSDictionary, let uid = dict["uid"] as? String {
+                            if let postDict = snap.value as? Dictionary<String, AnyObject> {
+                                let key = snap.key
+                                let user = Users(key: key, artistData: postDict)
+                                if uid != Defaults[.key_uid] {
+                                    self?.newUsers.insert(user, at: 0)
                                 }
                             }
                         }
                     }
-                    DispatchQueue.main.async {
-                        self?.collectionView.reloadData()
-                    }
                 }
+                DispatchQueue.main.async {
+                    self?.collectionView.reloadData()
+                }
+            }
             
             DataService.instance.REF_ARTS.queryOrdered(byChild: "type").queryEqual(toValue: "Abstract").queryLimited(toLast: 4).observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
                 self?.abstract = []
@@ -196,6 +136,59 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
                 }
             }
         }
+        
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
+        
+        let geoFireRef = DataService.instance.REF_BASE.child("users_location")
+        geoFire = GeoFire(firebaseRef: geoFireRef)
+        self.locationAuthStatus()
+    }
+    
+    @IBAction func searchBtnTapped(_ sender: Any) {
+        var vc = storyboard?.instantiateViewController(withIdentifier: "PageMenuVC")
+        if #available(iOS 10.0, *) {
+            vc = storyboard?.instantiateViewController(withIdentifier: "PageMenuVC") as! PageMenuVC
+        } else {
+            vc = storyboard?.instantiateViewController(withIdentifier: "PageMenuVC")
+        }
+        vc?.navigationItem.setHidesBackButton(true, animated:true)
+        searchBar.endEditing(true)
+        searchBar.resignFirstResponder()
+        navigationController?.pushViewController(vc!, animated: true)
+    }
+    
+    
+    func locationAuthStatus() {
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+        } else {
+            locationManager.requestWhenInUseAuthorization()
+        }
+    }
+    
+    
+    func setLocation(location: CLLocation) {
+        queue.async(qos: .background) {
+            Defaults[.latitude] = location.coordinate.latitude
+            Defaults[.longitude] = location.coordinate.longitude
+            self.geoFire.setLocation(location, forKey: self.userId)
+            
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        self.locationManager.stopUpdatingLocation()
+        let locationArray = locations as NSArray
+        let locationObj = locationArray.lastObject as! CLLocation
+        let coord = locationObj.coordinate
+        let location = CLLocation(latitude: coord.latitude, longitude: coord.longitude)
+        self.setLocation(location: location)
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
     }
@@ -206,7 +199,7 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
 //        self.modern.removeAll()
 //        self.abstract.removeAll()
 //        self.realism.removeAll()
-        DataService.instance.REF_ARTS.removeAllObservers()
+        //DataService.instance.REF_ARTS.removeAllObservers()
     }
     
     
@@ -233,7 +226,7 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
             return modern.count
         }
         if section == 1 {
-            return users.count
+            return newUsers.count
         }
         if section == 2 {
             return abstract.count
@@ -248,16 +241,26 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
         let height : CGFloat
         
         if indexPath.section == 1 {
-            // First section
             width = collectionView.frame.width/4
             height = 100
             return CGSize(width: width, height: height)
         } else {
-            width = 153
-            height = 153
+            width = collectionView.frame.width/3
+            height = 180
             return CGSize(width: width, height: height)
         }
     }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        if section == 0 || section == 2 || section == 3 || section == 4 {
+            return 50.0
+        } else {
+            return 0
+        }
+    }
+    
+    
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -268,7 +271,7 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
             }
             
             if indexPath.section == 1 {
-                let user = users[indexPath.row]
+                let user = newUsers[indexPath.row]
                 let newArtistsCell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewArtistCell", for: indexPath) as! NewArtistCell
                 newArtistsCell.configureCell(forUser: user)
                 return newArtistsCell
@@ -298,8 +301,7 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
             art = modern[indexPath.row]
         }
         if indexPath.section == 1 {
-            user = users[indexPath.row]
-            print("USER:\(user)")
+            user = newUsers[indexPath.row]
             self.performSegue(withIdentifier: "GalleryVC", sender: user)
         }
         
@@ -310,7 +312,7 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
         if indexPath.section == 3 {
             art = realism[indexPath.row]
         }
-        
+                
         if let cell = collectionView.cellForItem(at: indexPath) as? NewCell {
             if let artImage = cell.artImgView.image {
                 let artInfo = [artImage, art] as [Any]

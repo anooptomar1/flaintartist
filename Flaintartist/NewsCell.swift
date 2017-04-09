@@ -8,16 +8,24 @@
 
 import SceneKit
 import SDWebImage
+import FirebaseDatabase
 
 
 class NewCell: UICollectionViewCell {
 
     @IBOutlet weak var scnView: SCNView!
+    @IBOutlet weak var artistImgView: RoundImage!
+    @IBOutlet weak var nameLbl: UILabel!
+    @IBOutlet weak var dateLbl: UILabel!
+    
     
     var artImgView = UIImageView()
     //var motionManager: CMMotionManager!
     var otherScene = Other(create: true)
     var art: Art!
+    var users = [Users]()
+    var user: Users!
+
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,35 +36,14 @@ class NewCell: UICollectionViewCell {
         scnView.scene = scene
         scnView.autoenablesDefaultLighting = true
         scnView.isJitteringEnabled = true
-        scnView.backgroundColor = UIColor.clear
-        
-        
-        //        motionManager = CMMotionManager()
-        //        motionManager.deviceMotionUpdateInterval = 1.0
-        //        motionManager.startDeviceMotionUpdates(
-        //            to: OperationQueue.current!, withHandler: {
-        //                (deviceMotion, error) -> Void in
-        //                if(error == nil) {
-        //                    let y = CGFloat((self.motionManager.deviceMotion?.rotationRate.y)!)
-        //                    let rotateForHeight = SCNAction.rotateTo(x: 0, y: y, z: 0, duration: 0.2)
-        //                    rotateForHeight.speed = 1
-        //                    rotateForHeight.timingMode = SCNActionTimingMode.linear;
-        //                    let stopAnimation = SCNAction.rotateTo(x: 0, y: 0, z: 0, duration: 0.5)
-        //                    let heightFlow = SCNAction.sequence([rotateForHeight, stopAnimation])
-        //                    DispatchQueue.main.async {
-        //                        //self.otherScene.boxnode.runAction(rotateForHeight)
-        //                    }
-        //
-        //                } else {
-        //                    print("ERROR: \(error?.localizedDescription)")
-        //                    //handle the error
-        //                }
-        //       })
+        scnView.backgroundColor = UIColor.flatWhite()
+
     }
     
     
     func configureCell(forArt: Art, indexPath: IndexPath) {
         self.art = forArt
+
         let myBlock: SDWebImageCompletionBlock! = { [weak self] (image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
             DispatchQueue.main.async {
                 if indexPath.item == 0 || indexPath.item == 3 ||  indexPath.item == 6 {
@@ -67,8 +54,24 @@ class NewCell: UICollectionViewCell {
                     self?.otherScene.rotate(w: 0, cameraZ: 3, yPoz: -3.0)
                 }
             }
-            self?.otherScene.setup(artInfo: image, height: image!.size.height / 350, width: image!.size.width / 350)
+            
+            if image!.size.height >= 1000, image!.size.width >= 800 {
+                self?.otherScene.setup(artInfo: image, height: image!.size.height / 500, width: image!.size.width / 500)
+            } else if image!.size.height >= 1000, image!.size.width <= 800 {
+                self?.otherScene.setup(artInfo: image, height: image!.size.height / 200, width: image!.size.width / 200)
+            }else if image!.size.height <= 1000, image!.size.height >= 800 {
+                self?.otherScene.setup(artInfo: image, height: image!.size.height / 200, width: image!.size.width / 200)
+            } else if image!.size.height <= 900 {
+                self?.otherScene.setup(artInfo: image, height: image!.size.height / 200, width: image!.size.width / 200)
+            }
         }
         self.artImgView.sd_setImage(with: URL(string: "\(self.art.imgUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
+       
+        nameLbl.text = self.art.userName
+        if let url = self.art.profileImgUrl {
+        self.artistImgView.sd_setImage(with: URL(string: "\(url)") , placeholderImage: nil)
+        }
+        let date = convertDate(postDate: self.art.postDate)
+        dateLbl.text = "\(date)"
     }
 }

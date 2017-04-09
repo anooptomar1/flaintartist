@@ -6,9 +6,10 @@
 //  Copyright © 2017 Kerby Jean. All rights reserved.
 //
 
-import Foundation
 import SceneKit
+import Foundation
 import CoreMotion
+
 
 class WallViewScene: SCNScene, SCNSceneRendererDelegate {
     

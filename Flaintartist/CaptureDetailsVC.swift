@@ -11,6 +11,7 @@ import Photos
 import SceneKit
 import Firebase
 import SDWebImage
+import SwiftyUserDefaults
 
 class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, SwipeViewDelegate, SwipeViewDataSource, UITextFieldDelegate, UITextViewDelegate {
     
@@ -182,9 +183,13 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         let desc = descTextView.text!
         let height = heightSlider.value
         let width = widthSlider.value
+        let userName = Defaults[.name]
+        let profileImg = Defaults[.profileImg]
         if !title.isEmpty && !desc.isEmpty  {
             let newArt: Dictionary<String, AnyObject> = [
                 "userUID": uid as AnyObject,
+                "userName": userName as AnyObject,
+                "profileImg": profileImg as AnyObject,
                 "title": title as AnyObject,
                 "description": desc as AnyObject,
                 "height": height as AnyObject,
