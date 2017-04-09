@@ -35,6 +35,7 @@ class Share {
         }
     }
     
+
 //    func messengerShare(_ target: UIViewController, image: UIImage) {
 //        let options = FBSDKMessengerShareOptions()
 //        options.renderAsSticker = false

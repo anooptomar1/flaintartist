@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import QuartzCore
 import Firebase
 import SceneKit
 import GSMessages
@@ -113,6 +114,14 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
 
         collectionView.dataSource = self
         collectionView.delegate = self
+        
+        
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionMoveIn
+        self.navigationController!.view.layer.add(transition, forKey: nil)
     }
     
     
@@ -126,13 +135,13 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                 self?.arts = []
                 if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
                     for snap in snapshot {
-                        if let dict = snap.value as? NSDictionary, let isPrivate = dict["private"] as? Bool {
+                        if let dict = snap.value as? NSDictionary, let isPrivate = dict["private"] as? Bool, let price = dict["price"] as? Int {
                             if isPrivate == false {
                                 if let postDict = snap.value as? Dictionary<String, AnyObject> {
                                     let key = snap.key
                                     let art = Art(key: key, artData: postDict)
-                                    if art.artID != info.artID {
-                                    self?.arts.append(art)
+                                    if art.artID != info.artID && price == art.price {
+                                        self?.arts.append(art)
                                     }
                                 }
                             }
@@ -144,7 +153,7 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                 }
             })
           }
-        }
+       }
         
         self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
         DispatchQueue.global(qos: .userInitiated).async {
@@ -156,7 +165,6 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                         DispatchQueue.main.async {
                             self?.artistNameLbl.text = user.name
                             self?.artistImg.sd_setImage(with: URL(string: "\(user.profilePicUrl!)") , placeholderImage: UIImage(named:"Placeholder") , options: .continueInBackground)
-                            print("LOAD")
 
                         }
                     }
@@ -190,7 +198,7 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             showSimilar = true
             let attributedString = NSMutableAttributedString(string: "Similar ")
             let attachment = NSTextAttachment()
-            attachment.image = UIImage(named: "Collapse Arrow-10")
+            attachment.image = UIImage(named: "Expand Arrow Filled-10")
             attributedString.append(NSAttributedString(attachment: attachment))
             self.similarLbl.attributedText = attributedString
             collectionView.isHidden = false
@@ -229,7 +237,6 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         if (gestureRecognize.state == .ended && lastFingersNumber==fingersNeededToPan) {
             lastWidthRatio = widthRatio
             lastHeightRatio = heightRatio
-            print("Pan with \(lastFingersNumber) finger\(lastFingersNumber>1 ? "s" : "")")
         }
         
         if gestureRecognize.state == .began ||  gestureRecognize.state == .changed {
@@ -257,7 +264,10 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     
     func artistBtnTapped() {
-        if user.userId == FIRAuth.auth()?.currentUser?.uid {
+        
+        if let id = FIRAuth.auth()?.currentUser?.uid {
+            if id != "" {
+            if user.userId == id {
             tabBarController?.selectedIndex = 2
         } else {
             let galleryVC = storyboard?.instantiateViewController(withIdentifier: "GalleryVC") as! GalleryVC
@@ -265,37 +275,46 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             galleryVC.hidesBottomBarWhenPushed = true
             DispatchQueue.main.async {
                 _ = self.navigationController?.pushViewController(galleryVC, animated: true)
+               }
             }
         }
     }
+}
+
     
     
     
     func showAlert() {
-        if let info = artInfo[1] as? Art {
-//            let request = UIAlertAction(title: "Request", style: .default, handler: { (UIAlertAction) in
-//                DataService.instance.request(artUID: info.artID, imgUrl: info.imgUrl ,title: info.title, description: info.description, price: info.price, height: info.artHeight, width: info.artWidth, type: info.type, date: info.postDate, userUID: info.userUid)
-//            })
-            
             let wallView = UIAlertAction(title: "Wallview", style: .default, handler: { (UIAlertAction) in
-                self.performSegue(withIdentifier: "WallviewVC", sender:self.artInfo[0] as! UIImage)
+
+                let wallViewVC = self.storyboard?.instantiateViewController(withIdentifier: "WallviewVC") as! WallViewVC
+                    wallViewVC.artInfo = self.artInfo
+                    wallViewVC.user = self.user
+                    wallViewVC.position = self.artRoomScene.boxnode.position
+                    wallViewVC.rotation = self.artRoomScene.boxnode.rotation
+                    wallViewVC.width = self.artRoomScene.width
+                    wallViewVC.height = self.artRoomScene.height
+                
+                self.navigationController?.pushViewController(wallViewVC, animated: false)
             })
-            
-//            let favorite = UIAlertAction(title: "Add to favorites", style: .default, handler: { (UIAlertAction) in
-//                
-//                DataService.instance.addToFavorite(artUID: info.artID, imgUrl: info.imgUrl ,title: info.title, description: info.description, price: info.price, height: info.artHeight, width: info.artWidth, type: info.type, date: info.postDate, userUID: info.userUid, vc: self)
-//            })
-            
             
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
-                self.share()
+                self.similarLbl.isHidden = true
+                self.artInfoView.isHidden = true
+                let view = self.view.captureView()
+                DispatchQueue.main.async {
+                    self.similarLbl.isHidden = false
+                    self.artInfoView.isHidden = false
+                }
+                self.shareChoice(view: view)
+
             })
-            
+        
             let report = UIAlertAction(title: "Report", style: .destructive, handler: { (UIAlertAction) in
                 self.performSegue(withIdentifier: "ReportVC", sender: self.artInfo[1])
             })
-            
+        
             let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             
             //alert.addAction(request)
@@ -305,40 +324,25 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             alert.addAction(report)
             alert.addAction(cancel)
             present(alert, animated: true, completion: nil)
-        }
+    
     }
     
-    
-    
-    func share() {
-        let share = Share()
+
+    func shareChoice(view: UIImage) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let facebook = UIAlertAction(title: "Facebook", style: .default, handler: { (UIAlertAction) in
-            share.facebookShare(self, image: self.artInfo[0] as! UIImage, text: self.mainTitleLbl.text!)
-        })
-        
-        _ = UIAlertAction(title: "Mesenger", style: .default, handler: { (UIAlertAction) in
-            //share.messengerShare(self, image: self.artInfo[0] as! UIImage)
-        })
-        
+        let facebook = UIAlertAction(title: "Facebook", style: .default) { (action) in
+            let share = Share()
+            share.facebookShare(self, image: view, text: "What do you think?")
+        }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alert.addAction(facebook)
-        //alert.addAction(messenger)
         alert.addAction(cancel)
-        
         present(alert, animated: true, completion: nil)
     }
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == "WallviewVC" {
-            let vc = segue.destination as! WallViewVC
-            if let artImage = sender as? UIImage {
-                vc.artImage = artImage
-            }
-        }
         
         if segue.identifier == "ReportVC" {
             let navVC = segue.destination as! UINavigationController

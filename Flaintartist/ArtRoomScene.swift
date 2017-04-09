@@ -51,8 +51,8 @@ class ArtRoomScene: SCNScene {
         //camera.usesOrthographicProjection = true
         camera.orthographicScale = 9
         camera.zNear = 1
-        camera.zFar = 100
-        cameraOrbit.position = SCNVector3(0, 0, 4)
+        camera.zFar = 90
+        cameraOrbit.position = SCNVector3(0, 0, 3)
 
         cameraOrbit.addChildNode(cameraNode)
         self.rootNode.addChildNode(cameraOrbit)

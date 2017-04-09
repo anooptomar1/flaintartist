@@ -14,10 +14,11 @@ import FirebaseStorage
 
 class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
-    @IBOutlet var profileImage: UIImageView!
-    @IBOutlet var nameField: UITextField!
-    @IBOutlet var emailField: UITextField!
-    @IBOutlet var websiteField: UITextField!
+    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var nameField: UITextField!
+    @IBOutlet weak var emailField: UITextField!
+    @IBOutlet weak var websiteField: UITextField!
+    @IBOutlet weak var bioTextView: UITextView!
     
     var user: Users!
     var imageChanged: Bool = false
@@ -35,6 +36,7 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
                 self?.nameField.text = user.name
                 self?.emailField.text = FIRAuth.auth()?.currentUser?.email
                 self?.websiteField.text = user.website
+                self?.bioTextView.text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident"
                 if let url = self?.user.profilePicUrl {
                     self?.profileImage.sd_setImage(with: URL(string: "\(url)") , placeholderImage: UIImage(named: "Placeholder") , options: .continueInBackground)
                 }
@@ -61,6 +63,7 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
         let name = self.nameField.text!
         let email = self.emailField.text!
         let website = self.websiteField.text!
+        let biography = self.bioTextView.text!
         
         
         DispatchQueue.global(qos: .background).async {
@@ -84,7 +87,7 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
                 changeRequest?.commitChanges(completion: { (error) in
                     if error == nil {
                         let user = FIRAuth.auth()!.currentUser!
-                        let userInfo = ["email": email, "name": name, "uid": user.uid, "profileImg": String(describing: user.photoURL!), "website": website] as [String : Any]
+                        let userInfo = ["email": email, "name": name, "biography": biography, "uid": user.uid, "profileImg": String(describing: user.photoURL!), "website": website] as [String : Any]
                         let userRef = DataService.instance.REF_USERS.child(user.uid)
                         userRef.updateChildValues(userInfo, withCompletionBlock: { (error, reference) in
                             if error != nil {

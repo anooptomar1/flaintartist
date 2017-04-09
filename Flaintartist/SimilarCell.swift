@@ -9,6 +9,7 @@
 
 import UIKit
 import SDWebImage
+import ChameleonFramework
 
 
 class SimilarCell: UICollectionViewCell {
@@ -21,12 +22,12 @@ class SimilarCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-
+ 
     }
     
+
     func configureCell(forArt: Art) {
         self.art = forArt
-        print("Cell is Configure")
         artImageView.sd_setImage(with: URL(string: "\(art.imgUrl)") , placeholderImage: UIImage(named: "Placeholder") , options: .continueInBackground)
     }
 }

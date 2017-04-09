@@ -234,9 +234,6 @@ extension ProfileVC {
     func showRequestAlert(artImage: UIImage, art: Art) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let remove = UIAlertAction(title: "Remove", style: .destructive, handler: { (UIAlertAction) in
-            self.removeRequest(artUrl: art.imgUrl ,artID: art.artID, artTitle: art.title)
-        })
         
         let edit = UIAlertAction(title: "Edit", style: .default) { (action) in
             self.edit(forArt: art)
@@ -251,13 +248,17 @@ extension ProfileVC {
             self.share(image: artImage, title: art.title)
         })
         
+        let remove = UIAlertAction(title: "Remove", style: .destructive, handler: { (UIAlertAction) in
+            self.removeRequest(artUrl: art.imgUrl ,artID: art.artID, artTitle: art.title)
+        })
+        
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
 
-        alert.addAction(remove)
         alert.addAction(edit)
         alert.addAction(wallView)
         alert.addAction(share)
+        alert.addAction(remove)
         alert.addAction(cancel)
         self.present(alert, animated: true, completion: nil)
     }

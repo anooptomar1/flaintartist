@@ -17,9 +17,11 @@ class GalleryVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var profileImgSubLayer: UIView!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var artworkCountLbl: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var biographyCell: UITableViewCell!
     
     var user: Users!
     var arts = [Art]()
@@ -55,8 +57,15 @@ class GalleryVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         NotificationCenter.default.addObserver(self, selector: #selector(GalleryVC.showBars), name: editNotif, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(GalleryVC.hideBars), name: cancelNotif, object: nil)
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(GalleryVC.profilePicTapped))
+        profileImageView.addGestureRecognizer(tapGesture)
+    
     }
     
+    
+    func profilePicTapped() {
+        biographyCell.isHidden = false
+    }
     
     
     
@@ -80,7 +89,7 @@ class GalleryVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
                         }
                     }
                 }
-            }
+            } 
                 
                 DispatchQueue.main.async {
                     self?.collectionView.reloadData()
@@ -105,7 +114,6 @@ class GalleryVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
             }
         }
     }
-    
     
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -345,5 +353,4 @@ class GalleryVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
             self.navigationController?.navigationBar.alpha = 0
         }
     }
-    
 }

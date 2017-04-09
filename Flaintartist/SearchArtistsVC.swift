@@ -53,12 +53,7 @@ class SearchVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         findNearbyUsers()
         view.addObserver(self, forKeyPath: "hidden", options: [ .new, .old ], context: &context)
     }
-    
-    
-    
-    
-    
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
@@ -95,6 +90,7 @@ class SearchVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
             _ = circleQuery!.observe(.keyEntered, with: { [weak self] (key, location) in
                 if !(self?.nearbyUsers.contains(key!))! && key! != FIRAuth.auth()!.currentUser!.uid {
                     self?.nearbyUsers.insert(key!, at: 0)
+                    print("NEARBY USER: \(self?.nearbyUsers)")
                 }
             })
         }

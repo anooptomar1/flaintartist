@@ -15,6 +15,8 @@ class WallViewScene: SCNScene, SCNSceneRendererDelegate {
     var artImage = UIImage()
     var height: CGFloat = 0
     var width: CGFloat = 0
+    var position = SCNVector3()
+    var rotation = SCNVector4()
     var geometry = SCNBox()
     var boxnode = SCNNode()
     var cameraOrbit = SCNNode()
@@ -27,10 +29,10 @@ class WallViewScene: SCNScene, SCNSceneRendererDelegate {
     
     convenience init(create: Bool) {
         self.init()
-        setup(artInfo: artImage, height: height, width: width)
+        setup(artInfo: artImage, height: height, width: width, position: position, rotation: rotation)
     }
     
-    func setup(artInfo: UIImage?, height: CGFloat? = nil, width: CGFloat? = nil)  {
+    func setup(artInfo: UIImage?, height: CGFloat? = nil, width: CGFloat? = nil, position: SCNVector3, rotation: SCNVector4)  {
         weak var weakSelf = self
         let strongSelf = weakSelf!
         
@@ -43,10 +45,9 @@ class WallViewScene: SCNScene, SCNSceneRendererDelegate {
         strongSelf.geometry.firstMaterial?.specular.contents = UIColor.white
         strongSelf.geometry.firstMaterial?.emission.contents = UIColor.blue
         boxnode = SCNNode(geometry: strongSelf.geometry)
-        let yPos = -1.5
         
-        boxnode.position = SCNVector3(0, 0.4, yPos)
-        boxnode.rotation = SCNVector4(0,60,0,-56)
+        boxnode.position = position
+        boxnode.rotation = rotation
         
         strongSelf.rootNode.addChildNode(boxnode)
         

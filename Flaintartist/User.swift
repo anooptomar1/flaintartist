@@ -16,6 +16,7 @@ class Users {
     fileprivate var _profilePicUrl: String!
     fileprivate var _name: String!
     fileprivate var _artwork: Int!
+    fileprivate var _bio: String?
     fileprivate var _color: String!
     fileprivate var _website: String!
     fileprivate var _userType: String!
@@ -40,6 +41,10 @@ class Users {
         return _artwork
     }
     
+    var bio: String? {
+        return _bio
+    }
+    
     var userType: String {
         return _userType
     }
@@ -52,11 +57,13 @@ class Users {
         return _arts
     }
 
-    init(userId: String ,profilePicUrl: String, name: String, userType: String, website: String, artwork: Int, art: [Art]) {
+
+    init(userId: String ,profilePicUrl: String, name: String, userType: String, website: String, artwork: Int, bio: String, art: [Art]) {
         
         self._profilePicUrl = profilePicUrl
         self._name = name
         self._artwork = artwork
+        self._bio = bio
         self._website = website
         self._userId = userId
         self._arts = art
@@ -73,6 +80,12 @@ class Users {
         if let name = artistData["name"] as? String {
             self._name = name
         }
+        
+        
+        if let bio = artistData["biography"] as? String {
+            self._bio = bio
+        }
+        
         
         if let profilePicUrl = artistData["profileImg"] as? String {
             self._profilePicUrl = profilePicUrl
