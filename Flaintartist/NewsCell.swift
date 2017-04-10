@@ -20,11 +20,21 @@ class NewCell: UICollectionViewCell {
     
     
     var artImgView = UIImageView()
-    //var motionManager: CMMotionManager!
     var otherScene = Other(create: true)
     var art: Art!
-    var users = [Users]()
     var user: Users!
+    
+    //HANDLE PAN CAMERA
+    var lastWidthRatio: Float = 0
+    var lastHeightRatio: Float = 0.2
+    var fingersNeededToPan = 1
+    var maxWidthRatioRight: Float = 0.2
+    var maxWidthRatioLeft: Float = -0.2
+    var maxHeightRatioXDown: Float = 0.02
+    var maxHeightRatioXUp: Float = 0.4
+    var lastFingersNumber = 0
+
+    var panGesture = UIPanGestureRecognizer()
 
     
     override func awakeFromNib() {
@@ -36,8 +46,17 @@ class NewCell: UICollectionViewCell {
         scnView.scene = scene
         scnView.autoenablesDefaultLighting = true
         scnView.isJitteringEnabled = true
-        scnView.backgroundColor = UIColor.flatWhite()
-
+        scnView.backgroundColor = UIColor.clear
+        panGesture = UIPanGestureRecognizer(target: self, action: #selector(NewCell.handlePan(gestureRecognize:)))
+        scnView.addGestureRecognizer(panGesture)
+    }
+    
+    deinit {
+        print("NewCell is Dealloc")
+        scnView.removeGestureRecognizer(panGesture)
+        scnView.removeFromSuperview()
+        otherScene.remove()
+        
     }
     
     
@@ -73,5 +92,43 @@ class NewCell: UICollectionViewCell {
         }
         let date = convertDate(postDate: self.art.postDate)
         dateLbl.text = "\(date)"
+    }
+    
+    
+    func handlePan(gestureRecognize: UIPanGestureRecognizer) {
+        let numberOfTouches = gestureRecognize.numberOfTouches
+        let translation = gestureRecognize.translation(in: gestureRecognize.view!)
+        var widthRatio = Float(translation.x) / Float(gestureRecognize.view!.frame.size.width) - lastWidthRatio
+        var heightRatio = Float(translation.y) / Float(gestureRecognize.view!.frame.size.height) - lastHeightRatio
+        
+        if (numberOfTouches == fingersNeededToPan) {
+            //  HEIGHT constraints
+            if (heightRatio >= maxHeightRatioXUp ) {
+                heightRatio = maxHeightRatioXUp
+            }
+            if (heightRatio <= maxHeightRatioXDown ) {
+                heightRatio = maxHeightRatioXDown
+            }
+            
+            //  WIDTH constraints
+            if(widthRatio >= maxWidthRatioRight) {
+                widthRatio = maxWidthRatioRight
+            }
+            if(widthRatio <= maxWidthRatioLeft) {
+                widthRatio = maxWidthRatioLeft
+            }
+            
+            self.otherScene.boxnode.eulerAngles.y = Float(2 * M_PI) * widthRatio
+            
+            //for final check on fingers number
+            lastFingersNumber = fingersNeededToPan
+        }
+        
+        lastFingersNumber = (numberOfTouches>0 ? numberOfTouches : lastFingersNumber)
+        
+        if (gestureRecognize.state == .ended && lastFingersNumber==fingersNeededToPan) {
+            lastWidthRatio = widthRatio
+            lastHeightRatio = heightRatio
+        }
     }
 }

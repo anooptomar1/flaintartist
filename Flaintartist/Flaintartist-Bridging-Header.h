@@ -7,3 +7,6 @@
 #import "GeoFire.h"
 #import "IPDFCameraViewController.h"
 #import "Mailgun.h"
+#import "AAPLCameraViewController.h"
+#import "AAPLPreviewView.h"
+#import "AAPLCameraVCDelegate.h"

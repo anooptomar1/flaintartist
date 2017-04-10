@@ -21,6 +21,7 @@ class ArtRoomScene: SCNScene {
     var cameraOrbit = SCNNode()
     var cameraNode = SCNNode()
     let camera = SCNCamera()
+    var material = SCNMaterial()
     
     //HANDLE PAN CAMERA
     var lastWidthRatio: Float = 0
@@ -55,14 +56,31 @@ class ArtRoomScene: SCNScene {
         cameraOrbit.position = SCNVector3(0, 0, 3)
 
         cameraOrbit.addChildNode(cameraNode)
-        self.rootNode.addChildNode(cameraOrbit)
-        let material = SCNMaterial()
+        self.rootNode.addChildNode(cameraOrbit)        
+        material = SCNMaterial()
         material.diffuse.contents = artImage
         let borderMat = SCNMaterial()
         borderMat.diffuse.contents = UIImage(named: "texture")
         let backMat = SCNMaterial()
         backMat.diffuse.contents = UIColor.gray
         self.geometry.materials = [material, borderMat, backMat, borderMat, borderMat]
+      
+    }
+    
+    
+    func add() {
+        self.rootNode.addChildNode(boxnode)
+        self.rootNode.addChildNode(cameraNode)
+        self.rootNode.addChildNode(cameraOrbit)
+        geometry.firstMaterial = material
+    }
+    
+    
+    func remove() {
+        boxnode.removeFromParentNode()
+        cameraNode.removeFromParentNode()
+        cameraOrbit.removeFromParentNode()
+        geometry.removeMaterial(at: 0)
     }
 }
 

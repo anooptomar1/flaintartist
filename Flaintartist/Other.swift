@@ -69,4 +69,10 @@ final class Other: SCNScene {
         let yPos = yPoz
         boxnode.position = SCNVector3(0, 0.4, yPos)
     }
+    
+    func remove() {
+        boxnode.removeFromParentNode()
+        cameraNode.removeFromParentNode()
+        cameraOrbit.removeFromParentNode()
+    }
 }

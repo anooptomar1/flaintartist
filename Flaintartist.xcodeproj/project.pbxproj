@@ -58,6 +58,8 @@
 		6D8633D01E8DD34B0025F626 /* CreateAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8633CF1E8DD34B0025F626 /* CreateAccountVC.swift */; };
 		6D8F01441E269E9800651664 /* ProfileArtCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F01431E269E9800651664 /* ProfileArtCell.swift */; };
 		6D8F01461E26A5D100651664 /* ProfileArtTabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F01451E26A5D100651664 /* ProfileArtTabCell.swift */; };
+		6D94784F1E9B1D0200BE0284 /* AAPLCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D94784E1E9B1D0200BE0284 /* AAPLCameraViewController.m */; };
+		6D9478541E9B1D7100BE0284 /* AAPLPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9478531E9B1D7100BE0284 /* AAPLPreviewView.m */; };
 		6D9C8C451E3A9ACB00824C93 /* Unused.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9C8C441E3A9ACB00824C93 /* Unused.swift */; };
 		6D9C8C921E3AF46A00824C93 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9C8C911E3AF46A00824C93 /* AuthService.swift */; };
 		6D9EA40D1E19DC7B0080D182 /* SwipeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9EA40C1E19DC7B0080D182 /* SwipeView.m */; };
@@ -194,6 +196,11 @@
 		6D8633CF1E8DD34B0025F626 /* CreateAccountVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateAccountVC.swift; path = Flaintartist/CreateAccountVC.swift; sourceTree = SOURCE_ROOT; };
 		6D8F01431E269E9800651664 /* ProfileArtCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileArtCell.swift; path = Flaintartist/ProfileArtCell.swift; sourceTree = SOURCE_ROOT; };
 		6D8F01451E26A5D100651664 /* ProfileArtTabCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileArtTabCell.swift; path = Flaintartist/ProfileArtTabCell.swift; sourceTree = SOURCE_ROOT; };
+		6D94784C1E9B1D0200BE0284 /* AAPLCameraVCDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AAPLCameraVCDelegate.h; path = ../../../Downloads/DevChat/DevChat/AAPLCameraVCDelegate.h; sourceTree = "<group>"; };
+		6D94784D1E9B1D0200BE0284 /* AAPLCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AAPLCameraViewController.h; path = ../../../Downloads/DevChat/DevChat/AAPLCameraViewController.h; sourceTree = "<group>"; };
+		6D94784E1E9B1D0200BE0284 /* AAPLCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AAPLCameraViewController.m; path = ../../../Downloads/DevChat/DevChat/AAPLCameraViewController.m; sourceTree = "<group>"; };
+		6D9478521E9B1D7100BE0284 /* AAPLPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AAPLPreviewView.h; path = ../../../Downloads/DevChat/DevChat/AAPLPreviewView.h; sourceTree = "<group>"; };
+		6D9478531E9B1D7100BE0284 /* AAPLPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AAPLPreviewView.m; path = ../../../Downloads/DevChat/DevChat/AAPLPreviewView.m; sourceTree = "<group>"; };
 		6D9C8C441E3A9ACB00824C93 /* Unused.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unused.swift; sourceTree = "<group>"; };
 		6D9C8C911E3AF46A00824C93 /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		6D9EA40A1E19DC7A0080D182 /* Flaintartist-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Flaintartist-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -338,8 +345,8 @@
 			children = (
 				6D1C784A1E1A041600E2041C /* SendToCaptureVC.swift */,
 				6D1C784C1E1A047800E2041C /* CaptureVC.swift */,
-				6D1C784E1E1A04BC00E2041C /* CaptureDetailsVC.swift */,
 				6D28D59F1E327C9C000E30A5 /* UploadPhotoVC.swift */,
+				6D1C784E1E1A04BC00E2041C /* CaptureDetailsVC.swift */,
 			);
 			name = Capture;
 			sourceTree = "<group>";
@@ -347,6 +354,7 @@
 		6D1E056B1E3BCF93007CCC5C /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				6D9478511E9B1D6100BE0284 /* CameraPreview */,
 				6D1E056C1E3BCFAE007CCC5C /* News */,
 				6D1E056F1E3BCFD5007CCC5C /* Profile */,
 				6D1E056D1E3BCFB9007CCC5C /* Settings */,
@@ -488,19 +496,63 @@
 			name = Report;
 			sourceTree = "<group>";
 		};
-		6D9EA4081E19DC5A0080D182 /* Framework */ = {
+		6D9478491E9B1CCB00BE0284 /* GSMessage */ = {
+			isa = PBXGroup;
+			children = (
+				6D4609AE1E1F505F00FC75C3 /* MGMessage.m */,
+				6D4609AF1E1F505F00FC75C3 /* MGMessage.h */,
+			);
+			name = GSMessage;
+			sourceTree = "<group>";
+		};
+		6D94784A1E9B1CD500BE0284 /* Mailgun */ = {
+			isa = PBXGroup;
+			children = (
+				6D4E47381E24075A00970CE3 /* Mailgun.h */,
+				6D4E47391E24075A00970CE3 /* Mailgun.m */,
+			);
+			name = Mailgun;
+			sourceTree = "<group>";
+		};
+		6D94784B1E9B1CE100BE0284 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				6D94784C1E9B1D0200BE0284 /* AAPLCameraVCDelegate.h */,
+				6D94784D1E9B1D0200BE0284 /* AAPLCameraViewController.h */,
+				6D94784E1E9B1D0200BE0284 /* AAPLCameraViewController.m */,
+			);
+			name = Camera;
+			sourceTree = "<group>";
+		};
+		6D9478501E9B1D3300BE0284 /* CApage */ = {
 			isa = PBXGroup;
 			children = (
 				6DA7BC1F1E6F91E300DE61FB /* CAPSPageMenu.swift */,
+			);
+			name = CApage;
+			sourceTree = "<group>";
+		};
+		6D9478511E9B1D6100BE0284 /* CameraPreview */ = {
+			isa = PBXGroup;
+			children = (
+				6D9478521E9B1D7100BE0284 /* AAPLPreviewView.h */,
+				6D9478531E9B1D7100BE0284 /* AAPLPreviewView.m */,
+			);
+			name = CameraPreview;
+			sourceTree = "<group>";
+		};
+		6D9EA4081E19DC5A0080D182 /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				6D9EA40A1E19DC7A0080D182 /* Flaintartist-Bridging-Header.h */,
+				6D94784B1E9B1CE100BE0284 /* Camera */,
+				6D9478501E9B1D3300BE0284 /* CApage */,
 				6DA7BC181E6F907B00DE61FB /* FB */,
 				6DA7BC011E6DFD6400DE61FB /* GeoFire */,
-				6D9EA40A1E19DC7A0080D182 /* Flaintartist-Bridging-Header.h */,
 				6D9EA4151E19DCEC0080D182 /* IPDFCameraViewController.h */,
 				6D9EA4161E19DCEC0080D182 /* IPDFCameraViewController.m */,
-				6D4E47381E24075A00970CE3 /* Mailgun.h */,
-				6D4E47391E24075A00970CE3 /* Mailgun.m */,
-				6D4609AE1E1F505F00FC75C3 /* MGMessage.m */,
-				6D4609AF1E1F505F00FC75C3 /* MGMessage.h */,
+				6D94784A1E9B1CD500BE0284 /* Mailgun */,
+				6D9478491E9B1CCB00BE0284 /* GSMessage */,
 				6D9EA4091E19DC6E0080D182 /* SwipeView */,
 			);
 			name = Framework;
@@ -1107,6 +1159,7 @@
 				6D1C784B1E1A041600E2041C /* SendToCaptureVC.swift in Sources */,
 				6DF28DC11E199B8000C8A3B0 /* Camera.swift in Sources */,
 				6DF28D8D1E196DC200C8A3B0 /* AppDelegate.swift in Sources */,
+				6D94784F1E9B1D0200BE0284 /* AAPLCameraViewController.m in Sources */,
 				6DB44A261E1F79010025BF1A /* PrivacyVC.swift in Sources */,
 				6DA7BC3F1E709CF100DE61FB /* HistoryCell.swift in Sources */,
 				6D9EA40D1E19DC7B0080D182 /* SwipeView.m in Sources */,
@@ -1142,6 +1195,7 @@
 				6D9EA4271E19DF850080D182 /* GalleryVC.swift in Sources */,
 				6D9EA41C1E19DDB00080D182 /* ArtRoomVC.swift in Sources */,
 				6D9EA41F1E19DE2D0080D182 /* ArtRoomScene.swift in Sources */,
+				6D9478541E9B1D7100BE0284 /* AAPLPreviewView.m in Sources */,
 				6DA7BC321E6F975300DE61FB /* HeaderCollectionReusableView.swift in Sources */,
 				6D4E473A1E24075A00970CE3 /* Mailgun.m in Sources */,
 				6D4DE4AB1E29C39700AFAAAA /* EditArtVC.swift in Sources */,

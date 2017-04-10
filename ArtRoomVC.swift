@@ -106,7 +106,7 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
         let attributedString = NSMutableAttributedString(string: "Similar ")
         let attachment = NSTextAttachment()
-            attachment.image = UIImage(named: "Expand Arrow-10")
+        attachment.image = UIImage(named: "Expand Arrow-10")
         attributedString.append(NSAttributedString(attachment: attachment))
         self.similarLbl.attributedText = attributedString
 
@@ -126,7 +126,7 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        self.artRoomScene.add()
         DispatchQueue.global(qos: .background).async {
             if let info = self.artInfo[1] as? Art {
                 DataService.instance.REF_ARTS.queryOrdered(byChild: "type").queryEqual(toValue: info.type).queryLimited(toFirst: 6).observe(.value, with: { [weak self] (snapshot) in
@@ -174,7 +174,7 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        //self.artRoomScene.remove()
+        self.artRoomScene.remove()
         //self.scnView.removeFromSuperview()
         //self.stackView.removeFromSuperview()
         DataService.instance.REF_USERS.child("\(self.userID)").removeAllObservers()

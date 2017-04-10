@@ -12,7 +12,7 @@ import SceneKit
 import FirebaseAuth
     
     
-class WallViewVC: UIViewController{
+class WallViewVC: UIViewController {
     
     
     @IBOutlet weak var cameraView: IPDFCameraViewController!
@@ -55,8 +55,6 @@ class WallViewVC: UIViewController{
     var width: CGFloat = 0.0
     var height: CGFloat = 0.0
     
-    
-    
     var showInfo = false
     var showSimilar: Bool = false
 
@@ -67,10 +65,11 @@ class WallViewVC: UIViewController{
 
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         self.cameraView.setupCameraView()
         self.cameraView.isBorderDetectionEnabled = false
         self.cameraView.cameraViewType = .normal
-        super.viewDidLoad()
         
         weak var weakSelf = self
         let strongSelf = weakSelf!

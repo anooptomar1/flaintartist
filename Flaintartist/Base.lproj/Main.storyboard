@@ -705,7 +705,7 @@
                     <connections>
                         <outlet property="artistImg" destination="H47-eM-D6a" id="zkb-4N-FfK"/>
                         <outlet property="artistView" destination="pfL-UB-GLy" id="rcc-tJ-UTv"/>
-                        <outlet property="cameraView" destination="oGf-jE-Rjh" id="mp5-bW-2MN"/>
+                        <outlet property="cameraView" destination="oGf-jE-Rjh" id="RiT-dh-isY"/>
                         <outlet property="mainTitleLbl" destination="oDB-CK-KsK" id="9Ov-kh-dCc"/>
                         <outlet property="nameLbl" destination="XaN-WI-K5H" id="Xa3-t7-QqK"/>
                         <outlet property="scnView" destination="MbM-rK-ota" id="S4C-KV-4Dk"/>
@@ -1877,13 +1877,13 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="artist" translatesAutoresizingMaskIntoConstraints="NO" id="NGc-VF-cQZ" customClass="RoundImage" customModule="Flaintartist" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="159" width="20" height="20"/>
+                                                            <rect key="frame" x="0.0" y="158" width="22" height="22"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="20" id="gvk-4K-zq7"/>
+                                                                <constraint firstAttribute="width" constant="22" id="gvk-4K-zq7"/>
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Solange" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xFm-Dp-0G6">
-                                                            <rect key="frame" x="23" y="158" width="149" height="8"/>
+                                                            <rect key="frame" x="26" y="161" width="149" height="8"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="8" id="RyA-FN-fgt"/>
                                                             </constraints>
@@ -1892,7 +1892,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4 WEEK AGO" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h9b-os-sal">
-                                                            <rect key="frame" x="23" y="168" width="149" height="6"/>
+                                                            <rect key="frame" x="26" y="171" width="149" height="6"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="6" id="32F-9W-qud"/>
                                                             </constraints>
@@ -1903,15 +1903,15 @@
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.18998533487319946" green="0.35768887400627136" blue="0.43821841478347778" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="bottom" secondItem="NGc-VF-cQZ" secondAttribute="bottom" constant="1" id="FFy-GT-Ll4"/>
-                                                        <constraint firstItem="h9b-os-sal" firstAttribute="bottom" secondItem="Mcx-WE-qLo" secondAttribute="bottomMargin" constant="2" id="Ke1-qM-oLd"/>
+                                                        <constraint firstAttribute="bottom" secondItem="NGc-VF-cQZ" secondAttribute="bottom" id="FFy-GT-Ll4"/>
+                                                        <constraint firstItem="h9b-os-sal" firstAttribute="bottom" secondItem="Mcx-WE-qLo" secondAttribute="bottomMargin" constant="5" id="Ke1-qM-oLd"/>
                                                         <constraint firstItem="xFm-Dp-0G6" firstAttribute="leading" secondItem="h9b-os-sal" secondAttribute="leading" id="Mps-24-c5m"/>
-                                                        <constraint firstAttribute="trailing" secondItem="h9b-os-sal" secondAttribute="trailing" constant="8" id="QCX-Q7-MUE"/>
-                                                        <constraint firstItem="xFm-Dp-0G6" firstAttribute="leading" secondItem="NGc-VF-cQZ" secondAttribute="trailing" constant="3" id="WkZ-gh-Hk8"/>
-                                                        <constraint firstItem="NGc-VF-cQZ" firstAttribute="top" secondItem="xFm-Dp-0G6" secondAttribute="top" constant="1" id="cyh-2f-qm2"/>
+                                                        <constraint firstAttribute="trailing" secondItem="h9b-os-sal" secondAttribute="trailing" constant="5" id="QCX-Q7-MUE"/>
+                                                        <constraint firstItem="xFm-Dp-0G6" firstAttribute="leading" secondItem="NGc-VF-cQZ" secondAttribute="trailing" constant="4" id="WkZ-gh-Hk8"/>
+                                                        <constraint firstItem="NGc-VF-cQZ" firstAttribute="top" secondItem="xFm-Dp-0G6" secondAttribute="top" constant="-3" id="cyh-2f-qm2"/>
                                                         <constraint firstItem="NGc-VF-cQZ" firstAttribute="leading" secondItem="Mcx-WE-qLo" secondAttribute="leading" id="g78-9s-6hh"/>
                                                         <constraint firstItem="h9b-os-sal" firstAttribute="top" secondItem="xFm-Dp-0G6" secondAttribute="bottom" constant="2" id="lpx-Mp-3Q3"/>
-                                                        <constraint firstAttribute="trailing" secondItem="xFm-Dp-0G6" secondAttribute="trailing" constant="8" id="s8m-QM-jF3"/>
+                                                        <constraint firstAttribute="trailing" secondItem="xFm-Dp-0G6" secondAttribute="trailing" constant="5" id="s8m-QM-jF3"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -3122,9 +3122,9 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="UEF-T6-EKt"/>
+        <segue reference="m7K-wp-2Jo"/>
         <segue reference="bnP-co-A98"/>
-        <segue reference="AFT-Si-2Xd"/>
         <segue reference="fyb-iZ-i2M"/>
-        <segue reference="uS1-wH-aky"/>
+        <segue reference="c4h-Oo-dty"/>
     </inferredMetricsTieBreakers>
 </document>
