@@ -67,8 +67,6 @@ class SearchArtsVC: UIViewController, UICollectionViewDelegate, UICollectionView
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         DataService.instance.REF_ARTS.removeAllObservers()
-        //self.arts = []
-        //self.filteredArts = []
     }
     
     
@@ -76,6 +74,9 @@ class SearchArtsVC: UIViewController, UICollectionViewDelegate, UICollectionView
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         filteredArts = arts.filter { art in
             return (art.type.lowercased().contains(searchText.lowercased()))
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
         }
     }
     
@@ -84,9 +85,6 @@ class SearchArtsVC: UIViewController, UICollectionViewDelegate, UICollectionView
         let searchBarText = searchController.searchBar.text!
         filterContentForSearchText(searchText: searchBarText)
         self.searchController = searchController
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
     }
     
     
@@ -114,7 +112,7 @@ class SearchArtsVC: UIViewController, UICollectionViewDelegate, UICollectionView
             }
             cell.otherScene.boxnode.removeFromParentNode()
             queue.async(qos: .background) {
-                cell.configureCell(forArt: art)
+                cell.configureCell(forArt: art, indexPath: indexPath)
             }
             return cell
         } else {
@@ -133,14 +131,16 @@ class SearchArtsVC: UIViewController, UICollectionViewDelegate, UICollectionView
             art = arts[indexPath.row]
         }
         
-        let cell = collectionView.cellForItem(at: indexPath) as! SearchArtsCell
-        if let artImage = cell.artImgView.image {
-            let artInfo = [artImage, art] as [Any]
-            let artRoomVC = storyboard?.instantiateViewController(withIdentifier: "ArtRoomVC") as! ArtRoomVC
-            artRoomVC.hidesBottomBarWhenPushed = true
-            artRoomVC.artInfo = artInfo
-            DispatchQueue.main.async {
-                _ = self.navigationController?.pushViewController(artRoomVC, animated: true)
+        if let cell = collectionView.cellForItem(at: indexPath) as? SearchArtsCell {
+            if let artImage = cell.artImgView.image {
+                let artInfo = [artImage, art] as [Any]
+                let otherScene = cell.otherScene
+                let artRoomVC = storyboard?.instantiateViewController(withIdentifier: "ArtRoomVC") as! ArtRoomVC
+                artRoomVC.hidesBottomBarWhenPushed = true
+                artRoomVC.artInfo = artInfo
+                artRoomVC.position = otherScene.boxnode.position
+                artRoomVC.rotation = otherScene.boxnode.rotation
+                _ = navigationController?.pushViewController(artRoomVC, animated: true)
             }
         }
     }

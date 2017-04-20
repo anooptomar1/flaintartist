@@ -30,7 +30,6 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     var tapGesture = UITapGestureRecognizer()
     var segmentedCtrl = UISegmentedControl()
     
-    
     let kPrefetchRowCount = 10
     
     let editNotif = NSNotification.Name("Show")
@@ -256,7 +255,9 @@ extension ProfileVC {
             }
         })
         let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
-            self.share(image: artImage, title: art.title)
+            let view = self.view.captureView()
+            self.shareChoice(view: view)
+            //self.share(image: artImage, title: art.title)
         })
         
         let remove = UIAlertAction(title: "Remove", style: .destructive, handler: { (UIAlertAction) in
@@ -327,24 +328,19 @@ extension ProfileVC {
     }
 
 
-    
-
-    func share(image: UIImage, title: String) {
-        let share = Share()
+    func shareChoice(view: UIImage) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let facebook = UIAlertAction(title: "Facebook", style: .default, handler: { (UIAlertAction) in
-            share.facebookShare(self, image: image, text: title)
-        })
-        
-        _ = UIAlertAction(title: "Messenger", style: .default, handler: { (UIAlertAction) in
-        })
-        
+        let facebook = UIAlertAction(title: "Facebook", style: .default) { (action) in
+            let share = Share()
+            share.facebookShare(self, image: view, text: "What do you think?")
+        }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alert.addAction(facebook)
         alert.addAction(cancel)
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
+
     
     
     func removeRequest(artUrl: String, artID: String, artTitle: String) {
