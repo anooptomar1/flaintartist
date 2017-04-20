@@ -132,7 +132,7 @@ class AuthService {
     func firebaseAuth(_ credential: FIRAuthCredential) {
         FIRAuth.auth()?.signIn(with: credential, completion: { (user, error) in
             if error != nil {
-                print("Kurbs: Unable to authenticate with Firebase - \(error)")
+                print("Kurbs: Unable to authenticate with Firebase - \(String(describing: error))")
             } else {
                 print("Kurbs: Successfully authenticated with Firebase")
                 if let user = user {
@@ -148,7 +148,7 @@ class AuthService {
     func signUp (name: String, email: String, password: String, pictureData: NSData? = nil, userType: String, onComplete: Completion?) {
         FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user, error) in
             if error != nil {
-                print("ERROR:\(error?.localizedDescription)")
+                print("ERROR:\(String(describing: error?.localizedDescription))")
                 self.handleFirebaseError(error: error! as NSError, onComplete: onComplete)
             } else {
                 DataService.instance.setUserInfo(name: name, user: user, password: password, pictureData: pictureData, userType: userType)

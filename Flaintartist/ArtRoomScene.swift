@@ -15,13 +15,15 @@ class ArtRoomScene: SCNScene {
     var artImage = UIImage()
     var height: CGFloat = 0
     var width: CGFloat = 0
+    var position = SCNVector3()
+    var rotation = SCNVector4()
     var geometry = SCNBox()
     var post: Art!
     var boxnode = SCNNode()
     var cameraOrbit = SCNNode()
     var cameraNode = SCNNode()
     let camera = SCNCamera()
-    var material = SCNMaterial()
+    var materials = [SCNMaterial]()
     
     //HANDLE PAN CAMERA
     var lastWidthRatio: Float = 0
@@ -29,27 +31,25 @@ class ArtRoomScene: SCNScene {
     
     convenience init(create: Bool) {
         self.init()
-        setup(artInfo: artImage, height: height, width: width)
+        setup(artInfo: artImage, height: height, width: width, position: position, rotation: rotation)
     }
     
-    func setup(artInfo: UIImage?, height: CGFloat? = nil, width: CGFloat? = nil)  {
+    func setup(artInfo: UIImage?, height: CGFloat? = nil, width: CGFloat? = nil, position: SCNVector3, rotation: SCNVector4)  {
         self.artImage = artInfo!
         self.height = height!
         self.width = width!
-        self.geometry = SCNBox(width: width!, height: height!, length: 57 / 1000, chamferRadius: 0.008)
+        self.geometry = SCNBox(width: width!, height: height!, length: 57 / 700, chamferRadius: 0.008)
         self.geometry.firstMaterial?.diffuse.contents = UIColor.red
         self.geometry.firstMaterial?.specular.contents = UIColor.white
         self.geometry.firstMaterial?.emission.contents = UIColor.blue
         boxnode = SCNNode(geometry: self.geometry)
-        let yPos = -1.5
-        boxnode.position = SCNVector3(0, 0.4, yPos)
-        boxnode.rotation = SCNVector4(0,60,0,-56)
+        boxnode.position = position
+        boxnode.rotation = rotation
 
         self.rootNode.addChildNode(boxnode)
 
         cameraNode = SCNNode()
         cameraNode.camera = camera
-        //camera.usesOrthographicProjection = true
         camera.orthographicScale = 9
         camera.zNear = 1
         camera.zFar = 90
@@ -57,13 +57,14 @@ class ArtRoomScene: SCNScene {
 
         cameraOrbit.addChildNode(cameraNode)
         self.rootNode.addChildNode(cameraOrbit)        
-        material = SCNMaterial()
+        let material = SCNMaterial()
         material.diffuse.contents = artImage
         let borderMat = SCNMaterial()
         borderMat.diffuse.contents = UIImage(named: "texture")
         let backMat = SCNMaterial()
         backMat.diffuse.contents = UIColor.gray
-        self.geometry.materials = [material, borderMat, backMat, borderMat, borderMat]
+        self.materials = [material, borderMat, backMat, borderMat, borderMat]
+        self.geometry.materials = self.materials
       
     }
     
@@ -72,7 +73,7 @@ class ArtRoomScene: SCNScene {
         self.rootNode.addChildNode(boxnode)
         self.rootNode.addChildNode(cameraNode)
         self.rootNode.addChildNode(cameraOrbit)
-        geometry.firstMaterial = material
+        geometry.materials = materials
     }
     
     

@@ -9,8 +9,6 @@
 import UIKit
 import Firebase
 import FirebaseDatabase
-//import FirebaseInstanceID
-//import FirebaseMessaging
 import SwiftyUserDefaults
 import UserNotifications
 
@@ -44,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navigationBarAppearance.shadowImage = UIImage()
         navigationBarAppearance.isTranslucent = false
         
-        UITabBar.appearance().tintColor = UIColor.flatBlack()
+        UITabBar.appearance().tintColor = UIColor.darkText
         self.window?.backgroundColor = UIColor.white
         return true
     }
@@ -96,22 +94,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
              }
           }
        }
-    
-    
-//    func tokenRefreshNotification(notification: NSNotification) {
-//        let refreshedToken = FIRInstanceID.instanceID().token()
-//        print("InstanceID token: \(refreshedToken)")
-//        connectToFCM()
-//    }
-//    
-//    func connectToFCM() {
-//        FIRMessaging.messaging().connect { (error) in
-//            
-//            if (error != nil) {
-//                print("Unable to connect to FCM \(error)")
-//            } else {
-//                print("Connected to FCM")
-//            }
-//        }
-//    }
-}
+    }

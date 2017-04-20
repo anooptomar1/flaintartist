@@ -10,6 +10,7 @@
 import UIKit
 import SceneKit
 import FirebaseAuth
+import FirebaseDatabase
     
     
 class WallViewVC: UIViewController {
@@ -24,10 +25,12 @@ class WallViewVC: UIViewController {
     @IBOutlet weak var timeLbl: UILabel!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var similarLbl: UILabel!
+    @IBOutlet weak var collectionView: UICollectionView!
     
     
     var sceneView: SCNView!
     var artInfo: [Any]!
+    var arts = [Art]()
     var artImage = UIImage()
     var user: Users!
     
@@ -65,9 +68,10 @@ class WallViewVC: UIViewController {
 
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+
         
         self.cameraView.setupCameraView()
+        super.viewDidLoad()
         self.cameraView.isBorderDetectionEnabled = false
         self.cameraView.cameraViewType = .normal
         
@@ -78,7 +82,6 @@ class WallViewVC: UIViewController {
         scnView.scene = scene
 
         if let info = self.artInfo[1] as? Art {
-            DataService.instance.seen(artUID: info.artID, imgUrl: info.imgUrl, title: info.title, description: info.description, price: info.price, height: info.artHeight, width: info.artWidth, type: info.type, date: info.postDate, userUID: info.userUid)
             //self.userID = info.userUid
             let image = strongSelf.artInfo[0] as? UIImage
               strongSelf.artScene.setup(artInfo: image, height: height, width: width, position: position, rotation: rotation)
@@ -165,7 +168,7 @@ class WallViewVC: UIViewController {
             attachment.image = UIImage(named: "Expand Arrow Filled-10")
             attributedString.append(NSAttributedString(attachment: attachment))
             self.similarLbl.attributedText = attributedString
-            //collectionView.isHidden = true
+            collectionView.isHidden = true
         } else {
             showSimilar = true
             let attributedString = NSMutableAttributedString(string: "Similar ")
@@ -173,7 +176,7 @@ class WallViewVC: UIViewController {
             attachment.image = UIImage(named: "Collapse Arrow white Filled-10")
             attributedString.append(NSAttributedString(attachment: attachment))
             self.similarLbl.attributedText = attributedString
-            //collectionView.isHidden = false
+            collectionView.isHidden = false
         }
     }
     
@@ -186,6 +189,9 @@ class WallViewVC: UIViewController {
         self.navigationController?.navigationBar.tintColor = UIColor.flatWhite()
         self.navigationController?.navigationBar.tintColor = UIColor.flatWhite()
         navigationController?.toolbar.isHidden = false
+        
+        collectionView.reloadData()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -217,7 +223,7 @@ class WallViewVC: UIViewController {
                 widthRatio = maxWidthRatioLeft
             }
             
-            artScene.boxnode.eulerAngles.y = Float(2 * M_PI) * widthRatio
+            artScene.boxnode.eulerAngles.y = Float(2 * Double.pi) * widthRatio
             lastFingersNumber = fingersNeededToPan
         }
         
@@ -287,7 +293,48 @@ class WallViewVC: UIViewController {
             reportVC.artInfo = artInfo
         }
     }
-
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return arts.count
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SimilarCell", for: indexPath) as? SimilarCell {
+            let art = arts[indexPath.row]
+            cell.configureCell(forArt: art)
+            return cell
+        } else {
+            return SimilarCell()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let cell = collectionView.cellForItem(at: indexPath) as! SimilarCell
+        let artImage = cell.artImageView.image
+        self.artInfo[0] = artImage!
+        let art = arts[indexPath.row]
+        //self.userID = art.userUid
+        let height = (artImage?.size.height)! / 700
+        let width = (artImage?.size.width)! / 700
+        artScene.boxnode.removeFromParentNode()
+        artScene.setup(artInfo: artImage, height: height, width: width, position: position, rotation: rotation)
+        mainTitleLbl.text = art.title
+        let date = convertDate(postDate: art.postDate)
+        timeLbl.text = date
+        textView.text = "\(art.artHeight)'H x \(art.artWidth)'W - \(art.price)$ / month - \(art.type) \n \(art.description)."
+        
+         DispatchQueue.main.async {
+            self.nameLbl.text = self.user.name
+            self.artistImg.sd_setImage(with: URL(string: "\(self.user.profilePicUrl!)") , placeholderImage: UIImage(named:"Placeholder") , options: .continueInBackground)
+         }
+    }
 }
 
 

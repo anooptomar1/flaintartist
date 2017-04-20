@@ -23,8 +23,8 @@ struct Art  {
     private var _artLenght: Int!
     private var _artRef: FIRDatabaseReference!
     private var _userUid: String!
-    private var _userName: String!
-    private var _profileImgUrl: String!
+    private var _userName: String = ""
+    private var _profileImgUrl: String = ""
     private var _postDate: Int!
     var isPrivate: Bool = false
     

@@ -20,7 +20,7 @@ class BorderImg: UIImageView {
         self.layer.borderColor = color.cgColor
         self.layer.borderWidth = width
         
-        let secondLayer = CALayer()
+        _ = CALayer()
     }
     
 }

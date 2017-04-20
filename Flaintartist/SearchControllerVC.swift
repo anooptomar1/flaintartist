@@ -143,7 +143,7 @@ class SearchControllerVC: UIViewController, UICollectionViewDelegate, UICollecti
             
         }
         
-        cell.artistImageView.sd_setImage(with: URL(string: "\(user.profilePicUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
+        cell.artistImageView.sd_setImage(with: URL(string: "\(String(describing: user.profilePicUrl))") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
             
         return cell
     

@@ -316,7 +316,13 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
         if let cell = collectionView.cellForItem(at: indexPath) as? NewCell {
             if let artImage = cell.artImgView.image {
                 let artInfo = [artImage, art] as [Any]
-                self.performSegue(withIdentifier: "ArtRoomVC", sender: artInfo)
+                let otherScene = cell.otherScene
+                let artRoomVC = storyboard?.instantiateViewController(withIdentifier: "ArtRoomVC") as! ArtRoomVC
+                artRoomVC.hidesBottomBarWhenPushed = true
+                artRoomVC.artInfo = artInfo
+                artRoomVC.position = otherScene.boxnode.position
+                artRoomVC.rotation = otherScene.boxnode.rotation
+                _ = navigationController?.pushViewController(artRoomVC, animated: true)
             }
         }
     }

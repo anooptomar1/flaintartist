@@ -118,7 +118,7 @@ class NewCell: UICollectionViewCell {
                 widthRatio = maxWidthRatioLeft
             }
             
-            self.otherScene.boxnode.eulerAngles.y = Float(2 * M_PI) * widthRatio
+            self.otherScene.boxnode.eulerAngles.y = Float(2 * Double.pi) * widthRatio
             
             //for final check on fingers number
             lastFingersNumber = fingersNeededToPan
@@ -129,6 +129,20 @@ class NewCell: UICollectionViewCell {
         if (gestureRecognize.state == .ended && lastFingersNumber==fingersNeededToPan) {
             lastWidthRatio = widthRatio
             lastHeightRatio = heightRatio
+        }
+        
+        if gestureRecognize.state == .began ||  gestureRecognize.state == .changed {
+            UIView.animate(withDuration: 2.5) {
+                self.artistImgView.alpha = 0
+                self.nameLbl.alpha = 0
+                self.dateLbl.alpha = 0
+            }
+        } else if gestureRecognize.state == .cancelled || gestureRecognize.state == .ended {
+            UIView.animate(withDuration: 1.3) {
+                self.artistImgView.alpha = 1
+                self.nameLbl.alpha = 1
+                self.dateLbl.alpha = 1
+            }
         }
     }
 }

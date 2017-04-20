@@ -50,6 +50,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         collectionView.dataSource = self
         collectionView.emptyDataSetSource = self
         collectionView.emptyDataSetDelegate = self
+        loadArts(ref: ref)
         dmzMessage = "You have no artwork yet. Click on the capture button to start sharing."
         refreshCtrl.tintColor = UIColor.flatBlack()
         refreshCtrl.addTarget(self, action: #selector(ProfileVC.refresh), for: UIControlEvents.valueChanged)
@@ -77,7 +78,6 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         self.navigationController?.navigationBar.isTranslucent = false
         self.collectionView.reloadData()
         loadUserInfo()
-        loadArts(ref: ref)
         NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.showBars), name: editNotif, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.hideBars), name: cancelNotif, object: nil)
     }
@@ -89,7 +89,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         ref.removeAllObservers()
         DataService.instance.REF_USERS.child("\(FIRAuth.auth()!.currentUser!.uid)").removeAllObservers()
         user = nil
-        art = nil
+        //art = nil
     }
     
     
@@ -157,7 +157,8 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         let art = arts[indexPath.row]
         if let cell = collectionView.cellForItem(at: indexPath) as? ProfileArtCell {
             let artImage = cell.artImageView.image
-            self.showRequestAlert(artImage: artImage!, art: art)
+            let artRoomScene = cell.artRoomScene
+            self.showRequestAlert(artImage: artImage!, art: art, artRoomScene: artRoomScene)
         }
     }
     
@@ -231,9 +232,9 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
 //MARK: Extension Edit Art
 extension ProfileVC {
     
-    func showRequestAlert(artImage: UIImage, art: Art) {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    func showRequestAlert(artImage: UIImage, art: Art, artRoomScene: ArtRoomScene) {
         
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let edit = UIAlertAction(title: "Edit", style: .default) { (action) in
             self.edit(forArt: art)
@@ -241,7 +242,17 @@ extension ProfileVC {
         
         let wallView = UIAlertAction(title: "Wallview", style: .default, handler: { (UIAlertAction) in
             DispatchQueue.main.async {
-                self.performSegue(withIdentifier: "WallviewVC", sender: artImage)
+                let wallViewVC = self.storyboard?.instantiateViewController(withIdentifier: "WallviewVC") as! WallViewVC
+                wallViewVC.hidesBottomBarWhenPushed = true
+                let artInfo = [artImage, art] as [Any]
+                wallViewVC.artInfo = artInfo
+                wallViewVC.user = self.user
+                wallViewVC.position = artRoomScene.boxnode.position
+                wallViewVC.rotation = artRoomScene.boxnode.rotation
+                wallViewVC.width = artRoomScene.geometry.width
+                wallViewVC.height = artRoomScene.geometry.height
+                self.navigationController?.pushViewController(wallViewVC, animated: false)
+                
             }
         })
         let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in

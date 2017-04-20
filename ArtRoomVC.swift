@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import QuartzCore
 import Firebase
 import SceneKit
 import GSMessages
@@ -24,7 +23,6 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var timeLbl: UILabel!
-    @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var artistImg: RoundImage!
     @IBOutlet weak var artistNameLbl: UILabel!
     @IBOutlet weak var artistView: UIView!
@@ -53,7 +51,12 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     //HANDLE PINCH CAMERA
     var pinchAttenuation = 100.0
     var lastFingersNumber = 0
+    
+    
     var userID = ""
+    
+    var position = SCNVector3()
+    var rotation = SCNVector4()
     
     var showSimilar: Bool = false
     
@@ -75,12 +78,12 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         scnView.backgroundColor = UIColor.white
         
         if let info = self.artInfo[1] as? Art {
-            DataService.instance.seen(artUID: info.artID, imgUrl: info.imgUrl, title: info.title, description: info.description, price: info.price, height: info.artHeight, width: info.artWidth, type: info.type, date: info.postDate, userUID: info.userUid)
+            DataService.instance.seen(artUID: info.artID, imgUrl: info.imgUrl, title: info.title, description: info.description, price: info.price, height: info.artHeight, width: info.artWidth, type: info.type, date: info.postDate, userUID: info.userUid, profileImg: info.profileImgUrl!, username: info.userName)
             self.userID = info.userUid
             let image = strongSelf.artInfo[0] as? UIImage
             let height = (image?.size.height)! / 700
             let width = (image?.size.width)! / 700
-            strongSelf.artRoomScene.setup(artInfo: image, height: height, width: width)
+            strongSelf.artRoomScene.setup(artInfo: image, height: height, width: width, position: position, rotation: rotation)
             strongSelf.mainTitleLbl.text = info.title
 
             let date = convertDate(postDate: info.postDate)
@@ -112,20 +115,11 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
 
         collectionView.dataSource = self
         collectionView.delegate = self
-        
-        
-        let transition = CATransition()
-        transition.duration = 0.5
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-        transition.type = kCATransitionPush
-        transition.subtype = kCATransitionMoveIn
-        self.navigationController!.view.layer.add(transition, forKey: nil)
     }
     
     
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         self.artRoomScene.add()
         DispatchQueue.global(qos: .background).async {
             if let info = self.artInfo[1] as? Art {
@@ -226,7 +220,7 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                 widthRatio = maxWidthRatioLeft
             }
             
-            artRoomScene.boxnode.eulerAngles.y = Float(2 * M_PI) * widthRatio
+            artRoomScene.boxnode.eulerAngles.y = Float(2 * Double.pi) * widthRatio
             lastFingersNumber = fingersNeededToPan
         }
         
@@ -262,7 +256,6 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     
     func artistBtnTapped() {
-        
         if let id = FIRAuth.auth()?.currentUser?.uid {
             if id != "" {
             if user.userId == id {
@@ -285,15 +278,17 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     func showAlert() {
             let wallView = UIAlertAction(title: "Wallview", style: .default, handler: { (UIAlertAction) in
 
-                let wallViewVC = self.storyboard?.instantiateViewController(withIdentifier: "WallviewVC") as! WallViewVC
+                DispatchQueue.main.async {
+                    let wallViewVC = self.storyboard?.instantiateViewController(withIdentifier: "WallviewVC") as! WallViewVC
                     wallViewVC.artInfo = self.artInfo
+                    wallViewVC.arts = self.arts
                     wallViewVC.user = self.user
                     wallViewVC.position = self.artRoomScene.boxnode.position
                     wallViewVC.rotation = self.artRoomScene.boxnode.rotation
                     wallViewVC.width = self.artRoomScene.geometry.width
                     wallViewVC.height = self.artRoomScene.geometry.height
-                
-                self.navigationController?.pushViewController(wallViewVC, animated: false)
+                    self.navigationController?.pushViewController(wallViewVC, animated: false)
+                }
             })
             
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -379,13 +374,10 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         let height = (artImage?.size.height)! / 700
         let width = (artImage?.size.width)! / 700
         artRoomScene.boxnode.removeFromParentNode()
-        artRoomScene.setup(artInfo: artImage, height: height, width: width)
+        artRoomScene.setup(artInfo: artImage, height: height, width: width, position: position, rotation: rotation)
         mainTitleLbl.text = art.title
-//        let date = art.postDate / 1000
-//        let foo: TimeInterval = TimeInterval(date)
-//        let theDate = NSDate(timeIntervalSince1970: foo)
-//        let time = timeAgoSinceDate(date: theDate as Date, numericDates: true)
-        timeLbl.text = "\(art.postDate)"
+        let date = convertDate(postDate: art.postDate)
+        timeLbl.text = date
         textView.text = "\(art.artHeight)'H x \(art.artWidth)'W - \(art.price)$ / month - \(art.type) \n \(art.description)."
         
         DispatchQueue.global(qos: .userInitiated).async {

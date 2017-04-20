@@ -20,7 +20,6 @@ class EditArtDetails: MessageView, UITextFieldDelegate, UITextViewDelegate {
     var art: Art!
 
     var saveAction: (() -> Void)?
-
     
     func configureView(forArt: Art) {
         self.art = forArt

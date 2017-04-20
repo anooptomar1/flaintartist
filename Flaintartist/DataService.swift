@@ -102,10 +102,10 @@ class DataService {
     }
     
     
-    func seen(artUID: String, imgUrl: String ,title: String, description: String, price: Int, height: Int, width: Int, type: String, date: Int, userUID: String) {
+    func seen(artUID: String, imgUrl: String ,title: String, description: String, price: Int, height: Int, width: Int, type: String, date: Int, userUID: String, profileImg: String, username: String) {
         queue.async(qos: .background) {
             let ref = DataService.instance.REF_BASE.child("history").child(userID!)
-            ref.child(artUID).updateChildValues(["artUID": artUID, "userUID": userUID, "imageUrl": imgUrl ,"title": title, "description": description, "price": price, "height": height, "width": width, "type": type, "postDate": FIRServerValue.timestamp() as AnyObject]) { (error, ref) in
+            ref.child(artUID).updateChildValues(["artUID": artUID, "userUID": userUID, "imageUrl": imgUrl ,"title": title, "description": description, "price": price, "height": height, "width": width, "type": type, "postDate": FIRServerValue.timestamp() as AnyObject, "profileImg":profileImg, "userName": username ]) { (error, ref) in
                 if error != nil {
                     print(error!.localizedDescription)
                 }

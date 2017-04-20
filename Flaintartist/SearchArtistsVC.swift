@@ -90,7 +90,7 @@ class SearchVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
             _ = circleQuery!.observe(.keyEntered, with: { [weak self] (key, location) in
                 if !(self?.nearbyUsers.contains(key!))! && key! != FIRAuth.auth()!.currentUser!.uid {
                     self?.nearbyUsers.insert(key!, at: 0)
-                    print("NEARBY USER: \(self?.nearbyUsers)")
+                    print("NEARBY USER: \(String(describing: self?.nearbyUsers))")
                 }
             })
         }

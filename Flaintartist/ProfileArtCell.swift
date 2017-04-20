@@ -83,7 +83,7 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         let myBlock: SDWebImageCompletionBlock! = { [weak self] (image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
             if let img = image {
                 DispatchQueue.main.async {
-                    self?.artRoomScene.setup(artInfo: img, height: img.size.height / 600, width: img.size.width / 600)
+                    self?.artRoomScene.setup(artInfo: img, height: img.size.height / 600, width: img.size.width / 600, position: SCNVector3(0, 0.4, -1.5), rotation: SCNVector4(0,60,0,-56))
                 }
             }
         }
@@ -129,7 +129,7 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
                 widthRatio = maxWidthRatioLeft
             }
             
-            self.artRoomScene.boxnode.eulerAngles.y = Float(2 * M_PI) * widthRatio
+            self.artRoomScene.boxnode.eulerAngles.y = Float(2 * Double.pi) * widthRatio
             
             //for final check on fingers number
             lastFingersNumber = fingersNeededToPan

@@ -174,9 +174,11 @@ class GalleryVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         let art = arts[indexPath.row]
         if let cell = collectionView.cellForItem(at: indexPath) as? ProfileArtCell {
             let artImage = cell.artImageView.image
-            self.artAlert(artImage: artImage!, art: art)
+            let artRoomScene = cell.artRoomScene
+            self.artAlert(artImage: artImage!, art: art, artRoomScene: artRoomScene)
         }
     }
+
     
     
     
@@ -196,22 +198,26 @@ class GalleryVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         return false
     }
     
-    func artAlert(artImage: UIImage, art: Art) {
+    func artAlert(artImage: UIImage, art: Art, artRoomScene: ArtRoomScene) {
         
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let request = UIAlertAction(title: "Request", style: .default, handler: { (UIAlertAction) in
-            DataService.instance.request(artUID: art.artID, imgUrl: art.imgUrl ,title: art.title, description: art.description, price: art.price, height: art.artHeight, width: art.artWidth, type: art.type, date: art.postDate, userUID: art.userUid)
-        })
-        
+
         let wallView = UIAlertAction(title: "Wallview", style: .default, handler: { (UIAlertAction) in
-            self.performSegue(withIdentifier: "WallviewVC", sender: artImage)
+            DispatchQueue.main.async {
+                let wallViewVC = self.storyboard?.instantiateViewController(withIdentifier: "WallviewVC") as! WallViewVC
+                wallViewVC.hidesBottomBarWhenPushed = true
+                let artInfo = [artImage, art] as [Any]
+                wallViewVC.artInfo = artInfo
+                wallViewVC.user = self.user
+                wallViewVC.position = artRoomScene.boxnode.position
+                wallViewVC.rotation = artRoomScene.boxnode.rotation
+                wallViewVC.width = artRoomScene.geometry.width
+                wallViewVC.height = artRoomScene.geometry.height
+                self.navigationController?.pushViewController(wallViewVC, animated: false)
+                
+            }
         })
-        
-        let favorite = UIAlertAction(title: "Add to favorites", style: .default, handler: { (UIAlertAction) in
-            DataService.instance.addToFavorite(artUID: art.artID, imgUrl: art.imgUrl ,title: art.title, description: art.description, price: art.price, height: art.artHeight, width: art.artWidth, type: art.type, date: art.postDate, userUID: art.userUid, vc: self)
-        })
-        
+ 
         
         let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
             self.share(image: artImage, title: art.title)
@@ -229,9 +235,7 @@ class GalleryVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        alert.addAction(request)
         alert.addAction(wallView)
-        alert.addAction(favorite)
         alert.addAction(share)
         //alert.addAction(report)
         alert.addAction(cancel)
@@ -278,8 +282,8 @@ class GalleryVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         
         let website = UIAlertAction(title: "Visit website", style: .default) { (UIAlertAction) in
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "WebVC") as! WebVC
-            let url = URL(string: "\(self.user.website)")
-            print("FIRSTURL: \(url)")
+            let url = URL(string: "\(String(describing: self.user.website))")
+            print("FIRSTURL: \(String(describing: url))")
             vc.url = url
             self.present(vc, animated: true, completion: nil)
         }

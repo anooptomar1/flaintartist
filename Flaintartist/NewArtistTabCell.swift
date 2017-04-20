@@ -62,7 +62,7 @@ extension NewArtistTabCell: UICollectionViewDelegate, UICollectionViewDataSource
             let myBlock: SDWebImageCompletionBlock! = {(image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
                 
             }
-            cell.artistImageView.sd_setImage(with: URL(string: "\(user.profilePicUrl)") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
+            cell.artistImageView.sd_setImage(with: URL(string: "\(String(describing: user.profilePicUrl))") , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
             cell.artistNameLbl.text = user.name
             return cell
         } else {

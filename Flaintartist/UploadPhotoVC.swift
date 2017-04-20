@@ -197,6 +197,10 @@ class UploadPhotoVC: UIViewController, UICollectionViewDataSource, UICollectionV
         cropViewController.dismiss(animated: true, completion: nil)
     }
     
+    func cropViewController(_ cropViewController: TOCropViewController, didCropToRect cropRect: CGRect, angle: Int) {
+        cropViewController.dismiss(animated: true, completion: nil)
+    }
+    
 
     
     // MARK: Asset Caching
