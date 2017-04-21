@@ -119,8 +119,9 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
 
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let image = info[UIImagePickerControllerOriginalImage] as? UIImage
-        self.profileImage.image = image
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            profileImage.image = image
+        }
         dismiss(animated: true, completion: nil)
     }
 }

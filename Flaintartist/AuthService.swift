@@ -22,6 +22,7 @@ class AuthService {
     
     
     func logIn(email: String, password: String, onComplete: Completion?){
+        print("LOGIN")
         FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
             if error != nil {
                 self.handleFirebaseError(error: error! as NSError, onComplete: onComplete)
@@ -29,7 +30,6 @@ class AuthService {
                 //Successfully logged in
                 onComplete?(nil, user)
                 self.userType(id: (user?.uid)!, email: email)
-                
             }
         })
     }
@@ -93,17 +93,30 @@ class AuthService {
     
     
     func userType(id: String, email: String) {
+        print("USER TYPE")
+        print("USER ID :\(id)")
         let usersRef = FIRDatabase.database().reference().child("users").child(id)
         usersRef.observe(.value, with: { snapshot in
-            if let type =  ((snapshot.value as? NSDictionary)?["userType"] as! String?), let name = ((snapshot.value as? NSDictionary)?["name"] as! String?), let profileImg = ((snapshot.value as? NSDictionary)?["profileImg"] as! String?) {
-                if type == "artist" {
+            print("OBSERVE:\(String(describing: snapshot.value))")
+            
+            
+            let type = (snapshot.value as! NSDictionary)["userType"] as! String
+            let name = (snapshot.value as! NSDictionary)["name"] as! String
+            if type == "artist" {
+                queue.async(qos: .background) {
                     Defaults[.key_uid] = id
                     Defaults[.email] = email
                     Defaults[.name] = name
+                    if let profileImg = (snapshot.value as! NSDictionary)["profileImg"] as? String {
+                        print("TYPE: \(type)")
                     Defaults[.profileImg] = profileImg
+                }
+            }
+        
                     let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     appDel.logIn()
                 } else {
+                    print("NOT ARTIST")
                     let instagramHooks = "flaint://user?username=jkurbs"
                     let instagramUrl = URL(string: instagramHooks)
                     if UIApplication.shared.canOpenURL(instagramUrl! as URL) {
@@ -123,7 +136,7 @@ class AuthService {
                         }
                     }
                 }
-            }
+            
             return
         })
     }

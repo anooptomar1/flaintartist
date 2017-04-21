@@ -72,6 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     func logIn() {
+        print("APP DELEGATE LOGIN")
         let tabBar = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarVC") as! TabBarVC
         self.window?.rootViewController = tabBar
         self.window?.makeKeyAndVisible()
