@@ -68,10 +68,8 @@ class WallViewVC: UIViewController {
 
     
     override func viewDidLoad() {
-
-        
-        self.cameraView.setupCameraView()
         super.viewDidLoad()
+        self.cameraView.setupCameraView()
         self.cameraView.isBorderDetectionEnabled = false
         self.cameraView.cameraViewType = .normal
         
@@ -187,11 +185,7 @@ class WallViewVC: UIViewController {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.tintColor = UIColor.flatWhite()
-        self.navigationController?.navigationBar.tintColor = UIColor.flatWhite()
-        navigationController?.toolbar.isHidden = false
-        
         collectionView.reloadData()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -65,7 +65,7 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
                                 if let postDict = snap.value as? Dictionary<String, AnyObject> {
                                     let key = snap.key
                                     let art = Art(key: key, artData: postDict)
-                                    self?.modern.append(art)
+                                    self?.modern.insert(art, at: 0)
                                 }
                             }
                         }
@@ -76,7 +76,7 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
                 }
             }
             
-            DataService.instance.REF_USERS.queryOrdered(byChild: "userType").queryEqual(toValue: "artist").queryLimited(toFirst: 7).observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
+            DataService.instance.REF_USERS.queryOrdered(byChild: "userType").queryEqual(toValue: "artist").queryLimited(toFirst: 6).observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
                 self?.newUsers = []
                 if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
                     for snap in snapshot {
@@ -105,7 +105,7 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
                                 if let postDict = snap.value as? Dictionary<String, AnyObject> {
                                     let key = snap.key
                                     let art = Art(key: key, artData: postDict)
-                                    self?.abstract.append(art)
+                                    self?.abstract.insert(art, at: 0)
                                 }
                             }
                         }
@@ -125,7 +125,7 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
                                 if let postDict = snap.value as? Dictionary<String, AnyObject> {
                                     let key = snap.key
                                     let art = Art(key: key, artData: postDict)
-                                    self?.realism.append(art)
+                                    self?.realism.insert(art, at: 0)
                                 }
                             }
                         }

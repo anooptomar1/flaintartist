@@ -40,6 +40,8 @@ class SearchArtsVC: UIViewController, UICollectionViewDelegate, UICollectionView
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.navigationController?.navigationBar.isTranslucent = false
+
         queue.async(qos: .userInitiated) {
             DataService.instance.REF_ARTS.queryLimited(toFirst: 10).observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
                 self?.arts = []

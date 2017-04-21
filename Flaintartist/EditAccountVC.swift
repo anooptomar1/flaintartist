@@ -105,7 +105,6 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
     @IBAction func editImageBtnTapped(_ sender: Any) {
         let alert = Alerts()
         alert.changeProfilePicture(self)
-        
     }
     
     
@@ -116,13 +115,12 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 1.0
     }
-    
+ 
+
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let image = info[UIImagePickerControllerEditedImage] as! UIImage
-        profileImage.image = image
-        self.imageChanged = true
-        picker.dismiss(animated: true, completion: nil)
-        
+        let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        self.profileImage.image = image
+        dismiss(animated: true, completion: nil)
     }
 }
