@@ -22,15 +22,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dots" translatesAutoresizingMaskIntoConstraints="NO" id="CUL-9Q-PUP">
-                                <rect key="frame" x="16" y="54" width="342" height="342"/>
+                                <rect key="frame" x="12" y="56" width="342" height="342"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="CUL-9Q-PUP" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" id="M9J-6V-TxG"/>
-                            <constraint firstItem="CUL-9Q-PUP" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="34" id="Wc3-mi-3lE"/>
-                            <constraint firstItem="CUL-9Q-PUP" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="qlv-eX-ngL"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="CUL-9Q-PUP" secondAttribute="bottom" constant="271" id="rp2-Ii-YlZ"/>
+                            <constraint firstItem="CUL-9Q-PUP" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="-4" id="M9J-6V-TxG"/>
+                            <constraint firstItem="CUL-9Q-PUP" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="36" id="Wc3-mi-3lE"/>
+                            <constraint firstItem="CUL-9Q-PUP" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" constant="-4.5" id="qlv-eX-ngL"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="CUL-9Q-PUP" secondAttribute="bottom" constant="269" id="rp2-Ii-YlZ"/>
                         </constraints>
                     </view>
                 </viewController>

@@ -19,10 +19,9 @@ class NewArtistCell: UICollectionViewCell {
     func configureCell(forUser: Users) {
         self.user = forUser
         if let url = self.user.profilePicUrl {
-            self.artistImageView.sd_setImage(with: URL(string: "\(url)") , placeholderImage: UIImage(named: "Placeholder") , options: .continueInBackground)
+            self.artistImageView.sd_setImage(with: URL(string: "\(url)") , placeholderImage: UIImage(named: "Placeholder") , options: .refreshCached)
         }
         artistNameLbl.text = user.name
-
     }
 }
 

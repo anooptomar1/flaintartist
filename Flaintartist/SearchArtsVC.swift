@@ -107,6 +107,7 @@ class SearchArtsVC: UIViewController, UICollectionViewDelegate, UICollectionView
         
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SearchArtsCell", for: indexPath) as? SearchArtsCell {
             self.cell = cell
+            print("CELL SIZE: \(cell.frame.size)")
             if searchController.isActive &&  searchController.searchBar.text != "" {
                 art = filteredArts[indexPath.row]
             } else {
@@ -128,7 +129,6 @@ class SearchArtsVC: UIViewController, UICollectionViewDelegate, UICollectionView
         var art: Art!
         if searchController.isActive && searchController.searchBar.text != "" {
             art = filteredArts[indexPath.row]
-            
         } else {
             art = arts[indexPath.row]
         }

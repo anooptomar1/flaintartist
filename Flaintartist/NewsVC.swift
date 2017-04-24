@@ -15,6 +15,14 @@ import FirebaseDatabase
 import SwiftyUserDefaults
 
 
+private extension UICollectionView {
+    func indexPathsForElements(in rect: CGRect) -> [IndexPath] {
+        let allLayoutAttributes = collectionViewLayout.layoutAttributesForElements(in: rect)!
+        return allLayoutAttributes.map { $0.indexPath }
+    }
+}
+
+
 class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, CLLocationManagerDelegate {
     
     @IBOutlet weak var mainLbl: UILabel!
@@ -234,31 +242,31 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let width : CGFloat
-        let height : CGFloat
-        
-        if indexPath.section == 1 {
-            width = collectionView.frame.width/4
-            height = 100
-            return CGSize(width: width, height: height)
-        } else {
-            width = collectionView.frame.width/3
-            height = 180
-            return CGSize(width: width, height: height)
-        }
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+////        
+//        let width : CGFloat
+//        let height : CGFloat
+//        
+//        if indexPath.section == 1 {
+//            width = collectionView.frame.width/4
+//            height = 100
+//            return CGSize(width: width, height: height)
+//        } else {
+//            let cellsAcross: CGFloat = 2
+//            let spaceBetweenCells: CGFloat = 1
+//            let dim = (collectionView.bounds.width - (cellsAcross - 1) * spaceBetweenCells) / cellsAcross
+//            return CGSize(width: dim, height: dim)
+//        }
+//    }
+//
     
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        if section == 0 || section == 2 || section == 3 || section == 4 {
-            return 50.0
-        } else {
-            return 0
-        }
-    }
-    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+//        if section == 0 || section == 2 || section == 3 || section == 4 {
+//            return 0.0
+//        } else {
+//            return 0
+//        }
+//    }
     
     
     
@@ -326,6 +334,23 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width : CGFloat
+        let height : CGFloat
+        
+        if indexPath.section == 1 {
+            width = collectionView.frame.width/4
+            height = 100
+            return CGSize(width: width, height: height)
+        } else {
+            let cellsAcross: CGFloat = 2
+            let spaceBetweenCells: CGFloat = 1
+            let dim = (collectionView.bounds.width - (cellsAcross - 1) * spaceBetweenCells) / cellsAcross
+            return CGSize(width: dim, height: dim)
+        }
+
+    }
+
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
