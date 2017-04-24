@@ -76,7 +76,7 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
                 }
             }
             
-            DataService.instance.REF_USERS.queryOrdered(byChild: "userType").queryEqual(toValue: "artist").queryLimited(toFirst: 6).observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
+            DataService.instance.REF_USERS.queryOrdered(byChild: "userType").queryEqual(toValue: "artist").queryLimited(toFirst: 7).observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
                 self?.newUsers = []
                 if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
                     for snap in snapshot {

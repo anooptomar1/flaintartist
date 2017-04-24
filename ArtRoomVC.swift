@@ -86,8 +86,8 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             DataService.instance.seen(artUID: info.artID, imgUrl: info.imgUrl, title: info.title, description: info.description, price: info.price, height: info.artHeight, width: info.artWidth, type: info.type, date: info.postDate, userUID: info.userUid, profileImg: info.profileImgUrl!, username: info.userName)
             self.userID = info.userUid
             let image = strongSelf.artInfo[0] as? UIImage
-            let height = (image?.size.height)! / 700
-            let width = (image?.size.width)! / 700
+            let height = (image?.size.height)! / 680
+            let width = (image?.size.width)! / 680
             strongSelf.artRoomScene.setup(artInfo: image, height: height, width: width, position: position, rotation: rotation)
             strongSelf.mainTitleLbl.text = info.title
             

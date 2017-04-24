@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2.4</string>
+	<string>1.2.5</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -27,12 +27,12 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>FlaintArtist uses this to customize your experience and let you explore more beauty around you.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>FlaintArtist would to have access to your Camera.</string>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>FlaintArtist would like to have access to your Media Library.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>FlaintArtist would to have access to your Camera.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>FlaintArtist uses this to customize your experience and let you explore more beauty around you.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>FlaintArtist would to have access to your Photo.</string>
 	<key>UILaunchStoryboardName</key>

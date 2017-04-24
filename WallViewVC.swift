@@ -216,8 +216,7 @@ class WallViewVC: UIViewController {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.tintColor = UIColor.flatWhite()
-        
-        likesRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        likesRef.observe(.value, with: { (snapshot) in
             self.likeLbl.text = " \(self.post.likes)"
             if let _ = snapshot.value as? NSNull {
                 self.likeBtn.setImage( UIImage(named: "Hearts-White-25"), for: .normal)
@@ -226,6 +225,11 @@ class WallViewVC: UIViewController {
             }
         })
         collectionView.reloadData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        likesRef.removeAllObservers()
     }
     
     override func viewDidAppear(_ animated: Bool) {

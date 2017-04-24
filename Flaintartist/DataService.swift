@@ -112,6 +112,7 @@ class DataService {
         queue.async(qos: .background) {
             let ref = DataService.instance.REF_BASE.child("history").child(userID!)
             ref.child(artUID).updateChildValues(["artUID": artUID, "userUID": userUID, "imageUrl": imgUrl ,"title": title, "description": description, "price": price, "height": height, "width": width, "type": type, "postDate": FIRServerValue.timestamp() as AnyObject, "profileImg":profileImg, "userName": username ]) { (error, ref) in
+                ref.removeAllObservers()
                 if error != nil {
                     print(error!.localizedDescription)
                 }
@@ -128,6 +129,7 @@ class DataService {
     func saveUserInfo(name: String, user: FIRUser!, password: String? = nil, userType: String){
         let userInfo = ["name": name, "email": user.email!, "uid": user.uid, "userType": userType]
         DataService.instance.REF_USERS.child(user.uid).setValue(userInfo) { (error, ref) in
+            DataService.instance.REF_USERS.removeAllObservers()
             if error == nil {
                 AuthService.instance.logIn(email: user.email!, password: password!, onComplete: nil)
             } else {

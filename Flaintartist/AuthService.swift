@@ -96,10 +96,7 @@ class AuthService {
         print("USER TYPE")
         print("USER ID :\(id)")
         let usersRef = FIRDatabase.database().reference().child("users").child(id)
-        usersRef.observe(.value, with: { snapshot in
-            print("OBSERVE:\(String(describing: snapshot.value))")
-            
-            
+        usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
             let type = (snapshot.value as! NSDictionary)["userType"] as! String
             let name = (snapshot.value as! NSDictionary)["name"] as! String
             if type == "artist" {
@@ -136,7 +133,7 @@ class AuthService {
                         }
                     }
                 }
-            
+            usersRef.removeAllObservers()
             return
         })
     }
