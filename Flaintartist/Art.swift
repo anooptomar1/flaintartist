@@ -26,6 +26,7 @@ struct Art  {
     private var _userName: String = ""
     private var _profileImgUrl: String = ""
     private var _postDate: Int!
+    private var _likes: Int!
     var isPrivate: Bool = false
     
     var title: String {
@@ -76,7 +77,11 @@ struct Art  {
         return _price
     }
     
-    init(artID: String, imgUrl: String, price: Int, title: String, description: String, type: String, height: Int, width: Int, postDate: Int, isPrivate: Bool) {
+    var likes: Int {
+        return _likes
+    }
+    
+    init(artID: String, imgUrl: String, price: Int, title: String, description: String, type: String, height: Int, width: Int, postDate: Int, isPrivate: Bool, likes: Int) {
         self._artID = artID
         self._imgUrl = imgUrl
         self._title = title
@@ -86,6 +91,7 @@ struct Art  {
         self._artWidth = width
         self._postDate = postDate
         self._price = price
+        self._likes = likes
     }
     
     init(key: String, artData: Dictionary<String, AnyObject>) {
@@ -127,7 +133,6 @@ struct Art  {
         if let profileImgUrl = artData["profileImg"] as? String {
             self._profileImgUrl = profileImgUrl
         }
-
         
         if let postDate = artData["postDate"] as? Int {
             self._postDate = postDate
@@ -141,10 +146,20 @@ struct Art  {
             self.isPrivate = isPrivate
         }
         
+        if let likes = artData["likes"] as? Int {
+            self._likes = likes
+        }
+        
         _artRef = DataService.instance.REF_ARTS.child(self._artID)
     }
     
-    //    deinit{
-    //        print("Title with name \(title) is being released")
-    //    }
+    mutating func adjustLikes(addLike: Bool) {
+        if addLike {
+            _likes = _likes + 1
+        } else {
+            _likes = likes - 1
+        }
+        _artRef.child("likes").setValue(_likes)
+        
+    }
 }

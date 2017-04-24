@@ -14,6 +14,7 @@ import SDWebImage
 class SearchArtsCell: UICollectionViewCell {
     
     @IBOutlet weak var scnView: SCNView!
+    @IBOutlet weak var gradientView: UIView!
     var artImgView = UIImageView()
     var otherScene = Other(create: true)
     var art: Art!
@@ -33,11 +34,13 @@ class SearchArtsCell: UICollectionViewCell {
         super.awakeFromNib()
         weak var weakSelf = self
         let strongSelf = weakSelf!
+        gradientView.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: CGRect(x: 0 , y: 0, width: 180, height: 180) , andColors: [UIColor.white, UIColor.white, UIColor.flatWhite()])
         scnView = strongSelf.scnView!
         let scene = otherScene
         scnView.scene = scene
         scnView.autoenablesDefaultLighting = true
         scnView.isJitteringEnabled = true
+        scnView.backgroundColor = UIColor.clear
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(SearchArtsCell.handlePan(gestureRecognize:)))
         scnView.addGestureRecognizer(panGesture)
 

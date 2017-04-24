@@ -27,11 +27,12 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     @IBOutlet weak var artistNameLbl: UILabel!
     @IBOutlet weak var artistView: UIView!
     @IBOutlet weak var similarLbl: UILabel!
+    @IBOutlet weak var likeBtn: UIButton!
+    @IBOutlet weak var likeLbl: UILabel!
     
     var artRoomScene = ArtRoomScene(create: true)
     var artImage = UIImage()
     var artInfo: [Any] = []
-    var posts = [Art]()
     var post: Art!
     var user: Users!
     var showInfo: Bool = false
@@ -59,6 +60,8 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     var rotation = SCNVector4()
     
     var showSimilar: Bool = false
+    var likesRef: FIRDatabaseReference!
+
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -78,6 +81,8 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         scnView.backgroundColor = UIColor.white
         
         if let info = self.artInfo[1] as? Art {
+            self.post = info
+            likesRef = DataService.instance.REF_USER_CURRENT.child("likes").child(info.artID)
             DataService.instance.seen(artUID: info.artID, imgUrl: info.imgUrl, title: info.title, description: info.description, price: info.price, height: info.artHeight, width: info.artWidth, type: info.type, date: info.postDate, userUID: info.userUid, profileImg: info.profileImgUrl!, username: info.userName)
             self.userID = info.userUid
             let image = strongSelf.artInfo[0] as? UIImage
@@ -85,10 +90,13 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             let width = (image?.size.width)! / 700
             strongSelf.artRoomScene.setup(artInfo: image, height: height, width: width, position: position, rotation: rotation)
             strongSelf.mainTitleLbl.text = info.title
-
+            
+            
             let date = convertDate(postDate: info.postDate)
             strongSelf.timeLbl.text = date
             strongSelf.textView.text = "\(info.artHeight)'H x \(info.artWidth)'W - \(info.price)$ / month - \(info.type) \n \(info.description)."
+            likeLbl.text = "\(info.likes)"
+
         }
         
         self.navigationController?.toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .bottom, barMetrics: .default)
@@ -107,9 +115,9 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         similarLbl.addGestureRecognizer(similarGesture)
         scnView.addGestureRecognizer(pinchGesture)
         
-        let attributedString = NSMutableAttributedString(string: "Similar ")
+        let attributedString = NSMutableAttributedString(string: "")
         let attachment = NSTextAttachment()
-        attachment.image = UIImage(named: "Expand Arrow-10")
+        attachment.image = UIImage(named: "Expand Arrow-20")
         attributedString.append(NSAttributedString(attachment: attachment))
         self.similarLbl.attributedText = attributedString
 
@@ -121,33 +129,21 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     override func viewWillAppear(_ animated: Bool) {
         self.artRoomScene.add()
-        DispatchQueue.global(qos: .background).async {
-            if let info = self.artInfo[1] as? Art {
-                DataService.instance.REF_ARTS.queryOrdered(byChild: "type").queryEqual(toValue: info.type).queryLimited(toFirst: 6).observe(.value, with: { [weak self] (snapshot) in
-                self?.arts = []
-                if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
-                    for snap in snapshot {
-                        if let dict = snap.value as? NSDictionary, let isPrivate = dict["private"] as? Bool, let price = dict["price"] as? Int {
-                            if isPrivate == false {
-                                if let postDict = snap.value as? Dictionary<String, AnyObject> {
-                                    let key = snap.key
-                                    let art = Art(key: key, artData: postDict)
-                                    if art.artID != info.artID && price == art.price {
-                                        self?.arts.append(art)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                DispatchQueue.main.async {
-                    self?.collectionView.reloadData()
-                }
-            })
-          }
-       }
-        
         self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
+        
+        likesRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            if let _ = snapshot.value as? NSNull {
+                self.likeLbl.text = " \(self.post.likes)"
+                DispatchQueue.main.async {
+                    self.likeBtn.setImage( UIImage(named: "Hearts-25"), for: .normal)
+                }
+            } else {
+                DispatchQueue.main.async {
+                self.likeBtn.setImage( UIImage(named: "Hearts Filled-32"), for: .normal)
+                }
+            }
+        })
+        
         DispatchQueue.global(qos: .userInitiated).async {
             DataService.instance.REF_USERS.child("\(self.userID)").observe(.value, with: { [weak self] (snapshot) in
                 if let postDict = snapshot.value as? Dictionary<String, AnyObject>{
@@ -157,40 +153,93 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                         DispatchQueue.main.async {
                             self?.artistNameLbl.text = user.name
                             self?.artistImg.sd_setImage(with: URL(string: "\(user.profilePicUrl!)") , placeholderImage: UIImage(named:"Placeholder") , options: .continueInBackground)
-
+                            DataService.instance.REF_USERS.child("\(String(describing: self?.userID))").removeAllObservers()
                         }
                     }
                 }
             })
         }
+        
+        
+        DispatchQueue.global(qos: .background).async {
+            if let info = self.artInfo[1] as? Art {
+                DataService.instance.REF_ARTS.queryOrdered(byChild: "type").queryEqual(toValue: info.type).queryLimited(toFirst: 6).observe(.value, with: { [weak self] (snapshot) in
+                    self?.arts = []
+                    if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
+                        for snap in snapshot {
+                            if let dict = snap.value as? NSDictionary, let isPrivate = dict["private"] as? Bool, let price = dict["price"] as? Int {
+                                if isPrivate == false {
+                                    if let postDict = snap.value as? Dictionary<String, AnyObject> {
+                                        let key = snap.key
+                                        let art = Art(key: key, artData: postDict)
+                                        if art.artID != info.artID && price == art.price {
+                                            self?.arts.append(art)
+                                            DataService.instance.REF_ARTS.removeAllObservers() 
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        self?.collectionView.reloadData()
+                    }
+                })
+            }
+        }
     }
-    
-    
+
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.artRoomScene.remove()
         //self.scnView.removeFromSuperview()
         //self.stackView.removeFromSuperview()
         DataService.instance.REF_USERS.child("\(self.userID)").removeAllObservers()
-        posts = []
+        likesRef.removeAllObservers()
+        //posts = []
     }
+    
+    
+    @IBAction func likeBtnTapped(_ sender: UIButton) {
+        likesRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            if let _ = snapshot.value as? NSNull {
+                DispatchQueue.main.async {
+                  sender.setImage( UIImage(named: "Hearts Filled-32"), for: .normal)
+                  generateAnimatedView(view: self.view, position: self.likeBtn.layer.position)
+                  self.likeLbl.text = "\(self.post.likes)"
+                }
+                    self.post.adjustLikes(addLike: true)
+                    self.likesRef.setValue(true)
+                
+            } else {
+                DispatchQueue.main.async {
+                    sender.setImage( UIImage(named: "Hearts-25"), for: .normal)
+                    self.likeLbl.text = "\(self.post.likes)"
+                }
+                  self.post.adjustLikes(addLike: false)
+                  self.likesRef.removeValue()
+            }
+        })
+    }
+    
     
     
     
      func similarLblTapped() {
         if showSimilar {
             showSimilar = false
-            let attributedString = NSMutableAttributedString(string: "Similar ")
+            let attributedString = NSMutableAttributedString(string: "")
             let attachment = NSTextAttachment()
-            attachment.image = UIImage(named: "Expand Arrow-10")
+            attachment.image = UIImage(named: "Expand Arrow-20")
             attributedString.append(NSAttributedString(attachment: attachment))
             self.similarLbl.attributedText = attributedString
             collectionView.isHidden = true
         } else {
             showSimilar = true
-            let attributedString = NSMutableAttributedString(string: "Similar ")
+            let attributedString = NSMutableAttributedString(string: "")
             let attachment = NSTextAttachment()
-            attachment.image = UIImage(named: "Collapse Arrow-10")
+            attachment.image = UIImage(named: "Collapse Arrow-20")
             attributedString.append(NSAttributedString(attachment: attachment))
             self.similarLbl.attributedText = attributedString
             collectionView.isHidden = false
@@ -233,13 +282,18 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
         if gestureRecognize.state == .began ||  gestureRecognize.state == .changed {
             UIView.animate(withDuration: 2.5) {
-                self.artInfoView.alpha = 0
                 self.navigationController?.navigationBar.alpha = 0
+                self.artInfoView.alpha = 0
+                self.likeBtn.alpha = 0
+                self.likeLbl.alpha = 0
             }
         } else if gestureRecognize.state == .cancelled || gestureRecognize.state == .ended {
             UIView.animate(withDuration: 1.3) {
-                self.artInfoView.alpha = 1
                 self.navigationController?.navigationBar.alpha = 1
+                self.artInfoView.alpha = 1
+                self.likeBtn.alpha = 1
+                self.likeLbl.alpha = 1
+
             }
         }
     }
@@ -283,6 +337,7 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                     wallViewVC.artInfo = self.artInfo
                     wallViewVC.arts = self.arts
                     wallViewVC.user = self.user
+                    wallViewVC.post = self.post
                     wallViewVC.position = self.artRoomScene.boxnode.position
                     wallViewVC.rotation = self.artRoomScene.boxnode.rotation
                     wallViewVC.width = self.artRoomScene.geometry.width
@@ -293,12 +348,20 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
-                self.similarLbl.isHidden = true
-                self.artInfoView.isHidden = true
                 let view = self.view.captureView()
+                
                 DispatchQueue.main.async {
-                    self.similarLbl.isHidden = false
+                    self.artInfoView.isHidden = true
+                    self.similarLbl.isHidden = true
+                    self.likeBtn.isHidden = true
+                    self.likeLbl.isHidden = true
+                }
+                
+                DispatchQueue.main.async {
                     self.artInfoView.isHidden = false
+                    self.similarLbl.isHidden = false
+                    self.likeBtn.isHidden = false
+                    self.likeLbl.isHidden = false
                 }
                 self.shareChoice(view: view)
 

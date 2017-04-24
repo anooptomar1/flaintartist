@@ -83,12 +83,10 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        //self.collectionView.removeFromSuperview()
         NotificationCenter.default.removeObserver(self)
         ref.removeAllObservers()
         DataService.instance.REF_USERS.child("\(FIRAuth.auth()!.currentUser!.uid)").removeAllObservers()
         user = nil
-        //art = nil
     }
     
     

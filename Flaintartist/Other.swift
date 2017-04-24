@@ -46,6 +46,32 @@ final class Other: SCNScene {
         
         self.rootNode.addChildNode(boxnode)
         
+//        let floor = SCNFloor()
+//        floor.firstMaterial!.diffuse.contents = UIColor.white
+//        floor.firstMaterial!.specular.contents = UIColor.white
+//        floor.firstMaterial!.reflective.contents = UIColor.white
+//        
+//        let floorNode = SCNNode(geometry: floor)
+//        rootNode.addChildNode(floorNode)
+//        
+//        
+//        let lightNodeSpot = SCNNode()
+//        lightNodeSpot.light = SCNLight()
+//        lightNodeSpot.light!.type = SCNLight.LightType.spot
+//        lightNodeSpot.light!.attenuationStartDistance = 0
+//        lightNodeSpot.light!.attenuationFalloffExponent = 2
+//        lightNodeSpot.light!.attenuationEndDistance = 30
+//        lightNodeSpot.position = SCNVector3(0,10,2)
+//        
+//        rootNode.addChildNode(lightNodeSpot)
+//        
+//        let emptyTarget = SCNNode()
+//        emptyTarget.position = SCNVector3(0,0,0)
+//        
+//        lightNodeSpot.constraints = [SCNLookAtConstraint(target: emptyTarget )]
+
+
+        
         cameraNode = SCNNode()
         cameraNode.camera = camera
         camera.orthographicScale = 9

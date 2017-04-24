@@ -26,6 +26,8 @@ class WallViewVC: UIViewController {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var similarLbl: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var likeLbl: UILabel!
+    @IBOutlet weak var likeBtn: UIButton!
     
     
     var sceneView: SCNView!
@@ -33,6 +35,7 @@ class WallViewVC: UIViewController {
     var arts = [Art]()
     var artImage = UIImage()
     var user: Users!
+    var post: Art!
     
     //HANDLE PAN CAMERA
     var lastWidthRatio: Float = 0
@@ -60,6 +63,8 @@ class WallViewVC: UIViewController {
     
     var showInfo = false
     var showSimilar: Bool = false
+    var likesRef: FIRDatabaseReference!
+
 
     
     override var prefersStatusBarHidden: Bool {
@@ -80,6 +85,8 @@ class WallViewVC: UIViewController {
         scnView.scene = scene
 
         if let info = self.artInfo[1] as? Art {
+            self.post = info
+            likesRef = DataService.instance.REF_USER_CURRENT.child("likes").child(info.artID)
             //self.userID = info.userUid
             let image = strongSelf.artInfo[0] as? UIImage
               strongSelf.artScene.setup(artInfo: image, height: height, width: width, position: position, rotation: rotation)
@@ -107,14 +114,14 @@ class WallViewVC: UIViewController {
         scnView.addGestureRecognizer(tapGesture)
         let tapUserGesture = UITapGestureRecognizer(target: self, action: #selector(WallViewVC.artistBtnTapped))
         artistView.addGestureRecognizer(tapUserGesture)
-        let similarGesture = UITapGestureRecognizer(target: self, action: #selector(WallViewVC.similarLblTapped))
-        similarLbl.addGestureRecognizer(similarGesture)
+        //let similarGesture = UITapGestureRecognizer(target: self, action: #selector(WallViewVC.similarLblTapped))
+        //similarLbl.addGestureRecognizer(similarGesture)
         
-        let attributedString = NSMutableAttributedString(string: "Similar ")
-        let attachment = NSTextAttachment()
-        attachment.image = UIImage(named: "Expand Arrow Filled-10")
-        attributedString.append(NSAttributedString(attachment: attachment))
-        self.similarLbl.attributedText = attributedString
+//        let attributedString = NSMutableAttributedString(string: "Similar ")
+//        let attachment = NSTextAttachment()
+//        attachment.image = UIImage(named: "Expand Arrow Filled-10")
+//        attributedString.append(NSAttributedString(attachment: attachment))
+//        self.similarLbl.attributedText = attributedString
 
         
     }
@@ -123,6 +130,30 @@ class WallViewVC: UIViewController {
        _ = navigationController?.popViewController(animated: false)
     }
     
+    
+    @IBAction func likeBtnTapped(_ sender: UIButton) {
+        likesRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            if let _ = snapshot.value as? NSNull {
+                DispatchQueue.main.async {
+                    sender.setImage( UIImage(named: "Hearts Filled-32"), for: .normal)
+                    generateAnimatedView(view: self.view, position: self.likeBtn.layer.position)
+                    self.likeLbl.text = "\(self.post.likes)"
+                }
+                self.post.adjustLikes(addLike: true)
+                self.likesRef.setValue(true)
+                
+            } else {
+                DispatchQueue.main.async {
+                    sender.setImage( UIImage(named: "Hearts-White-25"), for: .normal)
+                    self.likeLbl.text = "\(self.post.likes)"
+                }
+                self.post.adjustLikes(addLike: false)
+                self.likesRef.removeValue()
+            }
+        })
+    }
+    
+
     
     
     @IBAction func infoBtnTapped(_ sender: UIBarButtonItem) {
@@ -185,6 +216,15 @@ class WallViewVC: UIViewController {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.tintColor = UIColor.flatWhite()
+        
+        likesRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            self.likeLbl.text = " \(self.post.likes)"
+            if let _ = snapshot.value as? NSNull {
+                self.likeBtn.setImage( UIImage(named: "Hearts-White-25"), for: .normal)
+            } else {
+                self.likeBtn.setImage( UIImage(named: "Hearts Filled-32"), for: .normal)
+            }
+        })
         collectionView.reloadData()
     }
     
@@ -247,9 +287,11 @@ class WallViewVC: UIViewController {
         
         let shareView = UIAlertAction(title: "Share view", style: .default) { (action) in
             // Share view
-            self.similarLbl.isHidden = true
+            self.likeBtn.isHidden = true
+            self.likeLbl.isHidden = true
             let view = self.view.captureView()
-            self.similarLbl.isHidden = false
+            self.likeBtn.isHidden = false
+            self.likeLbl.isHidden = false
             self.shareChoice(view: view)
         }
         

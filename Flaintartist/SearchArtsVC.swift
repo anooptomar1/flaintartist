@@ -44,7 +44,7 @@ class SearchArtsVC: UIViewController, UICollectionViewDelegate, UICollectionView
 
         queue.async(qos: .userInitiated) {
             DataService.instance.REF_ARTS.queryLimited(toFirst: 10).observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
-                self?.arts = []
+                self?.arts =  []
                 if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
                     for snap in snapshot {
                         if let dict = snap.value as? NSDictionary, let isPrivate = dict["private"] as? Bool {
@@ -75,10 +75,10 @@ class SearchArtsVC: UIViewController, UICollectionViewDelegate, UICollectionView
     //MARK: Filter
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         filteredArts = arts.filter { art in
-            return (art.type.lowercased().contains(searchText.lowercased()))
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
+            return (art.type.lowercased().contains(searchText.lowercased()))
         }
     }
     

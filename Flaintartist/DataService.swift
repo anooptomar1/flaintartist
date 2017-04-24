@@ -30,6 +30,12 @@ class DataService {
         return  REF_BASE.child("users")
     }
     
+    var REF_USER_CURRENT: FIRDatabaseReference {
+        let uid = Defaults[.key_uid]
+        let user = REF_USERS.child(uid!)
+        return user
+    }
+
     
     var REF_ARTISTARTS: FIRDatabaseReference {
         return REF_BASE.child("artistArts")

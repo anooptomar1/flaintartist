@@ -55,6 +55,7 @@
 		6D4E473A1E24075A00970CE3 /* Mailgun.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E47391E24075A00970CE3 /* Mailgun.m */; };
 		6D6CC4881E84A8B800CC18F5 /* SimilarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D6CC4871E84A8B800CC18F5 /* SimilarView.xib */; };
 		6D6CC48A1E84A95A00CC18F5 /* SimilarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6CC4891E84A95A00CC18F5 /* SimilarView.swift */; };
+		6D770C711EAA8AD900A91EB2 /* LikeLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D770C701EAA8AD900A91EB2 /* LikeLogic.swift */; };
 		6D8633D01E8DD34B0025F626 /* CreateAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8633CF1E8DD34B0025F626 /* CreateAccountVC.swift */; };
 		6D8F01441E269E9800651664 /* ProfileArtCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F01431E269E9800651664 /* ProfileArtCell.swift */; };
 		6D8F01461E26A5D100651664 /* ProfileArtTabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F01451E26A5D100651664 /* ProfileArtTabCell.swift */; };
@@ -192,6 +193,7 @@
 		6D63BB1A1E20B03D00D9271E /* Flaintartist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flaintartist.entitlements; sourceTree = "<group>"; };
 		6D6CC4871E84A8B800CC18F5 /* SimilarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimilarView.xib; sourceTree = "<group>"; };
 		6D6CC4891E84A95A00CC18F5 /* SimilarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimilarView.swift; sourceTree = "<group>"; };
+		6D770C701EAA8AD900A91EB2 /* LikeLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LikeLogic.swift; path = ../../like/like/LikeLogic.swift; sourceTree = "<group>"; };
 		6D8633CF1E8DD34B0025F626 /* CreateAccountVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateAccountVC.swift; path = Flaintartist/CreateAccountVC.swift; sourceTree = SOURCE_ROOT; };
 		6D8F01431E269E9800651664 /* ProfileArtCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileArtCell.swift; path = Flaintartist/ProfileArtCell.swift; sourceTree = SOURCE_ROOT; };
 		6D8F01451E26A5D100651664 /* ProfileArtTabCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileArtTabCell.swift; path = Flaintartist/ProfileArtTabCell.swift; sourceTree = SOURCE_ROOT; };
@@ -740,6 +742,7 @@
 		6DF28DBF1E199B7200C8A3B0 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				6D770C701EAA8AD900A91EB2 /* LikeLogic.swift */,
 				6DF28DC01E199B8000C8A3B0 /* Camera.swift */,
 				6DF28DC21E199BB100C8A3B0 /* Share.swift */,
 				6DF28DC41E199BF900C8A3B0 /* Alerts.swift */,
@@ -1201,6 +1204,7 @@
 				6D4609B21E1F5FAC00FC75C3 /* ReportNav.swift in Sources */,
 				6DF28DC51E199BF900C8A3B0 /* Alerts.swift in Sources */,
 				6D9EA4251E19DF150080D182 /* WallViewVC.swift in Sources */,
+				6D770C711EAA8AD900A91EB2 /* LikeLogic.swift in Sources */,
 				6DA7BC171E6DFDCA00DE61FB /* GFQuery.m in Sources */,
 				6D1C78421E19ED6300E2041C /* CreateAccountFirstVC.swift in Sources */,
 				6D9C8C921E3AF46A00824C93 /* AuthService.swift in Sources */,

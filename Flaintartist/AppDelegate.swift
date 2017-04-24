@@ -82,11 +82,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let uid = Defaults[.key_uid] {
             let usersRef = FIRDatabase.database().reference().child("users").child(uid)
             if !uid.isEmpty {
-                usersRef.observe(.value, with: { snapshot in
-                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                        let initialViewController = storyboard.instantiateViewController(withIdentifier: "TabBarVC") as! TabBarVC
-                        self.window?.rootViewController = initialViewController
-                        self.window?.makeKeyAndVisible()
+                usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let initialViewController = storyboard.instantiateViewController(withIdentifier: "TabBarVC") as! TabBarVC
+                    self.window?.rootViewController = initialViewController
+                    self.window?.makeKeyAndVisible()
+                    usersRef.removeAllObservers()
                     
                     if ( snapshot.value is NSNull ) {
                         print(" CAN'T LOG IN: snapshot not found)")

@@ -196,10 +196,9 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-//        self.modern.removeAll()
-//        self.abstract.removeAll()
-//        self.realism.removeAll()
-        //DataService.instance.REF_ARTS.removeAllObservers()
+        NotificationCenter.default.removeObserver(self)
+        DataService.instance.REF_ARTS.removeAllObservers()
+        DataService.instance.REF_USERS.removeAllObservers()
     }
     
     

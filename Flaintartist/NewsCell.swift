@@ -13,11 +13,11 @@ import FirebaseDatabase
 
 class NewCell: UICollectionViewCell {
 
+    @IBOutlet weak var gradientView: UIView!
     @IBOutlet weak var scnView: SCNView!
     @IBOutlet weak var artistImgView: RoundImage!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var dateLbl: UILabel!
-    
     
     var artImgView = UIImageView()
     var otherScene = Other(create: true)
@@ -35,19 +35,25 @@ class NewCell: UICollectionViewCell {
     var lastFingersNumber = 0
 
     var panGesture = UIPanGestureRecognizer()
-
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         weak var weakSelf = self
         let strongSelf = weakSelf!
+        
+        strongSelf.layer.cornerRadius = 5
+        
+         gradientView.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: CGRect(x: 0 , y: 0, width: 180, height: 180) , andColors: [UIColor.white, UIColor.white, UIColor.flatWhite()])
+
+        scnView.backgroundColor = UIColor.clear
         scnView = strongSelf.scnView!
         let scene = otherScene
         scnView.scene = scene
         scnView.autoenablesDefaultLighting = true
         scnView.isJitteringEnabled = true
-        scnView.backgroundColor = UIColor.clear
-        panGesture = UIPanGestureRecognizer(target: self, action: #selector(NewCell.handlePan(gestureRecognize:)))
+                panGesture = UIPanGestureRecognizer(target: self, action: #selector(NewCell.handlePan(gestureRecognize:)))
         scnView.addGestureRecognizer(panGesture)
     }
     
@@ -136,12 +142,14 @@ class NewCell: UICollectionViewCell {
                 self.artistImgView.alpha = 0
                 self.nameLbl.alpha = 0
                 self.dateLbl.alpha = 0
+                self.gradientView.backgroundColor = UIColor.white
             }
         } else if gestureRecognize.state == .cancelled || gestureRecognize.state == .ended {
             UIView.animate(withDuration: 1.3) {
                 self.artistImgView.alpha = 1
                 self.nameLbl.alpha = 1
                 self.dateLbl.alpha = 1
+                self.gradientView.backgroundColor = UIColor(gradientStyle: .topToBottom, withFrame: CGRect(x: 0 , y: 0, width: 180, height: 180) , andColors: [UIColor.white, UIColor.white, UIColor.flatWhite()])
             }
         }
     }

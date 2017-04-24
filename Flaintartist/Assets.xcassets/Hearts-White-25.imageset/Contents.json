@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Expand Arrow-10.png",
+      "filename" : "Hearts-White-25 .png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Expand Arrow-20.png",
+      "filename" : "Hearts-White-50.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Expand Arrow-30.png",
+      "filename" : "Hearts-White-75.png",
       "scale" : "3x"
     }
   ],
