@@ -26,7 +26,8 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     @IBOutlet weak var artistImg: RoundImage!
     @IBOutlet weak var artistNameLbl: UILabel!
     @IBOutlet weak var artistView: UIView!
-    @IBOutlet weak var similarLbl: UILabel!
+    @IBOutlet weak var viewBtn: UIButton!
+    @IBOutlet weak var similarBtn: UIButton!
     @IBOutlet weak var likeBtn: UIButton!
     @IBOutlet weak var likeLbl: UILabel!
     
@@ -111,15 +112,8 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(ArtRoomVC.handlePan(gestureRecognize:)))
         scnView.addGestureRecognizer(panGesture)
         let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ArtRoomVC.handlePinch(gestureRecognize:)))
-        let similarGesture = UITapGestureRecognizer(target: self, action: #selector(ArtRoomVC.similarLblTapped))
-        similarLbl.addGestureRecognizer(similarGesture)
         scnView.addGestureRecognizer(pinchGesture)
-        
-        let attributedString = NSMutableAttributedString(string: "")
-        let attachment = NSTextAttachment()
-        attachment.image = UIImage(named: "Expand Arrow-20")
-        attributedString.append(NSAttributedString(attachment: attachment))
-        self.similarLbl.attributedText = attributedString
+
 
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -135,11 +129,11 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             if let _ = snapshot.value as? NSNull {
                 self.likeLbl.text = " \(self.post.likes)"
                 DispatchQueue.main.async {
-                    self.likeBtn.setImage( UIImage(named: "Hearts-25"), for: .normal)
+                    self.likeBtn.setImage( UIImage(named: "Hearts-22"), for: .normal)
                 }
             } else {
                 DispatchQueue.main.async {
-                self.likeBtn.setImage( UIImage(named: "Hearts Filled-32"), for: .normal)
+                self.likeBtn.setImage( UIImage(named: "Hearts Filled-22"), for: .normal)
                 }
             }
         })
@@ -201,11 +195,29 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     }
     
     
+    @IBAction func viewBtnTapped(_ sender: Any) {
+        DispatchQueue.main.async {
+            let wallViewVC = self.storyboard?.instantiateViewController(withIdentifier: "WallviewVC") as! WallViewVC
+            wallViewVC.artInfo = self.artInfo
+            wallViewVC.arts = self.arts
+            wallViewVC.user = self.user
+            wallViewVC.post = self.post
+            wallViewVC.position = self.artRoomScene.boxnode.position
+            wallViewVC.rotation = self.artRoomScene.boxnode.rotation
+            wallViewVC.width = self.artRoomScene.geometry.width
+            wallViewVC.height = self.artRoomScene.geometry.height
+            self.navigationController?.pushViewController(wallViewVC, animated: false)
+        }
+    }
+    
+    
+    
+    
     @IBAction func likeBtnTapped(_ sender: UIButton) {
         likesRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let _ = snapshot.value as? NSNull {
                 DispatchQueue.main.async {
-                  sender.setImage( UIImage(named: "Hearts Filled-32"), for: .normal)
+                  sender.setImage( UIImage(named: "Hearts Filled-22"), for: .normal)
                   generateAnimatedView(view: self.view, position: self.likeBtn.layer.position)
                   self.likeLbl.text = "\(self.post.likes)"
                 }
@@ -214,7 +226,7 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                 
             } else {
                 DispatchQueue.main.async {
-                    sender.setImage( UIImage(named: "Hearts-25"), for: .normal)
+                    sender.setImage( UIImage(named: "Hearts-22"), for: .normal)
                     self.likeLbl.text = "\(self.post.likes)"
                 }
                   self.post.adjustLikes(addLike: false)
@@ -223,29 +235,37 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         })
     }
     
+
     
-    
-    
-     func similarLblTapped() {
+    @IBAction func similarBtnTapped(_ sender: UIButton) {
         if showSimilar {
             showSimilar = false
-            let attributedString = NSMutableAttributedString(string: "")
-            let attachment = NSTextAttachment()
-            attachment.image = UIImage(named: "Expand Arrow-20")
-            attributedString.append(NSAttributedString(attachment: attachment))
-            self.similarLbl.attributedText = attributedString
+            sender.setImage(UIImage(named: "Expand Arrow-20"), for: .normal)
             collectionView.isHidden = true
         } else {
             showSimilar = true
-            let attributedString = NSMutableAttributedString(string: "")
-            let attachment = NSTextAttachment()
-            attachment.image = UIImage(named: "Collapse Arrow-20")
-            attributedString.append(NSAttributedString(attachment: attachment))
-            self.similarLbl.attributedText = attributedString
+            sender.setImage(UIImage(named: "Collapse Arrow-20"), for: .normal)
             collectionView.isHidden = false
         }
     }
     
+    
+    func artistBtnTapped() {
+        if let id = FIRAuth.auth()?.currentUser?.uid {
+            if id != "" {
+                if user.userId == id {
+                    tabBarController?.selectedIndex = 2
+                } else {
+                    let galleryVC = storyboard?.instantiateViewController(withIdentifier: "GalleryVC") as! GalleryVC
+                    galleryVC.user = user
+                    galleryVC.hidesBottomBarWhenPushed = true
+                    DispatchQueue.main.async {
+                        _ = self.navigationController?.pushViewController(galleryVC, animated: true)
+                    }
+                }
+            }
+        }
+    }
     
 
     func handlePan(gestureRecognize: UIPanGestureRecognizer) {
@@ -284,6 +304,8 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             UIView.animate(withDuration: 2.5) {
                 self.navigationController?.navigationBar.alpha = 0
                 self.artInfoView.alpha = 0
+                self.viewBtn.alpha = 0
+                self.similarBtn.alpha = 0
                 self.likeBtn.alpha = 0
                 self.likeLbl.alpha = 0
             }
@@ -291,6 +313,8 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             UIView.animate(withDuration: 1.3) {
                 self.navigationController?.navigationBar.alpha = 1
                 self.artInfoView.alpha = 1
+                self.viewBtn.alpha = 1
+                self.similarBtn.alpha = 1
                 self.likeBtn.alpha = 1
                 self.likeLbl.alpha = 1
 
@@ -309,42 +333,8 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     }
     
     
-    func artistBtnTapped() {
-        if let id = FIRAuth.auth()?.currentUser?.uid {
-            if id != "" {
-            if user.userId == id {
-            tabBarController?.selectedIndex = 2
-        } else {
-            let galleryVC = storyboard?.instantiateViewController(withIdentifier: "GalleryVC") as! GalleryVC
-            galleryVC.user = user
-            galleryVC.hidesBottomBarWhenPushed = true
-            DispatchQueue.main.async {
-                _ = self.navigationController?.pushViewController(galleryVC, animated: true)
-               }
-            }
-        }
-    }
-}
-
-    
-    
     
     func showAlert() {
-            let wallView = UIAlertAction(title: "Wallview", style: .default, handler: { (UIAlertAction) in
-
-                DispatchQueue.main.async {
-                    let wallViewVC = self.storyboard?.instantiateViewController(withIdentifier: "WallviewVC") as! WallViewVC
-                    wallViewVC.artInfo = self.artInfo
-                    wallViewVC.arts = self.arts
-                    wallViewVC.user = self.user
-                    wallViewVC.post = self.post
-                    wallViewVC.position = self.artRoomScene.boxnode.position
-                    wallViewVC.rotation = self.artRoomScene.boxnode.rotation
-                    wallViewVC.width = self.artRoomScene.geometry.width
-                    wallViewVC.height = self.artRoomScene.geometry.height
-                    self.navigationController?.pushViewController(wallViewVC, animated: false)
-                }
-            })
             
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
@@ -352,14 +342,14 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                 
                 DispatchQueue.main.async {
                     self.artInfoView.isHidden = true
-                    self.similarLbl.isHidden = true
+                    self.similarBtn.isHidden = true
                     self.likeBtn.isHidden = true
                     self.likeLbl.isHidden = true
                 }
                 
                 DispatchQueue.main.async {
                     self.artInfoView.isHidden = false
-                    self.similarLbl.isHidden = false
+                    self.similarBtn.isHidden = false
                     self.likeBtn.isHidden = false
                     self.likeLbl.isHidden = false
                 }
@@ -372,10 +362,7 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             })
         
             let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            //alert.addAction(request)
-            alert.addAction(wallView)
-            //alert.addAction(favorite)
+        
             alert.addAction(share)
             alert.addAction(report)
             alert.addAction(cancel)

@@ -114,16 +114,37 @@ class WallViewVC: UIViewController {
         scnView.addGestureRecognizer(tapGesture)
         let tapUserGesture = UITapGestureRecognizer(target: self, action: #selector(WallViewVC.artistBtnTapped))
         artistView.addGestureRecognizer(tapUserGesture)
-        //let similarGesture = UITapGestureRecognizer(target: self, action: #selector(WallViewVC.similarLblTapped))
-        //similarLbl.addGestureRecognizer(similarGesture)
-        
-//        let attributedString = NSMutableAttributedString(string: "Similar ")
-//        let attachment = NSTextAttachment()
-//        attachment.image = UIImage(named: "Expand Arrow Filled-10")
-//        attributedString.append(NSAttributedString(attachment: attachment))
-//        self.similarLbl.attributedText = attributedString
 
-        
+    }
+    
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.tintColor = UIColor.flatWhite()
+        likesRef.observe(.value, with: { (snapshot) in
+            self.likeLbl.text = " \(self.post.likes)"
+            if let _ = snapshot.value as? NSNull {
+                self.likeBtn.setImage( UIImage(named: "Hearts-White-22"), for: .normal)
+            } else {
+                self.likeBtn.setImage( UIImage(named: "Hearts Filled-22"), for: .normal)
+            }
+        })
+        collectionView.reloadData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        likesRef.removeAllObservers()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.cameraView.start()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.cameraView.stop()
     }
     
     @IBAction func dismissBtnTapped(_ sender: Any) {
@@ -135,7 +156,7 @@ class WallViewVC: UIViewController {
         likesRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let _ = snapshot.value as? NSNull {
                 DispatchQueue.main.async {
-                    sender.setImage( UIImage(named: "Hearts Filled-32"), for: .normal)
+                    sender.setImage( UIImage(named: "Hearts Filled-22"), for: .normal)
                     generateAnimatedView(view: self.view, position: self.likeBtn.layer.position)
                     self.likeLbl.text = "\(self.post.likes)"
                 }
@@ -144,7 +165,7 @@ class WallViewVC: UIViewController {
                 
             } else {
                 DispatchQueue.main.async {
-                    sender.setImage( UIImage(named: "Hearts-White-25"), for: .normal)
+                    sender.setImage( UIImage(named: "Hearts-White-22"), for: .normal)
                     self.likeLbl.text = "\(self.post.likes)"
                 }
                 self.post.adjustLikes(addLike: false)
@@ -209,36 +230,6 @@ class WallViewVC: UIViewController {
         }
     }
     
-
-    
-
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.navigationBar.tintColor = UIColor.flatWhite()
-        likesRef.observe(.value, with: { (snapshot) in
-            self.likeLbl.text = " \(self.post.likes)"
-            if let _ = snapshot.value as? NSNull {
-                self.likeBtn.setImage( UIImage(named: "Hearts-White-25"), for: .normal)
-            } else {
-                self.likeBtn.setImage( UIImage(named: "Hearts Filled-32"), for: .normal)
-            }
-        })
-        collectionView.reloadData()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        likesRef.removeAllObservers()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        self.cameraView.start()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        self.cameraView.stop()
-    }
     
     func handlePan(gestureRecognize: UIPanGestureRecognizer) {
         let numberOfTouches = gestureRecognize.numberOfTouches
@@ -270,7 +261,6 @@ class WallViewVC: UIViewController {
         if (gestureRecognize.state == .ended && lastFingersNumber==fingersNeededToPan) {
             lastWidthRatio = widthRatio
             lastHeightRatio = heightRatio
-            print("Pan with \(lastFingersNumber) finger\(lastFingersNumber>1 ? "s" : "")")
         }
     }
     
@@ -285,12 +275,8 @@ class WallViewVC: UIViewController {
     }
     
     func showAlert() {
-        
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-
-        
         let shareView = UIAlertAction(title: "Share view", style: .default) { (action) in
-            // Share view
             self.likeBtn.isHidden = true
             self.likeLbl.isHidden = true
             let view = self.view.captureView()
@@ -300,9 +286,7 @@ class WallViewVC: UIViewController {
         }
         
         let report = UIAlertAction(title: "Report", style: .destructive) { (action) in
-            
             self.performSegue(withIdentifier: "ReportVC", sender: self.artInfo[1])
-            // Report
         }
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
