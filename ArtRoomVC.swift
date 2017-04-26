@@ -114,7 +114,6 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ArtRoomVC.handlePinch(gestureRecognize:)))
         scnView.addGestureRecognizer(pinchGesture)
 
-
         collectionView.dataSource = self
         collectionView.delegate = self
     }

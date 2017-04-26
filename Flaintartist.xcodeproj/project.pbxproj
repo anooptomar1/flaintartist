@@ -47,7 +47,6 @@
 		6D4461C21E2DC21F003EE5BA /* SizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4461C11E2DC21F003EE5BA /* SizeView.swift */; };
 		6D4461C91E302333003EE5BA /* SimilarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D4461C81E302333003EE5BA /* SimilarCell.xib */; };
 		6D4461CB1E30266E003EE5BA /* SimilarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4461CA1E30266E003EE5BA /* SimilarCell.swift */; };
-		6D4461CD1E30305F003EE5BA /* SimilarScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4461CC1E30305F003EE5BA /* SimilarScene.swift */; };
 		6D4609B01E1F505F00FC75C3 /* MGMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4609AE1E1F505F00FC75C3 /* MGMessage.m */; };
 		6D4609B21E1F5FAC00FC75C3 /* ReportNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4609B11E1F5FAC00FC75C3 /* ReportNav.swift */; };
 		6D46303F1E318DC800EEB3D8 /* RoundImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D46303E1E318DC800EEB3D8 /* RoundImage.swift */; };
@@ -182,7 +181,6 @@
 		6D4461C11E2DC21F003EE5BA /* SizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeView.swift; sourceTree = "<group>"; };
 		6D4461C81E302333003EE5BA /* SimilarCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimilarCell.xib; sourceTree = "<group>"; };
 		6D4461CA1E30266E003EE5BA /* SimilarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimilarCell.swift; sourceTree = "<group>"; };
-		6D4461CC1E30305F003EE5BA /* SimilarScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimilarScene.swift; sourceTree = "<group>"; };
 		6D4609AE1E1F505F00FC75C3 /* MGMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGMessage.m; sourceTree = "<group>"; };
 		6D4609AF1E1F505F00FC75C3 /* MGMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGMessage.h; sourceTree = "<group>"; };
 		6D4609B11E1F5FAC00FC75C3 /* ReportNav.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportNav.swift; sourceTree = "<group>"; };
@@ -570,7 +568,6 @@
 				6D9EA41E1E19DE2D0080D182 /* ArtRoomScene.swift */,
 				6D9EA4201E19DE540080D182 /* WallViewScene.swift */,
 				6D9EA4221E19DE780080D182 /* DetailsScene.swift */,
-				6D4461CC1E30305F003EE5BA /* SimilarScene.swift */,
 				6DB5F9731E4E5C2300A66459 /* Other.swift */,
 			);
 			name = "3D Scene";
@@ -1170,7 +1167,6 @@
 				6DA7BC161E6DFDCA00DE61FB /* GFGeoHashQuery.m in Sources */,
 				6D1E05631E3BCE64007CCC5C /* EditProfileCell.swift in Sources */,
 				6D1C78381E19E90900E2041C /* AllVC.swift in Sources */,
-				6D4461CD1E30305F003EE5BA /* SimilarScene.swift in Sources */,
 				6D1C782B1E19E7F900E2041C /* NewsVC.swift in Sources */,
 				6DB5F9741E4E5C2300A66459 /* Other.swift in Sources */,
 				6D9EA4291E19DFE90080D182 /* ProfileVC.swift in Sources */,

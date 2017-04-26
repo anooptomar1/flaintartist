@@ -11,10 +11,8 @@ import UIKit
 import SceneKit
 import FirebaseAuth
 import FirebaseDatabase
-    
-    
+
 class WallViewVC: UIViewController {
-    
     
     @IBOutlet weak var cameraView: IPDFCameraViewController!
     @IBOutlet weak var scnView: SCNView!

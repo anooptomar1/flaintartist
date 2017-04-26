@@ -37,7 +37,6 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     
     var dmzMessage = ""
     var viewOrigin: CGFloat = 0.0
-
     
     weak var detailsView: EditArtDetails!
     
@@ -142,6 +141,7 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileArtCell", for: indexPath) as? ProfileArtCell {
             cell.artRoomScene.boxnode.removeFromParentNode()
             cell.configureCell(forArt: art)
+            cell.wallViewAction = {self.wallView(artImage: cell.artImageView.image!, art: art, artRoomScene: cell.artRoomScene)}
             return cell
         } else {
             return ProfileArtCell()
@@ -226,36 +226,37 @@ class ProfileVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
 }
 
 
+
+
+
 //MARK: Extension Edit Art
 extension ProfileVC {
     
+    func wallView(artImage: UIImage, art: Art, artRoomScene: ArtRoomScene) {
+        DispatchQueue.main.async {
+            let wallViewVC = self.storyboard?.instantiateViewController(withIdentifier: "WallviewVC") as! WallViewVC
+            wallViewVC.hidesBottomBarWhenPushed = true
+            let artInfo = [artImage, art] as [Any]
+            wallViewVC.artInfo = artInfo
+            wallViewVC.user = self.user
+            wallViewVC.position = artRoomScene.boxnode.position
+            wallViewVC.rotation = artRoomScene.boxnode.rotation
+            wallViewVC.width = artRoomScene.geometry.width
+            wallViewVC.height = artRoomScene.geometry.height
+            self.navigationController?.pushViewController(wallViewVC, animated: false)
+        }
+    }
+    
     func showRequestAlert(artImage: UIImage, art: Art, artRoomScene: ArtRoomScene) {
-        
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let edit = UIAlertAction(title: "Edit", style: .default) { (action) in
             self.edit(forArt: art)
         }
         
-        let wallView = UIAlertAction(title: "Wallview", style: .default, handler: { (UIAlertAction) in
-            DispatchQueue.main.async {
-                let wallViewVC = self.storyboard?.instantiateViewController(withIdentifier: "WallviewVC") as! WallViewVC
-                wallViewVC.hidesBottomBarWhenPushed = true
-                let artInfo = [artImage, art] as [Any]
-                wallViewVC.artInfo = artInfo
-                wallViewVC.user = self.user
-                wallViewVC.position = artRoomScene.boxnode.position
-                wallViewVC.rotation = artRoomScene.boxnode.rotation
-                wallViewVC.width = artRoomScene.geometry.width
-                wallViewVC.height = artRoomScene.geometry.height
-                self.navigationController?.pushViewController(wallViewVC, animated: false)
-                
-            }
-        })
         let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
             let view = self.view.captureView()
             self.shareChoice(view: view)
-            //self.share(image: artImage, title: art.title)
         })
         
         let remove = UIAlertAction(title: "Remove", style: .destructive, handler: { (UIAlertAction) in
@@ -264,9 +265,7 @@ extension ProfileVC {
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-
         alert.addAction(edit)
-        alert.addAction(wallView)
         alert.addAction(share)
         alert.addAction(remove)
         alert.addAction(cancel)
@@ -413,7 +412,6 @@ extension ProfileVC {
     // MARK: Keyboard
     func keyboardWillShow(_ notification: NSNotification) {
         self.viewOrigin = self.detailsView.frame.origin.y
-        print("ORIGINE:\(self.viewOrigin)")
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.detailsView.frame.origin.y == self.viewOrigin {
                 self.detailsView.frame.origin.y -= keyboardSize.height

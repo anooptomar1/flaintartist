@@ -10,6 +10,7 @@ import UIKit
 import SceneKit
 import SDWebImage
 import FirebaseStorage
+import FirebaseDatabase
 
 class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     
@@ -18,6 +19,7 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     @IBOutlet weak var isPrivateImgView: UIImageView!
     @IBOutlet weak var scnView: SCNView!
     @IBOutlet weak var infoView: UIView!
+    @IBOutlet weak var likeBtn: UIButton!
     
     var artImageView = UIImageView()
     var SizeView = UIView()
@@ -44,6 +46,11 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     
     let editNotif = NSNotification.Name("Show")
     let cancelNotif = NSNotification.Name("Hide")
+    var likesRef: FIRDatabaseReference!
+    
+    // Action 
+    var wallViewAction: (() -> Void)?
+
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -67,6 +74,32 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(ProfileArtCell.test), name: cancelNotif, object: nil)
     }
     
+    @IBAction func viewBtnTapped(_ sender: Any) {
+        wallViewAction?()
+        
+    }
+    
+    @IBAction func likeBtnTapped(_ sender: UIButton) {
+        likesRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            if let _ = snapshot.value as? NSNull {
+                DispatchQueue.main.async {
+                    sender.setImage( UIImage(named: "Like Filled-15"), for: .normal)
+                }
+                self.art?.adjustLikes(addLike: true)
+                self.likesRef.setValue(true)
+            } else {
+                DispatchQueue.main.async {
+                    sender.setImage( UIImage(named: "Like-15"), for: .normal)
+                }
+                self.art?.adjustLikes(addLike: false)
+                self.likesRef.removeValue()
+            }
+        })
+
+    }
+    
+    
+    
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -80,6 +113,7 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     
     func configureCell(forArt: Art) {
         self.art = forArt
+        likesRef = DataService.instance.REF_USER_CURRENT.child("likes").child(self.art!.artID)
         let myBlock: SDWebImageCompletionBlock! = { [weak self] (image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
             if let img = image {
                 DispatchQueue.main.async {
@@ -102,6 +136,18 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
             let date = convertDate(postDate: self.art!.postDate)
             self.textView.text = "\( self.art!.artHeight)'H x \(self.art!.artWidth)'W - \(self.art!.price)$ / month - \(self.art!.type) \n \(date) \n \(self.art!.description)."
         }
+        
+        likesRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            if let _ = snapshot.value as? NSNull {
+                DispatchQueue.main.async {
+                    self.likeBtn.setImage( UIImage(named: "Like-15"), for: .normal)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.likeBtn.setImage( UIImage(named: "Like Filled-15"), for: .normal)
+                }
+            }
+        })
     }
     
     
@@ -140,7 +186,6 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         if (gestureRecognize.state == .ended && lastFingersNumber==fingersNeededToPan) {
             lastWidthRatio = widthRatio
             lastHeightRatio = heightRatio
-            print("Pan with \(lastFingersNumber) finger\(lastFingersNumber>1 ? "s" : "")")
         }
         
         if gestureRecognize.state == .began ||  gestureRecognize.state == .changed {

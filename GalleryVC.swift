@@ -159,6 +159,7 @@ class GalleryVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileArtCell", for: indexPath) as? ProfileArtCell {
             cell.artRoomScene.boxnode.removeFromParentNode()
             cell.configureCell(forArt: art)
+            cell.wallViewAction = {self.wallView(artImage: cell.artImageView.image!, art: art, artRoomScene: cell.artRoomScene)}
             return cell
         } else {
             return ProfileArtCell()
@@ -355,6 +356,21 @@ class GalleryVC: UITableViewController, UIImagePickerControllerDelegate, UINavig
     func showBars() {
         UIView.animate(withDuration: 2.5) {
             self.navigationController?.navigationBar.alpha = 0
+        }
+    }
+    
+    func wallView(artImage: UIImage, art: Art, artRoomScene: ArtRoomScene) {
+        DispatchQueue.main.async {
+            let wallViewVC = self.storyboard?.instantiateViewController(withIdentifier: "WallviewVC") as! WallViewVC
+            wallViewVC.hidesBottomBarWhenPushed = true
+            let artInfo = [artImage, art] as [Any]
+            wallViewVC.artInfo = artInfo
+            wallViewVC.user = self.user
+            wallViewVC.position = artRoomScene.boxnode.position
+            wallViewVC.rotation = artRoomScene.boxnode.rotation
+            wallViewVC.width = artRoomScene.geometry.width
+            wallViewVC.height = artRoomScene.geometry.height
+            self.navigationController?.pushViewController(wallViewVC, animated: false)
         }
     }
 }
