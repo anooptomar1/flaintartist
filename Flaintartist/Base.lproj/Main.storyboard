@@ -90,7 +90,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="45" id="qnS-Li-su4"/>
                                                 </constraints>
-                                                <color key="textColor" red="0.12637259070000001" green="0.12639245390000001" blue="0.1263653636" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" red="0.51764705882352935" green="0.58039215686274503" blue="0.58431372549019611" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                             </textField>
@@ -522,17 +522,17 @@
                         <viewControllerLayoutGuide type="bottom" id="E0r-Q3-AA4"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="O5L-aB-DRt">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oGf-jE-Rjh" customClass="IPDFCameraViewController">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MbM-rK-ota" customClass="SCNView">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Fb-uf-0Ae">
-                                                <rect key="frame" x="0.0" y="486" width="375" height="181"/>
+                                                <rect key="frame" x="0.0" y="489" width="375" height="181"/>
                                                 <subviews>
                                                     <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" indicatorStyle="white" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uJE-lg-LhZ">
                                                         <rect key="frame" x="49" y="8" width="277" height="50"/>
@@ -635,7 +635,7 @@
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u5d-Nc-IY7">
-                                                <rect key="frame" x="324" y="622" width="25" height="25"/>
+                                                <rect key="frame" x="324" y="625" width="25" height="25"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="25" id="Lx5-2Y-kTc"/>
                                                     <constraint firstAttribute="height" constant="25" id="adD-An-LK4"/>
@@ -649,7 +649,7 @@
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Re-L9-64p">
-                                                <rect key="frame" x="306" y="645" width="60" height="14"/>
+                                                <rect key="frame" x="306" y="648" width="60" height="14"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="60" id="N1j-Kv-604"/>
                                                     <constraint firstAttribute="height" constant="14" id="OtF-Hn-k2P"/>
@@ -2196,7 +2196,9 @@
                                             <constraint firstAttribute="width" constant="40" id="NDo-6b-lUI"/>
                                             <constraint firstAttribute="height" constant="40" id="tL5-CM-tgf"/>
                                         </constraints>
-                                        <state key="normal" image="Visible-22"/>
+                                        <state key="normal" image="Visible-22">
+                                            <color key="titleColor" red="0.69019607843137254" green="0.71372549019607845" blue="0.73333333333333328" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
                                         <connections>
                                             <action selector="viewBtnTapped:" destination="qJN-g4-lnb" eventType="touchUpInside" id="etZ-gD-THC"/>
                                         </connections>
@@ -2230,7 +2232,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AEW-zs-9Fw">
                                 <rect key="frame" x="285" y="655" width="49" height="11"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="9"/>
-                                <color key="textColor" red="0.12637259066104889" green="0.12639245390892029" blue="0.12636536359786987" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.51784205436706543" green="0.58159953355789185" blue="0.58617168664932251" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -2338,7 +2340,7 @@
                                                     </collectionViewFlowLayout>
                                                     <cells>
                                                         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProfileArtCell" id="N6h-df-3WU" customClass="ProfileArtCell" customModule="Flaintartist" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="55" width="375" height="466"/>
+                                                            <rect key="frame" x="0.0" y="54.5" width="375" height="466"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="466"/>
@@ -2382,7 +2384,7 @@
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="width" constant="40" id="dQF-Rn-C9X"/>
                                                                                 </constraints>
-                                                                                <state key="normal" image="Like-15"/>
+                                                                                <state key="normal" image="Likes-18"/>
                                                                                 <connections>
                                                                                     <action selector="likeBtnTapped:" destination="N6h-df-3WU" eventType="touchUpInside" id="dOi-Ed-mwz"/>
                                                                                 </connections>
@@ -3227,6 +3229,7 @@
         <image name="Home filled-22" width="21" height="22"/>
         <image name="Home-22" width="21" height="22"/>
         <image name="Like-15" width="15" height="15"/>
+        <image name="Likes-18" width="18" height="18"/>
         <image name="Lock-50" width="50" height="50"/>
         <image name="Mail Filled-20" width="20" height="20"/>
         <image name="Menu-20" width="20" height="20"/>
@@ -3242,10 +3245,10 @@
         <image name="profile filled-22" width="21" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="uS1-wH-aky"/>
-        <segue reference="AFT-Si-2Xd"/>
         <segue reference="UEF-T6-EKt"/>
         <segue reference="bnP-co-A98"/>
-        <segue reference="Qe5-sR-zml"/>
+        <segue reference="AFT-Si-2Xd"/>
+        <segue reference="fyb-iZ-i2M"/>
+        <segue reference="uS1-wH-aky"/>
     </inferredMetricsTieBreakers>
 </document>

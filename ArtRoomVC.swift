@@ -186,11 +186,8 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.artRoomScene.remove()
-        //self.scnView.removeFromSuperview()
-        //self.stackView.removeFromSuperview()
         DataService.instance.REF_USERS.child("\(self.userID)").removeAllObservers()
         likesRef.removeAllObservers()
-        //posts = []
     }
     
     
@@ -208,8 +205,6 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             self.navigationController?.pushViewController(wallViewVC, animated: false)
         }
     }
-    
-    
     
     
     @IBAction func likeBtnTapped(_ sender: UIButton) {
@@ -233,17 +228,16 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             }
         })
     }
-    
 
     
     @IBAction func similarBtnTapped(_ sender: UIButton) {
         if showSimilar {
             showSimilar = false
-            sender.setImage(UIImage(named: "Expand Arrow-20"), for: .normal)
+            sender.setImage(UIImage(named: "Expand Arrow-18"), for: .normal)
             collectionView.isHidden = true
         } else {
             showSimilar = true
-            sender.setImage(UIImage(named: "Collapse Arrow-20"), for: .normal)
+            sender.setImage(UIImage(named: "Collapse Arrow-18"), for: .normal)
             collectionView.isHidden = false
         }
     }
@@ -366,7 +360,6 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             alert.addAction(report)
             alert.addAction(cancel)
             present(alert, animated: true, completion: nil)
-    
     }
     
 

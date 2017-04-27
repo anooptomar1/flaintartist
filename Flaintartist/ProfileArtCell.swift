@@ -89,7 +89,7 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
                 self.likesRef.setValue(true)
             } else {
                 DispatchQueue.main.async {
-                    sender.setImage( UIImage(named: "Like-15"), for: .normal)
+                    sender.setImage( UIImage(named: "Likes-18"), for: .normal)
                 }
                 self.art?.adjustLikes(addLike: false)
                 self.likesRef.removeValue()
@@ -140,7 +140,7 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         likesRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let _ = snapshot.value as? NSNull {
                 DispatchQueue.main.async {
-                    self.likeBtn.setImage( UIImage(named: "Like-15"), for: .normal)
+                    self.likeBtn.setImage( UIImage(named: "Likes-18"), for: .normal)
                 }
             } else {
                 DispatchQueue.main.async {
