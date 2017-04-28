@@ -30,6 +30,7 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     @IBOutlet weak var similarBtn: UIButton!
     @IBOutlet weak var likeBtn: UIButton!
     @IBOutlet weak var likeLbl: UILabel!
+    @IBOutlet weak var viewsLbl: UILabel!
     
     var artRoomScene = ArtRoomScene(create: true)
     var artImage = UIImage()
@@ -62,6 +63,7 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     var showSimilar: Bool = false
     var likesRef: FIRDatabaseReference!
+    var viewsRef: FIRDatabaseReference!
 
     
     override var prefersStatusBarHidden: Bool {
@@ -84,6 +86,7 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         if let info = self.artInfo[1] as? Art {
             self.post = info
             likesRef = DataService.instance.REF_USER_CURRENT.child("likes").child(info.artID)
+            viewsRef = DataService.instance.REF_USER_CURRENT.child("views").child(info.artID)
             DataService.instance.seen(artUID: info.artID, imgUrl: info.imgUrl, title: info.title, description: info.description, price: info.price, height: info.artHeight, width: info.artWidth, type: info.type, date: info.postDate, userUID: info.userUid, profileImg: info.profileImgUrl!, username: info.userName)
             self.userID = info.userUid
             let image = strongSelf.artInfo[0] as? UIImage
@@ -123,6 +126,16 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     override func viewWillAppear(_ animated: Bool) {
         self.artRoomScene.add()
         self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
+        
+        viewsRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            if let _ = snapshot.value as? NSNull {
+                self.viewsLbl.isHidden = true
+            } else {
+                self.viewsLbl.text = "\(self.post.views)"
+                self.post.adjustViews(addLike: true)
+            }
+        })
+        
         
         likesRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let _ = snapshot.value as? NSNull {
