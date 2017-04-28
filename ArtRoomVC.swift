@@ -100,7 +100,6 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             strongSelf.timeLbl.text = date
             strongSelf.textView.text = "\(info.artHeight)'H x \(info.artWidth)'W - \(info.price)$ / month - \(info.type) \n \(info.description)."
             likeLbl.text = "\(info.likes)"
-
         }
         
         self.navigationController?.toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .bottom, barMetrics: .default)
@@ -124,26 +123,27 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.artRoomScene.add()
         self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
         
         viewsRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let _ = snapshot.value as? NSNull {
-                self.viewsLbl.isHidden = true
-            } else {
                 self.viewsLbl.text = "\(self.post.views)"
-                self.post.adjustViews(addLike: true)
-            }
+                self.post.adjustViews(addView: true)
+            } else {
+                self.likeLbl.text = "\(self.post.views)"
+             }
         })
-        
-        
+            
         likesRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let _ = snapshot.value as? NSNull {
-                self.likeLbl.text = " \(self.post.likes)"
+                self.likeLbl.text = "\(self.post.likes)"
                 DispatchQueue.main.async {
                     self.likeBtn.setImage( UIImage(named: "Hearts-22"), for: .normal)
                 }
             } else {
+                self.likeLbl.text = "\(self.post.likes)"
                 DispatchQueue.main.async {
                 self.likeBtn.setImage( UIImage(named: "Hearts Filled-22"), for: .normal)
                 }
@@ -200,6 +200,7 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         self.artRoomScene.remove()
         DataService.instance.REF_USERS.child("\(self.userID)").removeAllObservers()
         likesRef.removeAllObservers()
+        viewsRef.removeAllObservers()
     }
     
     

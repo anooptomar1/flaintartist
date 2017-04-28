@@ -26,7 +26,7 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        DataService.instance.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
+        DataService.instance.REF_USER_CURRENT.observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
             if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
                 let key = snapshot.key
                 self?.user = Users(key: key, artistData: postDict)
@@ -44,7 +44,7 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        DataService.instance.REF_USERS.child((FIRAuth.auth()?.currentUser?.uid)!).removeAllObservers()
+        DataService.instance.REF_USER_CURRENT.removeAllObservers()
     }
     
     

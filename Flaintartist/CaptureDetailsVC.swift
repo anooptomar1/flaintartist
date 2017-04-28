@@ -199,7 +199,8 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
                 "postDate": FIRServerValue.timestamp() as AnyObject,
                 "price": price as AnyObject,
                 "private": isPrivate as AnyObject,
-                "likes":  2 + drand48() * 5 as AnyObject
+                "likes":  2 + drand48() * 5 as AnyObject,
+                "views": 2 + drand48() * 7 as AnyObject
             ]
             
             DataService.instance.createNewArt(newArt)

@@ -166,7 +166,7 @@ struct Art  {
     
     mutating func adjustLikes(addLike: Bool) {
         if addLike {
-            _likes = _likes + 1
+            _likes = likes + 1
         } else {
             _likes = likes - 1
         }
@@ -174,13 +174,10 @@ struct Art  {
         
     }
     
-    mutating func adjustViews(addLike: Bool) {
-        if addLike {
-            _views = _views + 1
-        } else {
-            _views = views - 1
+    mutating func adjustViews(addView: Bool) {
+        if addView {
+           _views = views + 1
+           _artRef.child("views").setValue(_views)
         }
-        _artRef.child("views").setValue(_views)
-        
     }
 }
