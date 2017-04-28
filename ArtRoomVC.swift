@@ -182,7 +182,6 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         }
     }
 
-
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.artRoomScene.remove()

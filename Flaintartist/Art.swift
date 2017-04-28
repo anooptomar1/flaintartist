@@ -27,6 +27,7 @@ struct Art  {
     private var _profileImgUrl: String = ""
     private var _postDate: Int!
     private var _likes: Int!
+    private var _views: Int!
     var isPrivate: Bool = false
     
     var title: String {
@@ -81,7 +82,12 @@ struct Art  {
         return _likes
     }
     
-    init(artID: String, imgUrl: String, price: Int, title: String, description: String, type: String, height: Int, width: Int, postDate: Int, isPrivate: Bool, likes: Int) {
+    var views: Int {
+        return _views
+    }
+    
+    
+    init(artID: String, imgUrl: String, price: Int, title: String, description: String, type: String, height: Int, width: Int, postDate: Int, isPrivate: Bool, likes: Int, views: Int) {
         self._artID = artID
         self._imgUrl = imgUrl
         self._title = title
@@ -92,6 +98,7 @@ struct Art  {
         self._postDate = postDate
         self._price = price
         self._likes = likes
+        self._views = views
     }
     
     init(key: String, artData: Dictionary<String, AnyObject>) {
@@ -150,6 +157,10 @@ struct Art  {
             self._likes = likes
         }
         
+        if let views = artData["views"] as? Int {
+            self._views = views
+        }
+        
         _artRef = DataService.instance.REF_ARTS.child(self._artID)
     }
     
@@ -160,6 +171,16 @@ struct Art  {
             _likes = likes - 1
         }
         _artRef.child("likes").setValue(_likes)
+        
+    }
+    
+    mutating func adjustViews(addLike: Bool) {
+        if addLike {
+            _views = _views + 1
+        } else {
+            _views = views - 1
+        }
+        _artRef.child("views").setValue(_views)
         
     }
 }
