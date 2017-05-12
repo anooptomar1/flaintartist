@@ -100,7 +100,6 @@ class LogInVC: UIViewController, UITextFieldDelegate {
         }
     }
     
-    
     func textChanged(sender: NSNotification) {
         if emailField.hasText && passwordField.hasText  {
             logInBtn.isEnabled = true

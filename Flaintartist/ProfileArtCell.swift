@@ -20,6 +20,8 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     @IBOutlet weak var scnView: SCNView!
     @IBOutlet weak var infoView: UIView!
     @IBOutlet weak var likeBtn: UIButton!
+    @IBOutlet weak var likeLbl: UILabel!
+    @IBOutlet weak var viewLbl: UILabel!
     
     var artImageView = UIImageView()
     var SizeView = UIView()
@@ -141,10 +143,12 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
             if let _ = snapshot.value as? NSNull {
                 DispatchQueue.main.async {
                     self.likeBtn.setImage( UIImage(named: "Likes-18"), for: .normal)
+                    self.likeLbl.text = "\(self.art!.likes)"
                 }
             } else {
                 DispatchQueue.main.async {
                     self.likeBtn.setImage( UIImage(named: "Like Filled-15"), for: .normal)
+                    self.likeLbl.text = "\(self.art!.likes)"
                 }
             }
         })
