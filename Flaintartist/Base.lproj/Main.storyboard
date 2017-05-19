@@ -522,17 +522,17 @@
                         <viewControllerLayoutGuide type="bottom" id="E0r-Q3-AA4"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="O5L-aB-DRt">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oGf-jE-Rjh" customClass="IPDFCameraViewController">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MbM-rK-ota" customClass="SCNView">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="670"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Fb-uf-0Ae">
-                                                <rect key="frame" x="0.0" y="489" width="375" height="181"/>
+                                                <rect key="frame" x="0.0" y="486" width="375" height="181"/>
                                                 <subviews>
                                                     <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" indicatorStyle="white" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uJE-lg-LhZ">
                                                         <rect key="frame" x="49" y="8" width="277" height="50"/>
@@ -635,7 +635,7 @@
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u5d-Nc-IY7">
-                                                <rect key="frame" x="324" y="625" width="25" height="25"/>
+                                                <rect key="frame" x="324" y="622" width="25" height="25"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="25" id="Lx5-2Y-kTc"/>
                                                     <constraint firstAttribute="height" constant="25" id="adD-An-LK4"/>
@@ -649,7 +649,7 @@
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Re-L9-64p">
-                                                <rect key="frame" x="306" y="648" width="60" height="14"/>
+                                                <rect key="frame" x="306" y="645" width="60" height="14"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="60" id="N1j-Kv-604"/>
                                                     <constraint firstAttribute="height" constant="14" id="OtF-Hn-k2P"/>
@@ -3294,10 +3294,10 @@
         <image name="profile filled-22" width="21" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="UEF-T6-EKt"/>
-        <segue reference="bnP-co-A98"/>
-        <segue reference="m7K-wp-2Jo"/>
         <segue reference="uS1-wH-aky"/>
-        <segue reference="fyb-iZ-i2M"/>
+        <segue reference="m7K-wp-2Jo"/>
+        <segue reference="UEF-T6-EKt"/>
+        <segue reference="Qe5-sR-zml"/>
+        <segue reference="bnP-co-A98"/>
     </inferredMetricsTieBreakers>
 </document>
