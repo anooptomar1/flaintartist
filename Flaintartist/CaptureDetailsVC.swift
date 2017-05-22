@@ -51,7 +51,7 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     var detailsScene = DetailsScene(create: true)
     var doneBtn = UIBarButtonItem()
     var user: Users!
-    let storage = FIRStorage.storage()
+    let storage = Storage.storage()
     
     var viewOrigin: CGFloat = 0.0
     
@@ -103,11 +103,7 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         viewOrigin = self.view.frame.origin.y
 
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.tintColor = UIColor.flatBlack()
-    }
+
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
@@ -177,7 +173,7 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     
     
     func postToFirebase(imgUrl: String) {
-        let uid = FIRAuth.auth()?.currentUser?.uid
+        let uid = Auth.auth().currentUser?.uid
         let price:Int? = Int(priceTextField.text!)
         let title = titleTextField.text!
         let desc = descTextView.text!
@@ -196,7 +192,7 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
                 "width": width as AnyObject,
                 "imageUrl":  imgUrl as AnyObject,
                 "type":  type as AnyObject,
-                "postDate": FIRServerValue.timestamp() as AnyObject,
+                "postDate": ServerValue.timestamp() as AnyObject,
                 "price": price as AnyObject,
                 "private": isPrivate as AnyObject,
                 "likes":  2 + drand48() * 5 as AnyObject,
@@ -204,8 +200,7 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
             ]
             
             DataService.instance.createNewArt(newArt)
-            let tabBarVC = storyboard?.instantiateViewController(withIdentifier: "TabBarVC")
-            self.present(tabBarVC!, animated: true, completion: nil)
+            dismiss(animated: true, completion: nil)
         } else {
             let alert = Alerts()
             alert.showAlert("Empty Fields", message: "", target: self)
@@ -378,20 +373,20 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     func done() {
         if let imgData =  UIImageJPEGRepresentation(artImg, 0.0) {
             let imgUID = NSUUID().uuidString
-            let metadata = FIRStorageMetadata()
+            let metadata = StorageMetadata()
             metadata.contentType = "image/jpeg"
-            let userUID = (FIRAuth.auth()?.currentUser?.uid)!
-            DataService.instance.REF_STORAGE.child("Arts").child(userUID).child(imgUID).put(imgData, metadata: metadata){(metaData,error) in
+            let userUID = (Auth.auth().currentUser?.uid)!
+            DataService.instance.REF_STORAGE.child("Arts").child(userUID).child(imgUID).putData(imgData, metadata: metadata, completion: { (metadata, error) in
                 if let error = error {
                     print(error.localizedDescription)
                     return
                 } else {
-                    let downloadURL = metaData?.downloadURL()!.absoluteString
+                    let downloadURL = metadata?.downloadURL()!.absoluteString
                     if let url = downloadURL {
                         self.postToFirebase(imgUrl: url)
                     }
                 }
-            }
+            })
         }
     }
 }

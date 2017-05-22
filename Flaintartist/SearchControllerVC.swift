@@ -74,7 +74,7 @@ class SearchControllerVC: UIViewController, UICollectionViewDelegate, UICollecti
 
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         filteredUsers = users.filter { user in
-            return user.name.lowercased().contains(searchText.lowercased())
+            return (user.name?.lowercased().contains(searchText.lowercased()))!
         }
 //        
 //        filteredArts = arts.filter { art in
@@ -218,9 +218,9 @@ class SearchControllerVC: UIViewController, UICollectionViewDelegate, UICollecti
 //        } else if segmentedCtrl.selectedSegmentIndex == 1 {
 //            
 //        }
-            FIRDatabase.database().reference().child("users").queryOrdered(byChild: "userType").queryEqual(toValue : "artist").observe(.value) { (snapshot: FIRDataSnapshot) in
+            Database.database().reference().child("users").queryOrdered(byChild: "userType").queryEqual(toValue : "artist").observe(.value) { (snapshot: DataSnapshot) in
                 self.users = []
-                if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
+                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                     for snap in snapshot {
                         if let postDict = snap.value as? Dictionary<String, AnyObject> {
                             let key = snap.key

@@ -18,7 +18,7 @@ class WallViewVC: UIViewController {
     @IBOutlet weak var scnView: SCNView!
     @IBOutlet weak var mainTitleLbl: UILabel!
     @IBOutlet weak var artistView: UIView!
-    @IBOutlet weak var artistImg: RoundImage!
+    @IBOutlet weak var artistImg: RoundImageView!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var timeLbl: UILabel!
     @IBOutlet weak var textView: UITextView!
@@ -61,7 +61,7 @@ class WallViewVC: UIViewController {
     
     var showInfo = false
     var showSimilar: Bool = false
-    var likesRef: FIRDatabaseReference!
+    var likesRef: DatabaseReference!
 
 
     
@@ -191,7 +191,7 @@ class WallViewVC: UIViewController {
     }
     
     func artistBtnTapped() {
-        if let id = FIRAuth.auth()?.currentUser?.uid {
+        if let id = Auth.auth().currentUser?.uid {
             if id != "" {
                 if user.userId == id {
                     tabBarController?.selectedIndex = 2

@@ -19,8 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         
-        FIRApp.configure()
-        FIRDatabase.database().persistenceEnabled = true
+        FirebaseApp.configure()
+        Database.database().isPersistenceEnabled = true
         
         userIsLoggingIn()
         
@@ -31,13 +31,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.makeKeyAndVisible()
         } else {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let initialViewController = storyboard.instantiateViewController(withIdentifier: "New")
+            let initialViewController = storyboard.instantiateViewController(withIdentifier: "ProfileNav")
             self.window?.rootViewController = initialViewController
             self.window?.makeKeyAndVisible()
         }
         
         
         let navigationBarAppearance = UINavigationBar.appearance()
+        navigationBarAppearance.tintColor = UIColor.flatSkyBlueColorDark()
         navigationBarAppearance.setBackgroundImage(UIImage(), for: .default)
         navigationBarAppearance.shadowImage = UIImage()
         navigationBarAppearance.isTranslucent = false
@@ -73,18 +74,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func logIn() {
         print("APP DELEGATE LOGIN")
-        let tabBar = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarVC") as! TabBarVC
+        let tabBar = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ProfileNav") as! UINavigationController
         self.window?.rootViewController = tabBar
         self.window?.makeKeyAndVisible()
     }
     
+
+    
+    
+    
     func userIsLoggingIn() {
         if let uid = Defaults[.key_uid] {
-            let usersRef = FIRDatabase.database().reference().child("users").child(uid)
+            let usersRef = Database.database().reference().child("users").child(uid)
             if !uid.isEmpty {
                 usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let initialViewController = storyboard.instantiateViewController(withIdentifier: "TabBarVC") as! TabBarVC
+                    let initialViewController = storyboard.instantiateViewController(withIdentifier: "ProfileNav") as! UINavigationController
                     self.window?.rootViewController = initialViewController
                     self.window?.makeKeyAndVisible()
                     usersRef.removeAllObservers()

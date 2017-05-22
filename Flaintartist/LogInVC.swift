@@ -85,7 +85,6 @@ class LogInVC: UIViewController, UITextFieldDelegate {
         logInBtn.BtnTapped()
         logInBtn.setTitle("", for: .normal)
         indicator.isHidden = false
-        indicator.hidesWhenStopped = true
         indicator.startAnimating()
         passwordField.resignFirstResponder()
         if let email = emailField.text, let pwd = passwordField.text {

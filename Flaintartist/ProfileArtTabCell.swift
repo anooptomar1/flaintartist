@@ -28,9 +28,9 @@ class ProfileArtTabCell: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        FIRDatabase.database().reference().child((FIRAuth.auth()?.currentUser?.uid)!).child("arts").observe(.value) { (snapshot: FIRDataSnapshot) in
+        Database.database().reference().child((Auth.auth().currentUser?.uid)!).child("arts").observe(.value) { (snapshot: DataSnapshot) in
             self.arts = []
-            if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
                     if let postDict = snap.value as? Dictionary<String, AnyObject> {
                         let key = snap.key

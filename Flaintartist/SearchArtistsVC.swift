@@ -88,7 +88,7 @@ class SearchVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
         strongSelf.nearbyUsers = []
         queue.async(qos: .background) {
             _ = circleQuery!.observe(.keyEntered, with: { [weak self] (key, location) in
-                if !(self?.nearbyUsers.contains(key!))! && key! != FIRAuth.auth()!.currentUser!.uid {
+                if !(self?.nearbyUsers.contains(key!))! && key! != Auth.auth().currentUser!.uid {
                     self?.nearbyUsers.insert(key!, at: 0)
                     print("NEARBY USER: \(String(describing: self?.nearbyUsers))")
                 }
@@ -101,7 +101,7 @@ class SearchVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
                     self?.allUsers = []
                     self?.localUsers = []
                     self?.otherUsers = []
-                    if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
+                    if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                         for snap in snapshot {
                             if let postDict = snap.value as? Dictionary<String, AnyObject> {
                                 let User = Users(key: snap.key, artistData: postDict)
@@ -130,7 +130,7 @@ class SearchVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     //MARK: Filter
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         filteredUsers = allUsers.filter { user in
-            return (user.name.lowercased().contains(searchText.lowercased()))
+            return (user.name?.lowercased().contains(searchText.lowercased()))!
         }
     }
     

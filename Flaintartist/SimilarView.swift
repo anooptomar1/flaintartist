@@ -30,9 +30,9 @@ class SimilarView: MessageView, UICollectionViewDelegateFlowLayout, UICollection
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "SimilarCell")
         collectionView.backgroundColor = UIColor.white
         
-        DataService.instance.REF_ARTS.queryOrdered(byChild: "type").queryEqual(toValue: type).queryLimited(toLast: 4).observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
+        DataService.instance.REF_ARTS.queryOrdered(byChild: "type").queryEqual(toValue: type).queryLimited(toLast: 4).observe(.value) { [weak self] (snapshot: DataSnapshot) in
             self?.art = []
-            if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
                     if let dict = snap.value as? NSDictionary, let isPrivate = dict["private"] as? Bool {
                         if isPrivate == false {

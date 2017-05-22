@@ -43,9 +43,9 @@ class SearchArtsVC: UIViewController, UICollectionViewDelegate, UICollectionView
         self.navigationController?.navigationBar.isTranslucent = false
 
         queue.async(qos: .userInitiated) {
-            DataService.instance.REF_ARTS.queryLimited(toFirst: 10).observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
+            DataService.instance.REF_ARTS.queryLimited(toFirst: 10).observe(.value) { [weak self] (snapshot: DataSnapshot) in
                 self?.arts =  []
-                if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
+                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                     for snap in snapshot {
                         if let dict = snap.value as? NSDictionary, let isPrivate = dict["private"] as? Bool {
                             if isPrivate == false {

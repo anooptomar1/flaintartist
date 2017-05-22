@@ -13,95 +13,46 @@ import FirebaseAuth
 
 class Users {
     
-    fileprivate var _profilePicUrl: String!
-    fileprivate var _name: String!
-    fileprivate var _artwork: Int!
-    fileprivate var _bio: String?
-    fileprivate var _color: String!
-    fileprivate var _website: String!
-    fileprivate var _userType: String!
-    fileprivate var _userId: String!
-    fileprivate var _userRef: FIRDatabaseReference!
-    fileprivate var _arts = [Art?]()
-    
-    
-    var userId: String? {
-        return _userId
-    }
-    
-    var profilePicUrl: String? {
-        return _profilePicUrl
-    }
-    
-    var name: String {
-        return _name
-    }
-    
-    var artwork: Int {
-        return _artwork
-    }
-    
-    var bio: String? {
-        return _bio
-    }
-    
-    var userType: String {
-        return _userType
-    }
-    
-    var website: String? {
-        return _website
-    }
-    
-    var art: [Art?] {
-        return _arts
-    }
+    var profilePicUrl: String?
+    var name: String?
+    var artwork: Int?
+    var bio: String?
+    var website: String?
+    var userType: String?
+    var userId: String?
+    var userRef: DatabaseReference?
+    var arts = [Art?]()
 
-
-    init(userId: String ,profilePicUrl: String, name: String, userType: String, website: String, artwork: Int, bio: String, art: [Art]) {
-        
-        self._profilePicUrl = profilePicUrl
-        self._name = name
-        self._artwork = artwork
-        self._bio = bio
-        self._website = website
-        self._userId = userId
-        self._arts = art
-    }
     
     init(key: String, artistData: Dictionary<String, AnyObject>) {
         
-        self._userId = key
+        self.userId = key
         
         if let userId = artistData["uid"] as? String {
-            self._userId = userId
+            self.userId = userId
         }
         
         if let name = artistData["name"] as? String {
-            self._name = name
+            self.name = name
         }
-        
         
         if let bio = artistData["biography"] as? String {
-            self._bio = bio
+            self.bio = bio
         }
         
-        
         if let profilePicUrl = artistData["profileImg"] as? String {
-            self._profilePicUrl = profilePicUrl
+            self.profilePicUrl = profilePicUrl
         }
         
         if let website = artistData["website"] as? String {
-            self._website = website
+            self.website = website
         }
         
         if let type = artistData["userType"] as? String {
-            self._userType = type
+            self.userType = type
         }
-        
-        
-        
-        self._userRef = DataService.instance.REF_USERS.child(self._userId)
+
+        self.userRef = DataService.instance.REF_USERS.child(self.userId!)
     }
 }
 

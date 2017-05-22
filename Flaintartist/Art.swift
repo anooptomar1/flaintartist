@@ -21,7 +21,7 @@ struct Art  {
     private var _artHeight: Int!
     private var _artWidth: Int!
     private var _artLenght: Int!
-    private var _artRef: FIRDatabaseReference!
+    private var _artRef: DatabaseReference!
     private var _userUid: String!
     private var _userName: String = ""
     private var _profileImgUrl: String = ""

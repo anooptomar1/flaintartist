@@ -23,7 +23,7 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var timeLbl: UILabel!
-    @IBOutlet weak var artistImg: RoundImage!
+    @IBOutlet weak var artistImg: RoundImageView!
     @IBOutlet weak var artistNameLbl: UILabel!
     @IBOutlet weak var artistView: UIView!
     @IBOutlet weak var viewBtn: UIButton!
@@ -62,8 +62,8 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     var rotation = SCNVector4()
     
     var showSimilar: Bool = false
-    var likesRef: FIRDatabaseReference!
-    var viewsRef: FIRDatabaseReference!
+    var likesRef: DatabaseReference!
+    var viewsRef: DatabaseReference!
 
     
     override var prefersStatusBarHidden: Bool {
@@ -171,7 +171,7 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             if let info = self.artInfo[1] as? Art {
                 DataService.instance.REF_ARTS.queryOrdered(byChild: "type").queryEqual(toValue: info.type).queryLimited(toFirst: 6).observe(.value, with: { [weak self] (snapshot) in
                     self?.arts = []
-                    if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
+                    if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                         for snap in snapshot {
                             if let dict = snap.value as? NSDictionary, let isPrivate = dict["private"] as? Bool, let price = dict["price"] as? Int {
                                 if isPrivate == false {
@@ -257,7 +257,7 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     
     func artistBtnTapped() {
-        if let id = FIRAuth.auth()?.currentUser?.uid {
+        if let id = Auth.auth().currentUser?.uid {
             if id != "" {
                 if user.userId == id {
                     tabBarController?.selectedIndex = 2

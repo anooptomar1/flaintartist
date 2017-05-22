@@ -15,7 +15,7 @@ class NewCell: UICollectionViewCell {
 
     @IBOutlet weak var gradientView: UIView!
     @IBOutlet weak var scnView: SCNView!
-    @IBOutlet weak var artistImgView: RoundImage!
+    @IBOutlet weak var artistImgView: RoundImageView!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var dateLbl: UILabel!
     

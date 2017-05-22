@@ -8,39 +8,34 @@
 
 
 import UIKit
-import FirebaseAuth
-import FirebaseDatabase
-import FirebaseStorage
+import Firebase
 
 class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
-    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var profileImage: RoundImageView!
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var websiteField: UITextField!
     
-    var user: Users!
+    var user: Users?
     var imageChanged: Bool = false
+    var imagePicker = UIImagePickerController()
+
     
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        DataService.instance.REF_USER_CURRENT.observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
-            if let postDict = snapshot.value as? Dictionary<String, AnyObject> {
-                let key = snapshot.key
-                self?.user = Users(key: key, artistData: postDict)
-            }
-            if let user = self?.user {
-                self?.nameField.text = user.name
-                self?.emailField.text = FIRAuth.auth()?.currentUser?.email
-                self?.websiteField.text = user.website
-                if let url = self?.user.profilePicUrl {
-                    self?.profileImage.sd_setImage(with: URL(string: "\(url)") , placeholderImage: UIImage(named: "Placeholder") , options: .continueInBackground)
-                }
-            }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        DataService.instance.currentUserInfo { (user) in
+            self.nameField.text = user?.name
+            self.emailField.text = Auth.auth().currentUser?.email
+            self.websiteField.text = user?.website
+            self.profileImage.setImageWith(URL(string: (user?.profilePicUrl!)!), placeholderImage: #imageLiteral(resourceName: "Placeholder"))
         }
+        imagePicker.delegate = self
     }
+    
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -49,62 +44,73 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
     
     
     @IBAction func doneBtnTapped(_ sender: Any) {
+        let activityIndicator = UIActivityIndicatorView()
         DispatchQueue.main.async {
-            let activityIndicator = UIActivityIndicatorView()
             activityIndicator.hidesWhenStopped = true
             activityIndicator.activityIndicatorViewStyle = .gray
             let spinner: UIBarButtonItem = UIBarButtonItem(customView: activityIndicator)
             self.navigationItem.rightBarButtonItem = spinner
             activityIndicator.startAnimating()
         }
-        
         let name = self.nameField.text!
         let email = self.emailField.text!
         let website = self.websiteField.text!
-        
-        
-        DispatchQueue.global(qos: .background).async {
-            FIRAuth.auth()?.currentUser?.updateEmail(email, completion: { (error) in
-                if error != nil {
-                    print(error!.localizedDescription)
-                }
-            })
-            let imageData = UIImageJPEGRepresentation(self.profileImage.image!, 1)
-            let imagePath = "profileImage\(String(describing: self.user.userId))userPic.jpeg"
-            let imageRef = DataService.instance.REF_STORAGE.child(imagePath)
-            let metaData = FIRStorageMetadata()
-            metaData.contentType = "image/jpeg"
-            
-            imageRef.put(imageData!, metadata: metaData) { (metaData, error) in
-                let changeRequest = FIRAuth.auth()?.currentUser?.profileChangeRequest()
-                changeRequest?.displayName = name
-                if let photoUrl = metaData?.downloadURL() {
-                    changeRequest?.photoURL = photoUrl
-                }
-                changeRequest?.commitChanges(completion: { (error) in
-                    if error == nil {
-                        let user = FIRAuth.auth()!.currentUser!
-                        let userInfo = ["email": email, "name": name, "uid": user.uid, "profileImg": String(describing: user.photoURL!), "website": website] as [String : Any]
-                        let userRef = DataService.instance.REF_USERS.child(user.uid)
-                        userRef.updateChildValues(userInfo, withCompletionBlock: { (error, reference) in
-                            if error != nil {
-                                print("ERROR:\(String(describing: error?.localizedDescription))")
-                            }  else {
-                                DispatchQueue.main.async {
-                                    _ = self.navigationController?.popToRootViewController(animated: true)
-                                }
-                            }
-                        })
-                    }
-                })
-            }
-        }
+        let data = UIImageJPEGRepresentation(profileImage.image!, 0.1)
+        DataService.instance.saveCurrentUserInfo(name: name, email: email, data: data!)
+        activityIndicator.stopAnimating()
     }
     
     
+    
+    func editPhotoAlert() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let takePhoto = UIAlertAction(title: "Take a Picture", style: .default) { (action) in
+            self.openCamera()
+        }
+        
+        let library = UIAlertAction(title: "Photo Library", style: .default) { (action) in
+            self.openLibrary()
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(takePhoto)
+        alert.addAction(library)
+        alert.addAction(cancel)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    
+    func openCamera() {
+        if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)) {
+            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+            imagePicker.allowsEditing = true
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    func openLibrary() {
+        imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        imagePicker.allowsEditing = true
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+    
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            profileImage.image = image
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+
+
+    
     @IBAction func editImageBtnTapped(_ sender: Any) {
-        let alert = Alerts()
-        alert.changeProfilePicture(self)
+         editPhotoAlert()
     }
     
     
@@ -115,13 +121,5 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 1.0
     }
- 
 
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            profileImage.image = image
-        }
-        dismiss(animated: true, completion: nil)
-    }
 }

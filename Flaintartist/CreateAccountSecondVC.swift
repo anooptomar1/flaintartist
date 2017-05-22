@@ -26,7 +26,7 @@ class CreateArtistSecondVC: UIViewController , UITextFieldDelegate, UITextViewDe
     
     
     
-    let storage = FIRStorage.storage()
+    let storage = Storage.storage()
     
     var info: [String] = []
 
@@ -44,7 +44,7 @@ class CreateArtistSecondVC: UIViewController , UITextFieldDelegate, UITextViewDe
         
         nameTextField.delegate = self
         
-        NotificationCenter.default.addObserver(self, selector: #selector(FeedbackVC.textChanged(sender:)), name: NSNotification.Name.UITextFieldTextDidChange, object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(FeedbackVC.textChanged(sender:)), name: NSNotification.Name.UITextFieldTextDidChange, object: nil)
         doneBtn.isEnabled = false
     }
     

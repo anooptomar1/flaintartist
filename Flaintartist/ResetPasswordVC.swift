@@ -75,7 +75,7 @@ class ResetPasswordVC: UIViewController, UITextFieldDelegate {
         indicator.startAnimating()
         let email = emailTextField.text!
         let alert = Alerts()
-        FIRAuth.auth()?.sendPasswordReset(withEmail: email, completion: { (error) in
+        Auth.auth().sendPasswordReset(withEmail: email, completion: { (error) in
             if error != nil {
                 alert.showAlert("Error", message: error!.localizedDescription, target: self)
                 self.indicator.stopAnimating()

@@ -48,7 +48,7 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     
     let editNotif = NSNotification.Name("Show")
     let cancelNotif = NSNotification.Name("Hide")
-    var likesRef: FIRDatabaseReference!
+    var likesRef: DatabaseReference!
     
     // Action 
     var wallViewAction: (() -> Void)?
@@ -115,7 +115,6 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     
     func configureCell(forArt: Art) {
         self.art = forArt
-        likesRef = DataService.instance.REF_USER_CURRENT.child("likes").child(self.art!.artID)
         let myBlock: SDWebImageCompletionBlock! = { [weak self] (image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
             if let img = image {
                 DispatchQueue.main.async {
@@ -126,32 +125,6 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         queue.async(qos: .background) {
             self.artImageView.sd_setImage(with: URL(string: self.art!.imgUrl) , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
         }
-        
-        DispatchQueue.main.async {
-            let attributedString = NSMutableAttributedString(string: "\(self.art!.title)")
-            let loveAttachment = NSTextAttachment()
-            if self.art?.isPrivate == true {
-            loveAttachment.image = UIImage(named: "Lock Filled-10")
-            }
-            attributedString.append(NSAttributedString(attachment: loveAttachment))
-            self.titleLbl.attributedText = attributedString
-            let date = convertDate(postDate: self.art!.postDate)
-            self.textView.text = "\( self.art!.artHeight)'H x \(self.art!.artWidth)'W - \(self.art!.price)$ / month - \(self.art!.type) \n \(date) \n \(self.art!.description)."
-        }
-        
-        likesRef.observeSingleEvent(of: .value, with: { (snapshot) in
-            if let _ = snapshot.value as? NSNull {
-                DispatchQueue.main.async {
-                    self.likeBtn.setImage( UIImage(named: "Likes-18"), for: .normal)
-                    self.likeLbl.text = "\(self.art!.likes)"
-                }
-            } else {
-                DispatchQueue.main.async {
-                    self.likeBtn.setImage( UIImage(named: "Like Filled-15"), for: .normal)
-                    self.likeLbl.text = "\(self.art!.likes)"
-                }
-            }
-        })
     }
     
     

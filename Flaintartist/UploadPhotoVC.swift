@@ -89,8 +89,9 @@ class UploadPhotoVC: UIViewController, UICollectionViewDataSource, UICollectionV
 
     
     @IBAction func cancelBtnTapped(_ sender: Any) {
-        let tabBarVC = storyboard?.instantiateViewController(withIdentifier: "TabBarVC")
-        self.present(tabBarVC!, animated: true, completion: nil)
+//        let tabBarVC = storyboard?.instantiateViewController(withIdentifier: "TabBarVC")
+//        self.present(tabBarVC!, animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     

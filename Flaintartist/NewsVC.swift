@@ -49,7 +49,7 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
     
     let locationManager = CLLocationManager()
     var geoFire: GeoFire!
-    var userId = FIRAuth.auth()?.currentUser?.uid
+    var userId = Auth.auth().currentUser?.uid
     var startLocation: CLLocation!
     
     
@@ -64,9 +64,9 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
         collectionView.dataSource = self
         
         queue.async(qos: .userInitiated) {
-            DataService.instance.REF_ARTS.queryOrdered(byChild: "type").queryEqual(toValue: "Modern").queryLimited(toLast: 4).observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
+            DataService.instance.REF_ARTS.queryOrdered(byChild: "type").queryEqual(toValue: "Modern").queryLimited(toLast: 4).observe(.value) { [weak self] (snapshot: DataSnapshot) in
                 self?.modern = []
-                if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
+                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                     for snap in snapshot {
                         if let dict = snap.value as? NSDictionary, let isPrivate = dict["private"] as? Bool {
                             if isPrivate == false {
@@ -84,9 +84,9 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
                 }
             }
             
-            DataService.instance.REF_USERS.queryOrdered(byChild: "userType").queryEqual(toValue: "artist").queryLimited(toFirst: 7).observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
+            DataService.instance.REF_USERS.queryOrdered(byChild: "userType").queryEqual(toValue: "artist").queryLimited(toFirst: 7).observe(.value) { [weak self] (snapshot: DataSnapshot) in
                 self?.newUsers = []
-                if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
+                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                     for snap in snapshot {
                         if let dict = snap.value as? NSDictionary, let uid = dict["uid"] as? String {
                             if let postDict = snap.value as? Dictionary<String, AnyObject> {
@@ -104,9 +104,9 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
                 }
             }
             
-            DataService.instance.REF_ARTS.queryOrdered(byChild: "type").queryEqual(toValue: "Abstract").queryLimited(toLast: 4).observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
+            DataService.instance.REF_ARTS.queryOrdered(byChild: "type").queryEqual(toValue: "Abstract").queryLimited(toLast: 4).observe(.value) { [weak self] (snapshot: DataSnapshot) in
                 self?.abstract = []
-                if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
+                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                     for snap in snapshot {
                         if let dict = snap.value as? NSDictionary, let isPrivate = dict["private"] as? Bool {
                             if isPrivate == false {
@@ -124,9 +124,9 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
                 }
             }
             
-            DataService.instance.REF_ARTS.queryOrdered(byChild: "type").queryEqual(toValue: "Realism").queryLimited(toLast: 4).observe(.value) { [weak self] (snapshot: FIRDataSnapshot) in
+            DataService.instance.REF_ARTS.queryOrdered(byChild: "type").queryEqual(toValue: "Realism").queryLimited(toLast: 4).observe(.value) { [weak self] (snapshot: DataSnapshot) in
                 self?.realism = []
-                if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
+                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                     for snap in snapshot {
                         if let dict = snap.value as? NSDictionary, let isPrivate = dict["private"] as? Bool {
                             if isPrivate == false {

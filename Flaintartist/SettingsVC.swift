@@ -27,6 +27,9 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         options = ["Edit Account", "Privacy Policy", "Log Out"]
     }
     
+    @IBAction func doneBtnTapped(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -38,7 +41,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         if indexPath.row == 0 {
             return 55
         }
-        
         return 50
     }
     
@@ -56,16 +58,15 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EditProfileCell", for: indexPath) as! EditProfileCell
-            DispatchQueue.main.async {
-                if let url = self.user.profilePicUrl {
-                    cell.profileImgView.sd_setImage(with: URL(string: "\(url)") , placeholderImage: UIImage(named: "Placeholder") , options: .continueInBackground)
-                }
-                cell.nameLbl.text = self.user.name
-            }
+            cell.configureCell()
+            
             return cell
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell", for: indexPath) as! SettingsCell
+        if indexPath.row == 2 {
+            cell.optionLbl.textColor = UIColor.flatRedColorDark()
+        }
         cell.optionLbl.text = options[indexPath.row]
         return cell
     }
@@ -91,7 +92,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return 0.1
     }
     
-    
+
     func reportProblemAlert(){
         let problem = UIAlertController(title: "Report a Problem", message: "", preferredStyle: .alert)
         let SomethingNotWorking = UIAlertAction(title: "Something Is Not Working", style: .default) { (UIAlertAction) in
@@ -121,10 +122,10 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 Defaults.remove(.accountType)
             
             
-                let firebaseAuth = FIRAuth.auth()
+                let firebaseAuth = Auth.auth()
             do {
                 
-                try firebaseAuth!.signOut()
+                try firebaseAuth.signOut()
                 DispatchQueue.main.async {
                     let controller = self.storyboard!.instantiateViewController(withIdentifier: "LogInNav")
                     self.present(controller, animated: true, completion: nil)
@@ -143,10 +144,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         if segue.identifier == "EditAccountVC" {
             let editAccountVC = segue.destination as! EditAccountVC
             editAccountVC.hidesBottomBarWhenPushed = true
-        } else if segue.identifier == "FeedbackVC" {
-            let feedbackVC = segue.destination as! FeedbackVC
-            let report = sender as! [String]
-            feedbackVC.report = report
         } else if segue.identifier == "PrivacyVC" {
             let feedbackVC = segue.destination as! PrivacyVC
             feedbackVC.hidesBottomBarWhenPushed = true

@@ -28,9 +28,9 @@ class NewArtistTabCell: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        FIRDatabase.database().reference().child("users").queryOrdered(byChild: "userType").queryEqual(toValue : "artist").observe(.value) { (snapshot: FIRDataSnapshot) in
+        Database.database().reference().child("users").queryOrdered(byChild: "userType").queryEqual(toValue : "artist").observe(.value) { (snapshot: DataSnapshot) in
             self.users = []
-            if let snapshot = snapshot.children.allObjects as? [FIRDataSnapshot] {
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
                     if let postDict = snap.value as? Dictionary<String, AnyObject> {
                         let key = snap.key

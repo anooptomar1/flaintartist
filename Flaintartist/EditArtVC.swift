@@ -50,7 +50,7 @@ class EditArtVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     
     var doneBtn = UIBarButtonItem()
     var user: Users!
-    let storage = FIRStorage.storage()
+    let storage = Storage.storage()
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -125,7 +125,7 @@ class EditArtVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         activityIndicator.startAnimating()
         
         
-        let uid = FIRAuth.auth()?.currentUser?.uid
+        let uid = Auth.auth().currentUser?.uid
         let price:Int? = Int(priceTextField.text!)
         let title = titleTextField.text!
         let desc = descTextView.text!
@@ -371,10 +371,10 @@ class EditArtVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     func done() {
         if let imgData =  UIImageJPEGRepresentation(artImg, 0.0) {
             let imgUID = NSUUID().uuidString
-            let metadata = FIRStorageMetadata()
+            let metadata = StorageMetadata()
             metadata.contentType = "image/jpeg"
-            let userUID = (FIRAuth.auth()?.currentUser?.uid)!
-            DataService.instance.REF_STORAGE.child("Arts").child(userUID).child(imgUID).put(imgData, metadata: metadata){(metaData,error) in
+            let userUID = (Auth.auth().currentUser?.uid)!
+            DataService.instance.REF_STORAGE.child("Arts").child(userUID).child(imgUID).putData(imgData, metadata: metadata){(metaData,error) in
                 if let error = error {
                     print(error.localizedDescription)
                     return
