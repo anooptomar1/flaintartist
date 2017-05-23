@@ -8,7 +8,7 @@
 
 import UIKit
 import SDWebImage
-import FirebaseAuth
+import Firebase
 import FirebaseDatabase
 
 class ProfileArtTabCell: UITableViewCell {

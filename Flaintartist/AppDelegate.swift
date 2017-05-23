@@ -73,14 +73,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     func logIn() {
-        print("APP DELEGATE LOGIN")
         let tabBar = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ProfileNav") as! UINavigationController
         self.window?.rootViewController = tabBar
         self.window?.makeKeyAndVisible()
     }
-    
-
-    
+        
     
     
     func userIsLoggingIn() {

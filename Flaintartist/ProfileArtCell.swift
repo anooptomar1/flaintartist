@@ -122,7 +122,7 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
                 }
             }
         }
-        queue.async(qos: .background) {
+        queue.async(qos: .default) {
             self.artImageView.sd_setImage(with: URL(string: self.art!.imgUrl) , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
         }
     }

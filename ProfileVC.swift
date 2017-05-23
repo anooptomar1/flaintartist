@@ -16,20 +16,16 @@ import ChameleonFramework
 import SwiftyUserDefaults
 
 
-class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource,  UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating {
+class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource,  UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating{
     
-    @available(iOS 8.0, *)
-    func updateSearchResults(for searchController: UISearchController) {
-        
-    }
-
     
     @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var pageControl: UIPageControl!
+    @IBOutlet weak var bottomView: UIView!
     
     var user: Users?
     var arts = [Art]()
+    var filteredArts = [Art]()
     var art: Art?
     var artImg = UIImage()
     let refreshCtrl = UIRefreshControl()
@@ -50,6 +46,13 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     let ref =  DataService.instance.REF_ARTISTARTS.child((Auth.auth().currentUser?.uid)!)
     
     var v: UIImageView?
+    var pageControl: FlexiblePageControl!
+
+    var titles: [String] = []
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,20 +60,21 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         v = UIImageView(frame: CGRect(x: CGFloat(2), y: CGFloat(2), width: CGFloat(20), height: CGFloat(20)))
         let width: CGFloat = v!.frame.size.width
         let height: CGFloat = v!.frame.size.height
-        let holderView = UIView(frame: CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(width + 4), height: CGFloat(height + 4)))
-        holderView.layer.cornerRadius = (holderView.frame.width) / 2
-        holderView.layer.borderWidth = 1.5
-        holderView.layer.borderColor = UIColor.flatSkyBlueColorDark().cgColor
-        holderView.addSubview((v)!)
+        
         v?.contentMode = .scaleAspectFill
         v?.layer.masksToBounds = true
         v?.layer.cornerRadius = (v?.frame.width)! / 2
         v?.isUserInteractionEnabled = true
 
-        v?.layer.borderWidth = 1.5
+        v?.layer.borderWidth = 1.3
         v?.layer.borderColor = UIColor.white.cgColor
+        let frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(width + 4), height: CGFloat(height + 4))
+        let progressIndicatorView = CircularLoaderView(frame: frame)
+        progressIndicatorView.addSubview(v!)
+        progressIndicatorView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        progressIndicatorView.progress = CGFloat(1)/CGFloat(1)
     
-        let profileBtn = UIBarButtonItem(customView: holderView)
+        let profileBtn = UIBarButtonItem(customView: progressIndicatorView)
         v?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(settingsBtnTapped(_:))))
         self.navigationItem.rightBarButtonItem = profileBtn
 
@@ -78,6 +82,9 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         collectionView.dataSource = self
         collectionView.emptyDataSetSource = self
         collectionView.emptyDataSetDelegate = self
+        
+        
+
         
         DataService.instance.currentUserInfo { (user) in
             self.v?.setImageWith(URL(string: (user?.profilePicUrl)! ), placeholderImage: #imageLiteral(resourceName: "Placeholder"))
@@ -92,22 +99,79 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         self.searchController.searchBar.sizeToFit()
         self.searchController.searchBar.showsCancelButton = false
         self.searchController.searchBar.placeholder = "Search"
+        self.searchController.searchBar.returnKeyType = .done
         self.searchController.hidesNavigationBarDuringPresentation = false
         self.searchController.searchBar.searchBarStyle = .minimal
         self.searchController.searchBar.becomeFirstResponder()
         self.navigationItem.titleView = searchController.searchBar
         self.searchController.dimsBackgroundDuringPresentation = false
         
+        
+        
+        
+        pageControl = FlexiblePageControl(frame: bottomView.bounds)
+        pageControl.isUserInteractionEnabled = true
+        pageControl.dotSize = 6
+        pageControl.dotSpace = 5
+        pageControl.hidesForSinglePage = true
+        pageControl.displayCount = 8
+        
+        pageControl.pageIndicatorTintColor = UIColor.flatGray()
+        pageControl.currentPageIndicatorTintColor = UIColor.flatSkyBlueColorDark()
+        pageControl.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        bottomView.addSubview(pageControl)
+        pageControl.updateViewSize()
+
+
+        
+        let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipe))
+        view.addGestureRecognizer(swipeLeftGesture)
+        swipeLeftGesture.direction = .left
+        
+        
         //refreshCtrl.tintColor = UIColor.flatBlack()
         //refreshCtrl.addTarget(self, action: #selector(ProfileVC.refresh), for: UIControlEvents.valueChanged)
-        
-    
         
 //        NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
 //        NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
+    func swipe() {
+        print("SWIPE")
+         let visibleItems = self.collectionView.indexPathsForVisibleItems as NSArray
+        
+        let currentItem: NSIndexPath = visibleItems.object(at: 0) as! NSIndexPath 
+        guard let nextItem = IndexPath(row: currentItem.row + 1, section: 0) as? IndexPath else {
+            return
+        }
+        self.collectionView.scrollToItem(at: nextItem , at: .left, animated: true)
+    }
+     
+   
     
+    
+    //MARK: Filter
+    func filterContentForSearchText(searchText: String, scope: String = "All") {
+        filteredArts = arts.filter { art in
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+            return (art.title.lowercased().contains(searchText.lowercased()))
+        }
+    }
+    
+    //MARK: SearchResultDelegate
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchBarText = searchController.searchBar.text!
+        filterContentForSearchText(searchText: searchBarText)
+        self.searchController = searchController
+    }
+    
+    
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.searchController.searchBar.endEditing(true)
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -139,12 +203,12 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             }
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
+                self?.pageControl.numberOfPages = (self?.arts.count)!
             }
         }, withCancel: nil)
         
         
         ref.observe(.childRemoved, with: { (snapshot) in
-            print("SNAPSHOTKEY: \(snapshot.key)")
             DispatchQueue.main.async {
                 //self.collectionView.reloadData()
             }
@@ -152,6 +216,10 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         }, withCancel: nil)
     }
     
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        pageControl.setProgress(contentOffsetX: scrollView.contentOffset.x, pageWidth: scrollView.bounds.width)
+    }
     
     
     @IBAction func addBtnTapped(_ sender: Any) {
@@ -177,18 +245,32 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        pageControl.numberOfPages = 10
-        return arts.count
+        if searchController.isActive && searchController.searchBar.text != "" {
+            return filteredArts.count
+        } else {
+            return arts.count
+        }
     }
-    
+
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let art = arts[indexPath.row]
+        var art = arts[indexPath.row]
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileArtCell", for: indexPath) as? ProfileArtCell {
-            DispatchQueue.main.async {
+            
+            let indicator = UIActivityIndicatorView(frame: cell.bounds)
+            indicator.activityIndicatorViewStyle = .gray
+            indicator.hidesWhenStopped = true
+            indicator.startAnimating()
+            cell.contentView.addSubview(indicator)
+
+            if searchController.isActive && searchController.searchBar.text != "" {
+                art = filteredArts[indexPath.row]
+            } else {
+                art = arts[indexPath.row]
+            }
                 cell.artRoomScene.boxnode.removeFromParentNode()
                 cell.configureCell(forArt: art)
-            }
+            indicator.isHidden = true
 //            cell.wallViewAction = {self.wallView(artImage: cell.artImageView.image!, art: art, artRoomScene: cell.artRoomScene)}
             return cell
         } else {
@@ -199,11 +281,19 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        let art = arts[indexPath.row]
+        let art: Art?
+        
+        if searchController.isActive && searchController.searchBar.text != "" {
+            art = filteredArts[indexPath.row]
+        } else {
+            art = arts[indexPath.row]
+        }
+        
+        
         if let cell = collectionView.cellForItem(at: indexPath) as? ProfileArtCell {
             let artImage = cell.artImageView.image
             let artRoomScene = cell.artRoomScene
-            self.showRequestAlert(artImage: artImage!, art: art, artRoomScene: artRoomScene)
+            self.showRequestAlert(artImage: artImage, art: art, artRoomScene: artRoomScene)
         }
     }
     
@@ -280,11 +370,11 @@ extension ProfileVC {
         }
     }
     
-    func showRequestAlert(artImage: UIImage, art: Art, artRoomScene: ArtRoomScene) {
+    func showRequestAlert(artImage: UIImage?, art: Art?, artRoomScene: ArtRoomScene) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let edit = UIAlertAction(title: "Edit", style: .default) { (action) in
-            self.edit(forArt: art)
+            self.edit(forArt: art!)
         }
         
         let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
@@ -302,7 +392,15 @@ extension ProfileVC {
         alert.addAction(share)
         alert.addAction(remove)
         alert.addAction(cancel)
-        self.present(alert, animated: true, completion: nil)
+        
+        
+        if self.presentedViewController == nil {
+            self.present(alert, animated: true, completion: nil)
+        }
+        else {
+            self.dismiss(animated: false, completion: nil)
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     

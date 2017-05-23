@@ -115,8 +115,8 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func logoutAlert() {
         let vc = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .alert)
-        let no = UIAlertAction(title: "No", style: .cancel, handler: nil)
-        let yes = UIAlertAction(title: "Yes", style: .default) { (UIAlertAction) in
+        let no = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let yes = UIAlertAction(title: "Log Out", style: .default) { (UIAlertAction) in
             
                 Defaults.remove(.key_uid)
                 Defaults.remove(.accountType)

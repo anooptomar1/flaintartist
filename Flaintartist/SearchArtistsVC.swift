@@ -147,11 +147,11 @@ class SearchVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     
     //MARK: CollectionView
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    /*func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "ArtistHeaderView", for: indexPath) as! HeaderCollectionReusableView
         headerView.headerLbl.text = typeOfArtist[indexPath.section]
         return headerView
-    }
+    }*/
     
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {

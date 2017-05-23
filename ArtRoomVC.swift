@@ -225,7 +225,7 @@ class ArtRoomVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             if let _ = snapshot.value as? NSNull {
                 DispatchQueue.main.async {
                   sender.setImage( UIImage(named: "Hearts Filled-22"), for: .normal)
-                  generateAnimatedView(view: self.view, position: self.likeBtn.layer.position)
+                  //generateAnimatedView(view: self.view, position: self.likeBtn.layer.position)
                   self.likeLbl.text = "\(self.post.likes)"
                 }
                     self.post.adjustLikes(addLike: true)

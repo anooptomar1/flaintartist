@@ -42,7 +42,7 @@ open class BTNavigationDropdownMenu: UIView {
     // The height of the cell. Default is 50
     open var cellHeight: NSNumber! {
         get {
-            return self.configuration.cellHeight as NSNumber
+            return CGFloat(self.configuration.cellHeight) as NSNumber
         }
         set(value) {
             self.configuration.cellHeight = CGFloat(value)
@@ -298,7 +298,7 @@ open class BTNavigationDropdownMenu: UIView {
         
         // Init table view
         let navBarHeight = self.navigationController?.navigationBar.bounds.size.height ?? 0
-        let statusBarHeight = UIApplication.shared.statusBarFrame.height ?? 0
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height 
         self.tableView = BTTableView(frame: CGRect(x: menuWrapperBounds.origin.x, y: menuWrapperBounds.origin.y + 0.5, width: menuWrapperBounds.width, height: menuWrapperBounds.height + 300 - navBarHeight - statusBarHeight), items: items, title: title, configuration: self.configuration)
         
         self.tableView.selectRowAtIndexPathHandler = { [weak self] (indexPath: Int) -> () in

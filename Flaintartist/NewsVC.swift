@@ -217,11 +217,11 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
 
 
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+   /* func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "NewsHeaderView", for: indexPath) as! HeaderCollectionReusableView
         headerView.headerLbl.text = categories[indexPath.section]
         return headerView
-    }
+    }*/
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return categories.count
@@ -354,12 +354,12 @@ class NewsVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate,
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "AllVC" {
+        /*if segue.identifier == "AllVC" {
             let vc = segue.destination as! AllVC
             if let type = sender as? String {
                 vc.type = type
             }
-        }
+        }*/
         
         if segue.identifier == "ArtRoomVC" {
             if let artRoomVC = segue.destination as? ArtRoomVC {

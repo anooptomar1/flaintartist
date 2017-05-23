@@ -67,9 +67,9 @@ class DataService {
     }
     
     
-    var REF_MAILGUN: Mailgun {
+    /*var REF_MAILGUN: Mailgun {
         return Mailgun.client(withDomain: "sandbox9e1ee9467d7b4efcbe9fc7f8a93c8873.mailgun.org", apiKey: "key-93800f7299c38f6fc13ca91a5db68f95")
-    }
+    }*/
     
 
     
@@ -165,11 +165,11 @@ class DataService {
             }
             let email = Defaults[.email]
             let name = Defaults[.name]
-            DataService.instance.REF_MAILGUN.sendMessage(to: "kerby.jean@hotmail.fr", from: email , subject: "REQUEST", body: "\(name) is requesting \(title) from \(userUID)", success: { (success) in
+           /* DataService.instance.REF_MAILGUN.sendMessage(to: "kerby.jean@hotmail.fr", from: email , subject: "REQUEST", body: "\(name) is requesting \(title) from \(userUID)", success: { (success) in
                 print(success!)
             }, failure: { (error) in
                 print(error!)
-            })
+            })*/
         }
     }
     

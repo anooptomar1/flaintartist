@@ -54,21 +54,21 @@ class ReportVC: UITableViewController {
         
         if !self.artInfo.isEmpty {
         if let art = self.artInfo[1] as? Art {
-        DataService.instance.REF_MAILGUN.sendMessage(to: "kerby.jean@hotmail.fr", from: "user@hotmail.fr", subject: "Report Art", body: "Report type: \(reportType), Art Title: \(art.title), Artist: \(art.userUid)", success: { (success) in
+        /*DataService.instance.REF_MAILGUN.sendMessage(to: "kerby.jean@hotmail.fr", from: "user@hotmail.fr", subject: "Report Art", body: "Report type: \(reportType), Art Title: \(art.title), Artist: \(art.userUid)", success: { (success) in
             self.confirmAlert(title:"\(art.title) Reported" , message: "Your opinion is important for us. We'll contact you soon for more information. Thank you.")
             self.cancelBtn.title = "Done"
         }, failure: { (error) in
             self.confirmAlert(title:"Failed to report" , message: "Sorry the request failed. Please try again.")
-        })
+        })*/
       }
         } else {
           
-            DataService.instance.REF_MAILGUN.sendMessage(to: "kerby.jean@hotmail.fr", from: userEmail, subject: "Report User", body: "Report type: \(reportType), Artist name: \(user!.name)", success: { (success) in
+            /*DataService.instance.REF_MAILGUN.sendMessage(to: "kerby.jean@hotmail.fr", from: userEmail, subject: "Report User", body: "Report type: \(reportType), Artist name: \(user!.name)", success: { (success) in
                 self.confirmAlert(title:"\(user!.name) has been Reported" , message: "Your opinion is important for us. We'll contact you soon for more information. Thank you.")
             self.cancelBtn.title = "Done"
             }, failure: { (error) in
                 self.confirmAlert(title:"Failed to report" , message: "Sorry the request failed. Please try again.")
-            })
+            })*/
 
         }
 }
