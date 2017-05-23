@@ -21,7 +21,10 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var bottomStackView: UIStackView!
+    @IBOutlet weak var bottomLine: UIView!
     @IBOutlet weak var bottomView: UIView!
+    @IBOutlet weak var swipeLabel: UILabel!
     
     var user: Users?
     var arts = [Art]()
@@ -137,7 +140,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     }
     
     func swipe() {
-        print("SWIPE")
          let visibleItems = self.collectionView.indexPathsForVisibleItems as NSArray
         
         let currentItem: NSIndexPath = visibleItems.object(at: 0) as! NSIndexPath 
@@ -145,6 +147,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             return
         }
         self.collectionView.scrollToItem(at: nextItem , at: .left, animated: true)
+        swipeLabel.isHidden = true
     }
      
    
@@ -245,6 +248,14 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if arts.count < 2 {
+            bottomLine.alpha = 0
+            bottomView.alpha = 0
+        } else if arts.count > 2 {
+            bottomLine.alpha = 1
+            bottomView.alpha = 1
+        }
+        
         if searchController.isActive && searchController.searchBar.text != "" {
             return filteredArts.count
         } else {
@@ -256,7 +267,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var art = arts[indexPath.row]
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileArtCell", for: indexPath) as? ProfileArtCell {
-            
+
             let indicator = UIActivityIndicatorView(frame: cell.bounds)
             indicator.activityIndicatorViewStyle = .gray
             indicator.hidesWhenStopped = true
@@ -344,7 +355,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     //MARK: DZNEmptyDataSet
     func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
         let attrs = [NSFontAttributeName: UIFont.systemFont(ofSize: 14)]
-        return NSAttributedString(string: "You have no artwork yet. Click on the capture button to start sharing.", attributes: attrs)
+        return NSAttributedString(string: "You have no artwork yet. Click on the ＋ button to add.", attributes: attrs)
     }
 }
 
