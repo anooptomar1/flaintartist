@@ -61,42 +61,6 @@ class Alerts {
             .textPadding(30.0)
             ])
     }
-    
-    
-    // Change picture alert
-    func changeProfilePicture(_ target: UIViewController) {
-        let camera = Camera(delegate_: target as! UIImagePickerControllerDelegate & UINavigationControllerDelegate)
-        let changeProfilePictureSheet = UIAlertController(title: "Change profile picture", message: "", preferredStyle: .actionSheet)
-        let cameraAction = UIAlertAction(title: "Take photo", style: .default) { (UIAlertAction) in
-            camera.PresentPhotoCamera(target, canEdit: true)
-        }
-        let libraryAction = UIAlertAction(title: "Choose from Library", style: .default) { (UIAlertAction) in
-            camera.PresentPhotoLibrary(target, canEdit: true)
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        changeProfilePictureSheet.addAction(cameraAction)
-        changeProfilePictureSheet.addAction(libraryAction)
-        changeProfilePictureSheet.addAction(cancelAction)
-        target.present(changeProfilePictureSheet, animated: true, completion: nil)
-    }
-    
-    
-    
-    
-    func changeBackgroundPicture(_ target: UIViewController) {
-        let camera = Camera(delegate_: target as! UIImagePickerControllerDelegate & UINavigationControllerDelegate)
-        let changeBackgroundPictureSheet = UIAlertController(title: "Change background picture", message: "", preferredStyle: .actionSheet)
-        let cameraAction = UIAlertAction(title: "Take photo", style: .default) { (UIAlertAction) in
-            camera.PresentPhotoCamera(target, canEdit: true)
-        }
-        let libraryAction = UIAlertAction(title: "Choose from Library", style: .default) { (UIAlertAction) in
-            camera.PresentPhotoLibrary(target, canEdit: true)
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        changeBackgroundPictureSheet.addAction(cameraAction)
-        changeBackgroundPictureSheet.addAction(libraryAction)
-        changeBackgroundPictureSheet.addAction(cancelAction)
-        target.present(changeBackgroundPictureSheet, animated: true, completion: nil)
-    }
+   
 }
 

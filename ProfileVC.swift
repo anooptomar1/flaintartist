@@ -10,21 +10,23 @@ import UIKit
 import SceneKit
 import Firebase
 import SDWebImage
+import AVFoundation
 import SwiftMessages
 import DZNEmptyDataSet
 import ChameleonFramework
 import SwiftyUserDefaults
 
 
-class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource,  UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating{
+class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource,  UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating, AVCaptureVideoDataOutputSampleBufferDelegate{
     
     
-    @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var bottomStackView: UIStackView!
     @IBOutlet weak var bottomLine: UIView!
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var swipeLabel: UILabel!
+    @IBOutlet weak var messageBtn: UIBarButtonItem!
+    @IBOutlet weak var preview: UIView!
     
     var user: Users?
     var arts = [Art]()
@@ -50,8 +52,9 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     var v: UIImageView?
     var pageControl: FlexiblePageControl!
+    
 
-    var titles: [String] = []
+    var cell: ProfileArtCell?
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
@@ -60,7 +63,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        v = UIImageView(frame: CGRect(x: CGFloat(2), y: CGFloat(2), width: CGFloat(20), height: CGFloat(20)))
+        v = UIImageView(frame: CGRect(x: CGFloat(2), y: CGFloat(2), width: CGFloat(25), height: CGFloat(25)))
         let width: CGFloat = v!.frame.size.width
         let height: CGFloat = v!.frame.size.height
         
@@ -79,16 +82,13 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
         let profileBtn = UIBarButtonItem(customView: progressIndicatorView)
         v?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(settingsBtnTapped(_:))))
-        self.navigationItem.rightBarButtonItem = profileBtn
+        self.navigationItem.leftBarButtonItem = profileBtn
 
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.emptyDataSetSource = self
         collectionView.emptyDataSetDelegate = self
-        
-        
 
-        
         DataService.instance.currentUserInfo { (user) in
             self.v?.setImageWith(URL(string: (user?.profilePicUrl)! ), placeholderImage: #imageLiteral(resourceName: "Placeholder"))
         }
@@ -108,16 +108,14 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         self.searchController.searchBar.becomeFirstResponder()
         self.navigationItem.titleView = searchController.searchBar
         self.searchController.dimsBackgroundDuringPresentation = false
-        
-        
-        
+
         
         pageControl = FlexiblePageControl(frame: bottomView.bounds)
         pageControl.isUserInteractionEnabled = true
         pageControl.dotSize = 6
         pageControl.dotSpace = 5
         pageControl.hidesForSinglePage = true
-        pageControl.displayCount = 8
+        pageControl.displayCount = 5
         
         pageControl.pageIndicatorTintColor = UIColor.flatGray()
         pageControl.currentPageIndicatorTintColor = UIColor.flatSkyBlueColorDark()
@@ -130,13 +128,24 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipe))
         view.addGestureRecognizer(swipeLeftGesture)
         swipeLeftGesture.direction = .left
-        
-        
-        //refreshCtrl.tintColor = UIColor.flatBlack()
-        //refreshCtrl.addTarget(self, action: #selector(ProfileVC.refresh), for: UIControlEvents.valueChanged)
+
         
 //        NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
 //        NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+        
+    }
+    
+    @IBAction func cameraBtnTapped(sender: UIButton) {
+        UIView.animate(withDuration: 1.0) { 
+            if #available(iOS 10.0, *) {
+                self.setupAVCapture(view: self.preview)
+                self.cell?.scnView.backgroundColor = UIColor.clear
+                self.navigationController?.setNavigationBarHidden(true, animated: true)
+            } else {
+                // Fallback on earlier versions
+            }
+        }
     }
     
     func swipe() {
@@ -191,7 +200,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     
     func loadArts(ref: DatabaseReference) {
-        
         ref.observe(.value, with: {[weak self] (snapshot) in
             self?.arts = []
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
@@ -205,6 +213,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                 }
             }
             DispatchQueue.main.async {
+                self?.messageBtn.setBadge(text: "1")
                 self?.collectionView.reloadData()
                 self?.pageControl.numberOfPages = (self?.arts.count)!
             }
@@ -238,9 +247,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         settingsVC.user = user
         present(settingsNav, animated: true, completion: nil)
     }
-    
-    
-    
+
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -251,7 +258,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         if arts.count < 2 {
             bottomLine.alpha = 0
             bottomView.alpha = 0
-        } else if arts.count > 2 {
+        } else if arts.count > 1 {
             bottomLine.alpha = 1
             bottomView.alpha = 1
         }
@@ -273,6 +280,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             indicator.hidesWhenStopped = true
             indicator.startAnimating()
             cell.contentView.addSubview(indicator)
+            self.cell = cell
 
             if searchController.isActive && searchController.searchBar.text != "" {
                 art = filteredArts[indexPath.row]
@@ -281,7 +289,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             }
                 cell.artRoomScene.boxnode.removeFromParentNode()
                 cell.configureCell(forArt: art)
-            indicator.isHidden = true
+            indicator.removeFromSuperview()
 //            cell.wallViewAction = {self.wallView(artImage: cell.artImageView.image!, art: art, artRoomScene: cell.artRoomScene)}
             return cell
         } else {
@@ -309,29 +317,8 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     }
     
     
-    func tapProfilePicture(_ gesture: UITapGestureRecognizer) {
-        let alert = Alerts()
-        alert.changeProfilePicture(self)
-    }
-    
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == Seg_ArtroomVC {
-            let artRoomVC = segue.destination as! ArtRoomVC
-            artRoomVC.hidesBottomBarWhenPushed = true
-            if let artInfo = sender as? [Any] {
-                artRoomVC.artInfo = artInfo
-            }
-        }
-        
-        if segue.identifier == Seg_WallViewVC {
-            let wallviewVC = segue.destination as! WallViewVC
-            wallviewVC.hidesBottomBarWhenPushed = true
-            if let artImage = sender as? UIImage {
-                wallviewVC.artImage = artImage
-            }
-        }
-        
+
         if segue.identifier == "SettingsVC" {
             let settingsVC = segue.destination as! SettingsVC
             if let user = sender as? Users {
@@ -339,18 +326,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             }
         }
     }
-    
-    
-    
-    
-    @available(iOS 10.0, *)
-    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        let vc = storyboard?.instantiateViewController(withIdentifier: "WebVC") as! WebVC
-        vc.url = URL
-        present(vc, animated: true, completion: nil)
-        return false
-    }
-    
+
     
     //MARK: DZNEmptyDataSet
     func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
@@ -365,21 +341,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
 
 //MARK: Extension Edit Art
 extension ProfileVC {
-    
-    func wallView(artImage: UIImage, art: Art, artRoomScene: ArtRoomScene) {
-        DispatchQueue.main.async {
-            let wallViewVC = self.storyboard?.instantiateViewController(withIdentifier: "WallviewVC") as! WallViewVC
-            wallViewVC.hidesBottomBarWhenPushed = true
-            let artInfo = [artImage, art] as [Any]
-            wallViewVC.artInfo = artInfo
-            wallViewVC.user = self.user
-            wallViewVC.position = artRoomScene.boxnode.position
-            wallViewVC.rotation = artRoomScene.boxnode.rotation
-            wallViewVC.width = artRoomScene.geometry.width
-            wallViewVC.height = artRoomScene.geometry.height
-            self.navigationController?.pushViewController(wallViewVC, animated: false)
-        }
-    }
     
     func showRequestAlert(artImage: UIImage?, art: Art?, artRoomScene: ArtRoomScene) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -399,7 +360,7 @@ extension ProfileVC {
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        alert.addAction(edit)
+        //alert.addAction(edit)
         alert.addAction(share)
         alert.addAction(remove)
         alert.addAction(cancel)
@@ -433,8 +394,8 @@ extension ProfileVC {
 
     
     func cancel() {
-        self.titleLbl.text = user?.name
-        self.titleLbl.textColor = UIColor.flatBlack()
+        //self.titleLbl.text = user?.name
+        //self.titleLbl.textColor = UIColor.flatBlack()
     }
     
     

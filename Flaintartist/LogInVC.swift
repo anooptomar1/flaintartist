@@ -82,7 +82,7 @@ class LogInVC: UIViewController, UITextFieldDelegate {
     
     
     func logIn() {
-        logInBtn.BtnTapped()
+        //logInBtn.BtnTapped()
         logInBtn.setTitle("", for: .normal)
         indicator.isHidden = false
         indicator.startAnimating()

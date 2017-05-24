@@ -14,7 +14,7 @@ class CircularLoaderView: UIView {
 
 
 let circlePathLayer = CAShapeLayer()
-let circleRadius: CGFloat = 12.0
+let circleRadius: CGFloat = 12.5
 
   override init(frame: CGRect) {
       super.init(frame: frame)

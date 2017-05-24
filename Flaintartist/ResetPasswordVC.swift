@@ -13,7 +13,7 @@ class ResetPasswordVC: UIViewController, UITextFieldDelegate {
     
     
     @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var sendBtn: RoundedBtn!
+    @IBOutlet weak var sendBtn: UIButton!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     var email = String()
