@@ -119,9 +119,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let yes = UIAlertAction(title: "Log Out", style: .default) { (UIAlertAction) in
             
                 Defaults.remove(.key_uid)
-                Defaults.remove(.accountType)
-            
-            
                 let firebaseAuth = Auth.auth()
             do {
                 

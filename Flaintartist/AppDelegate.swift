@@ -24,14 +24,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         userIsLoggingIn()
         
-        if Defaults.hasKey(.email) {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let initialViewController = storyboard.instantiateViewController(withIdentifier: "LogInNav")
-            self.window?.rootViewController = initialViewController
-            self.window?.makeKeyAndVisible()
-        } else {
+        if Defaults.hasKey(.key_uid) {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let initialViewController = storyboard.instantiateViewController(withIdentifier: "ProfileNav")
+            self.window?.rootViewController = initialViewController
+            self.window?.makeKeyAndVisible()
+            } else {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let initialViewController = storyboard.instantiateViewController(withIdentifier: "LogInNav")
             self.window?.rootViewController = initialViewController
             self.window?.makeKeyAndVisible()
         }

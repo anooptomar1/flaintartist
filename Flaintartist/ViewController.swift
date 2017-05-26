@@ -7,28 +7,13 @@
 //
 
 import UIKit
-import AVFoundation
 
 
-class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
+
+class ViewController: UIViewController{
         
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        if #available(iOS 10.0, *) {
-            //self.setupAVCapture(view: view)
-        } else {
-            // Fallback on earlier versions
-        }
-    }
-    
-    
-    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
-        // do stuff here
-    }
-    
-    // clean up AVCapture
-    func stopCamera(){
-        session.stopRunning()
+        
     }
 }

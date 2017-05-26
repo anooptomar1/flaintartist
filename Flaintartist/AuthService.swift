@@ -29,6 +29,7 @@ class AuthService {
                 //Successfully logged in
                 onComplete?(nil, user)
                 Defaults[.key_uid] = user?.uid
+                print("UIIID :\(Defaults[.key_uid])")
 
                 let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
                 appDel.logIn()
@@ -38,52 +39,6 @@ class AuthService {
     }
     
     
-    
-    
-//    func userType(id: String, email: String) {
-//        let usersRef = Database.database().reference().child("users").child(id)
-//        usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
-//            let type = (snapshot.value as! NSDictionary)["userType"] as! String
-//            let name = (snapshot.value as! NSDictionary)["name"] as! String
-//            if type == "artist" {
-//                queue.async(qos: .background) {
-//                    Defaults[.key_uid] = id
-//                    Defaults[.email] = email
-//                    Defaults[.name] = name
-//                    if let profileImg = (snapshot.value as! NSDictionary)["profileImg"] as? String {
-//                        print("TYPE: \(type)")
-//                    Defaults[.profileImg] = profileImg
-//                }
-//            }
-//        
-//                    let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
-//                    appDel.logIn()
-//                } else {
-//                    print("NOT ARTIST")
-//                    let instagramHooks = "flaint://user?username=jkurbs"
-//                    let instagramUrl = URL(string: instagramHooks)
-//                    if UIApplication.shared.canOpenURL(instagramUrl! as URL) {
-//                        if #available(iOS 10.0, *) {
-//                            UIApplication.shared.open(instagramUrl!)
-//                        } else {
-//                            // Fallback on earlier versions
-//                        }
-//                        
-//                    } else {
-//                        //redirect to safari because the user doesn't have Instagram
-//                        print("App not installed")
-//                        if #available(iOS 10.0, *) {
-//                            UIApplication.shared.open(URL(string: "https://itunes.apple.com/ca/app/flaint-artist/id1191196593?mt=8")!)
-//                        } else {
-//                            
-//                        }
-//                    }
-//                }
-//            usersRef.removeAllObservers()
-//            return
-//        })
-//    }
-//    
     
     func firebaseAuth(_ credential: AuthCredential) {
         Auth.auth().signIn(with: credential, completion: { (user, error) in

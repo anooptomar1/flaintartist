@@ -179,13 +179,9 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         let desc = descTextView.text!
         let height = heightSlider.value
         let width = widthSlider.value
-        let userName = Defaults[.name]
-        let profileImg = Defaults[.profileImg]
         if !title.isEmpty && !desc.isEmpty  {
             let newArt: Dictionary<String, AnyObject> = [
                 "userUID": uid as AnyObject,
-                "userName": userName as AnyObject,
-                "profileImg": profileImg as AnyObject,
                 "title": title as AnyObject,
                 "description": desc as AnyObject,
                 "height": height as AnyObject,
@@ -195,8 +191,6 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
                 "postDate": ServerValue.timestamp() as AnyObject,
                 "price": price as AnyObject,
                 "private": isPrivate as AnyObject,
-                "likes":  2 + drand48() * 5 as AnyObject,
-                "views": 2 + drand48() * 7 as AnyObject
             ]
             
             DataService.instance.createNewArt(newArt)
@@ -283,17 +277,7 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
         return 1
     }
     
-    
-    //MARK: TextViewDelegate
-//    func textViewDidChange(_ textView: UITextView) {
-//        let len = textView.text.characters.count
-//        wordCountLbl.text = "\(100 - len)"
-//        if len != 0 {
-//            wordCountLbl.isHidden = false
-//        } else {
-//            wordCountLbl.isHidden = true
-//        }
-//    }
+
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         

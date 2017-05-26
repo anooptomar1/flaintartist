@@ -48,6 +48,8 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     
     let editNotif = NSNotification.Name("Show")
     let cancelNotif = NSNotification.Name("Hide")
+    let wallViewNotif = NSNotification.Name("WallView")
+
     var likesRef: DatabaseReference!
     
     // Action 
@@ -56,6 +58,7 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        scnView.backgroundColor = UIColor.clear
         weak var weakSelf = self
         let strongSelf = weakSelf!
         scnView = strongSelf.scnView!
@@ -71,14 +74,14 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ProfileArtCell.handlePinch(gestureRecognize:)))
         pinchGesture.delegate = self
         scnView.addGestureRecognizer(pinchGesture)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(ProfileArtCell.test), name: editNotif, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(ProfileArtCell.test), name: cancelNotif, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(test), name: editNotif, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(test), name: cancelNotif, object: nil)
+
     }
+    
     
     @IBAction func viewBtnTapped(_ sender: Any) {
         wallViewAction?()
-        
     }
     
     @IBAction func likeBtnTapped(_ sender: UIButton) {

@@ -25,7 +25,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     @IBOutlet weak var bottomLine: UIView!
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var swipeLabel: UILabel!
-    @IBOutlet weak var messageBtn: UIBarButtonItem!
+    //@IBOutlet weak var messageBtn: UIBarButtonItem!
     @IBOutlet weak var preview: UIView!
     
     var user: Users?
@@ -38,7 +38,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     var segmentedCtrl = UISegmentedControl()
     var searchController = UISearchController()
 
-    
     let kPrefetchRowCount = 10
     
     let editNotif = NSNotification.Name("Show")
@@ -48,13 +47,8 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     weak var detailsView: EditArtDetails!
     
-    let ref =  DataService.instance.REF_ARTISTARTS.child((Auth.auth().currentUser?.uid)!)
-    
     var v: UIImageView?
     var pageControl: FlexiblePageControl!
-    
-
-    var cell: ProfileArtCell?
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
@@ -90,10 +84,10 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         collectionView.emptyDataSetDelegate = self
 
         DataService.instance.currentUserInfo { (user) in
-            self.v?.setImageWith(URL(string: (user?.profilePicUrl)! ), placeholderImage: #imageLiteral(resourceName: "Placeholder"))
+            self.v?.sd_setImage(with: URL(string: (user?.profilePicUrl)! ), placeholderImage: #imageLiteral(resourceName: "Placeholder"))
         }
         
-        loadArts(ref: ref)
+        loadArts()
         
         self.searchController = UISearchController(searchResultsController: nil)
         self.searchController.searchResultsUpdater = self
@@ -108,7 +102,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         self.searchController.searchBar.becomeFirstResponder()
         self.navigationItem.titleView = searchController.searchBar
         self.searchController.dimsBackgroundDuringPresentation = false
-
         
         pageControl = FlexiblePageControl(frame: bottomView.bounds)
         pageControl.isUserInteractionEnabled = true
@@ -126,9 +119,9 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
 
         
         let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipe))
-        view.addGestureRecognizer(swipeLeftGesture)
+        bottomView.addGestureRecognizer(swipeLeftGesture)
         swipeLeftGesture.direction = .left
-
+        
         
 //        NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
 //        NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -136,17 +129,63 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
     }
     
+    
+    var cameraBtnIsTapped: Bool = true
+    var isSetupAVCapture: Bool = true
+    
+    
+
     @IBAction func cameraBtnTapped(sender: UIButton) {
-        UIView.animate(withDuration: 1.0) { 
+        
+        if isSetupAVCapture {
             if #available(iOS 10.0, *) {
                 self.setupAVCapture(view: self.preview)
-                self.cell?.scnView.backgroundColor = UIColor.clear
-                self.navigationController?.setNavigationBarHidden(true, animated: true)
+                session.startRunning()
+                
             } else {
                 // Fallback on earlier versions
             }
+            isSetupAVCapture = false
+        }
+        
+        
+        if (cameraBtnIsTapped) {
+            cameraBtnIsTapped = !cameraBtnIsTapped
+            UIView.animate(withDuration: 0.5) {
+                if #available(iOS 10.0, *) {
+                    session.stopRunning()
+                    self.preview.isHidden = true
+                    self.navigationController?.setNavigationBarHidden(false, animated: true)
+                    sender.setImage( UIImage(named: "Preview Pane-20"), for: .normal)
+                    self.bottomView.backgroundColor = UIColor.flatWhite()
+                    self.pageControl.pageIndicatorTintColor = UIColor.flatGray()
+                    self.pageControl.currentPageIndicatorTintColor = UIColor.flatSkyBlueColorDark()
+                    self.swipeLabel.textColor = UIColor.flatGrayColorDark()
+
+                } else {
+                    // Fallback on earlier versions
+                }
+            }
+        } else {
+            cameraBtnIsTapped = !cameraBtnIsTapped
+            UIView.animate(withDuration: 0.5) {
+                if #available(iOS 10.0, *) {
+                    self.preview.isHidden = false
+                    session.startRunning()
+                    self.navigationController?.setNavigationBarHidden(true, animated: true)
+                    sender.setImage(UIImage(named: "Dismiss Filled-20"), for: .normal)
+                    self.bottomView.backgroundColor = UIColor.clear
+                    self.pageControl.pageIndicatorTintColor = UIColor(white: 0.5, alpha: 0.5)
+                    self.pageControl.currentPageIndicatorTintColor = UIColor.flatWhite()
+                    self.pageControl.updateViewSize()
+                    self.swipeLabel.textColor = UIColor.flatWhite()
+                } else {
+                    // Fallback on earlier versions
+                }
+            }
         }
     }
+    
     
     func swipe() {
          let visibleItems = self.collectionView.indexPathsForVisibleItems as NSArray
@@ -187,19 +226,27 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         navigationItem.hidesBackButton = true
         self.navigationController?.setToolbarHidden(true, animated: false)
-        NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.showBars), name: editNotif, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.hideBars), name: cancelNotif, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showBars), name: editNotif, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(hideBars), name: cancelNotif, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
+        session.stopRunning()
     }
     
     
-    func loadArts(ref: DatabaseReference) {
+    func doSome() {
+        print("DO SOME")
+    }
+    
+    
+    func loadArts() {
+        let ref =  DataService.instance.REF_ARTISTARTS.child((Auth.auth().currentUser?.uid)!)
         ref.observe(.value, with: {[weak self] (snapshot) in
             self?.arts = []
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
@@ -213,7 +260,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                 }
             }
             DispatchQueue.main.async {
-                self?.messageBtn.setBadge(text: "1")
+                //self?.messageBtn.setBadge(text: "1")
                 self?.collectionView.reloadData()
                 self?.pageControl.numberOfPages = (self?.arts.count)!
             }
@@ -230,7 +277,9 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        pageControl.setProgress(contentOffsetX: scrollView.contentOffset.x, pageWidth: scrollView.bounds.width)
+        if !searchController.isActive && searchController.searchBar.text == "" {
+           pageControl.setProgress(contentOffsetX: scrollView.contentOffset.x, pageWidth: scrollView.bounds.width)
+        }
     }
     
     
@@ -264,6 +313,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         }
         
         if searchController.isActive && searchController.searchBar.text != "" {
+            self.pageControl.numberOfPages = self.filteredArts.count
             return filteredArts.count
         } else {
             return arts.count
@@ -280,7 +330,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             indicator.hidesWhenStopped = true
             indicator.startAnimating()
             cell.contentView.addSubview(indicator)
-            self.cell = cell
 
             if searchController.isActive && searchController.searchBar.text != "" {
                 art = filteredArts[indexPath.row]
@@ -318,7 +367,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
         if segue.identifier == "SettingsVC" {
             let settingsVC = segue.destination as! SettingsVC
             if let user = sender as? Users {
@@ -333,10 +381,10 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         let attrs = [NSFontAttributeName: UIFont.systemFont(ofSize: 14)]
         return NSAttributedString(string: "You have no artwork yet. Click on the ＋ button to add.", attributes: attrs)
     }
+    
+    var frame = CGRect()
+
 }
-
-
-
 
 
 //MARK: Extension Edit Art
@@ -387,7 +435,7 @@ extension ProfileVC {
         config.duration = .forever
         config.presentationStyle = .bottom
         config.dimMode = .gray(interactive: true)
-        self.setTabBarVisible(visible: false, animated: true)
+        //self.setTabBarVisible(visible: false, animated: true)
         SwiftMessages.show(config: config, view: view)
     }
 
@@ -418,7 +466,7 @@ extension ProfileVC {
                 DataService.instance.REF_FAVORITES.child((self.user?.userId!)!).child("\(self.detailsView.art.artID)").updateChildValues(["price": price!, "title": title, "description" : desc, "private": isPrivate])
                 }
                 DispatchQueue.main.async {
-                    self.setTabBarVisible(visible: true, animated: true)
+                    //self.setTabBarVisible(visible: true, animated: true)
                     let alert = Alerts()
                     SwiftMessages.hide()
                     alert.showNotif(text: "Edit has been successfull", vc: self, backgroundColor: UIColor.flatWhite())
@@ -448,15 +496,12 @@ extension ProfileVC {
         let delete = UIAlertAction(title: "Remove from gallery", style: .destructive) { (UIAlertAction) in
 
             if let artId = art?.artID {
-                self.ref.child(artId).removeValue(completionBlock: { (error, ref) in
+                DataService.instance.REF_ARTISTARTS.child((Auth.auth().currentUser?.uid)!).child(artId).removeValue(completionBlock: { (error, ref) in
                     
                     if error != nil {
                         print("Failed to delete art:", error!)
                         return
                     }
-                    
-                    //DataService.instance.REF_ARTS.child((art?.artID)!).removeValue()
-                    //DataService.instance.REF_HISTORY.child((art?.artID)!).removeValue()
                     SDImageCache.shared().removeImage(forKey: art?.imgUrl, fromDisk: true)
 
                     DispatchQueue.main.async(execute: {
@@ -476,62 +521,38 @@ extension ProfileVC {
     func hideBars() {
         UIView.animate(withDuration: 1.3) {
             self.navigationController?.navigationBar.alpha = 1
-            self.setTabBarVisible(visible: true, animated: true)
+            //self.setTabBarVisible(visible: true, animated: true)
         }
     }
     
     func showBars() {
         UIView.animate(withDuration: 2.5) {
             self.navigationController?.navigationBar.alpha = 0
-            self.setTabBarVisible(visible: false, animated: true)
+            //self.setTabBarVisible(visible: false, animated: true)
         }
     }
     
-    
+    /*
     // SetTabBar Visible
     func setTabBarVisible(visible:Bool, animated:Bool) {
         if (tabBarIsVisible() == visible) { return }
-        
-        let frame = self.tabBarController?.tabBar.frame
-        let height = frame?.size.height
-        let offsetY = (visible ? -height! : height)
+        frame = self.bottomStackView.frame
+        let height = frame.size.height
+        let offsetY = (visible ? -height : height)
         
         let duration:TimeInterval = (animated ? 0.3 : 0.0)
         
-        if frame != nil {
             UIView.animate(withDuration: duration) {
-                self.tabBarController?.tabBar.frame = frame!.offsetBy(dx: 0, dy: offsetY!)
+                self.bottomStackView.frame = self.frame.offsetBy(dx: 0, dy: offsetY)
                 return
-            }
         }
     }
     
     func tabBarIsVisible() ->Bool {
-        if tabBarController != nil {
-            return (self.tabBarController?.tabBar.frame.origin.y)! < self.view.frame.maxY
+        if bottomStackView != nil {
+            return (self.frame.origin.y) < self.view.frame.maxY
         }
         return true
-    }
-    
-    
-    // MARK: Keyboard
-//    func keyboardWillShow(_ notification: NSNotification) {
-//        self.viewOrigin = self.detailsView.frame.origin.y
-//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-//            if self.detailsView.frame.origin.y == self.viewOrigin {
-//                self.detailsView.frame.origin.y -= keyboardSize.height
-//            }
-//        }
-//    }
-    
-    
-//    func keyboardWillHide(_ notification: NSNotification) {
-//        self.viewOrigin = 0.0
-//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-//            if self.detailsView.frame.origin.y != 0 {
-//                self.detailsView.frame.origin.y += keyboardSize.height
-//            }
-//        }
-//    }
+    }*/
 }
 

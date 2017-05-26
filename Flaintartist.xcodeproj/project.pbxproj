@@ -333,13 +333,6 @@
 			name = SimilarView;
 			sourceTree = "<group>";
 		};
-		6D4DE4A71E29C32100AFAAAA /* Art */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Art;
-			sourceTree = "<group>";
-		};
 		6D4DE4A91E29C36000AFAAAA /* Report */ = {
 			isa = PBXGroup;
 			children = (
@@ -442,14 +435,6 @@
 				6DA7BC1B1E6F908B00DE61FB /* FBSDKLoginKit.framework */,
 			);
 			name = FB;
-			sourceTree = "<group>";
-		};
-		6DA7BC2A1E6F969C00DE61FB /* News */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = News;
-			path = ../../Flaintartist/Flaintartist;
 			sourceTree = "<group>";
 		};
 		6DBD64591ED4E84400D0A9A3 /* Designable */ = {
@@ -597,16 +582,6 @@
 			name = Profile;
 			sourceTree = "<group>";
 		};
-		6DF28E0C1E199DEE00C8A3B0 /* TabItem */ = {
-			isa = PBXGroup;
-			children = (
-				6DA7BC2A1E6F969C00DE61FB /* News */,
-				6D1C78491E1A03F200E2041C /* Capture */,
-				6DF28E031E199DEE00C8A3B0 /* Profile */,
-			);
-			name = TabItem;
-			sourceTree = "<group>";
-		};
 		6DF28E131E199DEE00C8A3B0 /* Register */ = {
 			isa = PBXGroup;
 			children = (
@@ -621,9 +596,9 @@
 			isa = PBXGroup;
 			children = (
 				6D4DE4A91E29C36000AFAAAA /* Report */,
-				6D4DE4A71E29C32100AFAAAA /* Art */,
 				6DF28E021E199DEE00C8A3B0 /* Settings */,
-				6DF28E0C1E199DEE00C8A3B0 /* TabItem */,
+				6DF28E031E199DEE00C8A3B0 /* Profile */,
+				6D1C78491E1A03F200E2041C /* Capture */,
 				6DF28E131E199DEE00C8A3B0 /* Register */,
 				6DB44A251E1F79010025BF1A /* PrivacyVC.swift */,
 				6DBD645C1ED53F9800D0A9A3 /* ViewController.swift */,

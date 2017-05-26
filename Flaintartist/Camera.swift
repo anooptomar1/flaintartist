@@ -15,6 +15,16 @@ var previewLayer:AVCaptureVideoPreviewLayer!
 var captureDevice : AVCaptureDevice!
 let session = AVCaptureSession()
 
+
+let screenWidth = UIScreen.main.bounds.size.width
+let screenHeight = UIScreen.main.bounds.size.height
+var aspectRatio: CGFloat = 1.0
+
+var viewFinderHeight: CGFloat = 0.0
+var viewFinderWidth: CGFloat = 0.0
+var viewFinderMarginLeft: CGFloat = 0.0
+var viewFinderMarginTop: CGFloat = 0.0
+
 @available(iOS 10.0, *)
 extension ProfileVC {
     
@@ -27,6 +37,7 @@ extension ProfileVC {
     captureDevice = device
     beginSession(view: view)
 }
+
 
 func beginSession(view: UIView){
     var err : NSError? = nil
@@ -54,14 +65,12 @@ func beginSession(view: UIView){
     videoDataOutput.connection(withMediaType: AVMediaTypeVideo).isEnabled = true
     
     previewLayer = AVCaptureVideoPreviewLayer(session: session)
-    previewLayer.videoGravity = AVLayerVideoGravityResizeAspect
-    
+    previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
     let rootLayer :CALayer = view.layer
     rootLayer.masksToBounds = true
-    previewLayer.frame = rootLayer.bounds
+    previewLayer.frame = UIScreen.main.bounds
     rootLayer.addSublayer(previewLayer)
     session.startRunning()
-}
-
+   }
 }
 
