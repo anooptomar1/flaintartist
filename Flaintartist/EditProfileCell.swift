@@ -15,8 +15,10 @@ class EditProfileCell: UITableViewCell {
     func configureCell() {
         
         DataService.instance.currentUserInfo { (user) in
-            self.profileImgView.setImageWith(URL(string: (user?.profilePicUrl)! ), placeholderImage: #imageLiteral(resourceName: "Placeholder"))
-            self.nameLbl.text = user?.name
+            if let url = user?.profilePicUrl {
+                self.profileImgView.sd_setImage(with: URL(string: url ), placeholderImage: #imageLiteral(resourceName: "Placeholder"))
+               self.nameLbl.text = user?.name
+            }
         }
     }
 }

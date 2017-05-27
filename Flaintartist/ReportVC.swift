@@ -46,14 +46,14 @@ class ReportVC: UITableViewController {
     }
     
     func confirmSheet(reportType: String) {
-       let user = self.user
+       _ = self.user
        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
        let confirm = UIAlertAction(title: "Confirm", style: .destructive) { (UIAlertAction) in
         
-        let userEmail = Defaults[.email]
+        _ = Defaults[.email]
         
         if !self.artInfo.isEmpty {
-        if let art = self.artInfo[1] as? Art {
+        if self.artInfo[1] is Art {
         /*DataService.instance.REF_MAILGUN.sendMessage(to: "kerby.jean@hotmail.fr", from: "user@hotmail.fr", subject: "Report Art", body: "Report type: \(reportType), Art Title: \(art.title), Artist: \(art.userUid)", success: { (success) in
             self.confirmAlert(title:"\(art.title) Reported" , message: "Your opinion is important for us. We'll contact you soon for more information. Thank you.")
             self.cancelBtn.title = "Done"

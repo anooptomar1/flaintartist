@@ -44,7 +44,9 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
                  self.genderLabel.text = "Not Specified"
             }
             self.genderLabel.text = user?.gender
-            self.profileImage.sd_setImage(with: URL(string: (user?.profilePicUrl!)!), placeholderImage: #imageLiteral(resourceName: "Placeholder"))
+            if let url = user?.profilePicUrl {
+            self.profileImage.sd_setImage(with: URL(string: url), placeholderImage: #imageLiteral(resourceName: "Placeholder"))
+            }
         }
         imagePicker.delegate = self
         

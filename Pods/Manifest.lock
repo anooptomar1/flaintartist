@@ -1,6 +1,4 @@
 PODS:
-  - AKPickerView (0.2.7)
-  - BTNavigationDropdownMenu (0.4.1)
   - ChameleonFramework (2.1.0):
     - ChameleonFramework/Default (= 2.1.0)
   - ChameleonFramework/Default (2.1.0)
@@ -16,6 +14,9 @@ PODS:
   - Firebase/Messaging (4.0.0):
     - Firebase/Core
     - FirebaseMessaging (= 2.0.0)
+  - Firebase/Performance (4.0.0):
+    - Firebase/Core
+    - FirebasePerformance (= 1.0.0)
   - FirebaseAnalytics (4.0.0):
     - FirebaseCore (~> 4.0)
     - FirebaseInstanceID (~> 2.0)
@@ -35,6 +36,13 @@ PODS:
     - FirebaseCore (~> 4.0)
     - FirebaseInstanceID (~> 2.0)
     - GoogleToolboxForMac/Logger (~> 2.1)
+    - Protobuf (~> 3.1)
+  - FirebasePerformance (1.0.0):
+    - FirebaseAnalytics (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - GTMSessionFetcher/Core (~> 1.1)
     - Protobuf (~> 3.1)
   - FirebaseStorage (2.0.0):
     - FirebaseAnalytics (~> 4.0)
@@ -63,13 +71,12 @@ PODS:
   - TOCropViewController (2.0.12)
 
 DEPENDENCIES:
-  - AKPickerView
-  - BTNavigationDropdownMenu
   - ChameleonFramework
   - DZNEmptyDataSet
   - Firebase
   - Firebase/Auth
   - Firebase/Messaging
+  - Firebase/Performance
   - FirebaseDatabase
   - FirebaseStorage
   - GSMessages
@@ -79,8 +86,6 @@ DEPENDENCIES:
   - TOCropViewController
 
 SPEC CHECKSUMS:
-  AKPickerView: 125372e36fcc372216127600a541f14dcdbb7993
-  BTNavigationDropdownMenu: 093f3cbfad1572f2c222bdf8d17584d1e13380d4
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   Firebase: 284eea779b73fdff309791817da7c68bff8dd572
@@ -90,6 +95,7 @@ SPEC CHECKSUMS:
   FirebaseDatabase: d829b3a8c3e2ac7a16773c5df226966b0805dfc2
   FirebaseInstanceID: 9fbf536668f4d3f0880e7438456dabd1376e294b
   FirebaseMessaging: 227406c05b0dc9290702d2e9f18ab5528f0c2cf2
+  FirebasePerformance: 77cff325f2adfb20fc03fec32b9811870c1d5130
   FirebaseStorage: 8110a1ed2034c8fbfd83890d2acc9cdbbd99afec
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GSMessages: b26e37bb6017b11d61f2708684179d5e9495c063
@@ -100,6 +106,6 @@ SPEC CHECKSUMS:
   SwiftyUserDefaults: 0f1d45fc3aafb9064dac661e367f8f83fe21a4b4
   TOCropViewController: e6e31b38d785a901e5651a1e7fff71bcda6c5214
 
-PODFILE CHECKSUM: 9dc9f098d48708d0532a9b391602c3f43bcdacf3
+PODFILE CHECKSUM: 1ced0a433269f82caae5b5ea5cb872d43ea9d993
 
 COCOAPODS: 1.0.0

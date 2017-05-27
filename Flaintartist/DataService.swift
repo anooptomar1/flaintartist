@@ -107,7 +107,7 @@ class DataService {
             if let err = error {
                 print("ERROR SAVE PROFILE IMAGE: \(err.localizedDescription)")
             }
-            
+                        
             self.fileUrl = metadata!.downloadURLs![0].absoluteString
             let changeRequestProfile = user.createProfileChangeRequest()
             changeRequestProfile.photoURL = URL(string: self.fileUrl!)

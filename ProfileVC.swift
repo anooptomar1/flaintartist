@@ -98,9 +98,15 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         collectionView.emptyDataSetDelegate = self
 
         DataService.instance.currentUserInfo { (user) in
-            self.v?.sd_setImage(with: URL(string: (user?.profilePicUrl)!), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: { (image, error, cache, url) in
-                ringProgressView.progress = 1.0
-            })
+            if let url = user?.profilePicUrl {
+                self.v?.sd_setImage(with: URL(string: url), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: { (image, error, cache, url) in
+                    if url == nil {
+                        ringProgressView.alpha = 0.0
+
+                    }
+                    ringProgressView.progress = 1.0
+                })
+            }
         }
         
         loadArts()
@@ -456,7 +462,7 @@ extension ProfileVC {
     func showRequestAlert(artImage: UIImage?, art: Art?, artRoomScene: ArtRoomScene) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let edit = UIAlertAction(title: "Edit", style: .default) { (action) in
+        _ = UIAlertAction(title: "Edit", style: .default) { (action) in
             self.edit(forArt: art!)
         }
         
@@ -467,7 +473,7 @@ extension ProfileVC {
             } else {
                 
                 if #available(iOS 10.0, *) {
-                    if let videoConnection = stillImageOutput?.connection(withMediaType: AVMediaTypeVideo) {
+                    if (stillImageOutput?.connection(withMediaType: AVMediaTypeVideo)) != nil {
                         
                         //stillImageOutput?.captureS
                             

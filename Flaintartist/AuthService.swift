@@ -7,8 +7,7 @@
 //
 
 import FBSDKLoginKit
-import FirebaseAuth
-import FirebaseDatabase
+import Firebase
 import SwiftyUserDefaults
 
 typealias Completion = (_ errMsg: String?, _ data: AnyObject?) -> Void
@@ -21,13 +20,13 @@ class AuthService {
     
     
     func logIn(email: String, password: String, onComplete: Completion?){
-        print("LOGIN")
         Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
             if error != nil {
                 self.handleFirebaseError(error: error! as NSError, onComplete: onComplete)
             } else {
                 //Successfully logged in
                 onComplete?(nil, user)
+                Analytics.setUserID(user?.uid)
                 Defaults[.key_uid] = user?.uid
                 Defaults[.email] = email
                 let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate

@@ -11,19 +11,15 @@ target 'Flaintartist' do
   pod 'FirebaseStorage'
   pod 'FirebaseDatabase'
   pod 'Firebase/Messaging'
+  pod 'Firebase/Performance'
   pod 'ChameleonFramework'
   pod 'SDWebImage', '~>3.8'
   pod 'SwiftyUserDefaults'
   pod 'DZNEmptyDataSet'
-  pod 'BTNavigationDropdownMenu'
-  #pod 'AFNetworking'
+  #pod 'BTNavigationDropdownMenu'
   pod 'GSMessages'
   pod 'SwiftMessages'
   pod 'TOCropViewController'
-  
-
- 
-  
   
 
 

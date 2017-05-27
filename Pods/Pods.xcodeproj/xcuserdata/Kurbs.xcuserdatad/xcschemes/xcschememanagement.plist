@@ -4,16 +4,6 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>AKPickerView.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>BTNavigationDropdownMenu.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>ChameleonFramework.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -107,22 +97,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2A33B29C8D3A5A3FF9092A9462F8C613</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>2C8E4477483B8C01209D1569B99F10D0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>49DCEC77368665129A9EA39B9392988A</key>
+		<key>5AE7C09682F2CF3590EE9E0202E7E44C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>63A5121E4A8C52F9FB0D6E9B8F54DA34</key>
+		<key>6D1AD211E9F95F535C359B1D122EB230</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>835E69AC8D2364DC1268D4DFF5D330E1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8961D418154D3585756CCF901BBC5DD6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -142,37 +137,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A75F54575108BA2AA2C75578B26BBAA6</key>
+		<key>A157E0E40CF0872F2A1AED6D32B9CCAB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C80972E32B1C5305366794367082D139</key>
+		<key>A1BB25765E3D2219654C8BDDC7F20B40</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C9604B9114A8FA0309F16EAB888AE138</key>
+		<key>A21601E8922592F1F4DC5B584B182657</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D774680A8CBD499E8559A8247DFC4D60</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E9436BFB5A8CC69A656A84504A1871F3</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FB561D3AA2187718945B62693116F219</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FD23F1DA220A44C7E84F356B64871271</key>
+		<key>FC62AEED31270F99DF376B7598DCE534</key>
 		<dict>
 			<key>primary</key>
 			<true/>
