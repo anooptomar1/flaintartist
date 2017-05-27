@@ -252,7 +252,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
         return row <= rowCount
     }
-     
+    
     
     //MARK: Filter
     func filterContentForSearchText(searchText: String, scope: String = "All") {

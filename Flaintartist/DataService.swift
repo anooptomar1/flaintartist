@@ -26,6 +26,11 @@ class DataService {
     }
     
     
+    var REF_NEWS: DatabaseReference {
+        return  REF_BASE.child("news")
+    }
+    
+    
     var REF_USERS: DatabaseReference {
         return  REF_BASE.child("users")
     }
@@ -67,19 +72,29 @@ class DataService {
     }
 
     
-    func currentUserInfo(callback: @escaping (Users?) -> ())  {
-        DataService.instance.REF_USER_CURRENT.observe(.value) { (snapshot: DataSnapshot) in
+    
+    func newFunctionality(callback: @escaping (Art?) -> ()) {
+        DataService.instance.REF_NEWS.observeSingleEvent(of: .value, with: { (snapshot) in
             if  let postDict = snapshot.value as? Dictionary<String, AnyObject> {
-                print("POST DICT: \(String(describing: postDict))")
                 let key = snapshot.key
-                let user = Users(key: key,artistData: postDict)
-                callback(user)
-               
+                let art = Art(key: key,artData: postDict)
+                callback(art)
             }
-        }
+        })
     }
     
     
+    
+    func currentUserInfo(callback: @escaping (Users?) -> ())  {
+        DataService.instance.REF_USER_CURRENT.observe(.value) { (snapshot: DataSnapshot) in
+            if  let postDict = snapshot.value as? Dictionary<String, AnyObject> {
+                let key = snapshot.key
+                let user = Users(key: key,artistData: postDict)
+                callback(user)
+            }
+        }
+    }
+
     var fileUrl: String?
     
     func saveCurrentUserInfo(name: String, website: String, email: String, phoneNumber: String,  gender: String, data: Data) {
