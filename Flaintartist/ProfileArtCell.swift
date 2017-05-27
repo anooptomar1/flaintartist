@@ -49,6 +49,8 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     let editNotif = NSNotification.Name("Show")
     let cancelNotif = NSNotification.Name("Hide")
     let wallViewNotif = NSNotification.Name("WallView")
+    
+    var profileVC: ProfileVC?
 
     var likesRef: DatabaseReference!
     
@@ -102,9 +104,7 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         })
 
     }
-    
-    
-    
+
     
     deinit {
         NotificationCenter.default.removeObserver(self)

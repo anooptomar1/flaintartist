@@ -22,7 +22,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var bottomStackView: UIStackView!
-    @IBOutlet weak var bottomLine: UIView!
+    @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var swipeLabel: UILabel!
     //@IBOutlet weak var messageBtn: UIBarButtonItem!
@@ -50,6 +50,13 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     var v: UIImageView?
     var pageControl: FlexiblePageControl!
     
+    let session = AVCaptureSession()
+    
+    var timer: Timer?
+    var time: Float = 0.0
+    
+
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -69,12 +76,18 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         v?.layer.borderWidth = 1.3
         v?.layer.borderColor = UIColor.white.cgColor
         let frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(width + 4), height: CGFloat(height + 4))
-        let progressIndicatorView = CircularLoaderView(frame: frame)
-        progressIndicatorView.addSubview(v!)
-        progressIndicatorView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        progressIndicatorView.progress = CGFloat(1)/CGFloat(1)
+
+        
+        let ringProgressView = MKRingProgressView(frame: frame)
+        ringProgressView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+        ringProgressView.startColor = UIColor.flatSkyBlue()
+        ringProgressView.endColor = UIColor.flatSkyBlueColorDark()
+        ringProgressView.ringWidth = 1.4
+        ringProgressView.progress = 0.1
+        ringProgressView.addSubview(v!)
     
-        let profileBtn = UIBarButtonItem(customView: progressIndicatorView)
+        let profileBtn = UIBarButtonItem(customView: ringProgressView)
         v?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(settingsBtnTapped(_:))))
         self.navigationItem.leftBarButtonItem = profileBtn
 
@@ -84,7 +97,9 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         collectionView.emptyDataSetDelegate = self
 
         DataService.instance.currentUserInfo { (user) in
-            self.v?.sd_setImage(with: URL(string: (user?.profilePicUrl)! ), placeholderImage: #imageLiteral(resourceName: "Placeholder"))
+            self.v?.sd_setImage(with: URL(string: (user?.profilePicUrl)!), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: { (image, error, cache, url) in
+                ringProgressView.progress = 1.0
+            })
         }
         
         loadArts()
@@ -118,60 +133,53 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
 
 
         
-        let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipe))
-        bottomView.addGestureRecognizer(swipeLeftGesture)
-        swipeLeftGesture.direction = .left
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(swipe(gesture:)))
+        swipeRight.direction = .right
+        self.bottomView.addGestureRecognizer(swipeRight)
         
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(swipe(gesture:)))
+        swipeDown.direction = .left
+        self.bottomView.addGestureRecognizer(swipeDown)
         
-//        NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(ProfileVC.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        if currentReachabilityStatus == .notReachable {
+            let alert = Alerts()
+            alert.showNotif(text: "No internet connection.", vc: self, backgroundColor: UIColor.flatRed(), textColor: UIColor.flatWhite(), autoHide: false)
+        }
         
-        
+        print(currentReachabilityStatus != .notReachable) //true connected
+            if #available(iOS 10.0, *) {
+                self.setupAVCapture(view: self.preview, session: session)
+            } else {
+                // Fallback on earlier versions
+        }
+        timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector:#selector(setProgress), userInfo: nil, repeats: true)
+    }
+    
+
+    
+    func setProgress() {
+        time += 0.1
+        progressView.setProgress(time / 3, animated: true)
+        if time >= 3 {
+            timer!.invalidate()
+        }
+        if progressView.progress == 1.0 {
+        progressView.setProgress(0.0, animated: true)
+        }
     }
     
     
-    var cameraBtnIsTapped: Bool = true
-    var isSetupAVCapture: Bool = true
     
+    var cameraBtnIsTapped: Bool = true
     
 
     @IBAction func cameraBtnTapped(sender: UIButton) {
-        
-        if isSetupAVCapture {
-            if #available(iOS 10.0, *) {
-                self.setupAVCapture(view: self.preview)
-                session.startRunning()
-                
-            } else {
-                // Fallback on earlier versions
-            }
-            isSetupAVCapture = false
-        }
-        
-        
         if (cameraBtnIsTapped) {
             cameraBtnIsTapped = !cameraBtnIsTapped
             UIView.animate(withDuration: 0.5) {
                 if #available(iOS 10.0, *) {
-                    session.stopRunning()
-                    self.preview.isHidden = true
-                    self.navigationController?.setNavigationBarHidden(false, animated: true)
-                    sender.setImage( UIImage(named: "Preview Pane-20"), for: .normal)
-                    self.bottomView.backgroundColor = UIColor.flatWhite()
-                    self.pageControl.pageIndicatorTintColor = UIColor.flatGray()
-                    self.pageControl.currentPageIndicatorTintColor = UIColor.flatSkyBlueColorDark()
-                    self.swipeLabel.textColor = UIColor.flatGrayColorDark()
-
-                } else {
-                    // Fallback on earlier versions
-                }
-            }
-        } else {
-            cameraBtnIsTapped = !cameraBtnIsTapped
-            UIView.animate(withDuration: 0.5) {
-                if #available(iOS 10.0, *) {
                     self.preview.isHidden = false
-                    session.startRunning()
+                    self.session.startRunning()
                     self.navigationController?.setNavigationBarHidden(true, animated: true)
                     sender.setImage(UIImage(named: "Dismiss Filled-20"), for: .normal)
                     self.bottomView.backgroundColor = UIColor.clear
@@ -183,19 +191,73 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                     // Fallback on earlier versions
                 }
             }
+        } else {
+            cameraBtnIsTapped = !cameraBtnIsTapped
+            UIView.animate(withDuration: 0.5) {
+                if #available(iOS 10.0, *) {
+                    self.session.stopRunning()
+                    self.preview.isHidden = true
+                    self.navigationController?.setNavigationBarHidden(false, animated: true)
+                    sender.setImage( UIImage(named: "Preview Pane-20"), for: .normal)
+                    self.bottomView.backgroundColor = UIColor.flatWhite()
+                    self.pageControl.pageIndicatorTintColor = UIColor.flatGray()
+                    self.pageControl.currentPageIndicatorTintColor = UIColor.flatSkyBlueColorDark()
+                    self.swipeLabel.textColor = UIColor.flatGrayColorDark()
+                } else {
+                    // Fallback on earlier versions
+                }
+            }
         }
     }
     
     
-    func swipe() {
-         let visibleItems = self.collectionView.indexPathsForVisibleItems as NSArray
+    func swipe(gesture: UIGestureRecognizer) {
         
-        let currentItem: NSIndexPath = visibleItems.object(at: 0) as! NSIndexPath 
-        guard let nextItem = IndexPath(row: currentItem.row + 1, section: 0) as? IndexPath else {
-            return
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.right:
+                 let visibleItems = self.collectionView.indexPathsForVisibleItems as NSArray
+                 let currentItem: NSIndexPath = visibleItems.object(at: 0) as! NSIndexPath
+                 guard let previousItem = IndexPath(row: currentItem.row - 1, section: 0) as? IndexPath else {
+                 return
+                 }
+                 if indexPathIsValid(indexPath: previousItem) {
+                    self.collectionView.scrollToItem(at: previousItem , at: .right, animated: true)
+                 }
+                 swipeLabel.isHidden = true
+            case UISwipeGestureRecognizerDirection.left:
+                let visibleItems = self.collectionView.indexPathsForVisibleItems as NSArray
+                let currentItem: NSIndexPath = visibleItems.object(at: 0) as! NSIndexPath
+                guard let nextItem = IndexPath(row: currentItem.row + 1, section: 0) as? IndexPath else {
+                    return
+                }
+                
+                if indexPathIsValid(indexPath: nextItem) {
+                    self.collectionView.scrollToItem(at: nextItem , at: .right, animated: true)
+                }
+                
+                swipeLabel.isHidden = true
+            default:
+                break
+            }
         }
-        self.collectionView.scrollToItem(at: nextItem , at: .left, animated: true)
-        swipeLabel.isHidden = true
+    }
+    
+    func indexPathIsValid(indexPath: IndexPath) -> Bool {
+        let section = indexPath.section
+        let row = indexPath.row
+        
+        let lastSectionIndex = numberOfSections(in: collectionView) - 1
+        
+        //Make sure the specified section exists
+        if section > lastSectionIndex
+        {
+            return false
+        }
+        let rowCount = self.collectionView(
+            collectionView, numberOfItemsInSection: indexPath.section) - 1
+        
+        return row <= rowCount
     }
      
    
@@ -260,12 +322,18 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                 }
             }
             DispatchQueue.main.async {
+                UIView.animate(withDuration: 3.0, animations: {
+                    self?.progressView.setProgress(1.0, animated: true)
+
+                })
+   
+                
+                
                 //self?.messageBtn.setBadge(text: "1")
                 self?.collectionView.reloadData()
                 self?.pageControl.numberOfPages = (self?.arts.count)!
             }
         }, withCancel: nil)
-        
         
         ref.observe(.childRemoved, with: { (snapshot) in
             DispatchQueue.main.async {
@@ -305,10 +373,8 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if arts.count < 2 {
-            bottomLine.alpha = 0
             bottomView.alpha = 0
         } else if arts.count > 1 {
-            bottomLine.alpha = 1
             bottomView.alpha = 1
         }
         
@@ -330,6 +396,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             indicator.hidesWhenStopped = true
             indicator.startAnimating()
             cell.contentView.addSubview(indicator)
+            cell.profileVC = self
 
             if searchController.isActive && searchController.searchBar.text != "" {
                 art = filteredArts[indexPath.row]
@@ -383,12 +450,14 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     }
     
     var frame = CGRect()
+    var image: UIImage!
 
 }
 
 
 //MARK: Extension Edit Art
 extension ProfileVC {
+    
     
     func showRequestAlert(artImage: UIImage?, art: Art?, artRoomScene: ArtRoomScene) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -398,8 +467,24 @@ extension ProfileVC {
         }
         
         let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
-            let view = self.view.captureView()
-            self.shareChoice(view: view)
+            if !self.session.isRunning {
+                let view = self.view.captureView()
+                self.shareChoice(view: view)
+            } else {
+                
+                if #available(iOS 10.0, *) {
+                    if let videoConnection = stillImageOutput?.connection(withMediaType: AVMediaTypeVideo) {
+                        
+                        //stillImageOutput?.captureS
+                            
+                        
+                    }
+                } else {
+                    // Fallback on earlier versions
+                }
+                
+                self.shareChoice(view: self.image)
+            }
         })
         
         let remove = UIAlertAction(title: "Remove", style: .destructive, handler: { (UIAlertAction) in
@@ -469,7 +554,7 @@ extension ProfileVC {
                     //self.setTabBarVisible(visible: true, animated: true)
                     let alert = Alerts()
                     SwiftMessages.hide()
-                    alert.showNotif(text: "Edit has been successfull", vc: self, backgroundColor: UIColor.flatWhite())
+                    alert.showNotif(text: "Edit has been successfull", vc: self, backgroundColor: UIColor.flatWhite(), textColor: UIColor.red , autoHide: true)
                 }
             }
         }

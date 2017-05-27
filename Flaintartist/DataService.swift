@@ -65,14 +65,7 @@ class DataService {
     var REF_HISTORY: DatabaseReference {
         return REF_BASE.child("history")
     }
-    
-    
-    /*var REF_MAILGUN: Mailgun {
-        return Mailgun.client(withDomain: "sandbox9e1ee9467d7b4efcbe9fc7f8a93c8873.mailgun.org", apiKey: "key-93800f7299c38f6fc13ca91a5db68f95")
-    }*/
-    
 
-    
     
     func currentUserInfo(callback: @escaping (Users?) -> ())  {
         DataService.instance.REF_USER_CURRENT.observe(.value) { (snapshot: DataSnapshot) in
@@ -81,6 +74,7 @@ class DataService {
                 let key = snapshot.key
                 let user = Users(key: key,artistData: postDict)
                 callback(user)
+               
             }
         }
     }
@@ -126,66 +120,10 @@ class DataService {
                     
                 }
             }
-            )}
+        )}
     }
-    
+ 
 
-    
-
-    
-    
-    
-    
-
-    
-    func addToFavorite(artUID: String, imgUrl: String ,title: String, description: String, price: Int, height: Int, width: Int, type: String, date: Int, userUID: String, vc: UIViewController) {
-        let alert = Alerts()
-        queue.async(qos: .background) {
-            let ref = DataService.instance.REF_BASE.child("favorites").child(userID!).child(artUID)
-            ref.updateChildValues(["artUID": artUID, "imageUrl": imgUrl ,"title": title, "description": description, "price": price, "height": height, "width": width, "type": type, "postDate": ServerValue.timestamp() as AnyObject]) { (error, ref) in
-                if error != nil {
-                    alert.showNotif(text: "Error", vc: vc, backgroundColor: UIColor.flatRed())
-                } else {
-                    DispatchQueue.main.async {
-                        alert.showNotif(text: "Successfully added to favorites", vc: vc, backgroundColor: UIColor.flatWhite())
-                    }
-                }
-            }
-        }
-    }
-    
-    
-    func request(artUID: String, imgUrl: String ,title: String, description: String, price: Int, height: Int, width: Int, type: String, date: Int, userUID: String) {
-        queue.async(qos: .background) {
-            let ref = DataService.instance.REF_REQUESTS.child(userID!).child(artUID)
-            ref.updateChildValues(["artUID": artUID, "imageUrl": imgUrl ,"title": title, "description": description, "price": price, "height": height, "width": width, "type": type, "postDate": ServerValue.timestamp() as AnyObject]) { (error, ref) in
-                if error != nil {
-                    print(error!.localizedDescription)
-                }
-            }
-            let email = Defaults[.email]
-            let name = Defaults[.name]
-           /* DataService.instance.REF_MAILGUN.sendMessage(to: "kerby.jean@hotmail.fr", from: email , subject: "REQUEST", body: "\(name) is requesting \(title) from \(userUID)", success: { (success) in
-                print(success!)
-            }, failure: { (error) in
-                print(error!)
-            })*/
-        }
-    }
-    
-    
-    func seen(artUID: String, imgUrl: String ,title: String, description: String, price: Int, height: Int, width: Int, type: String, date: Int, userUID: String, profileImg: String, username: String) {
-        queue.async(qos: .background) {
-            let ref = DataService.instance.REF_BASE.child("history").child(userID!)
-            ref.child(artUID).updateChildValues(["artUID": artUID, "userUID": userUID, "imageUrl": imgUrl ,"title": title, "description": description, "price": price, "height": height, "width": width, "type": type, "postDate": ServerValue.timestamp() as AnyObject, "profileImg":profileImg, "userName": username ]) { (error, ref) in
-                ref.removeAllObservers()
-                if error != nil {
-                    print(error!.localizedDescription)
-                }
-            }
-        }
-    }
-    
     
     func setUserInfo(name: String, user: User!, password: String, pictureData: NSData!, userType: String){
         self.saveUserInfo(name: name, user:user, password: password, userType: userType )

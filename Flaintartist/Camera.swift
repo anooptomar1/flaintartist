@@ -13,7 +13,9 @@ var videoDataOutput: AVCaptureVideoDataOutput!
 var videoDataOutputQueue: DispatchQueue!
 var previewLayer:AVCaptureVideoPreviewLayer!
 var captureDevice : AVCaptureDevice!
-let session = AVCaptureSession()
+@available(iOS 10.0, *)
+var stillImageOutput: AVCapturePhotoOutput?
+
 
 
 let screenWidth = UIScreen.main.bounds.size.width
@@ -29,17 +31,17 @@ var viewFinderMarginTop: CGFloat = 0.0
 extension ProfileVC {
     
 @available(iOS 10.0, *)
-    func setupAVCapture(view: UIView){
+    func setupAVCapture(view: UIView, session: AVCaptureSession){
     session.sessionPreset = AVCaptureSessionPreset640x480
     guard let device = AVCaptureDevice .defaultDevice(withDeviceType: .builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .back) else{
         return
     }
     captureDevice = device
-    beginSession(view: view)
+    beginSession(view: view, session: session)
 }
 
 
-func beginSession(view: UIView){
+    func beginSession(view: UIView, session: AVCaptureSession){
     var err : NSError? = nil
     var deviceInput:AVCaptureDeviceInput?
     do {
@@ -51,6 +53,7 @@ func beginSession(view: UIView){
     if err != nil {
         print("error: \(String(describing: err?.localizedDescription))");
     }
+   
     if session.canAddInput(deviceInput){
         session.addInput(deviceInput);
     }
@@ -70,7 +73,6 @@ func beginSession(view: UIView){
     rootLayer.masksToBounds = true
     previewLayer.frame = UIScreen.main.bounds
     rootLayer.addSublayer(previewLayer)
-    session.startRunning()
    }
 }
 

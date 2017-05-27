@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 
 extension UIView {
-    
         func captureView() -> UIImage {
         UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
         drawHierarchy(in: self.bounds, afterScreenUpdates: true)
@@ -18,5 +17,14 @@ extension UIView {
         UIGraphicsEndImageContext()
         return image
     }
-    
+}
+
+public extension UIWindow {
+    func capture() -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(self.frame.size, self.isOpaque, UIScreen.main.scale)
+        self.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image!
+    }
 }

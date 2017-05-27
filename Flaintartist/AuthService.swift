@@ -29,8 +29,7 @@ class AuthService {
                 //Successfully logged in
                 onComplete?(nil, user)
                 Defaults[.key_uid] = user?.uid
-                print("UIIID :\(Defaults[.key_uid])")
-
+                Defaults[.email] = email
                 let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
                 appDel.logIn()
                 

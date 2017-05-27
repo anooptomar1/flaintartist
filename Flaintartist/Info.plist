@@ -30,7 +30,7 @@
 	<key>NSAppleMusicUsageDescription</key>
 	<string>FlaintArtist would like to have access to your Media Library.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>FlaintArtist would to have access to your Camera.</string>
+	<string>Your Camera is used to Preview artworks on a Wall.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>FlaintArtist uses this to customize your experience and let you explore more beauty around you.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

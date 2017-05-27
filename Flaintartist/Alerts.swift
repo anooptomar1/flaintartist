@@ -33,7 +33,7 @@ class Alerts {
         let alert = UIAlertController(title: "", message: "Are you sure you want to remove it from your Gallery? After removing, the action is irreversible.", preferredStyle: .actionSheet)
         
         let action = UIAlertAction(title: "Remove from My Gallery", style: .destructive) { (UIAlertAction) in
-            // Function to Delete Art
+            //Function to Delete Art
             //target.removeArt()
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -45,18 +45,18 @@ class Alerts {
     }
     
     
-    func showNotif(text: String, vc: UIViewController, backgroundColor: UIColor) {
+    func showNotif(text: String, vc: UIViewController, backgroundColor: UIColor, textColor: UIColor, autoHide: Bool) {
         GSMessage.successBackgroundColor = backgroundColor
         vc.showMessage(text, type: .success, options: [
             .animation(.slide),
             .animationDuration(0.6),
-            .autoHide(true),
+            .autoHide(autoHide),
             .autoHideDelay(3.0),
-            .height(44.0),
+            .height(30.0),
             .hideOnTap(true),
             .position(.top),
             .textAlignment(.center),
-            .textColor(UIColor.flatSkyBlue()),
+            .textColor(textColor),
             .textNumberOfLines(1),
             .textPadding(30.0)
             ])

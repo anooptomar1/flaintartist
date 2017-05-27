@@ -1077,7 +1077,7 @@
                             <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="uK2-gV-ikK">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </view>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="RGe-FC-Kk5">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="RGe-FC-Kk5">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ctw-ft-UY0">
@@ -1148,18 +1148,15 @@
                                 </cells>
                             </collectionView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pPY-0r-qcS">
-                                <rect key="frame" x="0.0" y="619" width="375" height="48"/>
+                                <rect key="frame" x="0.0" y="618" width="375" height="49"/>
                                 <subviews>
-                                    <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S94-Gc-VEL">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
-                                        <color key="backgroundColor" red="0.68888300657272339" green="0.71366006135940552" blue="0.73448425531387329" alpha="0.59539850917431203" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="375" id="31d-7r-nc9"/>
-                                            <constraint firstAttribute="height" constant="1" id="M7l-uF-idT"/>
-                                        </constraints>
-                                    </view>
+                                    <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TPf-U3-33s">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="2"/>
+                                        <color key="progressTintColor" red="0.19376453757286072" green="0.50850099325180054" blue="0.85232251882553101" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="trackTintColor" red="0.68888300657272339" green="0.71366006135940552" blue="0.73448425531387329" alpha="1" colorSpace="calibratedRGB"/>
+                                    </progressView>
                                     <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B4O-Qx-vef">
-                                        <rect key="frame" x="0.0" y="1" width="375" height="47"/>
+                                        <rect key="frame" x="0.0" y="2" width="375" height="47"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Swipe this area to view more " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xOS-lf-yGY">
                                                 <rect key="frame" x="0.0" y="26" width="375" height="21"/>
@@ -1217,17 +1214,17 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="bottomLine" destination="S94-Gc-VEL" id="Bv2-Xb-hLc"/>
                         <outlet property="bottomStackView" destination="pPY-0r-qcS" id="wI7-Al-e81"/>
                         <outlet property="bottomView" destination="B4O-Qx-vef" id="jGG-Um-ZT0"/>
                         <outlet property="collectionView" destination="RGe-FC-Kk5" id="CUH-2F-uJI"/>
                         <outlet property="preview" destination="uK2-gV-ikK" id="yNU-SF-fif"/>
+                        <outlet property="progressView" destination="TPf-U3-33s" id="ekd-Q3-g6h"/>
                         <outlet property="swipeLabel" destination="xOS-lf-yGY" id="X40-AM-96K"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3EO-kz-0ek" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-454" y="211"/>
+            <point key="canvasLocation" x="-455.19999999999999" y="210.94452773613196"/>
         </scene>
         <!--Create AccountVC-->
         <scene sceneID="27E-Pj-brh">
