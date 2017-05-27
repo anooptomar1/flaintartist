@@ -17,7 +17,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var options: [String] = []
     var userInfo : [AnyObject] = []
     var user: Users!
-    
+    var titles: [String] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,6 +25,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tableView.delegate = self
         tableView.dataSource = self
         options = ["Edit Account", "Privacy Policy", "Log Out"]
+        titles = ["Me", "Others"]
     }
     
     @IBAction func doneBtnTapped(_ sender: Any) {
@@ -43,7 +44,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
         return 50
     }
-    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1

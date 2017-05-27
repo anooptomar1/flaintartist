@@ -23,6 +23,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var bottomStackView: UIStackView!
     @IBOutlet weak var progressView: UIProgressView!
+    @IBOutlet weak var bottomLine: UIView!
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var swipeLabel: UILabel!
     //@IBOutlet weak var messageBtn: UIBarButtonItem!
@@ -152,23 +153,18 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             } else {
                 // Fallback on earlier versions
         }
-        timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector:#selector(setProgress), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector:#selector(setProgress), userInfo: nil, repeats: false)
     }
     
 
     
     func setProgress() {
         time += 0.1
-        progressView.setProgress(time / 3, animated: true)
-        if time >= 3 {
+        progressView.setProgress(time / 4, animated: true)
+        if time >= 4 {
             timer!.invalidate()
         }
-        if progressView.progress == 1.0 {
-        progressView.setProgress(0.0, animated: true)
-        }
     }
-    
-    
     
     var cameraBtnIsTapped: Bool = true
     
@@ -218,9 +214,8 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             case UISwipeGestureRecognizerDirection.right:
                  let visibleItems = self.collectionView.indexPathsForVisibleItems as NSArray
                  let currentItem: NSIndexPath = visibleItems.object(at: 0) as! NSIndexPath
-                 guard let previousItem = IndexPath(row: currentItem.row - 1, section: 0) as? IndexPath else {
-                 return
-                 }
+                 let previousItem = IndexPath(row: currentItem.row - 1, section: 0)
+                 
                  if indexPathIsValid(indexPath: previousItem) {
                     self.collectionView.scrollToItem(at: previousItem , at: .right, animated: true)
                  }
@@ -228,12 +223,10 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             case UISwipeGestureRecognizerDirection.left:
                 let visibleItems = self.collectionView.indexPathsForVisibleItems as NSArray
                 let currentItem: NSIndexPath = visibleItems.object(at: 0) as! NSIndexPath
-                guard let nextItem = IndexPath(row: currentItem.row + 1, section: 0) as? IndexPath else {
-                    return
-                }
+                let nextItem = IndexPath(row: currentItem.row + 1, section: 0)
                 
                 if indexPathIsValid(indexPath: nextItem) {
-                    self.collectionView.scrollToItem(at: nextItem , at: .right, animated: true)
+                    self.collectionView.scrollToItem(at: nextItem, at: .right, animated: true)
                 }
                 
                 swipeLabel.isHidden = true
@@ -260,8 +253,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         return row <= rowCount
     }
      
-   
-    
     
     //MARK: Filter
     func filterContentForSearchText(searchText: String, scope: String = "All") {
@@ -322,13 +313,15 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                 }
             }
             DispatchQueue.main.async {
-                UIView.animate(withDuration: 3.0, animations: {
+                UIView.animate(withDuration: 1.0, animations: {
                     self?.progressView.setProgress(1.0, animated: true)
-
+                }, completion: {(true) in
+                    UIView.animate(withDuration: 3.0, animations: { 
+                        self?.progressView.alpha = 0.0
+                        self?.bottomLine.alpha = 1.0
+                    })
                 })
-   
-                
-                
+           
                 //self?.messageBtn.setBadge(text: "1")
                 self?.collectionView.reloadData()
                 self?.pageControl.numberOfPages = (self?.arts.count)!
@@ -339,7 +332,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             DispatchQueue.main.async {
                 //self.collectionView.reloadData()
             }
-            
         }, withCancel: nil)
     }
     
@@ -379,9 +371,11 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         }
         
         if searchController.isActive && searchController.searchBar.text != "" {
-            self.pageControl.numberOfPages = self.filteredArts.count
+            self.pageControl.isHidden = true
             return filteredArts.count
         } else {
+            self.pageControl.isHidden = false
+
             return arts.count
         }
     }

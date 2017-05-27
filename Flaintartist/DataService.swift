@@ -82,7 +82,7 @@ class DataService {
     
     var fileUrl: String?
     
-    func saveCurrentUserInfo(name: String, email: String, data: Data) {
+    func saveCurrentUserInfo(name: String, website: String, email: String, phoneNumber: String,  gender: String, data: Data) {
         let user = Auth.auth().currentUser!
         let filePath = "\(String(describing: user.uid))/\(Int(NSDate.timeIntervalSinceReferenceDate))"
         let metaData = StorageMetadata()
@@ -111,7 +111,7 @@ class DataService {
                 }
             })
         
-            let userInfo = ["email": email, "name": name, "profileImg": self.fileUrl!] as [String : Any]
+            let userInfo = ["email": email, "name": name, "website": website, "phoneNumber": phoneNumber, "gender": gender, "profileImg": self.fileUrl!] as [String : Any]
             let userRef = DataService.instance.REF_USER_CURRENT
             userRef.updateChildValues(userInfo, withCompletionBlock: { (error, reference) in
                 if error != nil {

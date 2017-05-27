@@ -15,10 +15,11 @@ class Users {
     
     var profilePicUrl: String?
     var name: String?
+    var phoneNumber: String?
+    var gender: String = "Not Specified"
     var artwork: Int?
     var bio: String?
     var website: String?
-    var userType: String?
     var userId: String?
     var userRef: DatabaseReference?
     var arts = [Art?]()
@@ -36,6 +37,14 @@ class Users {
             self.name = name
         }
         
+        if let phoneNumber = artistData["phoneNumber"] as? String {
+            self.phoneNumber = phoneNumber
+        }
+        
+        if let gender = artistData["gender"] as? String {
+            self.gender = gender
+        }
+        
         if let bio = artistData["biography"] as? String {
             self.bio = bio
         }
@@ -46,10 +55,6 @@ class Users {
         
         if let website = artistData["website"] as? String {
             self.website = website
-        }
-        
-        if let type = artistData["userType"] as? String {
-            self.userType = type
         }
 
         self.userRef = DataService.instance.REF_USERS.child(self.userId!)
