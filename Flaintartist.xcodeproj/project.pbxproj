@@ -62,6 +62,10 @@
 		6DC81C271E2BCF1D0021BBCF /* ArtistViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6DC81C261E2BCF1D0021BBCF /* ArtistViewCell.xib */; };
 		6DC81C2B1E2BD0FE0021BBCF /* ArtViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC81C2A1E2BD0FE0021BBCF /* ArtViewCell.swift */; };
 		6DC81C2D1E2BD2F70021BBCF /* ArtistViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC81C2C1E2BD2F70021BBCF /* ArtistViewCell.swift */; };
+		6DE9582F1EEB2CD600488E6A /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE9582E1EEB2CD600488E6A /* RoundButton.swift */; };
+		6DE958311EEB316700488E6A /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE958301EEB316700488E6A /* RegisterVC.swift */; };
+		6DE958331EEB878F00488E6A /* RoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE958321EEB878F00488E6A /* RoundView.swift */; };
+		6DE958351EEB8B3400488E6A /* CarouselCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE958341EEB8B3400488E6A /* CarouselCell.swift */; };
 		6DEBA21B1ED3FC0A00B33F3E /* FlexiblePageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEBA21A1ED3FC0A00B33F3E /* FlexiblePageControl.swift */; };
 		6DF28D8D1E196DC200C8A3B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF28D8C1E196DC200C8A3B0 /* AppDelegate.swift */; };
 		6DF28D921E196DC300C8A3B0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DF28D901E196DC300C8A3B0 /* Main.storyboard */; };
@@ -176,6 +180,10 @@
 		6DC81C261E2BCF1D0021BBCF /* ArtistViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArtistViewCell.xib; sourceTree = "<group>"; };
 		6DC81C2A1E2BD0FE0021BBCF /* ArtViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtViewCell.swift; sourceTree = "<group>"; };
 		6DC81C2C1E2BD2F70021BBCF /* ArtistViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistViewCell.swift; sourceTree = "<group>"; };
+		6DE9582E1EEB2CD600488E6A /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
+		6DE958301EEB316700488E6A /* RegisterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = SOURCE_ROOT; };
+		6DE958321EEB878F00488E6A /* RoundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundView.swift; sourceTree = "<group>"; };
+		6DE958341EEB8B3400488E6A /* CarouselCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselCell.swift; sourceTree = "<group>"; };
 		6DEBA21A1ED3FC0A00B33F3E /* FlexiblePageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlexiblePageControl.swift; sourceTree = "<group>"; };
 		6DF28D891E196DC200C8A3B0 /* Flaintartist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flaintartist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DF28D8C1E196DC200C8A3B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -276,6 +284,7 @@
 				6D1C78071E19E46600E2041C /* SettingsCell.swift */,
 				6D1E05621E3BCE64007CCC5C /* EditProfileCell.swift */,
 				6D28D5A11E327DB6000E30A5 /* UploadPhotoCell.swift */,
+				6DE958341EEB8B3400488E6A /* CarouselCell.swift */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -305,6 +314,7 @@
 			isa = PBXGroup;
 			children = (
 				6D9EA42E1E19E13E0080D182 /* BorderTopBtn.swift */,
+				6DE9582E1EEB2CD600488E6A /* RoundButton.swift */,
 			);
 			name = UIButton;
 			sourceTree = "<group>";
@@ -321,6 +331,7 @@
 			isa = PBXGroup;
 			children = (
 				6D0E62311E981A5C007327A8 /* CaptureViewExt.swift */,
+				6DE958321EEB878F00488E6A /* RoundView.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -594,6 +605,7 @@
 				6D1C78391E19EAE700E2041C /* LogInVC.swift */,
 				6D1C783B1E19EB1000E2041C /* ResetPasswordVC.swift */,
 				6D8633CF1E8DD34B0025F626 /* CreateAccountVC.swift */,
+				6DE958301EEB316700488E6A /* RegisterVC.swift */,
 			);
 			name = Register;
 			sourceTree = "<group>";
@@ -926,6 +938,7 @@
 				6D1C784F1E1A04BC00E2041C /* CaptureDetailsVC.swift in Sources */,
 				6D1C783A1E19EAE700E2041C /* LogInVC.swift in Sources */,
 				6DF28DCB1E199D3300C8A3B0 /* Art.swift in Sources */,
+				6DE958311EEB316700488E6A /* RegisterVC.swift in Sources */,
 				6D0DBDFE1E36F92F00163299 /* Time.swift in Sources */,
 				6DF28D8D1E196DC200C8A3B0 /* AppDelegate.swift in Sources */,
 				6DB44A261E1F79010025BF1A /* PrivacyVC.swift in Sources */,
@@ -934,7 +947,9 @@
 				6D9EA42F1E19E13E0080D182 /* BorderTopBtn.swift in Sources */,
 				6D33DEB41E1F2C7300CC4618 /* ReportVC.swift in Sources */,
 				6DA7BC151E6DFDCA00DE61FB /* GFGeoHash.m in Sources */,
+				6DE958351EEB8B3400488E6A /* CarouselCell.swift in Sources */,
 				6DEBA21B1ED3FC0A00B33F3E /* FlexiblePageControl.swift in Sources */,
+				6DE958331EEB878F00488E6A /* RoundView.swift in Sources */,
 				6DA7BC161E6DFDCA00DE61FB /* GFGeoHashQuery.m in Sources */,
 				6D1E05631E3BCE64007CCC5C /* EditProfileCell.swift in Sources */,
 				6D9EA4291E19DFE90080D182 /* ProfileVC.swift in Sources */,
@@ -943,6 +958,7 @@
 				6D1C78341E19E8B500E2041C /* HeaderView.swift in Sources */,
 				6D28D5A21E327DB6000E30A5 /* UploadPhotoCell.swift in Sources */,
 				6DBD645D1ED53F9800D0A9A3 /* ViewController.swift in Sources */,
+				6DE9582F1EEB2CD600488E6A /* RoundButton.swift in Sources */,
 				6D46303F1E318DC800EEB3D8 /* RoundImageView.swift in Sources */,
 				6D0E62321E981A5C007327A8 /* CaptureViewExt.swift in Sources */,
 				6D1C78081E19E46600E2041C /* SettingsCell.swift in Sources */,

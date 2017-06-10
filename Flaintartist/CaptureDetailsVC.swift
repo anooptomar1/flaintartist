@@ -31,6 +31,35 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     @IBOutlet weak var navigationBar: UINavigationBar!
     
     
+    var itsAdmin: String?
+    
+    func updateViewsWithRCValues() {
+        itsAdmin = RemoteConfig.remoteConfig().configValue(forKey: "itsAdmin").stringValue ?? ""
+        print(" ITS ADMIN: \(itsAdmin)")
+    }
+    
+    func setupRemoteConfigDefault() {
+        let defaultValues = ["itsAdmin": "false" as NSObject]
+        RemoteConfig.remoteConfig().setDefaults(defaultValues)
+    }
+    
+    
+    func fetchRemoteConfig() {
+        let debugConfig = RemoteConfigSettings(developerModeEnabled: true)
+        RemoteConfig.remoteConfig().configSettings = debugConfig!
+        RemoteConfig.remoteConfig().fetch(withExpirationDuration: 0) {[weak self] (status, error) in
+            guard error == nil else {
+                print("Error: \(error)")
+                return
+            }
+            
+            print("NO ERRORS")
+            RemoteConfig.remoteConfig().activateFetched()
+            self?.updateViewsWithRCValues()
+        }
+    }
+    
+
     
     var artImg: UIImage!
     var measure: Array = [AnyObject]()
@@ -62,6 +91,12 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupRemoteConfigDefault()
+        updateViewsWithRCValues()
+        fetchRemoteConfig()
+
+        
         let scnView = self.scnView!
         let scene = detailsScene
         scnView.scene = scene
@@ -192,8 +227,13 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
                 "price": price as AnyObject,
                 "private": isPrivate as AnyObject,
             ]
+
+            if itsAdmin == "true" {
+                DataService.instance.createNew(newArt)
+            } else {
+                DataService.instance.createNewArt(newArt)
+            }
             
-            DataService.instance.createNewArt(newArt)
             dismiss(animated: true, completion: nil)
         } else {
             let alert = Alerts()
@@ -360,7 +400,7 @@ class CaptureDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewData
             let metadata = StorageMetadata()
             metadata.contentType = "image/jpeg"
             let userUID = (Auth.auth().currentUser?.uid)!
-            DataService.instance.REF_STORAGE.child("Arts").child(userUID).child(imgUID).putData(imgData, metadata: metadata, completion: { (metadata, error) in
+            DataService.instance.REF_STORAGE.child("Art").child(userUID).child(imgUID).putData(imgData, metadata: metadata, completion: { (metadata, error) in
                 if let error = error {
                     print(error.localizedDescription)
                     return

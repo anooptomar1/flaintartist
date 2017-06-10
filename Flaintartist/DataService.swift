@@ -25,11 +25,13 @@ class DataService {
         return Database.database().reference()
     }
     
-    
-    var REF_NEWS: DatabaseReference {
-        return  REF_BASE.child("news")
+    var REF_NEW:  DatabaseReference {
+        return  REF_BASE.child("new")
     }
+
     
+    
+   
     
     var REF_USERS: DatabaseReference {
         return  REF_BASE.child("users")
@@ -71,19 +73,6 @@ class DataService {
         return REF_BASE.child("history")
     }
 
-    
-    
-    func newFunctionality(callback: @escaping (Art?) -> ()) {
-        DataService.instance.REF_NEWS.observeSingleEvent(of: .value, with: { (snapshot) in
-            if  let postDict = snapshot.value as? Dictionary<String, AnyObject> {
-                let key = snapshot.key
-                let art = Art(key: key,artData: postDict)
-                callback(art)
-            }
-        })
-    }
-    
-    
     
     func currentUserInfo(callback: @escaping (Users?) -> ())  {
         DataService.instance.REF_USER_CURRENT.observe(.value) { (snapshot: DataSnapshot) in
@@ -138,7 +127,6 @@ class DataService {
         )}
     }
  
-
     
     func setUserInfo(name: String, user: User!, password: String, pictureData: NSData!, userType: String){
         self.saveUserInfo(name: name, user:user, password: password, userType: userType )
@@ -168,6 +156,14 @@ class DataService {
         let NewArt = DataService.instance.REF_ARTS.child(key)
         NewArt.updateChildValues(art)
         userArt.updateChildValues(art)
+    }
+    
+    func createNew(_ new: Dictionary<String, AnyObject>) {
+        let newRef = DataService.instance.REF_NEW.childByAutoId()
+        let key = newRef.key
+        let userArt = DataService.instance.REF_ARTISTARTS.child((Auth.auth().currentUser?.uid)!).child(key)
+        newRef.updateChildValues(new)
+        userArt.updateChildValues(new)
     }
 }
 

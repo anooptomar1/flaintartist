@@ -11,6 +11,7 @@ target 'Flaintartist' do
   pod 'FirebaseStorage'
   pod 'FirebaseDatabase'
   pod 'Firebase/Messaging'
+  pod 'Firebase/RemoteConfig'
   pod 'Firebase/Performance'
   pod 'ChameleonFramework'
   pod 'SDWebImage', '~>3.8'

@@ -49,13 +49,12 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     let editNotif = NSNotification.Name("Show")
     let cancelNotif = NSNotification.Name("Hide")
     let wallViewNotif = NSNotification.Name("WallView")
+    let tapNotif = NSNotification.Name("Tap")
+    let tapHideNotif =  NSNotification.Name("TapHide")
+
     
     var profileVC: ProfileVC?
-
     var likesRef: DatabaseReference!
-    
-    // Action 
-    var wallViewAction: (() -> Void)?
 
     
     override func awakeFromNib() {
@@ -75,37 +74,26 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         // add a pinch gesture recognizer
         let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ProfileArtCell.handlePinch(gestureRecognize:)))
         pinchGesture.delegate = self
-        scnView.addGestureRecognizer(pinchGesture)
+        //scnView.addGestureRecognizer(pinchGesture)
         NotificationCenter.default.addObserver(self, selector: #selector(test), name: editNotif, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(test), name: cancelNotif, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(bottomViewTapped), name: tapNotif, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(bottomViewReTapped), name: tapHideNotif, object: nil)
 
     }
     
     
-    @IBAction func viewBtnTapped(_ sender: Any) {
-        wallViewAction?()
+    
+    func bottomViewReTapped() {
+        infoView.alpha = 0
     }
     
-    @IBAction func likeBtnTapped(_ sender: UIButton) {
-        likesRef.observeSingleEvent(of: .value, with: { (snapshot) in
-            if let _ = snapshot.value as? NSNull {
-                DispatchQueue.main.async {
-                    sender.setImage( UIImage(named: "Like Filled-15"), for: .normal)
-                }
-                self.art?.adjustLikes(addLike: true)
-                self.likesRef.setValue(true)
-            } else {
-                DispatchQueue.main.async {
-                    sender.setImage( UIImage(named: "Likes-18"), for: .normal)
-                }
-                self.art?.adjustLikes(addLike: false)
-                self.likesRef.removeValue()
-            }
-        })
-
-    }
-
     
+    func bottomViewTapped() {
+        infoView.alpha = 1
+    }
+    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -114,20 +102,22 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     func test() {
         
     }
-    
+
     
     func configureCell(forArt: Art) {
         self.art = forArt
         let myBlock: SDWebImageCompletionBlock! = { [weak self] (image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
             if let img = image {
                 DispatchQueue.main.async {
-                    self?.artRoomScene.setup(artInfo: img, height: img.size.height / 600, width: img.size.width / 600, position: SCNVector3(0, 0.4, -1.5), rotation: SCNVector4(0,60,0,-56))
+                self?.artRoomScene.setup(artInfo: img, height: img.size.height / 650, width: img.size.width / 650, position: SCNVector3(0, 0.4, -1.5), rotation: SCNVector4(0,60,0,-56))
                 }
             }
         }
         queue.async(qos: .default) {
             self.artImageView.sd_setImage(with: URL(string: self.art!.imgUrl) , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
         }
+        
+        textView.text = "\(forArt.title) \n"
     }
     
     
@@ -170,14 +160,8 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         
         if gestureRecognize.state == .began ||  gestureRecognize.state == .changed {
             NotificationCenter.default.post(name: editNotif, object: self)
-            UIView.animate(withDuration: 2.5) {
-                self.infoView.alpha = 0
-            }
         } else if gestureRecognize.state == .cancelled || gestureRecognize.state == .ended {
             NotificationCenter.default.post(name: cancelNotif, object: self)
-            UIView.animate(withDuration: 1.3) {
-                self.infoView.alpha = 1
-            }
         }
     }
     
@@ -193,15 +177,10 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         }
         if gestureRecognize.state == .began ||  gestureRecognize.state == .changed {
             NotificationCenter.default.post(name: editNotif, object: self)
-            UIView.animate(withDuration: 2.5) {
-                self.infoView.alpha = 0
-            }
         } else if gestureRecognize.state == .cancelled || gestureRecognize.state == .ended {
             NotificationCenter.default.post(name: cancelNotif, object: self)
-            UIView.animate(withDuration: 1.3) {
-                self.infoView.alpha = 1
-            }
         }
     }
 }
+
 

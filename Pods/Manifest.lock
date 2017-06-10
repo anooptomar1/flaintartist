@@ -17,6 +17,9 @@ PODS:
   - Firebase/Performance (4.0.0):
     - Firebase/Core
     - FirebasePerformance (= 1.0.0)
+  - Firebase/RemoteConfig (4.0.0):
+    - Firebase/Core
+    - FirebaseRemoteConfig (= 2.0.0)
   - FirebaseAnalytics (4.0.0):
     - FirebaseCore (~> 4.0)
     - FirebaseInstanceID (~> 2.0)
@@ -43,6 +46,11 @@ PODS:
     - GoogleToolboxForMac/Logger (~> 2.1)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
     - GTMSessionFetcher/Core (~> 1.1)
+    - Protobuf (~> 3.1)
+  - FirebaseRemoteConfig (2.0.0):
+    - FirebaseAnalytics (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
     - Protobuf (~> 3.1)
   - FirebaseStorage (2.0.0):
     - FirebaseAnalytics (~> 4.0)
@@ -77,6 +85,7 @@ DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Messaging
   - Firebase/Performance
+  - Firebase/RemoteConfig
   - FirebaseDatabase
   - FirebaseStorage
   - GSMessages
@@ -96,6 +105,7 @@ SPEC CHECKSUMS:
   FirebaseInstanceID: 9fbf536668f4d3f0880e7438456dabd1376e294b
   FirebaseMessaging: 227406c05b0dc9290702d2e9f18ab5528f0c2cf2
   FirebasePerformance: 77cff325f2adfb20fc03fec32b9811870c1d5130
+  FirebaseRemoteConfig: b1bde8c572a1ca13558b5b179f4563cb877aa34b
   FirebaseStorage: 8110a1ed2034c8fbfd83890d2acc9cdbbd99afec
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GSMessages: b26e37bb6017b11d61f2708684179d5e9495c063
@@ -106,6 +116,6 @@ SPEC CHECKSUMS:
   SwiftyUserDefaults: 0f1d45fc3aafb9064dac661e367f8f83fe21a4b4
   TOCropViewController: e6e31b38d785a901e5651a1e7fff71bcda6c5214
 
-PODFILE CHECKSUM: 1ced0a433269f82caae5b5ea5cb872d43ea9d993
+PODFILE CHECKSUM: b74b3b25a31ffa00cf2abf2b5ab8c22292c0bfe2
 
 COCOAPODS: 1.0.0

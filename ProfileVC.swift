@@ -43,6 +43,8 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     let editNotif = NSNotification.Name("Show")
     let cancelNotif = NSNotification.Name("Hide")
+    let tapNotif = NSNotification.Name("Tap")
+    let tapHideNotif =  NSNotification.Name("TapHide")
     
     var viewOrigin: CGFloat = 0.0
     
@@ -56,15 +58,50 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     var timer: Timer?
     var time: Float = 0.0
     
+    var cell: ProfileArtCell?
+    
 
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
+    
+    
+    func updateViewsWithRCValues() {
+        let text = RemoteConfig.remoteConfig().configValue(forKey: "new").stringValue ?? ""
+        print("THIS IS THE VALUE: \(text)")
+    }
+    
+    func setupRemoteConfigDefault() {
+        let defaultValues = ["new": "Test" as NSObject]
+        RemoteConfig.remoteConfig().setDefaults(defaultValues)
+    }
+    
+    
+    
+    func fetchRemoteConfig() {
+        let debugConfig = RemoteConfigSettings(developerModeEnabled: true)
+        RemoteConfig.remoteConfig().configSettings = debugConfig!
+        RemoteConfig.remoteConfig().fetch(withExpirationDuration: 0) {[weak self] (status, error) in
+            guard error == nil else {
+                print("Error: \(error)")
+                return
+            }
+            
+            print("NO ERRORS")
+            RemoteConfig.remoteConfig().activateFetched()
+            self?.updateViewsWithRCValues()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupRemoteConfigDefault()
+        updateViewsWithRCValues()
+        fetchRemoteConfig()
+    
         v = UIImageView(frame: CGRect(x: CGFloat(2), y: CGFloat(2), width: CGFloat(25), height: CGFloat(25)))
         let width: CGFloat = v!.frame.size.width
         let height: CGFloat = v!.frame.size.height
@@ -148,6 +185,9 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         swipeDown.direction = .left
         self.bottomView.addGestureRecognizer(swipeDown)
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(bottomViewTapped))
+        self.bottomView.addGestureRecognizer(tapGesture)
+        
         if currentReachabilityStatus == .notReachable {
             let alert = Alerts()
             alert.showNotif(text: "No internet connection.", vc: self, backgroundColor: UIColor.flatRed(), textColor: UIColor.flatWhite(), autoHide: false)
@@ -160,6 +200,27 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                 // Fallback on earlier versions
         }
         timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector:#selector(setProgress), userInfo: nil, repeats: false)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(showBars), name: editNotif, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(hideBars), name: cancelNotif, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(hideBars), name: tapNotif, object: nil)
+
+    }
+    
+    
+    var bottomViewIsTapped: Bool = true
+    
+    func bottomViewTapped() {
+        if bottomViewIsTapped {
+            bottomViewIsTapped = !bottomViewIsTapped
+                NotificationCenter.default.post(name: tapNotif, object: nil)
+                swipeLabel.isHidden = true
+        } else {
+            bottomViewIsTapped = !bottomViewIsTapped
+            NotificationCenter.default.post(name: tapHideNotif, object: nil)
+        }
+
+        print("Bottom View Tapped")
     }
     
 
@@ -221,9 +282,9 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                  let visibleItems = self.collectionView.indexPathsForVisibleItems as NSArray
                  let currentItem: NSIndexPath = visibleItems.object(at: 0) as! NSIndexPath
                  let previousItem = IndexPath(row: currentItem.row - 1, section: 0)
-                 
                  if indexPathIsValid(indexPath: previousItem) {
                     self.collectionView.scrollToItem(at: previousItem , at: .right, animated: true)
+                    self.swipeLabel.text = "Now tap to view more."
                  }
                  swipeLabel.isHidden = true
             case UISwipeGestureRecognizerDirection.left:
@@ -234,8 +295,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                 if indexPathIsValid(indexPath: nextItem) {
                     self.collectionView.scrollToItem(at: nextItem, at: .right, animated: true)
                 }
-                
-                swipeLabel.isHidden = true
             default:
                 break
             }
@@ -288,8 +347,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
 
         navigationItem.hidesBackButton = true
         self.navigationController?.setToolbarHidden(true, animated: false)
-        NotificationCenter.default.addObserver(self, selector: #selector(showBars), name: editNotif, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(hideBars), name: cancelNotif, object: nil)
+      
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -305,6 +363,9 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     
     func loadArts() {
+        
+      
+        
         let ref =  DataService.instance.REF_ARTISTARTS.child((Auth.auth().currentUser?.uid)!)
         ref.observe(.value, with: {[weak self] (snapshot) in
             self?.arts = []
@@ -318,6 +379,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                     }
                 }
             }
+
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 1.0, animations: {
                     self?.progressView.setProgress(1.0, animated: true)
@@ -334,7 +396,23 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             }
         }, withCancel: nil)
         
+
+        DataService.instance.REF_NEW.observe(.value, with: { (snapshot) in
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    if let postDict = snap.value as? Dictionary<String, AnyObject> {
+                        let key = snap.key
+                        let art = Art(key: key, artData: postDict)
+                        self.art = Art(key: key, artData: postDict)
+                        self.arts.insert(art, at: 0)
+                    }
+                }
+            }
+        })
+        
         ref.observe(.childRemoved, with: { (snapshot) in
+             DataService.instance.REF_NEW.observe(.childRemoved, with: { (snapshot) in
+             })
             DispatchQueue.main.async {
                 //self.collectionView.reloadData()
             }
@@ -386,7 +464,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         }
     }
 
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var art = arts[indexPath.row]
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileArtCell", for: indexPath) as? ProfileArtCell {
@@ -397,6 +474,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             indicator.startAnimating()
             cell.contentView.addSubview(indicator)
             cell.profileVC = self
+            self.cell = cell
 
             if searchController.isActive && searchController.searchBar.text != "" {
                 art = filteredArts[indexPath.row]
@@ -461,11 +539,7 @@ extension ProfileVC {
     
     func showRequestAlert(artImage: UIImage?, art: Art?, artRoomScene: ArtRoomScene) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        _ = UIAlertAction(title: "Edit", style: .default) { (action) in
-            self.edit(forArt: art!)
-        }
-        
+
         let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
             if !self.session.isRunning {
                 let view = self.view.captureView()
@@ -474,15 +548,11 @@ extension ProfileVC {
                 
                 if #available(iOS 10.0, *) {
                     if (stillImageOutput?.connection(withMediaType: AVMediaTypeVideo)) != nil {
-                        
                         //stillImageOutput?.captureS
-                            
-                        
                     }
                 } else {
                     // Fallback on earlier versions
                 }
-                
                 self.shareChoice(view: self.image)
             }
         })
@@ -493,7 +563,6 @@ extension ProfileVC {
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        //alert.addAction(edit)
         alert.addAction(share)
         alert.addAction(remove)
         alert.addAction(cancel)
@@ -510,27 +579,10 @@ extension ProfileVC {
     
     
     func edit(forArt: Art) {
-        let view: EditArtDetails = try! SwiftMessages.viewFromNib()
-        view.saveAction = {self.done()}
-        self.detailsView = view
-        view.configureView(forArt: forArt)
-        //view.configureDropShadow()
-        var config = SwiftMessages.defaultConfig
-        config.presentationContext = .automatic
-        config.duration = .forever
-        config.presentationStyle = .bottom
-        config.dimMode = .gray(interactive: true)
-        //self.setTabBarVisible(visible: false, animated: true)
-        SwiftMessages.show(config: config, view: view)
+        cell?.textView.isEditable = true
+        cell?.textView.becomeFirstResponder()
     }
 
-
-    
-    func cancel() {
-        //self.titleLbl.text = user?.name
-        //self.titleLbl.textColor = UIColor.flatBlack()
-    }
-    
     
     
     func done() {
@@ -606,38 +658,13 @@ extension ProfileVC {
     func hideBars() {
         UIView.animate(withDuration: 1.3) {
             self.navigationController?.navigationBar.alpha = 1
-            //self.setTabBarVisible(visible: true, animated: true)
         }
     }
     
     func showBars() {
         UIView.animate(withDuration: 2.5) {
             self.navigationController?.navigationBar.alpha = 0
-            //self.setTabBarVisible(visible: false, animated: true)
         }
     }
-    
-    /*
-    // SetTabBar Visible
-    func setTabBarVisible(visible:Bool, animated:Bool) {
-        if (tabBarIsVisible() == visible) { return }
-        frame = self.bottomStackView.frame
-        let height = frame.size.height
-        let offsetY = (visible ? -height : height)
-        
-        let duration:TimeInterval = (animated ? 0.3 : 0.0)
-        
-            UIView.animate(withDuration: duration) {
-                self.bottomStackView.frame = self.frame.offsetBy(dx: 0, dy: offsetY)
-                return
-        }
-    }
-    
-    func tabBarIsVisible() ->Bool {
-        if bottomStackView != nil {
-            return (self.frame.origin.y) < self.view.frame.maxY
-        }
-        return true
-    }*/
 }
 

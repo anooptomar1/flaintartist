@@ -126,6 +126,14 @@ THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 			<key>FooterText</key>
 			<string>Copyright 2017 Google</string>
 			<key>Title</key>
+			<string>FirebaseRemoteConfig</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
+			<string>Copyright 2017 Google</string>
+			<key>Title</key>
 			<string>FirebaseStorage</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
