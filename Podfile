@@ -12,7 +12,6 @@ target 'Flaintartist' do
   pod 'FirebaseDatabase'
   pod 'Firebase/Messaging'
   pod 'Firebase/RemoteConfig'
-  pod 'Firebase/Performance'
   pod 'ChameleonFramework'
   pod 'SDWebImage', '~>3.8'
   pod 'SwiftyUserDefaults'
@@ -21,6 +20,9 @@ target 'Flaintartist' do
   pod 'GSMessages'
   pod 'SwiftMessages'
   pod 'TOCropViewController'
+  
+  # Facebook
+  pod 'FBSDKLoginKit'
   
 
 

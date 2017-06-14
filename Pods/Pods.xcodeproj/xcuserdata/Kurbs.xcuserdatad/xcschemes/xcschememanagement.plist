@@ -4,12 +4,27 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Bolts.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>ChameleonFramework.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
 		<key>DZNEmptyDataSet.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>FBSDKCoreKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>FBSDKLoginKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -87,7 +102,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>0FC4BC92AEF5151EA1216B395757B381</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>16FB872D0D2D4BA0F378AB34D47CF95F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1832EE7E3B26BB851EDBE43A5299CC24</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -102,22 +127,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5AE7C09682F2CF3590EE9E0202E7E44C</key>
+		<key>61AF977C23DFB1506EEC7FDC5AACAB7E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6D1AD211E9F95F535C359B1D122EB230</key>
+		<key>6EDC37F3FA92533C6AC3562458AA91F1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>835E69AC8D2364DC1268D4DFF5D330E1</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>8961D418154D3585756CCF901BBC5DD6</key>
+		<key>7F5218F34ECF2A815A5FBC3C857235E7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -137,22 +157,32 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A157E0E40CF0872F2A1AED6D32B9CCAB</key>
+		<key>9D0F2E5EA1B46A5D72FFD42B0B39DBBC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A1BB25765E3D2219654C8BDDC7F20B40</key>
+		<key>A4D486330E24230118D8ED7D49E3A9E9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A21601E8922592F1F4DC5B584B182657</key>
+		<key>B093AB2AAF187AD744C2CF08805B411C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FC62AEED31270F99DF376B7598DCE534</key>
+		<key>B650E2414B2BB9469F109EA256C434EB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B88FDD59B40B166E7408803B800710AD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CD6295D68AF7DB3F77074CD53F306EB0</key>
 		<dict>
 			<key>primary</key>
 			<true/>

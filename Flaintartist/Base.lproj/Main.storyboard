@@ -255,17 +255,17 @@
                                 <rect key="frame" x="0.0" y="480" width="375" height="187"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your own personal private gallery." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LTd-M3-OoQ">
-                                        <rect key="frame" x="72" y="33" width="231" height="22"/>
+                                        <rect key="frame" x="72" y="33" width="231" height="21.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fI2-YD-34i" customClass="RoundButton" customModule="Flaintartist" customModuleProvider="target">
-                                        <rect key="frame" x="62" y="109" width="250" height="38"/>
-                                        <color key="backgroundColor" red="0.25118127465248108" green="0.39620408415794373" blue="0.7075270414352417" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <rect key="frame" x="62" y="100" width="250" height="47"/>
+                                        <color key="backgroundColor" red="0.19215686274509802" green="0.50980392156862742" blue="0.85098039215686272" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="250" id="13g-CA-ell"/>
-                                            <constraint firstAttribute="height" constant="38" id="4SR-qY-9Mb"/>
+                                            <constraint firstAttribute="height" constant="47" id="4SR-qY-9Mb"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                         <state key="normal" title="Log In with Facebook">
@@ -283,8 +283,8 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.90823972225189209" green="0.92638683319091797" blue="0.9317171573638916" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstItem="fI2-YD-34i" firstAttribute="top" secondItem="LTd-M3-OoQ" secondAttribute="bottom" constant="54.5" id="1fg-mm-O55"/>
-                                    <constraint firstItem="fI2-YD-34i" firstAttribute="centerY" secondItem="83j-1t-8fe" secondAttribute="centerY" constant="34.5" id="39p-EI-02d"/>
+                                    <constraint firstItem="fI2-YD-34i" firstAttribute="top" secondItem="LTd-M3-OoQ" secondAttribute="bottom" constant="45.5" id="1fg-mm-O55"/>
+                                    <constraint firstItem="fI2-YD-34i" firstAttribute="centerY" secondItem="83j-1t-8fe" secondAttribute="centerY" constant="30" id="39p-EI-02d"/>
                                     <constraint firstItem="LTd-M3-OoQ" firstAttribute="centerX" secondItem="83j-1t-8fe" secondAttribute="centerX" id="40M-SD-hPY"/>
                                     <constraint firstItem="fI2-YD-34i" firstAttribute="centerX" secondItem="83j-1t-8fe" secondAttribute="centerX" id="Qbg-Xb-LOJ"/>
                                     <constraint firstItem="LTd-M3-OoQ" firstAttribute="top" secondItem="83j-1t-8fe" secondAttribute="top" constant="33" id="dOy-qK-3qc"/>

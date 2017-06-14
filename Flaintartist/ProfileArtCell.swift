@@ -79,7 +79,6 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(test), name: cancelNotif, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(bottomViewTapped), name: tapNotif, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(bottomViewReTapped), name: tapHideNotif, object: nil)
-
     }
     
     

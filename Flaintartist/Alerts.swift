@@ -44,6 +44,8 @@ class Alerts {
         
     }
     
+ 
+    
     
     func showNotif(text: String, vc: UIViewController, backgroundColor: UIColor, textColor: UIColor, autoHide: Bool) {
         GSMessage.successBackgroundColor = backgroundColor

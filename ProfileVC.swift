@@ -26,7 +26,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     @IBOutlet weak var bottomLine: UIView!
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var swipeLabel: UILabel!
-    //@IBOutlet weak var messageBtn: UIBarButtonItem!
     @IBOutlet weak var preview: UIView!
     
     var user: Users?
@@ -59,157 +58,40 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     var time: Float = 0.0
     
     var cell: ProfileArtCell?
-    
+    var bottomViewIsTapped: Bool = true
+    var cameraBtnIsTapped: Bool = true
 
-    
+
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
     
-    
-    func updateViewsWithRCValues() {
-        let text = RemoteConfig.remoteConfig().configValue(forKey: "new").stringValue ?? ""
-        print("THIS IS THE VALUE: \(text)")
-    }
-    
-    func setupRemoteConfigDefault() {
-        let defaultValues = ["new": "Test" as NSObject]
-        RemoteConfig.remoteConfig().setDefaults(defaultValues)
-    }
-    
-    
-    
-    func fetchRemoteConfig() {
-        let debugConfig = RemoteConfigSettings(developerModeEnabled: true)
-        RemoteConfig.remoteConfig().configSettings = debugConfig!
-        RemoteConfig.remoteConfig().fetch(withExpirationDuration: 0) {[weak self] (status, error) in
-            guard error == nil else {
-                print("Error: \(error)")
-                return
-            }
-            
-            print("NO ERRORS")
-            RemoteConfig.remoteConfig().activateFetched()
-            self?.updateViewsWithRCValues()
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupRemoteConfigDefault()
-        updateViewsWithRCValues()
-        fetchRemoteConfig()
-    
-        v = UIImageView(frame: CGRect(x: CGFloat(2), y: CGFloat(2), width: CGFloat(25), height: CGFloat(25)))
-        let width: CGFloat = v!.frame.size.width
-        let height: CGFloat = v!.frame.size.height
-        
-        v?.contentMode = .scaleAspectFill
-        v?.layer.masksToBounds = true
-        v?.layer.cornerRadius = (v?.frame.width)! / 2
-        v?.isUserInteractionEnabled = true
-
-        v?.layer.borderWidth = 1.3
-        v?.layer.borderColor = UIColor.white.cgColor
-        let frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(width + 4), height: CGFloat(height + 4))
-
-        
-        let ringProgressView = MKRingProgressView(frame: frame)
-        ringProgressView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-        ringProgressView.startColor = UIColor.flatSkyBlue()
-        ringProgressView.endColor = UIColor.flatSkyBlueColorDark()
-        ringProgressView.ringWidth = 1.4
-        ringProgressView.progress = 0.1
-        ringProgressView.addSubview(v!)
-    
-        let profileBtn = UIBarButtonItem(customView: ringProgressView)
-        v?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(settingsBtnTapped(_:))))
-        self.navigationItem.leftBarButtonItem = profileBtn
 
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.emptyDataSetSource = self
         collectionView.emptyDataSetDelegate = self
-
-        DataService.instance.currentUserInfo { (user) in
-            if let url = user?.profilePicUrl {
-                self.v?.sd_setImage(with: URL(string: url), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: { (image, error, cache, url) in
-                    if url == nil {
-                        ringProgressView.alpha = 0.0
-
-                    }
-                    ringProgressView.progress = 1.0
-                })
-            }
-        }
         
+        setupViews()
         loadArts()
+        addGestures()
+        //verifyConnection()
         
-        self.searchController = UISearchController(searchResultsController: nil)
-        self.searchController.searchResultsUpdater = self
-        self.searchController.delegate = self
-        self.searchController.searchBar.delegate = self
-        self.searchController.searchBar.sizeToFit()
-        self.searchController.searchBar.showsCancelButton = false
-        self.searchController.searchBar.placeholder = "Search"
-        self.searchController.searchBar.returnKeyType = .done
-        self.searchController.hidesNavigationBarDuringPresentation = false
-        self.searchController.searchBar.searchBarStyle = .minimal
-        self.searchController.searchBar.becomeFirstResponder()
-        self.navigationItem.titleView = searchController.searchBar
-        self.searchController.dimsBackgroundDuringPresentation = false
-        
-        pageControl = FlexiblePageControl(frame: bottomView.bounds)
-        pageControl.isUserInteractionEnabled = true
-        pageControl.dotSize = 6
-        pageControl.dotSpace = 5
-        pageControl.hidesForSinglePage = true
-        pageControl.displayCount = 5
-        
-        pageControl.pageIndicatorTintColor = UIColor.flatGray()
-        pageControl.currentPageIndicatorTintColor = UIColor.flatSkyBlueColorDark()
-        pageControl.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        bottomView.addSubview(pageControl)
-        pageControl.updateViewSize()
-
-
-        
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(swipe(gesture:)))
-        swipeRight.direction = .right
-        self.bottomView.addGestureRecognizer(swipeRight)
-        
-        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(swipe(gesture:)))
-        swipeDown.direction = .left
-        self.bottomView.addGestureRecognizer(swipeDown)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(bottomViewTapped))
-        self.bottomView.addGestureRecognizer(tapGesture)
-        
-        if currentReachabilityStatus == .notReachable {
-            let alert = Alerts()
-            alert.showNotif(text: "No internet connection.", vc: self, backgroundColor: UIColor.flatRed(), textColor: UIColor.flatWhite(), autoHide: false)
+        if #available(iOS 10.0, *) {
+            self.setupAVCapture(view: self.preview, session: session)
+        } else {
+            // Fallback on earlier versions
         }
         
-        print(currentReachabilityStatus != .notReachable) //true connected
-            if #available(iOS 10.0, *) {
-                self.setupAVCapture(view: self.preview, session: session)
-            } else {
-                // Fallback on earlier versions
-        }
         timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector:#selector(setProgress), userInfo: nil, repeats: false)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(showBars), name: editNotif, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(hideBars), name: cancelNotif, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(hideBars), name: tapNotif, object: nil)
-
     }
     
     
-    var bottomViewIsTapped: Bool = true
-    
+
     func bottomViewTapped() {
         if bottomViewIsTapped {
             bottomViewIsTapped = !bottomViewIsTapped
@@ -233,17 +115,24 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         }
     }
     
-    var cameraBtnIsTapped: Bool = true
     
+    override var prefersStatusBarHidden: Bool {
+        return navigationController?.isNavigationBarHidden == true
+    }
+    
+    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        return UIStatusBarAnimation.slide
+    }
 
     @IBAction func cameraBtnTapped(sender: UIButton) {
         if (cameraBtnIsTapped) {
             cameraBtnIsTapped = !cameraBtnIsTapped
-            UIView.animate(withDuration: 0.5) {
+            UIView.animate(withDuration: 0.2) {
                 if #available(iOS 10.0, *) {
                     self.preview.isHidden = false
                     self.session.startRunning()
-                    self.navigationController?.setNavigationBarHidden(true, animated: true)
+                    self.navigationController?.setNavigationBarHidden(self.navigationController?.isNavigationBarHidden == false, animated: true)
+                    //self.navigationController?.setNavigationBarHidden(true, animated: true)
                     sender.setImage(UIImage(named: "Dismiss Filled-20"), for: .normal)
                     self.bottomView.backgroundColor = UIColor.clear
                     self.pageControl.pageIndicatorTintColor = UIColor(white: 0.5, alpha: 0.5)
@@ -256,7 +145,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             }
         } else {
             cameraBtnIsTapped = !cameraBtnIsTapped
-            UIView.animate(withDuration: 0.5) {
+            UIView.animate(withDuration: 0.2) {
                 if #available(iOS 10.0, *) {
                     self.session.stopRunning()
                     self.preview.isHidden = true
@@ -275,7 +164,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     
     func swipe(gesture: UIGestureRecognizer) {
-        
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.right:
@@ -363,9 +251,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     
     func loadArts() {
-        
-      
-        
         let ref =  DataService.instance.REF_ARTISTARTS.child((Auth.auth().currentUser?.uid)!)
         ref.observe(.value, with: {[weak self] (snapshot) in
             self?.arts = []
@@ -484,7 +369,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                 cell.artRoomScene.boxnode.removeFromParentNode()
                 cell.configureCell(forArt: art)
             indicator.removeFromSuperview()
-//            cell.wallViewAction = {self.wallView(artImage: cell.artImageView.image!, art: art, artRoomScene: cell.artRoomScene)}
             return cell
         } else {
             return ProfileArtCell()
@@ -665,6 +549,108 @@ extension ProfileVC {
         UIView.animate(withDuration: 2.5) {
             self.navigationController?.navigationBar.alpha = 0
         }
+    }
+    
+    // Views
+    func setupViews() {
+        
+        v = UIImageView(frame: CGRect(x: CGFloat(2), y: CGFloat(2), width: CGFloat(25), height: CGFloat(25)))
+        let width: CGFloat = v!.frame.size.width
+        let height: CGFloat = v!.frame.size.height
+        
+        v?.contentMode = .scaleAspectFill
+        v?.layer.masksToBounds = true
+        v?.layer.cornerRadius = (v?.frame.width)! / 2
+        v?.isUserInteractionEnabled = true
+        
+        v?.layer.borderWidth = 1.3
+        v?.layer.borderColor = UIColor.white.cgColor
+        let frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(width + 4), height: CGFloat(height + 4))
+        
+        
+        let ringProgressView = MKRingProgressView(frame: frame)
+        ringProgressView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        ringProgressView.startColor = UIColor.flatSkyBlue()
+        ringProgressView.endColor = UIColor.flatSkyBlueColorDark()
+        ringProgressView.ringWidth = 1.4
+        ringProgressView.progress = 0.1
+        ringProgressView.addSubview(v!)
+        
+        DataService.instance.currentUserInfo { (user) in
+            if let url = user?.profilePicUrl {
+                self.v?.sd_setImage(with: URL(string: url), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: { (image, error, cache, url) in
+                    if url == nil {
+                        ringProgressView.alpha = 0.0
+                        
+                    }
+                    ringProgressView.progress = 1.0
+                })
+            }
+        }
+        
+        let profileBtn = UIBarButtonItem(customView: ringProgressView)
+        v?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(settingsBtnTapped(_:))))
+        self.navigationItem.leftBarButtonItem = profileBtn
+        
+        
+        self.searchController = UISearchController(searchResultsController: nil)
+        self.searchController.searchResultsUpdater = self
+        self.searchController.delegate = self
+        self.searchController.searchBar.delegate = self
+        self.searchController.searchBar.sizeToFit()
+        self.searchController.searchBar.showsCancelButton = false
+        self.searchController.searchBar.placeholder = "Search"
+        self.searchController.searchBar.returnKeyType = .done
+        self.searchController.hidesNavigationBarDuringPresentation = false
+        self.searchController.searchBar.searchBarStyle = .minimal
+        self.searchController.searchBar.becomeFirstResponder()
+        self.navigationItem.titleView = searchController.searchBar
+        self.searchController.dimsBackgroundDuringPresentation = false
+        
+        pageControl = FlexiblePageControl(frame: bottomView.bounds)
+        pageControl.isUserInteractionEnabled = true
+        pageControl.dotSize = 6
+        pageControl.dotSpace = 5
+        pageControl.hidesForSinglePage = true
+        pageControl.displayCount = 5
+        
+        pageControl.pageIndicatorTintColor = UIColor.flatGray()
+        pageControl.currentPageIndicatorTintColor = UIColor.flatSkyBlueColorDark()
+        pageControl.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        bottomView.addSubview(pageControl)
+        pageControl.updateViewSize()
+    }
+    
+    // Add Gestures 
+    
+    func addGestures() {
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(swipe(gesture:)))
+        swipeRight.direction = .right
+        self.bottomView.addGestureRecognizer(swipeRight)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(swipe(gesture:)))
+        swipeDown.direction = .left
+        self.bottomView.addGestureRecognizer(swipeDown)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(bottomViewTapped))
+        self.bottomView.addGestureRecognizer(tapGesture)
+    }
+    
+    // Add observers
+    
+    func addObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(showBars), name: editNotif, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(hideBars), name: cancelNotif, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(hideBars), name: tapNotif, object: nil)
+    }
+    
+    func verifyConnection() {
+        if currentReachabilityStatus == .notReachable {
+            let alert = Alerts()
+            alert.showNotif(text: "No internet connection.", vc: self, backgroundColor: UIColor.flatRed(), textColor: UIColor.flatWhite(), autoHide: false)
+        }
+        print(currentReachabilityStatus != .notReachable) //true connected
     }
 }
 

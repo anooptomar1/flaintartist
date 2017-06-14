@@ -38,7 +38,6 @@ class CarouselCell: UICollectionViewCell{
     
     
     func configureCell() {
-        print("configureCell")
         let img = #imageLiteral(resourceName: "female")
         self.artRoomScene.setup(artInfo: img, height: img.size.height / 650, width: img.size.width / 650, position: SCNVector3(0, 0.2, -1.5), rotation: SCNVector4(0,60,0,-56))
     }

@@ -30,15 +30,15 @@ class RegisterVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
 
     
     @IBAction func logInFbBtnTapped(_ sender: Any) {
-        print("facebook button tapped")
+        AuthService.instance.facebookSignIn(viewController: self) { (errMsg, data) in
+            guard errMsg == nil else {
+               // self.indicator.stopAnimating()
+                return
+            }
+        }
     }
     
-    
-    
-    
-    
-    
-    
+
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -68,9 +68,6 @@ class RegisterVC: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     }
     
     func startTimer() {
-        
         _ = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(RegisterVC.scrollToNextCell), userInfo: nil, repeats: true);
-        
-        
     }
 }
