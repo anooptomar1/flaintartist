@@ -164,9 +164,9 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
         _ = navigationController?.popViewController(animated: true)
     }
     
-    //override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        //return 1.0
-    //}
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 1.0
+    }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -179,14 +179,14 @@ class EditAccountVC: UITableViewController, UIImagePickerControllerDelegate, UIN
     
     func bringUpPickerView(withRow indexPath: IndexPath) {
         let currentCellSelected: UITableViewCell? = tableView.cellForRow(at: indexPath)
-        UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveEaseIn, animations: {() -> Void in
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseIn, animations: {() -> Void in
             self.pickerView.isHidden = false
             self.pickerView.center = CGPoint(x: (currentCellSelected?.frame.size.width)! / 2, y: 500)
         })
     }
     
     func hidePickerView() {
-        UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveEaseInOut, animations: {() -> Void in
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {() -> Void in
             self.pickerView.center = CGPoint(x: self.view.layer.position.x, y: 800)
         }, completion: {(_ finished: Bool) -> Void in
             self.pickerView.isHidden = true

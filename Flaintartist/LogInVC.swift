@@ -26,16 +26,25 @@ class LogInVC: UIViewController, UITextFieldDelegate {
         self.navigationController?.navigationBar.tintColor = UIColor.flatWhite()
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style: .plain, target: nil, action: nil)
         
-        emailField.delegate = self
-        passwordField.delegate = self
-        
-        emailField.text = Defaults[.email]
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(LogInVC.textChanged(sender:)), name: NSNotification.Name.UITextFieldTextDidChange, object: nil)
-        logInBtn.isEnabled = false
+//        emailField.delegate = self
+//        passwordField.delegate = self
+//        
+//        emailField.text = Defaults[.email]
+//        
+//        NotificationCenter.default.addObserver(self, selector: #selector(LogInVC.textChanged(sender:)), name: NSNotification.Name.UITextFieldTextDidChange, object: nil)
+//        logInBtn.isEnabled = false
     }
     
     
+    @IBAction func fbLogInTapped(_ sender: Any) {
+        AuthService.instance.facebookLogIn(viewController: self) { (errMsg, data) in
+            guard errMsg == nil else {
+                //self.indicator.stopAnimating()
+                return
+            }
+        }
+        
+    }
     
     @IBAction func logInBtnTapped(_ sender: UIButton) {
         logIn()

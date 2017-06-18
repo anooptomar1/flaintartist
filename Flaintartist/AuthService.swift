@@ -18,6 +18,8 @@ class AuthService {
         return _instance
     }
 
+
+    
     
     func logIn(email: String, password: String, onComplete: Completion?){
         Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
@@ -36,6 +38,24 @@ class AuthService {
     }
     
     
+    func facebookLogIn(viewController: UIViewController, onComplete: Completion?) {
+        let facebookLogin = FBSDKLoginManager()
+        
+        facebookLogin.logIn(withReadPermissions: ["email", "public_profile"], from: viewController) { (result, error) in
+            if error != nil {
+                print("Kurbs: Unable to authenticate with Facebook - \(String(describing: error))")
+            } else if result?.isCancelled == true {
+                print("Kurbs: User cancelled Facebook authentication")
+            } else {
+                print("Kurbs: Successfully authenticated with Facebook")
+                let credential = FacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
+                self.completeLogIn(credential)
+            }
+        }
+    }
+    
+    
+    
     func facebookSignIn(viewController: UIViewController, onComplete: Completion?) {
         let facebookLogin = FBSDKLoginManager()
         facebookLogin.logIn(withReadPermissions: ["email", "public_profile"], from: viewController) { (result, error) in
@@ -46,18 +66,18 @@ class AuthService {
             } else {
                 print("Kurbs: Successfully authenticated with Facebook")
                 let credential = FacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
-                print("CREDENTIALS: \(credential.provider)")
                 self.firebaseAuth(credential)
             }
         }
     }
 
 
+
     func firebaseAuth(_ credential: AuthCredential) {
-        print("credential: AuthCredential)")
+        print("SECOND CREDENTIAL: \(credential)")
         var pictureUrl = ""
-        
-        Auth.auth().signIn(with: credential) { (user, error) in
+        Auth.auth().signIn(with: credential, completion: { (user, error) in
+            print("SECOND: \(credential.provider)")
             guard let uid = user?.uid else {
                 return
             }
@@ -66,17 +86,15 @@ class AuthService {
             } else {
                 print("Kurbs: Successfully authenticated with Firebase")
                 if let user = user {
-                    print("PROVIDER")
                     let userData = ["provider": credential.provider]
                     
-                    let profilePicRef = DataService.instance.REF_STORAGE.child(user.uid+"/profile_pic.jpg")
+                    let profilePicRef = DataService.instance.REF_STORAGE.child("\(String(describing: user.uid))/\(Int(NSDate.timeIntervalSinceReferenceDate))")
+                    print("REF: \(profilePicRef)")
                     let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, email, picture.width(300).height(300)"])
                     graphRequest.start(completionHandler: { (connection, result, error) -> Void in
                         if ((error) != nil) {
                             print("Error: \(String(describing: error))")
                         } else {
-                            print("GRAPH REQUEST")
-
                             let values: [String:AnyObject] = result as! [String : AnyObject]
                             if let photURL = values["picture"] as? [String : AnyObject] {
                                 let photoData = photURL["data"] as? [String : AnyObject]
@@ -87,22 +105,18 @@ class AuthService {
                             Defaults[.name] = (values["name"] as? String)!
                             let name = values["name"] as? String
                             let email = values["email"] as? String
-                            print("EMAIL: \(email)")
-                            let userValues = ["id": uid,"name": name, "email": email, "pictureUrl": pictureUrl] as? [String : String]
+                            let userValues = ["id": uid,"name": name, "email": email, "profileImg": pictureUrl] as? [String : String]
                             if let imageData = NSData(contentsOf: URL(string: pictureUrl)! ) {
                                 _ = profilePicRef.putData(imageData as Data, metadata: nil, completion: { (metadata, error) in
-                                    if error == nil {
-                                        
+                                    if (error == nil) {
+                                        //let downloadUrl = metadata!.downloadURLs
                                     } else {
-                                    print("Error saving facebook image: \(String(describing: error?.localizedDescription))")
+                                        print("Error saving facebook image: \(String(describing: error?.localizedDescription))")
                                     }
                                 })
-                    
                             }
-                            
-                            DataService.instance.REF_USERS.child(uid).updateChildValues(userValues!, withCompletionBlock: { (error, ref) in
-                                print(" DataService.instance.REF_USERS")
 
+                            DataService.instance.REF_USERS.child(uid).updateChildValues(userValues!, withCompletionBlock: { (error, ref) in
                                 if error != nil {
                                     print("ERROR: \(String(describing: error?.localizedDescription))")
                                 } else {
@@ -113,8 +127,9 @@ class AuthService {
                     })
                 }
             }
-        }
+        })
     }
+
     
     
     func completeSignIn(id: String, userData: Dictionary<String, String>) {
@@ -127,20 +142,20 @@ class AuthService {
 
 
     
-    
-//    func firebaseAuth(_ credential: AuthCredential) {
-//        Auth.auth().signIn(with: credential, completion: { (user, error) in
-//            if error != nil {
-//                print("Kurbs: Unable to authenticate with Firebase - \(String(describing: error))")
-//            } else {
-//                print("Kurbs: Successfully authenticated with Firebase")
-//                if let user = user {
-//                    let userData = ["provider": credential.provider]
-//                    DataService.instance.createFirebaseDBUser(user.uid, userData: userData)
-//                }
-//            }
-//        })
-//    }
+    func completeLogIn(_ credential: AuthCredential){
+        Auth.auth().signIn(with: credential, completion: { (user, error) in
+            guard let uid = user?.uid else {
+                return
+            }
+            if error != nil {
+                print("Kurbs: Unable to authenticate with Firebase - \(String(describing: error))")
+            } else {
+                Defaults[.key_uid] = uid
+                let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDel.logIn()
+            }
+        })
+    }
     
     
     // Sign Up

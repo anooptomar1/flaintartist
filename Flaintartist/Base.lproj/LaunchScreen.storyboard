@@ -21,16 +21,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FLAINT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sar-6S-WRJ">
+                                <rect key="frame" x="119.5" y="389" width="136" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="136" id="1YE-w3-057"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dots" translatesAutoresizingMaskIntoConstraints="NO" id="CUL-9Q-PUP">
-                                <rect key="frame" x="12" y="56" width="342" height="342"/>
+                                <rect key="frame" x="74" y="141" width="227" height="227"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="CUL-9Q-PUP" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="-4" id="M9J-6V-TxG"/>
-                            <constraint firstItem="CUL-9Q-PUP" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="36" id="Wc3-mi-3lE"/>
-                            <constraint firstItem="CUL-9Q-PUP" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" constant="-4.5" id="qlv-eX-ngL"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="CUL-9Q-PUP" secondAttribute="bottom" constant="269" id="rp2-Ii-YlZ"/>
+                            <constraint firstItem="Sar-6S-WRJ" firstAttribute="top" secondItem="CUL-9Q-PUP" secondAttribute="bottom" constant="21" id="Eud-LJ-QXH"/>
+                            <constraint firstItem="CUL-9Q-PUP" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="58" id="M9J-6V-TxG"/>
+                            <constraint firstItem="Sar-6S-WRJ" firstAttribute="centerX" secondItem="CUL-9Q-PUP" secondAttribute="centerX" id="TG3-T2-DDS"/>
+                            <constraint firstItem="CUL-9Q-PUP" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="121" id="Wc3-mi-3lE"/>
+                            <constraint firstItem="CUL-9Q-PUP" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="qlv-eX-ngL"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="CUL-9Q-PUP" secondAttribute="bottom" constant="299" id="rp2-Ii-YlZ"/>
                         </constraints>
                     </view>
                 </viewController>
