@@ -100,7 +100,7 @@ open class BaseView: UIView, BackgroundViewable, MarginAdjustable {
         return tapRecognizer
     }()
     
-    func tapped() {
+    @objc func tapped() {
         tapHandler?(self)
     }
     

@@ -7,21 +7,18 @@
 //
 
 import UIKit
+import ARKit
 import SceneKit
 import SDWebImage
+import Foundation
 import FirebaseStorage
 import FirebaseDatabase
 
-class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
+class ProfileArtCell: UICollectionViewCell {
     
-    @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var textView: UITextView!
-    @IBOutlet weak var isPrivateImgView: UIImageView!
-    @IBOutlet weak var scnView: SCNView!
     @IBOutlet weak var infoView: UIView!
-    @IBOutlet weak var likeBtn: UIButton!
-    @IBOutlet weak var likeLbl: UILabel!
-    @IBOutlet weak var viewLbl: UILabel!
+    @IBOutlet var sceneView: SCNView!
     
     var artImageView = UIImageView()
     var SizeView = UIView()
@@ -59,26 +56,37 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        scnView.backgroundColor = UIColor.clear
-        weak var weakSelf = self
-        let strongSelf = weakSelf!
-        scnView = strongSelf.scnView!
-        let scene = artRoomScene
-        scnView.scene = scene
-        scnView.autoenablesDefaultLighting = true
-        scnView.isJitteringEnabled = true
-        panGesture = UIPanGestureRecognizer(target: self, action: #selector(ProfileArtCell.handlePan(gestureRecognize:)))
-        panGesture.delegate = self
-        scnView.addGestureRecognizer(panGesture)
+        setupScene()
         
         // add a pinch gesture recognizer
-        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ProfileArtCell.handlePinch(gestureRecognize:)))
-        pinchGesture.delegate = self
+        
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gestureRecognize:)))
+        sceneView.addGestureRecognizer(panGesture)
         //scnView.addGestureRecognizer(pinchGesture)
-        NotificationCenter.default.addObserver(self, selector: #selector(test), name: editNotif, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(test), name: cancelNotif, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(bottomViewTapped), name: tapNotif, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(bottomViewReTapped), name: tapHideNotif, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(test), name: editNotif, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(test), name: cancelNotif, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(bottomViewTapped), name: tapNotif, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(bottomViewReTapped), name: tapHideNotif, object: nil)
+    }
+    
+    // MARK: - ARKit / ARSCNView
+    
+    
+    func setupScene() {
+        // set up sceneView
+//        let scene = artRoomScene
+//        sceneView.scene = scene
+//        sceneView.backgroundColor = UIColor(red: 249/249, green: 249/249, blue: 249/249, alpha: 1.0)
+//        sceneView.isJitteringEnabled = true
+//        sceneView.autoenablesDefaultLighting = true
+        
+        weak var weakSelf = self
+        let strongSelf = weakSelf!
+        sceneView = strongSelf.sceneView!
+        let scene = artRoomScene
+        sceneView.scene = scene
+        sceneView.autoenablesDefaultLighting = true
+        sceneView.isJitteringEnabled = true
     }
     
     
@@ -104,24 +112,21 @@ class ProfileArtCell: UICollectionViewCell, UIGestureRecognizerDelegate {
 
     
     func configureCell(forArt: Art) {
+        print("Configure")
         self.art = forArt
         let myBlock: SDWebImageCompletionBlock! = { [weak self] (image: UIImage?, error: Error?, cacheType: SDImageCacheType, imageUrl: URL?) -> Void in
             if let img = image {
-                DispatchQueue.main.async {
-                self?.artRoomScene.setup(artInfo: img, height: img.size.height / 650, width: img.size.width / 650, position: SCNVector3(0, 0.4, -1.5), rotation: SCNVector4(0,60,0,-56))
-                }
+                    print("Configure one")
+                self?.artRoomScene.setup(artInfo: img, height: img.size.height, width: img.size.width, position: SCNVector3(0, 0.4, -1.5), rotation: SCNVector4(0,60,0,-56))
+               }
             }
-        }
-        queue.async(qos: .default) {
             self.artImageView.sd_setImage(with: URL(string: self.art!.imgUrl) , placeholderImage: nil , options: .continueInBackground, completed: myBlock)
-        }
-        
         textView.text = "\(forArt.title) \n"
     }
     
     
     
-    func handlePan(gestureRecognize: UIPanGestureRecognizer) {
+    @objc func handlePan(gestureRecognize: UIPanGestureRecognizer) {
         let numberOfTouches = gestureRecognize.numberOfTouches
         let translation = gestureRecognize.translation(in: gestureRecognize.view!)
         var widthRatio = Float(translation.x) / Float(gestureRecognize.view!.frame.size.width) - lastWidthRatio

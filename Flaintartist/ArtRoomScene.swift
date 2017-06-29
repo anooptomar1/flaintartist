@@ -2,7 +2,7 @@
 //  ArtRoomScene.swift
 //  Flaintartist
 //
-//  Created by Kerby Jean on 1/1/17.
+//  Created by Kerby Jean on 2017-06-20.
 //  Copyright © 2017 Kerby Jean. All rights reserved.
 //
 
@@ -19,7 +19,7 @@ class ArtRoomScene: SCNScene {
     var rotation = SCNVector4()
     var geometry = SCNBox()
     var post: Art!
-    var boxnode = SCNNode()
+    var boxnode = VirtualObject()
     var cameraOrbit = SCNNode()
     var cameraNode = SCNNode()
     let camera = SCNCamera()
@@ -35,28 +35,29 @@ class ArtRoomScene: SCNScene {
     }
     
     func setup(artInfo: UIImage?, height: CGFloat? = nil, width: CGFloat? = nil, position: SCNVector3, rotation: SCNVector4)  {
+        print("SETUP")
         self.artImage = artInfo!
         self.height = height!
         self.width = width!
-        self.geometry = SCNBox(width: width!, height: height!, length: 57 / 700, chamferRadius: 0.008)
-        self.geometry.firstMaterial?.diffuse.contents = UIColor.clear
-        self.geometry.firstMaterial?.specular.contents = UIColor.clear
-        self.geometry.firstMaterial?.emission.contents = UIColor.clear
-        boxnode = SCNNode(geometry: self.geometry)
+        self.geometry = SCNBox(width: width! / 50 , height: height! / 50, length: 57 / 700, chamferRadius: 0.008)
+        self.geometry.firstMaterial?.diffuse.contents = UIColor.red
+        self.geometry.firstMaterial?.specular.contents = UIColor.white
+        self.geometry.firstMaterial?.emission.contents = UIColor.blue
+        boxnode = VirtualObject(geometry: geometry)
         boxnode.position = position
         boxnode.rotation = rotation
-
+        
         self.rootNode.addChildNode(boxnode)
-
+        
         cameraNode = SCNNode()
         cameraNode.camera = camera
         camera.orthographicScale = 9
         camera.zNear = 1
         camera.zFar = 90
         cameraOrbit.position = SCNVector3(0, 0, 3)
-
+        
         cameraOrbit.addChildNode(cameraNode)
-        self.rootNode.addChildNode(cameraOrbit)        
+        self.rootNode.addChildNode(cameraOrbit)
         let material = SCNMaterial()
         material.diffuse.contents = artImage
         let borderMat = SCNMaterial()
@@ -65,7 +66,7 @@ class ArtRoomScene: SCNScene {
         backMat.diffuse.contents = UIColor.gray
         self.materials = [material, borderMat, backMat, borderMat, borderMat]
         self.geometry.materials = self.materials
-      
+        
     }
     
     

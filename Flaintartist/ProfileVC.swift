@@ -5,26 +5,23 @@
 //  Created by Kerby Jean on 1/1/17.
 //  Copyright © 2017 Kerby Jean. All rights reserved.
 //
-
 import UIKit
-import SceneKit
 import Firebase
+import SceneKit
 import SDWebImage
-import AVFoundation
 import SwiftMessages
 import DZNEmptyDataSet
 import ChameleonFramework
 import SwiftyUserDefaults
 
 
-class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource,  UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating, AVCaptureVideoDataOutputSampleBufferDelegate{
+class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource, UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating {
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var bottomStackView: UIStackView!
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var swipeLabel: UILabel!
-    @IBOutlet weak var preview: UIView!
     
     var user: Users?
     var arts = [Art]()
@@ -50,15 +47,13 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     var v: UIImageView?
     var pageControl: FlexiblePageControl!
     
-    let session = AVCaptureSession()
-    
     var timer: Timer?
     var time: Float = 0.0
     
     var cell: ProfileArtCell?
     var bottomViewIsTapped: Bool = true
     var cameraBtnIsTapped: Bool = true
-
+    
 
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -68,24 +63,12 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.emptyDataSetSource = self
-        collectionView.emptyDataSetDelegate = self
         
+        setDelegate()
         setupViews()
         loadArts()
         addGestures()
-        //verifyConnection()
         
-        if #available(iOS 10.0, *) {
-            self.setupAVCapture(view: self.preview, session: session)
-        } else {
-            // Fallback on earlier versions
-        }
-        
-        timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector:#selector(setProgress), userInfo: nil, repeats: false)
     }
     
     
@@ -105,7 +88,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
 
     
-    func setProgress() {
+    @objc func setProgress() {
         time += 0.1
         progressView.setProgress(time / 4, animated: true)
         if time >= 4 {
@@ -113,48 +96,17 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         }
     }
     
-    
-    override var prefersStatusBarHidden: Bool {
-        return navigationController?.isNavigationBarHidden == true
-    }
-    
-    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
-        return UIStatusBarAnimation.slide
-    }
 
     @IBAction func cameraBtnTapped(sender: UIButton) {
-        if (cameraBtnIsTapped) {
-            cameraBtnIsTapped = !cameraBtnIsTapped
-            UIView.animate(withDuration: 0.1) {
-                if #available(iOS 10.0, *) {
-                    self.preview.isHidden = false
-                    self.session.startRunning()
-                    self.navigationController?.setNavigationBarHidden(self.navigationController?.isNavigationBarHidden == false, animated: true)
-                    //self.navigationController?.setNavigationBarHidden(true, animated: true)
-                    sender.setImage(UIImage(named: "Dismiss Filled-20"), for: .normal)
-                    self.bottomView.backgroundColor = UIColor.clear
-                    self.pageControl.pageIndicatorTintColor = UIColor(white: 0.5, alpha: 0.5)
-                    self.pageControl.currentPageIndicatorTintColor = UIColor.flatWhite()
-                    self.pageControl.updateViewSize()
-                    self.swipeLabel.textColor = UIColor.flatWhite()
-                } else {
-                    // Fallback on earlier versions
-                }
-            }
-        } else {
-            cameraBtnIsTapped = !cameraBtnIsTapped
-            UIView.animate(withDuration: 0.1) {
-                if #available(iOS 10.0, *) {
-                    self.session.stopRunning()
-                    self.preview.isHidden = true
-                    self.navigationController?.setNavigationBarHidden(false, animated: true)
-                    sender.setImage( UIImage(named: "Preview Pane-20"), for: .normal)
-                    self.swipeLabel.textColor = UIColor.flatGrayColorDark()
-                } else {
-                    // Fallback on earlier versions
-                }
-            }
-        }
+        let transition: CATransition = CATransition()
+        transition.duration = 0.0
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = kCATransitionFade
+        self.navigationController!.view.layer.add(transition, forKey: nil)
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "TestVC") as! TestVC
+        //vc.virtualObject = self.virtualObject
+        self.navigationController?.pushViewController(vc, animated: false)
+        self.navigationController?.isNavigationBarHidden = true 
     }
     
     
@@ -218,8 +170,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         filterContentForSearchText(searchText: searchBarText)
         self.searchController = searchController
     }
-    
-    
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         self.searchController.searchBar.endEditing(true)
@@ -236,7 +186,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
-        session.stopRunning()
     }
     
     
@@ -339,7 +288,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             return filteredArts.count
         } else {
             self.pageControl.isHidden = false
-
             return arts.count
         }
     }
@@ -347,12 +295,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var art = arts[indexPath.row]
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileArtCell", for: indexPath) as? ProfileArtCell {
-
-            let indicator = UIActivityIndicatorView(frame: cell.bounds)
-            indicator.activityIndicatorViewStyle = .gray
-            indicator.hidesWhenStopped = true
-            indicator.startAnimating()
-            cell.contentView.addSubview(indicator)
+            
             cell.profileVC = self
             self.cell = cell
 
@@ -361,9 +304,8 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             } else {
                 art = arts[indexPath.row]
             }
-                cell.artRoomScene.boxnode.removeFromParentNode()
-                cell.configureCell(forArt: art)
-            indicator.removeFromSuperview()
+            cell.artRoomScene.boxnode.removeFromParentNode()
+            cell.configureCell(forArt: art)
             return cell
         } else {
             return ProfileArtCell()
@@ -402,7 +344,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     //MARK: DZNEmptyDataSet
     func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        let attrs = [NSFontAttributeName: UIFont.systemFont(ofSize: 14)]
+        let attrs = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]
         return NSAttributedString(string: "You have no artwork yet. Click on the ＋ button to add.", attributes: attrs)
     }
     
@@ -414,26 +356,11 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
 
 //MARK: Extension Edit Art
 extension ProfileVC {
-    
-    
     func showRequestAlert(artImage: UIImage?, art: Art?, artRoomScene: ArtRoomScene) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
         let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
-            if !self.session.isRunning {
-                let view = self.view.captureView()
-                self.shareChoice(view: view)
-            } else {
-                
-                if #available(iOS 10.0, *) {
-                    if (stillImageOutput?.connection(withMediaType: AVMediaTypeVideo)) != nil {
-                        //stillImageOutput?.captureS
-                    }
-                } else {
-                    // Fallback on earlier versions
-                }
-                self.shareChoice(view: self.image)
-            }
+            
         })
         
         let remove = UIAlertAction(title: "Remove", style: .destructive, handler: { (UIAlertAction) in
@@ -546,8 +473,21 @@ extension ProfileVC {
         }
     }
     
+    
+    // MARK: - Set Delegate
+    
+    func setDelegate() {
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.emptyDataSetSource = self
+        collectionView.emptyDataSetDelegate = self
+    }
+    
     // Views
     func setupViews() {
+        
+        timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector:#selector(setProgress), userInfo: nil, repeats: false)
         
         v = UIImageView(frame: CGRect(x: CGFloat(2), y: CGFloat(2), width: CGFloat(25), height: CGFloat(25)))
         let width: CGFloat = v!.frame.size.width
@@ -586,7 +526,7 @@ extension ProfileVC {
         
         let profileBtn = UIBarButtonItem(customView: ringProgressView)
         v?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(settingsBtnTapped(_:))))
-        self.navigationItem.leftBarButtonItem = profileBtn
+        //self.navigationItem.leftBarButtonItem = profileBtn
         
         
         self.searchController = UISearchController(searchResultsController: nil)
