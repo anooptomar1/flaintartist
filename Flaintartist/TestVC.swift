@@ -15,12 +15,10 @@ import Firebase
 
 class TestVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControllerDelegate, VirtualObjectSelectionViewControllerDelegate {
     
-    @IBOutlet weak var sceneView: ARSCNView!
-    @IBOutlet weak var bottomView: UIView!
+    @IBOutlet var sceneView: ARSCNView!
     @IBOutlet weak var messagePanel: UIView!
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var debugMessageLabel: UILabel!
-    @IBOutlet var effectView: UIVisualEffectView!
     
     var searchController = UISearchController()
     var pageControl: FlexiblePageControl!
@@ -29,7 +27,7 @@ class TestVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControll
     var arts = [Art]()
     var xPosition: CGFloat?
     var artRoomScene = ArtRoomScene(create: true)
-    var boxNode: SCNNode!
+    var boxNode: SCNNode?
     
     
     // MARK: - ARKit / ARSCNView
@@ -43,6 +41,8 @@ class TestVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControll
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("BoxNode Rotation: \(boxNode?.rotation)")
         
         setupViews()
         setupScene()
@@ -94,8 +94,6 @@ class TestVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControll
         sceneView.backgroundColor = UIColor(red: 249/249, green: 249/249, blue: 249/249, alpha: 1.0)
         sceneView.isJitteringEnabled = true
         sceneView.autoenablesDefaultLighting = true
-        
-        effectView.layer.cornerRadius = effectView.frame.size.height / 2
     }
     
     
@@ -279,6 +277,8 @@ class TestVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControll
         guard let object = boxNode else {
             return
         }
+        
+        print("TOUCH BEGAAAAANNN")
         
         if currentGesture == nil {
             currentGesture = Gesture.startGestureFromTouches(touches, self.sceneView, object)
@@ -814,14 +814,22 @@ class TestVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControll
         let takeScreenshotBlock = {
             UIImageWriteToSavedPhotosAlbum(self.sceneView.snapshot(), nil, nil, nil)
             DispatchQueue.main.async {
+                print("one")
                 // Briefly flash the screen.
                 let flashOverlay = UIView(frame: self.sceneView.frame)
+                print("2")
                 flashOverlay.backgroundColor = UIColor.white
+                print("3")
                 self.sceneView.addSubview(flashOverlay)
+                print("4")
                 UIView.animate(withDuration: 0.25, animations: {
+                    print("5")
                     flashOverlay.alpha = 0.0
+                    print("6")
                 }, completion: { _ in
+                    print("7")
                     flashOverlay.removeFromSuperview()
+                    print("8")
                 })
             }
         }
@@ -829,6 +837,7 @@ class TestVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControll
         switch PHPhotoLibrary.authorizationStatus() {
         case .authorized:
             takeScreenshotBlock()
+            print("9")
         case .restricted, .denied:
             let title = "Photos access denied"
             let message = "Please enable Photos access for this application in Settings > Privacy to allow saving screenshots."

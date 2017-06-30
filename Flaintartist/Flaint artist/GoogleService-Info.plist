@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>970955052265-bn2ne2g6lrspmjjphn77vd7mumctu3gt.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.970955052265-bn2ne2g6lrspmjjphn77vd7mumctu3gt</string>
+	<key>API_KEY</key>
+	<string>AIzaSyClKW0wuYe5KG185e8jyVEya-oT7Cb-1J0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>970955052265</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.Kurbs.Flaintartist</string>
+	<key>PROJECT_ID</key>
+	<string>medici-b6f69</string>
+	<key>STORAGE_BUCKET</key>
+	<string>medici-b6f69.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<true/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:970955052265:ios:876baf7a571a33ee</string>
+	<key>DATABASE_URL</key>
+	<string>https://medici-b6f69.firebaseio.com</string>
+</dict>
+</plist>

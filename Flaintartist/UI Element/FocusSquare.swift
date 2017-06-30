@@ -351,7 +351,7 @@ class FocusSquare: SCNNode {
         fillPlaneNode.opacity = 0.0
         
         let planeNode = SCNNode()
-        planeNode.eulerAngles = SCNVector3Make(Float.pi / 5.0, 0, 0) // Horizontal
+        planeNode.eulerAngles = SCNVector3Make(Float.pi / 2.0, 0, 0) // Horizontal
         planeNode.setUniformScale(focusSquareSize * scaleForClosedSquare)
         planeNode.addChildNode(s1)
         planeNode.addChildNode(s2)

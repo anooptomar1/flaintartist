@@ -54,7 +54,8 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     var bottomViewIsTapped: Bool = true
     var cameraBtnIsTapped: Bool = true
     
-
+    
+    
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
@@ -71,8 +72,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
     }
     
-    
-
     func bottomViewTapped() {
         if bottomViewIsTapped {
             bottomViewIsTapped = !bottomViewIsTapped
@@ -104,7 +103,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         transition.type = kCATransitionFade
         self.navigationController!.view.layer.add(transition, forKey: nil)
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "TestVC") as! TestVC
-        //vc.virtualObject = self.virtualObject
+        vc.boxNode = self.cell?.artRoomScene.boxnode
         self.navigationController?.pushViewController(vc, animated: false)
         self.navigationController?.isNavigationBarHidden = true 
     }
@@ -296,9 +295,14 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         var art = arts[indexPath.row]
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileArtCell", for: indexPath) as? ProfileArtCell {
             
+            let indicator = UIActivityIndicatorView(frame: cell.bounds)
+            indicator.activityIndicatorViewStyle = .gray
+            indicator.hidesWhenStopped = true
+            indicator.startAnimating()
+            cell.contentView.addSubview(indicator)
             cell.profileVC = self
             self.cell = cell
-
+            
             if searchController.isActive && searchController.searchBar.text != "" {
                 art = filteredArts[indexPath.row]
             } else {
@@ -306,6 +310,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             }
             cell.artRoomScene.boxnode.removeFromParentNode()
             cell.configureCell(forArt: art)
+            indicator.removeFromSuperview()
             return cell
         } else {
             return ProfileArtCell()
@@ -361,6 +366,9 @@ extension ProfileVC {
 
         let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
             
+            if let image = self.cell?.scnView.snapshot() {
+                self.shareChoice(view: image)
+            }
         })
         
         let remove = UIAlertAction(title: "Remove", style: .destructive, handler: { (UIAlertAction) in
@@ -489,7 +497,7 @@ extension ProfileVC {
         
         timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector:#selector(setProgress), userInfo: nil, repeats: false)
         
-        v = UIImageView(frame: CGRect(x: CGFloat(2), y: CGFloat(2), width: CGFloat(25), height: CGFloat(25)))
+        v = UIImageView(frame: CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(30), height: CGFloat(30)))
         let width: CGFloat = v!.frame.size.width
         let height: CGFloat = v!.frame.size.height
         
@@ -508,25 +516,21 @@ extension ProfileVC {
         
         ringProgressView.startColor = UIColor.flatSkyBlue()
         ringProgressView.endColor = UIColor.flatSkyBlueColorDark()
-        ringProgressView.ringWidth = 1.4
-        ringProgressView.progress = 0.1
+        ringProgressView.ringWidth = 0.0
+        ringProgressView.progress = 0.0
         ringProgressView.addSubview(v!)
         
         DataService.instance.currentUserInfo { (user) in
             if let url = user?.profilePicUrl {
                 self.v?.sd_setImage(with: URL(string: url), placeholderImage: #imageLiteral(resourceName: "Placeholder"), options: .continueInBackground, completed: { (image, error, cache, url) in
-                    if url == nil {
-                        ringProgressView.alpha = 0.0
-                        
-                    }
-                    ringProgressView.progress = 1.0
+              
                 })
             }
         }
         
         let profileBtn = UIBarButtonItem(customView: ringProgressView)
         v?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(settingsBtnTapped(_:))))
-        //self.navigationItem.leftBarButtonItem = profileBtn
+        self.navigationItem.leftBarButtonItem = profileBtn
         
         
         self.searchController = UISearchController(searchResultsController: nil)
@@ -540,7 +544,7 @@ extension ProfileVC {
         self.searchController.hidesNavigationBarDuringPresentation = false
         self.searchController.searchBar.searchBarStyle = .minimal
         self.searchController.searchBar.becomeFirstResponder()
-        self.navigationItem.titleView = searchController.searchBar
+        //self.navigationItem.titleView = searchController.searchBar
         self.searchController.dimsBackgroundDuringPresentation = false
         
         pageControl = FlexiblePageControl(frame: bottomView.bounds)
