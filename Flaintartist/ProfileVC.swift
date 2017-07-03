@@ -54,8 +54,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     var bottomViewIsTapped: Bool = true
     var cameraBtnIsTapped: Bool = true
     
-    
-    
+    var galleryIndexPath: IndexPath?
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
@@ -72,7 +71,8 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
     }
     
-    func bottomViewTapped() {
+    
+    @objc func bottomViewTapped() {
         if bottomViewIsTapped {
             bottomViewIsTapped = !bottomViewIsTapped
                 NotificationCenter.default.post(name: tapNotif, object: nil)
@@ -109,7 +109,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     }
     
     
-    func swipe(gesture: UIGestureRecognizer) {
+    @objc func swipe(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.right:
@@ -179,7 +179,11 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
 
         navigationItem.hidesBackButton = true
         self.navigationController?.setToolbarHidden(true, animated: false)
-      
+        
+        if let indexPath = galleryIndexPath {
+            print("VIEWWILLAPPEAR INDEXPATH: \(indexPath)")
+            collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -204,6 +208,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                         let art = Art(key: key, artData: postDict)
                         self?.art = Art(key: key, artData: postDict)
                         self?.arts.insert(art, at: 0)
+                        print("ARTS COUNT: \(self?.arts.count)")
                     }
                 }
             }
@@ -256,8 +261,13 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     
     @IBAction func addBtnTapped(_ sender: Any) {
-        let addArtVC = storyboard?.instantiateViewController(withIdentifier: "AddArtNav") as!UINavigationController
-        present(addArtVC, animated: true, completion: nil)
+        let transition: CATransition = CATransition()
+        transition.duration = 1.0
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = kCATransitionFade
+        self.view.layer.add(transition, forKey: nil)
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "AddArtNav") as! UINavigationController
+        self.present(vc, animated: false, completion: nil)
     }
     
     
@@ -274,13 +284,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         return 1
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if arts.count < 2 {
-            bottomView.alpha = 0
-        } else if arts.count > 1 {
-            bottomView.alpha = 1
-        }
         
         if searchController.isActive && searchController.searchBar.text != "" {
             self.pageControl.isHidden = true
@@ -292,14 +296,10 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        self.galleryIndexPath = indexPath
         var art = arts[indexPath.row]
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileArtCell", for: indexPath) as? ProfileArtCell {
             
-            let indicator = UIActivityIndicatorView(frame: cell.bounds)
-            indicator.activityIndicatorViewStyle = .gray
-            indicator.hidesWhenStopped = true
-            indicator.startAnimating()
-            cell.contentView.addSubview(indicator)
             cell.profileVC = self
             self.cell = cell
             
@@ -310,7 +310,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             }
             cell.artRoomScene.boxnode.removeFromParentNode()
             cell.configureCell(forArt: art)
-            indicator.removeFromSuperview()
             return cell
         } else {
             return ProfileArtCell()
@@ -469,13 +468,13 @@ extension ProfileVC {
     
     
     
-    func hideBars() {
+    @objc func hideBars() {
         UIView.animate(withDuration: 1.3) {
             self.navigationController?.navigationBar.alpha = 1
         }
     }
     
-    func showBars() {
+    @objc func showBars() {
         UIView.animate(withDuration: 2.5) {
             self.navigationController?.navigationBar.alpha = 0
         }

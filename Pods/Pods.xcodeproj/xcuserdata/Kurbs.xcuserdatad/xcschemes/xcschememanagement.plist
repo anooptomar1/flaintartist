@@ -44,6 +44,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>MBProgressHUD.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Flaintartist.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -96,97 +101,6 @@
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>03E6E56F8533C2E42C696D7CCAC42910</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>0FC4BC92AEF5151EA1216B395757B381</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>16FB872D0D2D4BA0F378AB34D47CF95F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>1832EE7E3B26BB851EDBE43A5299CC24</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>23BA9083ED0D2392A167A8AFA04427FA</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>2C8E4477483B8C01209D1569B99F10D0</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>61AF977C23DFB1506EEC7FDC5AACAB7E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6EDC37F3FA92533C6AC3562458AA91F1</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>7F5218F34ECF2A815A5FBC3C857235E7</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>8AA58E28913464E7B52601CD8DF6DD1D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>91D94C375CBA4DD4E65D8092C786CB59</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9B57F4EE4746045CEAE2D933A3C8EC9E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9D0F2E5EA1B46A5D72FFD42B0B39DBBC</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>A4D486330E24230118D8ED7D49E3A9E9</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B093AB2AAF187AD744C2CF08805B411C</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B650E2414B2BB9469F109EA256C434EB</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B88FDD59B40B166E7408803B800710AD</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>CD6295D68AF7DB3F77074CD53F306EB0</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-	</dict>
+	<dict/>
 </dict>
 </plist>

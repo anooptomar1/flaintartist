@@ -14,6 +14,11 @@
 		6D009C1D1EFB387C00E780D8 /* VirtualObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D009C1C1EFB387C00E780D8 /* VirtualObject.swift */; };
 		6D1C78301E19E86C00E2041C /* Types.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D1C782F1E19E86C00E2041C /* Types.xib */; };
 		6D1C78321E19E88200E2041C /* Details.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D1C78311E19E88200E2041C /* Details.xib */; };
+		6D285E991F098154002CD7FE /* Showcase.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6D285E981F098154002CD7FE /* Showcase.mp4 */; };
+		6D356AA11F0733F20000A66D /* Video One.mov in Resources */ = {isa = PBXBuildFile; fileRef = 6D356AA01F0733F10000A66D /* Video One.mov */; };
+		6D356AA31F07376F0000A66D /* PlayerLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D356AA21F07376F0000A66D /* PlayerLayer.swift */; };
+		6D356AA41F073C6A0000A66D /* Size.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D58ABB51F04BB8A00333C2B /* Size.xib */; };
+		6D356AA61F07628C0000A66D /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D356AA51F07628C0000A66D /* VideoPlayer.swift */; };
 		6D4461C21E2DC21F003EE5BA /* SizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4461C11E2DC21F003EE5BA /* SizeView.swift */; };
 		6D58AB9C1F04B86600333C2B /* Flaint artist in Resources */ = {isa = PBXBuildFile; fileRef = 6D58AB9B1F04B86500333C2B /* Flaint artist */; };
 		6D58AB9E1F04BA0300333C2B /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D58AB9D1F04BA0300333C2B /* DataService.swift */; };
@@ -79,6 +84,8 @@
 		6DC81C231E2BB9F70021BBCF /* ArtViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6DC81C221E2BB9F70021BBCF /* ArtViewCell.xib */; };
 		6DC81C251E2BC4860021BBCF /* ArtistView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6DC81C241E2BC4860021BBCF /* ArtistView.xib */; };
 		6DC81C271E2BCF1D0021BBCF /* ArtistViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6DC81C261E2BCF1D0021BBCF /* ArtistViewCell.xib */; };
+		6DCF25DF1F072EFD00B35B47 /* IntroOneVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCF25DE1F072EFD00B35B47 /* IntroOneVC.swift */; };
+		6DCF25E11F072F1000B35B47 /* IntroTwoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCF25E01F072F1000B35B47 /* IntroTwoVC.swift */; };
 		6DD637C61EFD7C4400530405 /* Gesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD637C51EFD7C4400530405 /* Gesture.swift */; };
 		6DD637CA1EFD7C9B00530405 /* VirtualObjectSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD637C91EFD7C9B00530405 /* VirtualObjectSelectionViewController.swift */; };
 		6DD637CC1EFEBF8100530405 /* PlaneDebugVisualization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD637CB1EFEBF8000530405 /* PlaneDebugVisualization.swift */; };
@@ -123,6 +130,10 @@
 		6D009C1C1EFB387C00E780D8 /* VirtualObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualObject.swift; sourceTree = "<group>"; };
 		6D1C782F1E19E86C00E2041C /* Types.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Types.xib; sourceTree = "<group>"; };
 		6D1C78311E19E88200E2041C /* Details.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Details.xib; sourceTree = "<group>"; };
+		6D285E981F098154002CD7FE /* Showcase.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = Showcase.mp4; path = ../../Showcase.mp4; sourceTree = "<group>"; };
+		6D356AA01F0733F10000A66D /* Video One.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = "Video One.mov"; path = "../../Video One.mov"; sourceTree = "<group>"; };
+		6D356AA21F07376F0000A66D /* PlayerLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerLayer.swift; sourceTree = "<group>"; };
+		6D356AA51F07628C0000A66D /* VideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
 		6D4461C11E2DC21F003EE5BA /* SizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeView.swift; sourceTree = "<group>"; };
 		6D58AB9B1F04B86500333C2B /* Flaint artist */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Flaint artist"; path = "../../Flaint artist"; sourceTree = "<group>"; };
 		6D58AB9D1F04BA0300333C2B /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataService.swift; path = "../../Flaint artist/DataService.swift"; sourceTree = "<group>"; };
@@ -193,6 +204,8 @@
 		6DC81C221E2BB9F70021BBCF /* ArtViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArtViewCell.xib; sourceTree = "<group>"; };
 		6DC81C241E2BC4860021BBCF /* ArtistView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArtistView.xib; sourceTree = "<group>"; };
 		6DC81C261E2BCF1D0021BBCF /* ArtistViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArtistViewCell.xib; sourceTree = "<group>"; };
+		6DCF25DE1F072EFD00B35B47 /* IntroOneVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroOneVC.swift; sourceTree = "<group>"; };
+		6DCF25E01F072F1000B35B47 /* IntroTwoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroTwoVC.swift; sourceTree = "<group>"; };
 		6DD637C51EFD7C4400530405 /* Gesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gesture.swift; sourceTree = "<group>"; };
 		6DD637C91EFD7C9B00530405 /* VirtualObjectSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualObjectSelectionViewController.swift; sourceTree = "<group>"; };
 		6DD637CB1EFEBF8000530405 /* PlaneDebugVisualization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneDebugVisualization.swift; sourceTree = "<group>"; };
@@ -333,6 +346,7 @@
 			children = (
 				6D58AC0C1F04BF9C00333C2B /* FlexiblePageControl.swift */,
 				6D58AC0E1F04BFAF00333C2B /* Badge.swift */,
+				6D356AA21F07376F0000A66D /* PlayerLayer.swift */,
 			);
 			name = UIView;
 			sourceTree = "<group>";
@@ -354,11 +368,9 @@
 				6D3AD0E81EF572E7007D6D7E /* Profile */,
 				6D3AD0E71EF572C9007D6D7E /* Settings */,
 				6D3AD0E61EF572B6007D6D7E /* Report */,
+				6DCF25DD1F072EE400B35B47 /* Intro */,
 				6D58ABE01F04BDBA00333C2B /* PrivacyVC.swift */,
 				6D58ABE21F04BDD500333C2B /* ViewController.swift */,
-				6D58ABE41F04BDE500333C2B /* IntroContentPage.swift */,
-				6D58ABE61F04BDF500333C2B /* ContentPage.swift */,
-				6D58ABE81F04BE0200333C2B /* GetStartedVC.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -491,6 +503,18 @@
 			name = ArtistView;
 			sourceTree = "<group>";
 		};
+		6DCF25DD1F072EE400B35B47 /* Intro */ = {
+			isa = PBXGroup;
+			children = (
+				6D58ABE41F04BDE500333C2B /* IntroContentPage.swift */,
+				6D58ABE61F04BDF500333C2B /* ContentPage.swift */,
+				6D58ABE81F04BE0200333C2B /* GetStartedVC.swift */,
+				6DCF25DE1F072EFD00B35B47 /* IntroOneVC.swift */,
+				6DCF25E01F072F1000B35B47 /* IntroTwoVC.swift */,
+			);
+			name = Intro;
+			sourceTree = "<group>";
+		};
 		6DF28D801E196DC200C8A3B0 = {
 			isa = PBXGroup;
 			children = (
@@ -517,6 +541,8 @@
 			isa = PBXGroup;
 			children = (
 				6D58AC171F04C02100333C2B /* Flaintartist.entitlements */,
+				6D356AA01F0733F10000A66D /* Video One.mov */,
+				6D285E981F098154002CD7FE /* Showcase.mp4 */,
 				6D58AB9B1F04B86500333C2B /* Flaint artist */,
 				6D9EA4081E19DC5A0080D182 /* Framework */,
 				6DF28DC61E199C4500C8A3B0 /* Services */,
@@ -581,6 +607,7 @@
 				6DACC0B81EF625F700A649F6 /* Utilities.swift */,
 				6DACC0BA1EF6296200A649F6 /* Settings.swift */,
 				6D69DC7C1EF9F31A0099D03D /* ARCameraTrackingState.swift */,
+				6D356AA51F07628C0000A66D /* VideoPlayer.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -620,12 +647,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6DF28DB11E196DC300C8A3B0 /* Build configuration list for PBXNativeTarget "Flaintartist" */;
 			buildPhases = (
-				F2F0FDE365890863E4DD4B03 /* 📦 Check Pods Manifest.lock */,
+				F2F0FDE365890863E4DD4B03 /* [CP] Check Pods Manifest.lock */,
 				6DF28D851E196DC200C8A3B0 /* Sources */,
 				6DF28D861E196DC200C8A3B0 /* Frameworks */,
 				6DF28D871E196DC200C8A3B0 /* Resources */,
-				3C3B47E7AE9C8138AE965586 /* 📦 Embed Pods Frameworks */,
-				55FCE082A44AA3CF6A50B475 /* 📦 Copy Pods Resources */,
+				3C3B47E7AE9C8138AE965586 /* [CP] Embed Pods Frameworks */,
+				55FCE082A44AA3CF6A50B475 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -640,12 +667,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6DF28DB41E196DC300C8A3B0 /* Build configuration list for PBXNativeTarget "FlaintartistTests" */;
 			buildPhases = (
-				6C65DCA68F977798DF8305D6 /* 📦 Check Pods Manifest.lock */,
+				6C65DCA68F977798DF8305D6 /* [CP] Check Pods Manifest.lock */,
 				6DF28D991E196DC300C8A3B0 /* Sources */,
 				6DF28D9A1E196DC300C8A3B0 /* Frameworks */,
 				6DF28D9B1E196DC300C8A3B0 /* Resources */,
-				C5AC70A3C5F0B77504058C43 /* 📦 Embed Pods Frameworks */,
-				40316AC3D72919B383C47D08 /* 📦 Copy Pods Resources */,
+				C5AC70A3C5F0B77504058C43 /* [CP] Embed Pods Frameworks */,
+				40316AC3D72919B383C47D08 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -661,11 +688,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6DF28DB71E196DC300C8A3B0 /* Build configuration list for PBXNativeTarget "FlaintartistUITests" */;
 			buildPhases = (
-				D159F979B22C9DC9C3B4307F /* 📦 Check Pods Manifest.lock */,
+				D159F979B22C9DC9C3B4307F /* [CP] Check Pods Manifest.lock */,
 				6DF28DA41E196DC300C8A3B0 /* Sources */,
 				6DF28DA51E196DC300C8A3B0 /* Frameworks */,
 				6DF28DA61E196DC300C8A3B0 /* Resources */,
-				5FD69777664B1EB531E67341 /* 📦 Copy Pods Resources */,
+				5FD69777664B1EB531E67341 /* [CP] Copy Pods Resources */,
+				50A145736F409E9C90DA6C8D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -741,11 +769,14 @@
 			files = (
 				6D58ABBD1F04BBEF00333C2B /* ArtistView.xib in Resources */,
 				6DC81C211E2BB86C0021BBCF /* ArtView.xib in Resources */,
+				6D285E991F098154002CD7FE /* Showcase.mp4 in Resources */,
 				6D58ABC91F04BCA100333C2B /* EditArtDetails.xib in Resources */,
 				6D58AB9C1F04B86600333C2B /* Flaint artist in Resources */,
 				6D58AC191F04C04800333C2B /* Assets.xcassets in Resources */,
 				6D1C78321E19E88200E2041C /* Details.xib in Resources */,
+				6D356AA11F0733F20000A66D /* Video One.mov in Resources */,
 				6D58ABBB1F04BBDD00333C2B /* HeaderView.xib in Resources */,
+				6D356AA41F073C6A0000A66D /* Size.xib in Resources */,
 				6DC81C251E2BC4860021BBCF /* ArtistView.xib in Resources */,
 				6D58AC1B1F04C0E500333C2B /* LaunchScreen.storyboard in Resources */,
 				6DF28D941E196DC300C8A3B0 /* Assets.xcassets in Resources */,
@@ -774,14 +805,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3C3B47E7AE9C8138AE965586 /* 📦 Embed Pods Frameworks */ = {
+		3C3B47E7AE9C8138AE965586 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -789,14 +820,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Flaintartist/Pods-Flaintartist-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		40316AC3D72919B383C47D08 /* 📦 Copy Pods Resources */ = {
+		40316AC3D72919B383C47D08 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -804,14 +835,29 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FlaintartistTests/Pods-FlaintartistTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		55FCE082A44AA3CF6A50B475 /* 📦 Copy Pods Resources */ = {
+		50A145736F409E9C90DA6C8D /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FlaintartistUITests/Pods-FlaintartistUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		55FCE082A44AA3CF6A50B475 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -819,14 +865,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Flaintartist/Pods-Flaintartist-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5FD69777664B1EB531E67341 /* 📦 Copy Pods Resources */ = {
+		5FD69777664B1EB531E67341 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -834,29 +880,29 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FlaintartistUITests/Pods-FlaintartistUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6C65DCA68F977798DF8305D6 /* 📦 Check Pods Manifest.lock */ = {
+		6C65DCA68F977798DF8305D6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		C5AC70A3C5F0B77504058C43 /* 📦 Embed Pods Frameworks */ = {
+		C5AC70A3C5F0B77504058C43 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -864,34 +910,34 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FlaintartistTests/Pods-FlaintartistTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D159F979B22C9DC9C3B4307F /* 📦 Check Pods Manifest.lock */ = {
+		D159F979B22C9DC9C3B4307F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		F2F0FDE365890863E4DD4B03 /* 📦 Check Pods Manifest.lock */ = {
+		F2F0FDE365890863E4DD4B03 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -913,9 +959,11 @@
 				6D58ABD31F04BD2D00333C2B /* ResetPasswordVC.swift in Sources */,
 				6D58AC011F04BF3200333C2B /* UploadPhotoCell.swift in Sources */,
 				6D58ABEF1F04BE3F00333C2B /* Time.swift in Sources */,
+				6DCF25DF1F072EFD00B35B47 /* IntroOneVC.swift in Sources */,
 				6DACC0BB1EF6296200A649F6 /* Settings.swift in Sources */,
 				6D69DC7D1EF9F31A0099D03D /* ARCameraTrackingState.swift in Sources */,
 				6D58AC051F04BF5A00333C2B /* CaptureViewExt.swift in Sources */,
+				6D356AA61F07628C0000A66D /* VideoPlayer.swift in Sources */,
 				6D58ABFD1F04BF2100333C2B /* SettingsCell.swift in Sources */,
 				6DF28DCB1E199D3300C8A3B0 /* Art.swift in Sources */,
 				6DE958311EEB316700488E6A /* RegisterVC.swift in Sources */,
@@ -940,12 +988,14 @@
 				6D58ABD11F04BD1F00333C2B /* LogInVC.swift in Sources */,
 				6D58ABE11F04BDBA00333C2B /* PrivacyVC.swift in Sources */,
 				6D58ABD51F04BD4000333C2B /* CreateAccountVC.swift in Sources */,
+				6D356AA31F07376F0000A66D /* PlayerLayer.swift in Sources */,
 				6D58AC031F04BF3D00333C2B /* CarouselCell.swift in Sources */,
 				6D009C191EFA259800E780D8 /* HitTestVisualisation.swift in Sources */,
 				6D58ABA61F04BA6300333C2B /* User.swift in Sources */,
 				6D58ABD91F04BD7100333C2B /* CaptureDetailsVC.swift in Sources */,
 				6D58ABF51F04BEC600333C2B /* MKRingProgressView.swift in Sources */,
 				6D58ABE91F04BE0200333C2B /* GetStartedVC.swift in Sources */,
+				6DCF25E11F072F1000B35B47 /* IntroTwoVC.swift in Sources */,
 				6D58ABED1F04BE2C00333C2B /* Alerts.swift in Sources */,
 				6D58ABDF1F04BDA500333C2B /* ReportVC.swift in Sources */,
 				6D9EA4231E19DE780080D182 /* DetailsScene.swift in Sources */,

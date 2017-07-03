@@ -28,6 +28,7 @@ class TestVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControll
     var xPosition: CGFloat?
     var artRoomScene = ArtRoomScene(create: true)
     var boxNode: SCNNode?
+    var galleryIndexPath: IndexPath?
     
     
     // MARK: - ARKit / ARSCNView
@@ -41,14 +42,12 @@ class TestVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControll
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print("BoxNode Rotation: \(boxNode?.rotation)")
-        
+        print("GALLERY INDEXPATH: \(galleryIndexPath)")
         setupViews()
         setupScene()
         setupUIControls()
         setupDebug()
-        setupFocusSquare()
+        //';plsetupFocusSquare()
         //updateSettings()
         //resetVirtualObject()
     }
@@ -73,8 +72,10 @@ class TestVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControll
         transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         transition.type = kCATransitionFade
         self.navigationController!.view.layer.add(transition, forKey: nil)
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
-        self.navigationController?.pushViewController(vc, animated: false)        
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProfileNav") as! UINavigationController
+        let profileVC = vc.topViewController as! ProfileVC
+        profileVC.galleryIndexPath = galleryIndexPath
+        self.navigationController?.present(vc, animated: false, completion: nil)
       }
     
     
@@ -113,6 +114,11 @@ class TestVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControll
     
     func setupScene() {
         // set up sceneView
+//        sceneView = sceneView!
+//        let scene = artRoomScene
+//        sceneView.scene = scene
+//        sceneView.autoenablesDefaultLighting = true
+//        sceneView.isJitteringEnabled = true
         sceneView.delegate = self
         sceneView.session = session
         sceneView.antialiasingMode = .multisampling4X
@@ -274,7 +280,7 @@ class TestVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControll
     var currentGesture: Gesture?
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let object = boxNode else {
+        guard let object = artRoomScene.boxnode as? SCNNode else {
             return
         }
         
@@ -291,6 +297,7 @@ class TestVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControll
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if boxNode == nil {
+            print("RETURNNNN")
             return
         }
         currentGesture = currentGesture?.updateGestureFromTouches(touches, .touchMoved)
