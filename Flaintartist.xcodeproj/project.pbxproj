@@ -70,6 +70,7 @@
 		6D58AC191F04C04800333C2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D58AC181F04C04700333C2B /* Assets.xcassets */; };
 		6D58AC1B1F04C0E500333C2B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D58AC1A1F04C0E500333C2B /* LaunchScreen.storyboard */; };
 		6D58AC1D1F04C0EF00333C2B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D58AC1C1F04C0EE00333C2B /* Main.storyboard */; };
+		6D5E7C3F1F35763A000AB37B /* EditTC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5E7C3E1F35763A000AB37B /* EditTC.swift */; };
 		6D69DC7D1EF9F31A0099D03D /* ARCameraTrackingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D69DC7C1EF9F31A0099D03D /* ARCameraTrackingState.swift */; };
 		6D6C076C1F0C49E3008C2C2D /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D6C07691F0C49E2008C2C2D /* FBSDKCoreKit.framework */; };
 		6D6C076D1F0C49E3008C2C2D /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D6C076A1F0C49E2008C2C2D /* Bolts.framework */; };
@@ -90,7 +91,6 @@
 		6DD637CA1EFD7C9B00530405 /* VirtualObjectSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD637C91EFD7C9B00530405 /* VirtualObjectSelectionViewController.swift */; };
 		6DD637CC1EFEBF8100530405 /* PlaneDebugVisualization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD637CB1EFEBF8000530405 /* PlaneDebugVisualization.swift */; };
 		6DE958311EEB316700488E6A /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE958301EEB316700488E6A /* RegisterVC.swift */; };
-		6DF28D941E196DC300C8A3B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DF28D931E196DC300C8A3B0 /* Assets.xcassets */; };
 		6DF28DA21E196DC300C8A3B0 /* FlaintartistTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF28DA11E196DC300C8A3B0 /* FlaintartistTests.swift */; };
 		6DF28DAD1E196DC300C8A3B0 /* FlaintartistUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF28DAC1E196DC300C8A3B0 /* FlaintartistUITests.swift */; };
 		6DF28DCB1E199D3300C8A3B0 /* Art.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF28DCA1E199D3300C8A3B0 /* Art.swift */; };
@@ -190,6 +190,7 @@
 		6D58AC181F04C04700333C2B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "../../Flaint artist/Assets.xcassets"; sourceTree = "<group>"; };
 		6D58AC1A1F04C0E500333C2B /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = "../../Flaint artist/LaunchScreen.storyboard"; sourceTree = "<group>"; };
 		6D58AC1C1F04C0EE00333C2B /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = "../../Flaint artist/Main.storyboard"; sourceTree = "<group>"; };
+		6D5E7C3E1F35763A000AB37B /* EditTC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTC.swift; sourceTree = "<group>"; };
 		6D69DC7C1EF9F31A0099D03D /* ARCameraTrackingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCameraTrackingState.swift; sourceTree = "<group>"; };
 		6D6C07691F0C49E2008C2C2D /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "../../../Downloads/FacebookSDKs-iOS-4.24.0/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
 		6D6C076A1F0C49E2008C2C2D /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "../../../Downloads/FacebookSDKs-iOS-4.24.0/Bolts.framework"; sourceTree = "<group>"; };
@@ -211,7 +212,6 @@
 		6DD637CB1EFEBF8000530405 /* PlaneDebugVisualization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneDebugVisualization.swift; sourceTree = "<group>"; };
 		6DE958301EEB316700488E6A /* RegisterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterVC.swift; path = Flaintartist/RegisterVC.swift; sourceTree = SOURCE_ROOT; };
 		6DF28D891E196DC200C8A3B0 /* Flaintartist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flaintartist.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6DF28D931E196DC300C8A3B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6DF28D981E196DC300C8A3B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6DF28D9D1E196DC300C8A3B0 /* FlaintartistTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlaintartistTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DF28DA11E196DC300C8A3B0 /* FlaintartistTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlaintartistTests.swift; sourceTree = "<group>"; };
@@ -395,6 +395,7 @@
 			isa = PBXGroup;
 			children = (
 				6D9EA4281E19DFE90080D182 /* ProfileVC.swift */,
+				6D5E7C3E1F35763A000AB37B /* EditTC.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -540,7 +541,6 @@
 				6D009C171EFA224900E780D8 /* UI Element */,
 				6D58AC101F04BFC800333C2B /* AppDelegate.swift */,
 				6D58AC1C1F04C0EE00333C2B /* Main.storyboard */,
-				6DF28D931E196DC300C8A3B0 /* Assets.xcassets */,
 				6D58AC181F04C04700333C2B /* Assets.xcassets */,
 				6D58AC1A1F04C0E500333C2B /* LaunchScreen.storyboard */,
 				6DF28D981E196DC300C8A3B0 /* Info.plist */,
@@ -763,7 +763,6 @@
 				6D356AA41F073C6A0000A66D /* Size.xib in Resources */,
 				6DC81C251E2BC4860021BBCF /* ArtistView.xib in Resources */,
 				6D58AC1B1F04C0E500333C2B /* LaunchScreen.storyboard in Resources */,
-				6DF28D941E196DC300C8A3B0 /* Assets.xcassets in Resources */,
 				6D58AC1D1F04C0EF00333C2B /* Main.storyboard in Resources */,
 				6D1C78301E19E86C00E2041C /* Types.xib in Resources */,
 				6DC81C271E2BCF1D0021BBCF /* ArtistViewCell.xib in Resources */,
@@ -987,6 +986,7 @@
 				6D58ABFF1F04BF2B00333C2B /* EditProfileCell.swift in Sources */,
 				6D215DC41F113FF100205BF3 /* NavController.swift in Sources */,
 				6DF93F291EF9A317008CF579 /* TestVC.swift in Sources */,
+				6D5E7C3F1F35763A000AB37B /* EditTC.swift in Sources */,
 				6D4461C21E2DC21F003EE5BA /* SizeView.swift in Sources */,
 				6D215DC61F1141EC00205BF3 /* RotateButton .swift in Sources */,
 				6D58ABCF1F04BCEC00333C2B /* ArtRoomScene.swift in Sources */,

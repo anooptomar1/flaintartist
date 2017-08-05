@@ -35,12 +35,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     var segmentedCtrl = UISegmentedControl()
     var searchController = UISearchController()
     
-    let editNotif = NSNotification.Name("Show")
-    let cancelNotif = NSNotification.Name("Hide")
-    let tapNotif = NSNotification.Name("Tap")
-    let tapHideNotif =  NSNotification.Name("TapHide")
-    let rotateNotif = NSNotification.Name("RotateNotif")
-    
     weak var detailsView: EditArtDetails!
     
     var v: UIImageView?
@@ -70,20 +64,8 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     @objc func rotate() {
         print("ROTAAATE")
-        
     }
     
-    
-    @objc func bottomViewTapped() {
-        if bottomViewIsTapped {
-            bottomViewIsTapped = !bottomViewIsTapped
-                NotificationCenter.default.post(name: tapNotif, object: nil)
-                swipeLabel.isHidden = true
-        } else {
-            bottomViewIsTapped = !bottomViewIsTapped
-            NotificationCenter.default.post(name: tapHideNotif, object: nil)
-        }
-    }
     
     @objc func setProgress() {
         time += 0.1
@@ -178,19 +160,12 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         super.viewWillAppear(animated)
         navigationItem.hidesBackButton = true
         self.navigationController?.setToolbarHidden(true, animated: false)
-        NotificationCenter.default.addObserver(self, selector: #selector(rotate), name: rotateNotif, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
     }
-    
-    
-    func doSome() {
-        print("DO SOME")
-    }
-    
     
     func loadArts() {
         let ref =  DataService.instance.REF_ARTISTARTS.child((Auth.auth().currentUser?.uid)!)
@@ -341,7 +316,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         let attrs = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]
         return NSAttributedString(string: "You have no artwork yet. Click on the ＋ button to add.", attributes: attrs)
     }
-    
     var frame = CGRect()
     var image: UIImage!
 
@@ -352,6 +326,17 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
 extension ProfileVC {
     func showRequestAlert(artImage: UIImage?, art: Art?, artRoomScene: ArtRoomScene) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let edit = UIAlertAction(title: "Edit", style: .default, handler: { (UIAlertAction) in
+            let editTC = self.storyboard?.instantiateViewController(withIdentifier: "EditTC") as! EditTC
+            editTC.artImage = artImage!
+            //print("HEIGHT: \(art!.artHeight)")
+            editTC.artTitle = (art?.title)!
+//            editTC.width = (art?.artWidth)!
+//            editTC.height = (art?.artHeight)!
+            self.navigationController?.pushViewController(editTC, animated: true)
+            
+        })
 
         let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
             
@@ -369,6 +354,7 @@ extension ProfileVC {
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
+        alert.addAction(edit)
         alert.addAction(share)
         alert.addAction(remove)
         alert.addAction(cancel)
@@ -403,10 +389,6 @@ extension ProfileVC {
             } else {
                 DataService.instance.REF_ARTS.child("\(self.detailsView.art.artID)").updateChildValues(["price": price!, "title": title, "description" : desc, "private": isPrivate])
                 DataService.instance.REF_ARTISTARTS.child(self.detailsView.art.userUid).child("\(self.detailsView.art.artID)").updateChildValues(["price": price!, "title": title, "description" : desc, "private": isPrivate])
-                
-                //DataService.instance.REF_HISTORY.child((self.user?.userId!)!).child("\(self.detailsView.art.artID)").updateChildValues(["price": price!, "title": title, "description" : desc, "private": isPrivate])
-                
-                //DataService.instance.REF_FAVORITES.child((self.user?.userId!)!).child("\(self.detailsView.art.artID)").updateChildValues(["price": price!, "title": title, "description" : desc, "private": isPrivate])
                 }
                 DispatchQueue.main.async {
                     //self.setTabBarVisible(visible: true, animated: true)
@@ -431,8 +413,6 @@ extension ProfileVC {
         alert.addAction(cancel)
         present(alert, animated: true, completion: nil)
     }
-
-    
     
     func removeRequest(art: Art?) {
         let alert = UIAlertController(title: "", message: "Are you sure you want to remove \(String(describing: art!.title)). After removing it, you can't get it back.", preferredStyle: .actionSheet)
@@ -460,7 +440,6 @@ extension ProfileVC {
     }
     
     
-    
     @objc func hideBars() {
         UIView.animate(withDuration: 1.3) {
             self.navigationController?.navigationBar.alpha = 1
@@ -475,7 +454,6 @@ extension ProfileVC {
     
     
     // MARK: - Set Delegate
-    
     func setDelegate() {
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -483,7 +461,7 @@ extension ProfileVC {
         collectionView.emptyDataSetDelegate = self
     }
     
-    // Views
+    // MARK: - Views
     func setupViews() {
         
         timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector:#selector(setProgress), userInfo: nil, repeats: false)
@@ -562,17 +540,6 @@ extension ProfileVC {
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(swipe(gesture:)))
         swipeDown.direction = .left
         self.bottomView.addGestureRecognizer(swipeDown)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(bottomViewTapped))
-        self.bottomView.addGestureRecognizer(tapGesture)
-    }
-    
-    // Add observers
-    
-    func addObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(showBars), name: editNotif, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(hideBars), name: cancelNotif, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(hideBars), name: tapNotif, object: nil)
     }
     
     func verifyConnection() {
