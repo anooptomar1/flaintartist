@@ -13,11 +13,19 @@
             buildForArchiving = "YES"
             buildForAnalyzing = "YES">
             <BuildableReference
+<<<<<<< HEAD
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B650E2414B2BB9469F109EA256C434EB"
                BuildableName = "TOCropViewControllerBundle.bundle"
                BlueprintName = "TOCropViewController-TOCropViewControllerBundle"
                ReferencedContainer = "container:Pods.xcodeproj">
+=======
+               BuildableIdentifier = 'primary'
+               BlueprintIdentifier = '0BBBFEA4F1A1368D606AE9B996D7F279'
+               BlueprintName = 'TOCropViewController-TOCropViewControllerBundle'
+               ReferencedContainer = 'container:Pods.xcodeproj'
+               BuildableName = 'TOCropViewControllerBundle.bundle'>
+>>>>>>> ar
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

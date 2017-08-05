@@ -13,11 +13,19 @@
             buildForArchiving = "YES"
             buildForAnalyzing = "YES">
             <BuildableReference
+<<<<<<< HEAD
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B88FDD59B40B166E7408803B800710AD"
                BuildableName = "Protobuf.framework"
                BlueprintName = "Protobuf"
                ReferencedContainer = "container:Pods.xcodeproj">
+=======
+               BuildableIdentifier = 'primary'
+               BlueprintIdentifier = '962207405BE018E111D8A19B3F7F8AE5'
+               BlueprintName = 'Protobuf'
+               ReferencedContainer = 'container:Pods.xcodeproj'
+               BuildableName = 'Protobuf.framework'>
+>>>>>>> ar
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

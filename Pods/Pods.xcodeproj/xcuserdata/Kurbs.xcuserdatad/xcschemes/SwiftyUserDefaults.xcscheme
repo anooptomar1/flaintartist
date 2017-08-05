@@ -13,11 +13,19 @@
             buildForArchiving = "YES"
             buildForAnalyzing = "YES">
             <BuildableReference
+<<<<<<< HEAD
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A4D486330E24230118D8ED7D49E3A9E9"
                BuildableName = "SwiftyUserDefaults.framework"
                BlueprintName = "SwiftyUserDefaults"
                ReferencedContainer = "container:Pods.xcodeproj">
+=======
+               BuildableIdentifier = 'primary'
+               BlueprintIdentifier = '0590F71D673ABF4F470EEA8B2B75374C'
+               BlueprintName = 'SwiftyUserDefaults'
+               ReferencedContainer = 'container:Pods.xcodeproj'
+               BuildableName = 'SwiftyUserDefaults.framework'>
+>>>>>>> ar
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

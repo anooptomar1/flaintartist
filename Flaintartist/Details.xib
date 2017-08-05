@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13122.17" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.14"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,11 +17,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="fik-gy-BTa" customClass="DetailsView">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="230"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="317"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="nmP-o0-A5Y">
-                    <rect key="frame" x="25" y="30" width="325" height="163"/>
+                    <rect key="frame" x="25" y="134" width="325" height="163"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="yYt-Ys-EpV">
                             <rect key="frame" x="0.0" y="0.0" width="325" height="163"/>
@@ -85,11 +85,11 @@
                 </stackView>
             </subviews>
             <constraints>
-                <constraint firstItem="nmP-o0-A5Y" firstAttribute="top" secondItem="fik-gy-BTa" secondAttribute="top" constant="30" id="8sz-8k-sGq"/>
+                <constraint firstItem="nmP-o0-A5Y" firstAttribute="top" secondItem="fik-gy-BTa" secondAttribute="top" constant="134" id="8sz-8k-sGq"/>
                 <constraint firstItem="nmP-o0-A5Y" firstAttribute="centerX" secondItem="fik-gy-BTa" secondAttribute="centerX" id="sP8-d8-vaj"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-118.5" y="153"/>
+            <point key="canvasLocation" x="-118.5" y="196.5"/>
         </view>
     </objects>
 </document>
