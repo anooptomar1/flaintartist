@@ -20,14 +20,12 @@ struct Art  {
     private var _type: String!
     private var _artHeight: Int!
     private var _artWidth: Int!
-    private var _artLenght: Int!
     private var _artRef: DatabaseReference!
     private var _userUid: String!
     private var _userName: String = ""
     private var _profileImgUrl: String = ""
     private var _postDate: Int!
-    private var _likes: Int!
-    private var _views: Int!
+    
     var isPrivate: Bool = false
     
     var title: String {
@@ -78,16 +76,9 @@ struct Art  {
         return _price
     }
     
-    var likes: Int {
-        return _likes
-    }
-    
-    var views: Int {
-        return _views
-    }
     
     
-    init(artID: String, imgUrl: String, price: Int, title: String, description: String, type: String, height: Int, width: Int, postDate: Int, isPrivate: Bool, likes: Int, views: Int) {
+    init(artID: String, imgUrl: String, price: Int, title: String, description: String, type: String, height: Int, width: Int, postDate: Int, isPrivate: Bool) {
         self._artID = artID
         self._imgUrl = imgUrl
         self._title = title
@@ -97,8 +88,6 @@ struct Art  {
         self._artWidth = width
         self._postDate = postDate
         self._price = price
-        self._likes = likes
-        self._views = views
     }
     
     init(key: String, artData: Dictionary<String, AnyObject>) {
@@ -153,31 +142,6 @@ struct Art  {
             self.isPrivate = isPrivate
         }
         
-        if let likes = artData["likes"] as? Int {
-            self._likes = likes
-        }
-        
-        if let views = artData["views"] as? Int {
-            self._views = views
-        }
-        
-        _artRef = DataService.instance.REF_ARTS.child(self._artID)
-    }
-    
-    mutating func adjustLikes(addLike: Bool) {
-        if addLike {
-            _likes = likes + 1
-        } else {
-            _likes = likes - 1
-        }
-        _artRef.child("likes").setValue(_likes)
-        
-    }
-    
-    mutating func adjustViews(addView: Bool) {
-        if addView {
-           _views = views + 1
-           _artRef.child("views").setValue(_views)
-        }
+       // _artRef = DataService.instance.REF_ARTS.child(self._artID)
     }
 }

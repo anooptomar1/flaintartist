@@ -22,6 +22,8 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var swipeLabel: UILabel!
+    @IBOutlet weak var rotateButton: UIButton!
+    @IBOutlet weak var addButton: UIButton!
     
     var user: Users?
     var arts = [Art]()
@@ -32,15 +34,12 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     var tapGesture = UITapGestureRecognizer()
     var segmentedCtrl = UISegmentedControl()
     var searchController = UISearchController()
-
-    let kPrefetchRowCount = 10
     
     let editNotif = NSNotification.Name("Show")
     let cancelNotif = NSNotification.Name("Hide")
     let tapNotif = NSNotification.Name("Tap")
     let tapHideNotif =  NSNotification.Name("TapHide")
-    
-    var viewOrigin: CGFloat = 0.0
+    let rotateNotif = NSNotification.Name("RotateNotif")
     
     weak var detailsView: EditArtDetails!
     
@@ -60,14 +59,17 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         self.view.endEditing(true)
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setDelegate()
         setupViews()
         loadArts()
         addGestures()
+    }
+    
+    
+    @objc func rotate() {
+        print("ROTAAATE")
         
     }
     
@@ -81,11 +83,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             bottomViewIsTapped = !bottomViewIsTapped
             NotificationCenter.default.post(name: tapHideNotif, object: nil)
         }
-
-        print("Bottom View Tapped")
     }
-    
-
     
     @objc func setProgress() {
         time += 0.1
@@ -95,19 +93,21 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         }
     }
     
-
     @IBAction func cameraBtnTapped(sender: UIButton) {
-        let transition: CATransition = CATransition()
-        transition.duration = 0.0
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        transition.type = kCATransitionFade
-        self.navigationController!.view.layer.add(transition, forKey: nil)
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "TestVC") as! TestVC
-        vc.boxNode = self.cell?.artRoomScene.boxnode
-        self.navigationController?.pushViewController(vc, animated: false)
-        self.navigationController?.isNavigationBarHidden = true 
-    }
-    
+        for cell in collectionView.visibleCells   {
+            UIView.animate(withDuration: 0.25, animations: {
+                self.rotateButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+            }, completion: { (true) in
+                let indexPath = self.collectionView.indexPath(for: cell as! ProfileArtCell)
+                let cell = self.collectionView.cellForItem(at: indexPath!) as! ProfileArtCell
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "TestVC") as! TestVC
+                vc.artImage = cell.artImageView.image
+                self.navigationController?.pushViewController(vc, animated: false)
+                self.navigationController?.isNavigationBarHidden = true
+            })
+            
+      }
+   }
     
     @objc func swipe(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
@@ -176,14 +176,9 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         navigationItem.hidesBackButton = true
         self.navigationController?.setToolbarHidden(true, animated: false)
-        
-        if let indexPath = galleryIndexPath {
-            print("VIEWWILLAPPEAR INDEXPATH: \(indexPath)")
-            collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(rotate), name: rotateNotif, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -208,7 +203,6 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                         let art = Art(key: key, artData: postDict)
                         self?.art = Art(key: key, artData: postDict)
                         self?.arts.insert(art, at: 0)
-                        print("ARTS COUNT: \(self?.arts.count)")
                     }
                 }
             }
@@ -261,13 +255,12 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     
     @IBAction func addBtnTapped(_ sender: Any) {
-        let transition: CATransition = CATransition()
-        transition.duration = 1.0
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        transition.type = kCATransitionFade
-        self.view.layer.add(transition, forKey: nil)
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "AddArtNav") as! UINavigationController
-        self.present(vc, animated: false, completion: nil)
+        UIView.animate(withDuration: 0.25, animations: {
+            self.addButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 3)
+        }, completion: { (true) in
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "AddArtNav") as! UINavigationController
+            self.navigationController?.present(vc, animated: false, completion: nil)
+        })
     }
     
     
@@ -296,13 +289,10 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        self.galleryIndexPath = indexPath
         var art = arts[indexPath.row]
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileArtCell", for: indexPath) as? ProfileArtCell {
-            
+            self.galleryIndexPath = indexPath
             cell.profileVC = self
-            self.cell = cell
-            
             if searchController.isActive && searchController.searchBar.text != "" {
                 art = filteredArts[indexPath.row]
             } else {
@@ -365,9 +355,12 @@ extension ProfileVC {
 
         let share = UIAlertAction(title: "Share", style: .default, handler: { (UIAlertAction) in
             
-            if let image = self.cell?.scnView.snapshot() {
+            for cell in self.collectionView.visibleCells {
+                let indexPath = self.self.collectionView.indexPath(for: cell as! ProfileArtCell)
+                let cell = self.collectionView.cellForItem(at: indexPath!) as! ProfileArtCell
+                let image = cell.scnView.snapshot()
                 self.shareChoice(view: image)
-            }
+            }     
         })
         
         let remove = UIAlertAction(title: "Remove", style: .destructive, handler: { (UIAlertAction) in
@@ -411,9 +404,9 @@ extension ProfileVC {
                 DataService.instance.REF_ARTS.child("\(self.detailsView.art.artID)").updateChildValues(["price": price!, "title": title, "description" : desc, "private": isPrivate])
                 DataService.instance.REF_ARTISTARTS.child(self.detailsView.art.userUid).child("\(self.detailsView.art.artID)").updateChildValues(["price": price!, "title": title, "description" : desc, "private": isPrivate])
                 
-                DataService.instance.REF_HISTORY.child((self.user?.userId!)!).child("\(self.detailsView.art.artID)").updateChildValues(["price": price!, "title": title, "description" : desc, "private": isPrivate])
+                //DataService.instance.REF_HISTORY.child((self.user?.userId!)!).child("\(self.detailsView.art.artID)").updateChildValues(["price": price!, "title": title, "description" : desc, "private": isPrivate])
                 
-                DataService.instance.REF_FAVORITES.child((self.user?.userId!)!).child("\(self.detailsView.art.artID)").updateChildValues(["price": price!, "title": title, "description" : desc, "private": isPrivate])
+                //DataService.instance.REF_FAVORITES.child((self.user?.userId!)!).child("\(self.detailsView.art.artID)").updateChildValues(["price": price!, "title": title, "description" : desc, "private": isPrivate])
                 }
                 DispatchQueue.main.async {
                     //self.setTabBarVisible(visible: true, animated: true)
@@ -484,7 +477,6 @@ extension ProfileVC {
     // MARK: - Set Delegate
     
     func setDelegate() {
-        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.emptyDataSetSource = self
@@ -553,8 +545,8 @@ extension ProfileVC {
         pageControl.hidesForSinglePage = true
         pageControl.displayCount = 5
         
-        pageControl.pageIndicatorTintColor = UIColor.flatGray()
-        pageControl.currentPageIndicatorTintColor = UIColor.black
+        pageControl.pageIndicatorTintColor = UIColor.lightGray
+        pageControl.currentPageIndicatorTintColor = UIColor.flatGrayColorDark()
         pageControl.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         bottomView.addSubview(pageControl)
         pageControl.updateViewSize()

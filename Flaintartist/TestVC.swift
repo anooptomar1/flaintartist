@@ -19,6 +19,7 @@ class TestVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControll
     @IBOutlet weak var messagePanel: UIView!
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var debugMessageLabel: UILabel!
+    @IBOutlet weak var rotateButton: UIButton!
     
     var searchController = UISearchController()
     var pageControl: FlexiblePageControl!
@@ -29,6 +30,9 @@ class TestVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControll
     var artRoomScene = ArtRoomScene(create: true)
     var boxNode: SCNNode?
     var galleryIndexPath: IndexPath?
+    var artImage: UIImage?
+    let rotateNotif = NSNotification.Name("RotateNotif")
+    
     
     
     // MARK: - ARKit / ARSCNView
@@ -42,19 +46,26 @@ class TestVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControll
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("GALLERY INDEXPATH: \(galleryIndexPath)")
         setupViews()
         setupScene()
         setupUIControls()
         setupDebug()
-        //';plsetupFocusSquare()
+        //setupFocusSquare()
         //updateSettings()
         //resetVirtualObject()
+        NotificationCenter.default.addObserver(self, selector: #selector(rotate), name: rotateNotif, object: nil)
+    }
+    
+    @objc func rotate() {
+        print("ROTTTAAATE")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         // Prevent the screen from being dimmed after a while.
         UIApplication.shared.isIdleTimerDisabled = true
         // Start the ARSession.
@@ -64,19 +75,24 @@ class TestVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControll
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         session.pause()
+        NotificationCenter.default.removeObserver(self)
     }
     
     @IBAction func switchButton(sender: UIButton) {
-        let transition: CATransition = CATransition()
-        transition.duration = 0.4
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        transition.type = kCATransitionFade
-        self.navigationController!.view.layer.add(transition, forKey: nil)
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProfileNav") as! UINavigationController
-        let profileVC = vc.topViewController as! ProfileVC
-        profileVC.galleryIndexPath = galleryIndexPath
-        self.navigationController?.present(vc, animated: false, completion: nil)
-      }
+        
+        UIView.animate(withDuration: 0.25, animations: {
+            self.rotateButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+        }, completion: { (true) in
+            let transition: CATransition = CATransition()
+            transition.duration = 0.4
+            transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+            transition.type = kCATransitionFade
+            self.navigationController!.view.layer.add(transition, forKey: nil)
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProfileNav") as! UINavigationController
+            self.navigationController?.present(vc, animated: false, completion: nil)
+            self.navigationController?.isNavigationBarHidden = true
+        })
+    }
     
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -86,7 +102,6 @@ class TestVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControll
     }
     
     
-    
     // MARK: -  Setup Views
     
     func setupViews() {
@@ -94,7 +109,7 @@ class TestVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControll
         sceneView.scene = scene
         sceneView.backgroundColor = UIColor(red: 249/249, green: 249/249, blue: 249/249, alpha: 1.0)
         sceneView.isJitteringEnabled = true
-        sceneView.autoenablesDefaultLighting = true
+        scene.setup(artInfo: artImage, height: (artImage?.size.height)! / 300, width: (artImage?.size.width)! / 300, position: SCNVector3(0, 0, -4), rotation: SCNVector4(0,60,0,0))
     }
     
     
@@ -114,11 +129,7 @@ class TestVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControll
     
     func setupScene() {
         // set up sceneView
-//        sceneView = sceneView!
-//        let scene = artRoomScene
-//        sceneView.scene = scene
-//        sceneView.autoenablesDefaultLighting = true
-//        sceneView.isJitteringEnabled = true
+        
         sceneView.delegate = self
         sceneView.session = session
         sceneView.antialiasingMode = .multisampling4X
@@ -821,22 +832,14 @@ class TestVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControll
         let takeScreenshotBlock = {
             UIImageWriteToSavedPhotosAlbum(self.sceneView.snapshot(), nil, nil, nil)
             DispatchQueue.main.async {
-                print("one")
                 // Briefly flash the screen.
                 let flashOverlay = UIView(frame: self.sceneView.frame)
-                print("2")
                 flashOverlay.backgroundColor = UIColor.white
-                print("3")
                 self.sceneView.addSubview(flashOverlay)
-                print("4")
                 UIView.animate(withDuration: 0.25, animations: {
-                    print("5")
                     flashOverlay.alpha = 0.0
-                    print("6")
                 }, completion: { _ in
-                    print("7")
                     flashOverlay.removeFromSuperview()
-                    print("8")
                 })
             }
         }
