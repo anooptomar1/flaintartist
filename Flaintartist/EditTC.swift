@@ -30,7 +30,6 @@ class EditTC: UITableViewController {
     }
     
     func setupInfo() {
-        //print("TITLE: \(artTitle), HEIGHT\( height), WIDTH: \(width)")
         sceneView.backgroundColor = UIColor.clear
         weak var weakSelf = self
         let strongSelf = weakSelf!
