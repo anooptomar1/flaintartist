@@ -63,22 +63,22 @@ extension UIView {
 
 }
 
-open class GSMessage {
+public class GSMessage {
 
-    open static var font : UIFont = UIFont.systemFont(ofSize: 14)
-    open static var successBackgroundColor : UIColor = UIColor(red: 142.0/255, green: 183.0/255, blue: 64.0/255,  alpha: 0.95)
-    open static var warningBackgroundColor : UIColor = UIColor(red: 230.0/255, green: 189.0/255, blue: 1.0/255,   alpha: 0.95)
-    open static var errorBackgroundColor   : UIColor = UIColor(red: 219.0/255, green: 36.0/255,  blue: 27.0/255,  alpha: 0.70)
-    open static var infoBackgroundColor    : UIColor = UIColor(red: 44.0/255,  green: 187.0/255, blue: 255.0/255, alpha: 0.90)
+    public static var font : UIFont = UIFont.systemFont(ofSize: 14)
+    public static var successBackgroundColor : UIColor = UIColor(red: 142.0/255, green: 183.0/255, blue: 64.0/255,  alpha: 0.95)
+    public static var warningBackgroundColor : UIColor = UIColor(red: 230.0/255, green: 189.0/255, blue: 1.0/255,   alpha: 0.95)
+    public static var errorBackgroundColor   : UIColor = UIColor(red: 219.0/255, green: 36.0/255,  blue: 27.0/255,  alpha: 0.70)
+    public static var infoBackgroundColor    : UIColor = UIColor(red: 44.0/255,  green: 187.0/255, blue: 255.0/255, alpha: 0.90)
 
-    open class func showMessageAddedTo(_ text: String, type: GSMessageType, options: [GSMessageOption]?, inView: UIView, inViewController: UIViewController?) {
+    public class func showMessageAddedTo(_ text: String, type: GSMessageType, options: [GSMessageOption]?, inView: UIView, inViewController: UIViewController?) {
         if inView.installedMessage != nil && inView.uninstallMessage == nil { inView.hideMessage() }
         if inView.installedMessage == nil {
             GSMessage(text: text, type: type, options: options, inView: inView, inViewController: inViewController).show()
         }
     }
 
-    open func show() {
+    public func show() {
 
         if inView?.installedMessage != nil { return }
 
@@ -106,7 +106,7 @@ open class GSMessage {
 
     }
 
-    open func hide() {
+    public func hide() {
 
         if inView?.installedMessage !== self || inView?.uninstallMessage != nil { return }
 
@@ -155,7 +155,7 @@ open class GSMessage {
     public fileprivate(set) var textNumberOfLines: Int = 1
     public fileprivate(set) var y: CGFloat = 0
 
-    open var messageHeight: CGFloat { return offsetY + height }
+    public var messageHeight: CGFloat { return offsetY + height }
 
     public init(text: String, type: GSMessageType, options: [GSMessageOption]?, inView: UIView, inViewController: UIViewController?) {
 
@@ -304,4 +304,3 @@ private func GS_GCDAfter(_ delay:Double, closure:@escaping ()->()) {
     DispatchQueue.main.asyncAfter(
         deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
 }
-

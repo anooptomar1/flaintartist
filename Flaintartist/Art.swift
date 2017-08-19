@@ -11,7 +11,6 @@ import FirebaseDatabase
 import FirebaseAuth
 
 struct Art  {
-    
     private var _artID: String!
     private var _imgUrl: String!
     private var _price: Int!

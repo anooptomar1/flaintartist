@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>516498139777-fsva3f1oq7jvpeb2gpn23764970i7dhr.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.516498139777-fsva3f1oq7jvpeb2gpn23764970i7dhr</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC6JpAfA6gDTuMEKfzsQ48wEsTyfPoE-YU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>516498139777</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.Kurbs.Tripe-A</string>
+	<key>PROJECT_ID</key>
+	<string>triplea-d3e89</string>
+	<key>STORAGE_BUCKET</key>
+	<string>triplea-d3e89.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:516498139777:ios:2ae62534969fd316</string>
+	<key>DATABASE_URL</key>
+	<string>https://triplea-d3e89.firebaseio.com</string>
+</dict>
+</plist>

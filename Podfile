@@ -6,7 +6,6 @@ target 'Flaintartist' do
   use_frameworks!
 
   # Pods for Flaintartist
-  pod 'Hero'
   pod 'Firebase'
   pod 'Firebase/Auth'
   pod 'FirebaseStorage'
@@ -19,6 +18,9 @@ target 'Flaintartist' do
   pod 'GSMessages'
   pod 'SwiftMessages'
   pod 'TOCropViewController'
+  pod 'IQKeyboardManager'
+
+
   
   # Facebook
   pod 'FBSDKLoginKit'

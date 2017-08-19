@@ -36,77 +36,77 @@ public extension UserDefaults {
         
         // MARK: Getters
         
-        open var object: Any? {
+        public var object: Any? {
             return defaults.object(forKey: key)
         }
         
-        open var string: String? {
+        public var string: String? {
             return defaults.string(forKey: key)
         }
         
-        open var array: [Any]? {
+        public var array: [Any]? {
             return defaults.array(forKey: key)
         }
         
-        open var dictionary: [String: Any]? {
+        public var dictionary: [String: Any]? {
             return defaults.dictionary(forKey: key)
         }
         
-        open var data: Data? {
+        public var data: Data? {
             return defaults.data(forKey: key)
         }
         
-        open var date: Date? {
+        public var date: Date? {
             return object as? Date
         }
         
-        open var number: NSNumber? {
+        public var number: NSNumber? {
             return defaults.numberForKey(key)
         }
         
-        open var int: Int? {
+        public var int: Int? {
             return number?.intValue
         }
         
-        open var double: Double? {
+        public var double: Double? {
             return number?.doubleValue
         }
         
-        open var bool: Bool? {
+        public var bool: Bool? {
             return number?.boolValue
         }
         
         // MARK: Non-Optional Getters
         
-        open var stringValue: String {
+        public var stringValue: String {
             return string ?? ""
         }
         
-        open var arrayValue: [Any] {
+        public var arrayValue: [Any] {
             return array ?? []
         }
         
-        open var dictionaryValue: [String: Any] {
+        public var dictionaryValue: [String: Any] {
             return dictionary ?? [:]
         }
         
-        open var dataValue: Data {
+        public var dataValue: Data {
             return data ?? Data()
         }
         
-        open var numberValue: NSNumber {
+        public var numberValue: NSNumber {
             return number ?? 0
         }
         
-        open var intValue: Int {
+        public var intValue: Int {
             return int ?? 0
         }
         
-        open var doubleValue: Double {
+        public var doubleValue: Double {
             return double ?? 0
         }
         
-        open var boolValue: Bool {
+        public var boolValue: Bool {
             return bool ?? false
         }
     }
@@ -190,16 +190,16 @@ public let Defaults = UserDefaults.standard
 /// Extend this class and add your user defaults keys as static constants
 /// so you can use the shortcut dot notation (e.g. `Defaults[.yourKey]`)
 
-open class DefaultsKeys {
+public class DefaultsKeys {
     fileprivate init() {}
 }
 
 /// Base class for static user defaults keys. Specialize with value type
 /// and pass key name to the initializer to create a key.
 
-open class DefaultsKey<ValueType>: DefaultsKeys {
+public class DefaultsKey<ValueType>: DefaultsKeys {
     // TODO: Can we use protocols to ensure ValueType is a compatible type?
-    open let _key: String
+    public let _key: String
     
     public init(_ key: String) {
         self._key = key
