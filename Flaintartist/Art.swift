@@ -23,8 +23,8 @@ struct Art  {
     var postDate: NSNumber
     
     
-    init(artID: String, imgUrl: String, price: NSNumber, title: String, description: String, type: String, height: NSNumber, width: NSNumber, postDate: NSNumber) {
-        self.artID = artID
+    init(key: String, imgUrl: String, price: NSNumber, title: String, description: String, type: String, height: NSNumber, width: NSNumber, postDate: NSNumber) {
+        self.artID = key
         self.imgUrl = imgUrl
         self.title = title
         self.price = price
@@ -34,4 +34,4 @@ struct Art  {
         self.artWidth = width
         self.postDate = postDate
     }
-}
+ }

@@ -12,39 +12,42 @@ import FirebaseDatabase
 
 class ArtViewModelController {
     
-    fileprivate var viewModels: [ArtViewModel?] = []
+      var viewModels: [ArtViewModel?] = []
+      fileprivate var viewModel: ArtViewModel!
     
     
     func retrieveVideos(_ completionBlock: @escaping (_ success: Bool, _ error: Error?) -> ()) {
         let userMessagesRef = DataService.instance.REF_ARTISTARTS.child(Auth.auth().currentUser!.uid)
         
-        userMessagesRef.observe(.childAdded, with: { [weak self] (snapshot) in
+        userMessagesRef.observe(.value, with: { [weak self] (snapshot) in
             guard let strongSelf = self else {return}
-            var arts = [Art?]()
             
-            
-            for child in snapshot.children {
-                print("CHILD: \(child)")
-                
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    if let postDict = snap.value as? Dictionary<String, AnyObject> {
+                        let key = snap.key
+                        if let art = ArtViewModelController.parse(key, dictionary: postDict) {
+                            strongSelf.viewModel = ArtViewModel(key: key, artData: postDict)
+                            strongSelf.viewModels.append(art)
+                            print("VIEWW MODELS: \(strongSelf.viewModels.count)")
+                        }
+                    }
+                }
             }
             
             
-//            for item in snapshot.children {
-//                let newItem = item as! DataSnapshot
-//                guard let dictionary = newItem.value as? [String: AnyObject] else {
+            
+//                guard let dictionary = snapshot.value as? [String: AnyObject] else {
 //                    completionBlock(false, nil)
 //                    return
 //                }
+//                let key = snapshot.key
 //
-//                print("DIC: \(newItem)")
-//
-//                if let art = ArtViewModelController.parse(dictionary) {
-//                    arts.append(art)
-//                    print(arts.count)
+//                if let art = ArtViewModelController.parse(key, dictionary: dictionary) {
+//                    strongSelf.viewModels.append(art)
 //                }
-//                strongSelf.viewModels = ArtViewModelController.initViewModels(arts)
-//                completionBlock(true, nil)
-//            }
+              // strongSelf.viewModels = ArtViewModelController.initViewModels(arts)
+                completionBlock(true, nil)
         }) { (error: Error) in
             completionBlock(false, error)
         }
@@ -68,17 +71,18 @@ class ArtViewModelController {
 
 private extension ArtViewModelController {
     
-    static func parse(_ dictionary: [String: Any]) -> Art? {
-        let artID = dictionary["artID"] as? String ?? ""
-        let imgUrl = dictionary["imageUrl"] as? String ?? ""
-        let title = dictionary["title"] as? String ?? ""
-        let description = dictionary["description"] as? String ?? ""
-        let price = dictionary["price"] as? NSNumber ?? 0
-        let type = dictionary["type"] as? String ?? ""
-        let height = dictionary["height"] as? NSNumber ?? 0
-        let width = dictionary["width"] as? NSNumber ?? 0
-        let postDate = dictionary["postDate"] as? NSNumber ?? 0
-        return Art(artID: artID, imgUrl: imgUrl, price: price, title: title, description: description, type: type, height: height, width: width, postDate: postDate)
+    static func parse(_ key: String, dictionary: [String: AnyObject]) -> ArtViewModel? {
+        print("DICTIO: \(dictionary)")
+//        let artID = dictionary["artID"] as? String ?? ""
+//        let imgUrl = dictionary["imageUrl"] as? String ?? ""
+//        let title = dictionary["title"] as? String ?? ""
+//        let description = dictionary["description"] as? String ?? ""
+//        let price = dictionary["price"] as? NSNumber ?? 0
+//        let type = dictionary["type"] as? String ?? ""
+//        let height = dictionary["height"] as? NSNumber ?? 0
+//        let width = dictionary["width"] as? NSNumber ?? 0
+//        let postDate = dictionary["postDate"] as? NSNumber ?? 0
+        return ArtViewModel(key: key, artData: dictionary)
     }
     
     

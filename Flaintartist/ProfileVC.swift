@@ -271,8 +271,8 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             return filteredArts.count
         } else {
             self.pageControl.isHidden = false
-            print("COUNT: \(artViewModelController.viewModelsCount)")
-            return artViewModelController.viewModelsCount
+            print("COUNT: \(arts.count)")
+            return artViewModelController.viewModels.count
         }
     }
 
