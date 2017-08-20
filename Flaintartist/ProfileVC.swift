@@ -60,13 +60,32 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     var b = MyBool.False
     
+    fileprivate let artViewModelController = ArtViewModelController()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setDelegate()
         setupViews()
-        loadArts()
         addGestures()
+        
+        artViewModelController.retrieveVideos { [weak self] (success, error) in
+            guard let strongSelf = self else { return }
+            if !success {
+                DispatchQueue.main.async {
+                    let title = "Error"
+                    if let error = error {
+                        //strongSelf.showError(title, message: error.localizedDescription)
+                    } else {
+                        //strongSelf.showError(title, message: NSLocalizedString("Can't retrieve videos.", comment: "The message displayed when contacts can’t be retrieved."))
+                    }
+                }
+            } else {
+                DispatchQueue.main.async {
+                    strongSelf.collectionView.reloadData()
+                }
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -181,56 +200,56 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         self.searchController.searchBar.endEditing(true)
     }
     
-    func loadArts() {
-        let ref =  DataService.instance.REF_ARTISTARTS.child((Auth.auth().currentUser?.uid)!)
-        ref.observe(.value, with: {[weak self] (snapshot) in
-            self?.arts = []
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    if let postDict = snap.value as? Dictionary<String, AnyObject> {
-                        let key = snap.key
-                        let art = Art(key: key, artData: postDict)
-                        self?.art = Art(key: key, artData: postDict)
-                        self?.arts.insert(art, at: 0)
-                    }
-                }
-            }
-
-            DispatchQueue.main.async {
-                UIView.animate(withDuration: 1.0, animations: {
-                }, completion: {(true) in
-                    UIView.animate(withDuration: 3.0, animations: { 
-                    })
-                })
-           
-                //self?.messageBtn.setBadge(text: "1")
-                self?.collectionView.reloadData()
-                self?.pageControl.numberOfPages = (self?.arts.count)!
-            }
-        }, withCancel: nil)
-        
-
-        DataService.instance.REF_NEW.observe(.value, with: { (snapshot) in
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    if let postDict = snap.value as? Dictionary<String, AnyObject> {
-                        let key = snap.key
-                        let art = Art(key: key, artData: postDict)
-                        self.art = Art(key: key, artData: postDict)
-                        self.arts.insert(art, at: 0)
-                    }
-                }
-            }
-        })
-        
-        ref.observe(.childRemoved, with: { (snapshot) in
-             DataService.instance.REF_NEW.observe(.childRemoved, with: { (snapshot) in
-             })
-            DispatchQueue.main.async {
-                //self.collectionView.reloadData()
-            }
-        }, withCancel: nil)
-    }
+//    func loadArts() {
+//        let ref =  DataService.instance.REF_ARTISTARTS.child((Auth.auth().currentUser?.uid)!)
+//        ref.observe(.value, with: {[weak self] (snapshot) in
+//            self?.arts = []
+//            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+//                for snap in snapshot {
+//                    if let postDict = snap.value as? Dictionary<String, AnyObject> {
+//                        let key = snap.key
+//                        let art = Art(key: key, artData: postDict)
+//                        self?.art = Art(key: key, artData: postDict)
+//                        self?.arts.insert(art, at: 0)
+//                    }
+//                }
+//            }
+//
+//            DispatchQueue.main.async {
+//                UIView.animate(withDuration: 1.0, animations: {
+//                }, completion: {(true) in
+//                    UIView.animate(withDuration: 3.0, animations: {
+//                    })
+//                })
+//
+//                //self?.messageBtn.setBadge(text: "1")
+//                self?.collectionView.reloadData()
+//                self?.pageControl.numberOfPages = (self?.arts.count)!
+//            }
+//        }, withCancel: nil)
+//
+//
+//        DataService.instance.REF_NEW.observe(.value, with: { (snapshot) in
+//            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+//                for snap in snapshot {
+//                    if let postDict = snap.value as? Dictionary<String, AnyObject> {
+//                        let key = snap.key
+//                        let art = Art(key: key, artData: postDict)
+//                        self.art = Art(key: key, artData: postDict)
+//                        self.arts.insert(art, at: 0)
+//                    }
+//                }
+//            }
+//        })
+//
+//        ref.observe(.childRemoved, with: { (snapshot) in
+//             DataService.instance.REF_NEW.observe(.childRemoved, with: { (snapshot) in
+//             })
+//            DispatchQueue.main.async {
+//                //self.collectionView.reloadData()
+//            }
+//        }, withCancel: nil)
+//    }
     
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -252,22 +271,26 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             return filteredArts.count
         } else {
             self.pageControl.isHidden = false
-            return arts.count
+            print("COUNT: \(artViewModelController.viewModelsCount)")
+            return artViewModelController.viewModelsCount
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        var art = arts[indexPath.row]
+       // var art = arts[indexPath.row]
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileArtCell", for: indexPath) as? ProfileArtCell {
             self.galleryIndexPath = indexPath
             cell.profileVC = self
-            if searchController.isActive && searchController.searchBar.text != "" {
-                art = filteredArts[indexPath.row]
-            } else {
-                art = arts[indexPath.row]
-            }
+//            if searchController.isActive && searchController.searchBar.text != "" {
+//                art = filteredArts[indexPath.row]
+//            } else {
+//                art = arts[indexPath.row]
+//            }
             cell.artRoomScene.boxnode.removeFromParentNode()
-            cell.configureCell(forArt: art)
+            if let viewModel = artViewModelController.viewModel(at: (indexPath as NSIndexPath).row) {
+                cell.configureCell(viewModel)
+            }
+            //cell.configureCell(forArt: art)
             return cell
         } else {
             return ProfileArtCell()
