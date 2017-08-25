@@ -30,43 +30,6 @@ struct ArtViewModel {
         artWidth = art.artWidth
         postDate = art.postDate
     }
-    
-    init(key: String, artData: Dictionary<String, AnyObject>) {
-        
-        self.artID = key
-        
-        if let title = artData["title"] as? String {
-            self.title = title
-        }
-        
-        if let description = artData["description"] as? String {
-            self.description = description
-        }
-        
-        if let type = artData["type"] as? String {
-            self.type = type
-        }
-        
-        if let height = artData["height"] as? NSNumber {
-            self.artHeight = height
-        }
-        
-        if let width = artData["width"] as? NSNumber {
-            self.artWidth = width
-        }
-        
-        if let img = artData["imageUrl"] as? String {
-            self.imgUrl = img
-        }
-        
-        
-        if let postDate = artData["postDate"] as? NSNumber {
-            self.postDate = postDate
-        }
-        
-        if let price = artData["price"] as? NSNumber {
-            self.price = price
-        }
-    }
+
 }
 
