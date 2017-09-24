@@ -6,11 +6,9 @@
 //  Copyright © 2017 Kerby Jean. All rights reserved.
 //
 import UIKit
-import Hero
 import Firebase
 import SceneKit
 import SDWebImage
-import SwiftMessages
 import DZNEmptyDataSet
 import SwiftyUserDefaults
 
@@ -49,7 +47,7 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.isHeroEnabled = true
+        //self.isHeroEnabled = true
         loadGallery()
         setDelegate()
         setupViews()
@@ -102,9 +100,9 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             }, completion: { (true) in
                 let indexPath = self.collectionView.indexPath(for: cell as! ProfileArtCell)
                 let cell = self.collectionView.cellForItem(at: indexPath!) as! ProfileArtCell
-                let vc = self.storyboard?.instantiateViewController(withIdentifier: "TestVC") as! TestVC
-                vc.artImage = cell.artImageView.image
-                self.navigationController?.pushViewController(vc, animated: false)
+                //let vc = self.storyboard?.instantiateViewController(withIdentifier: "TestVC") as! TestVC
+                //vc.artImage = cell.artImageView.image
+                //self.navigationController?.pushViewController(vc, animated: false)
                 self.navigationController?.isNavigationBarHidden = true
             })
         }
@@ -123,8 +121,8 @@ class ProfileVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         let settingsNav = storyboard?.instantiateViewController(withIdentifier: "SettingsNav") as! UINavigationController
         let settingsVC = settingsNav.topViewController as! SettingsVC
             settingsVC.user = user
-        settingsNav.heroModalAnimationType = HeroDefaultAnimationType.selectBy(presenting:.zoom, dismissing:.slide(direction: .up))
-        navigationController?.hero_replaceViewController(with: settingsNav)
+        //settingsNav.heroModalAnimationType = HeroDefaultAnimationType.selectBy(presenting:.zoom, dismissing:.slide(direction: .up))
+        //navigationController?.hero_replaceViewController(with: settingsNav)
     }
     
     @objc func swipe(gesture: UIGestureRecognizer) {

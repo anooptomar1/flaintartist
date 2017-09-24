@@ -14,25 +14,14 @@
 		6D009C1D1EFB387C00E780D8 /* VirtualObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D009C1C1EFB387C00E780D8 /* VirtualObject.swift */; };
 		6D0142331F48EC3B00358580 /* ArtViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0142321F48EC3B00358580 /* ArtViewModel.swift */; };
 		6D0142351F48F0E200358580 /* ArtViewModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0142341F48F0E200358580 /* ArtViewModelController.swift */; };
-		6D1C78301E19E86C00E2041C /* Types.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D1C782F1E19E86C00E2041C /* Types.xib */; };
-		6D1C78321E19E88200E2041C /* Details.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D1C78311E19E88200E2041C /* Details.xib */; };
 		6D215DC41F113FF100205BF3 /* NavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D215DC31F113FF100205BF3 /* NavController.swift */; };
-		6D285E991F098154002CD7FE /* Showcase.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6D285E981F098154002CD7FE /* Showcase.mp4 */; };
 		6D356AA31F07376F0000A66D /* PlayerLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D356AA21F07376F0000A66D /* PlayerLayer.swift */; };
-		6D356AA41F073C6A0000A66D /* Size.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D58ABB51F04BB8A00333C2B /* Size.xib */; };
 		6D356AA61F07628C0000A66D /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D356AA51F07628C0000A66D /* VideoPlayer.swift */; };
-		6D4461C21E2DC21F003EE5BA /* SizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4461C11E2DC21F003EE5BA /* SizeView.swift */; };
 		6D58AB9E1F04BA0300333C2B /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D58AB9D1F04BA0300333C2B /* DataService.swift */; };
 		6D58ABA01F04BA1000333C2B /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D58AB9F1F04BA1000333C2B /* AuthService.swift */; };
 		6D58ABA21F04BA2100333C2B /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D58ABA11F04BA2100333C2B /* Constant.swift */; };
 		6D58ABA61F04BA6300333C2B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D58ABA51F04BA6300333C2B /* User.swift */; };
 		6D58ABB01F04BB3700333C2B /* MGMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D58ABAE1F04BB3700333C2B /* MGMessage.m */; };
-		6D58ABB31F04BB5600333C2B /* SwipeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D58ABB21F04BB5600333C2B /* SwipeView.m */; };
-		6D58ABBB1F04BBDD00333C2B /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D58ABBA1F04BBDD00333C2B /* HeaderView.xib */; };
-		6D58ABBD1F04BBEF00333C2B /* ArtistView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D58ABBC1F04BBEF00333C2B /* ArtistView.xib */; };
-		6D58ABC51F04BC7300333C2B /* ArtistViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D58ABC41F04BC7200333C2B /* ArtistViewCell.swift */; };
-		6D58ABC91F04BCA100333C2B /* EditArtDetails.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D58ABC81F04BCA000333C2B /* EditArtDetails.xib */; };
-		6D58ABCB1F04BCB600333C2B /* EditArtDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D58ABCA1F04BCB600333C2B /* EditArtDetails.swift */; };
 		6D58ABCF1F04BCEC00333C2B /* ArtRoomScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D58ABCE1F04BCEC00333C2B /* ArtRoomScene.swift */; };
 		6D58ABD11F04BD1F00333C2B /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D58ABD01F04BD1F00333C2B /* LogInVC.swift */; };
 		6D58ABD31F04BD2D00333C2B /* ResetPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D58ABD21F04BD2D00333C2B /* ResetPasswordVC.swift */; };
@@ -63,11 +52,6 @@
 		6D58AC1B1F04C0E500333C2B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D58AC1A1F04C0E500333C2B /* LaunchScreen.storyboard */; };
 		6D58AC1D1F04C0EF00333C2B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D58AC1C1F04C0EE00333C2B /* Main.storyboard */; };
 		6D69DC7D1EF9F31A0099D03D /* ARCameraTrackingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D69DC7C1EF9F31A0099D03D /* ARCameraTrackingState.swift */; };
-		6D6C076C1F0C49E3008C2C2D /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D6C07691F0C49E2008C2C2D /* FBSDKCoreKit.framework */; };
-		6D6C076D1F0C49E3008C2C2D /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D6C076A1F0C49E2008C2C2D /* Bolts.framework */; };
-		6D6C076E1F0C49E3008C2C2D /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D6C076B1F0C49E3008C2C2D /* FBSDKLoginKit.framework */; };
-		6D74BBBD1F4F6F99005D958B /* SnapContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D74BBBC1F4F6F99005D958B /* SnapContainerViewController.swift */; };
-		6D74BBBF1F4F6FC7005D958B /* VerticalScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D74BBBE1F4F6FC7005D958B /* VerticalScrollViewController.swift */; };
 		6D9EA4231E19DE780080D182 /* DetailsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9EA4221E19DE780080D182 /* DetailsScene.swift */; };
 		6D9EA4291E19DFE90080D182 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9EA4281E19DFE90080D182 /* ProfileVC.swift */; };
 		6DA15CB81F4E539A00A34D83 /* InfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA15CB71F4E539A00A34D83 /* InfoVC.swift */; };
@@ -76,10 +60,6 @@
 		6DACC0BB1EF6296200A649F6 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DACC0BA1EF6296200A649F6 /* Settings.swift */; };
 		6DBD18461F3931BA005B0712 /* ProfileVCExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBD18451F3931BA005B0712 /* ProfileVCExt.swift */; };
 		6DBD18481F39372E005B0712 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBD18471F39372E005B0712 /* View.swift */; };
-		6DC81C211E2BB86C0021BBCF /* ArtView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6DC81C201E2BB86C0021BBCF /* ArtView.xib */; };
-		6DC81C231E2BB9F70021BBCF /* ArtViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6DC81C221E2BB9F70021BBCF /* ArtViewCell.xib */; };
-		6DC81C251E2BC4860021BBCF /* ArtistView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6DC81C241E2BC4860021BBCF /* ArtistView.xib */; };
-		6DC81C271E2BCF1D0021BBCF /* ArtistViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6DC81C261E2BCF1D0021BBCF /* ArtistViewCell.xib */; };
 		6DCF25DF1F072EFD00B35B47 /* IntroOneVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCF25DE1F072EFD00B35B47 /* IntroOneVC.swift */; };
 		6DCF25E11F072F1000B35B47 /* IntroTwoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCF25E01F072F1000B35B47 /* IntroTwoVC.swift */; };
 		6DD637C61EFD7C4400530405 /* Gesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD637C51EFD7C4400530405 /* Gesture.swift */; };
@@ -125,13 +105,9 @@
 		6D009C1C1EFB387C00E780D8 /* VirtualObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualObject.swift; sourceTree = "<group>"; };
 		6D0142321F48EC3B00358580 /* ArtViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtViewModel.swift; sourceTree = "<group>"; };
 		6D0142341F48F0E200358580 /* ArtViewModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtViewModelController.swift; sourceTree = "<group>"; };
-		6D1C782F1E19E86C00E2041C /* Types.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Types.xib; sourceTree = "<group>"; };
-		6D1C78311E19E88200E2041C /* Details.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Details.xib; sourceTree = "<group>"; };
 		6D215DC31F113FF100205BF3 /* NavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavController.swift; sourceTree = "<group>"; };
-		6D285E981F098154002CD7FE /* Showcase.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = Showcase.mp4; path = ../../Showcase.mp4; sourceTree = "<group>"; };
 		6D356AA21F07376F0000A66D /* PlayerLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerLayer.swift; sourceTree = "<group>"; };
 		6D356AA51F07628C0000A66D /* VideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
-		6D4461C11E2DC21F003EE5BA /* SizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeView.swift; sourceTree = "<group>"; };
 		6D58AB9D1F04BA0300333C2B /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataService.swift; path = "../../Flaint artist/DataService.swift"; sourceTree = "<group>"; };
 		6D58AB9F1F04BA1000333C2B /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthService.swift; path = "../../Flaint artist/AuthService.swift"; sourceTree = "<group>"; };
 		6D58ABA11F04BA2100333C2B /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constant.swift; path = "../../Flaint artist/Constant.swift"; sourceTree = "<group>"; };
@@ -139,14 +115,6 @@
 		6D58ABA71F04BA7F00333C2B /* Flaintartist-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Flaintartist-Bridging-Header.h"; path = "../../Flaint artist/Flaintartist-Bridging-Header.h"; sourceTree = "<group>"; };
 		6D58ABAE1F04BB3700333C2B /* MGMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MGMessage.m; path = "../../Flaint artist/MGMessage.m"; sourceTree = "<group>"; };
 		6D58ABAF1F04BB3700333C2B /* MGMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MGMessage.h; path = "../../Flaint artist/MGMessage.h"; sourceTree = "<group>"; };
-		6D58ABB11F04BB5600333C2B /* SwipeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwipeView.h; path = "../../Flaint artist/SwipeView.h"; sourceTree = "<group>"; };
-		6D58ABB21F04BB5600333C2B /* SwipeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SwipeView.m; path = "../../Flaint artist/SwipeView.m"; sourceTree = "<group>"; };
-		6D58ABB51F04BB8A00333C2B /* Size.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Size.xib; sourceTree = "<group>"; };
-		6D58ABBA1F04BBDD00333C2B /* HeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HeaderView.xib; path = "../../Flaint artist/HeaderView.xib"; sourceTree = "<group>"; };
-		6D58ABBC1F04BBEF00333C2B /* ArtistView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArtistView.xib; path = "../../Flaint artist/ArtistView.xib"; sourceTree = "<group>"; };
-		6D58ABC41F04BC7200333C2B /* ArtistViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArtistViewCell.swift; path = "../../Flaint artist/ArtistViewCell.swift"; sourceTree = "<group>"; };
-		6D58ABC81F04BCA000333C2B /* EditArtDetails.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditArtDetails.xib; path = "../../Flaint artist/EditArtDetails.xib"; sourceTree = "<group>"; };
-		6D58ABCA1F04BCB600333C2B /* EditArtDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditArtDetails.swift; path = "../../Flaint artist/EditArtDetails.swift"; sourceTree = "<group>"; };
 		6D58ABCE1F04BCEC00333C2B /* ArtRoomScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArtRoomScene.swift; path = "../../Flaint artist/ArtRoomScene.swift"; sourceTree = "<group>"; };
 		6D58ABD01F04BD1F00333C2B /* LogInVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LogInVC.swift; path = "../../Flaint artist/LogInVC.swift"; sourceTree = "<group>"; };
 		6D58ABD21F04BD2D00333C2B /* ResetPasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResetPasswordVC.swift; path = "../../Flaint artist/ResetPasswordVC.swift"; sourceTree = "<group>"; };
@@ -178,11 +146,6 @@
 		6D58AC1A1F04C0E500333C2B /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = "../../Flaint artist/LaunchScreen.storyboard"; sourceTree = "<group>"; };
 		6D58AC1C1F04C0EE00333C2B /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = "../../Flaint artist/Main.storyboard"; sourceTree = "<group>"; };
 		6D69DC7C1EF9F31A0099D03D /* ARCameraTrackingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCameraTrackingState.swift; sourceTree = "<group>"; };
-		6D6C07691F0C49E2008C2C2D /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "../../../Downloads/FacebookSDKs-iOS-4.24.0/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
-		6D6C076A1F0C49E2008C2C2D /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "../../../Downloads/FacebookSDKs-iOS-4.24.0/Bolts.framework"; sourceTree = "<group>"; };
-		6D6C076B1F0C49E3008C2C2D /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = "../../../Downloads/FacebookSDKs-iOS-4.24.0/FBSDKLoginKit.framework"; sourceTree = "<group>"; };
-		6D74BBBC1F4F6F99005D958B /* SnapContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapContainerViewController.swift; sourceTree = "<group>"; };
-		6D74BBBE1F4F6FC7005D958B /* VerticalScrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalScrollViewController.swift; sourceTree = "<group>"; };
 		6D9EA4221E19DE780080D182 /* DetailsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsScene.swift; sourceTree = "<group>"; };
 		6D9EA4281E19DFE90080D182 /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileVC.swift; path = Flaintartist/ProfileVC.swift; sourceTree = SOURCE_ROOT; };
 		6DA15CB71F4E539A00A34D83 /* InfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoVC.swift; sourceTree = "<group>"; };
@@ -193,10 +156,6 @@
 		6DBD18471F39372E005B0712 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		6DC7BE0E1F4CF57A00958E96 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = "Pods/../build/Debug-iphoneos/RxSwift/RxSwift.framework"; sourceTree = "<group>"; };
 		6DC7BE101F4CF58500958E96 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = "Pods/../build/Debug-iphoneos/RxCocoa/RxCocoa.framework"; sourceTree = "<group>"; };
-		6DC81C201E2BB86C0021BBCF /* ArtView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArtView.xib; sourceTree = "<group>"; };
-		6DC81C221E2BB9F70021BBCF /* ArtViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArtViewCell.xib; sourceTree = "<group>"; };
-		6DC81C241E2BC4860021BBCF /* ArtistView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArtistView.xib; sourceTree = "<group>"; };
-		6DC81C261E2BCF1D0021BBCF /* ArtistViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArtistViewCell.xib; sourceTree = "<group>"; };
 		6DCF25DE1F072EFD00B35B47 /* IntroOneVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroOneVC.swift; sourceTree = "<group>"; };
 		6DCF25E01F072F1000B35B47 /* IntroTwoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroTwoVC.swift; sourceTree = "<group>"; };
 		6DD637C51EFD7C4400530405 /* Gesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gesture.swift; sourceTree = "<group>"; };
@@ -222,10 +181,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D6C076D1F0C49E3008C2C2D /* Bolts.framework in Frameworks */,
 				93B88644237F5B3480AF868F /* Pods_Flaintartist.framework in Frameworks */,
-				6D6C076E1F0C49E3008C2C2D /* FBSDKLoginKit.framework in Frameworks */,
-				6D6C076C1F0C49E3008C2C2D /* FBSDKCoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,22 +236,6 @@
 				6D58ABA51F04BA6300333C2B /* User.swift */,
 			);
 			name = User;
-			sourceTree = "<group>";
-		};
-		6D1C782C1E19E82C00E2041C /* Nib */ = {
-			isa = PBXGroup;
-			children = (
-				6D4461C11E2DC21F003EE5BA /* SizeView.swift */,
-				6D58ABBA1F04BBDD00333C2B /* HeaderView.xib */,
-				6D58ABB51F04BB8A00333C2B /* Size.xib */,
-				6D1C782F1E19E86C00E2041C /* Types.xib */,
-				6D1C78311E19E88200E2041C /* Details.xib */,
-				6DC81C281E2BD0DB0021BBCF /* ArtView */,
-				6DC81C291E2BD0E50021BBCF /* ArtistView */,
-				6D58ABCA1F04BCB600333C2B /* EditArtDetails.swift */,
-				6D58ABC81F04BCA000333C2B /* EditArtDetails.xib */,
-			);
-			name = Nib;
 			sourceTree = "<group>";
 		};
 		6D1E056B1E3BCF93007CCC5C /* Cell */ = {
@@ -421,20 +361,9 @@
 			children = (
 				6DE906BE1F3969F6002DE25D /* MKRingProgressView.swift */,
 				6D58ABA71F04BA7F00333C2B /* Flaintartist-Bridging-Header.h */,
-				6DA7BC181E6F907B00DE61FB /* FB */,
 				6D9478491E9B1CCB00BE0284 /* GSMessage */,
-				6D9EA4091E19DC6E0080D182 /* SwipeView */,
 			);
 			name = Framework;
-			sourceTree = "<group>";
-		};
-		6D9EA4091E19DC6E0080D182 /* SwipeView */ = {
-			isa = PBXGroup;
-			children = (
-				6D58ABB11F04BB5600333C2B /* SwipeView.h */,
-				6D58ABB21F04BB5600333C2B /* SwipeView.m */,
-			);
-			name = SwipeView;
 			sourceTree = "<group>";
 		};
 		6D9EA41D1E19DE060080D182 /* 3D Scene */ = {
@@ -444,36 +373,6 @@
 				6D58ABCE1F04BCEC00333C2B /* ArtRoomScene.swift */,
 			);
 			name = "3D Scene";
-			sourceTree = "<group>";
-		};
-		6DA7BC181E6F907B00DE61FB /* FB */ = {
-			isa = PBXGroup;
-			children = (
-				6D6C076A1F0C49E2008C2C2D /* Bolts.framework */,
-				6D6C07691F0C49E2008C2C2D /* FBSDKCoreKit.framework */,
-				6D6C076B1F0C49E3008C2C2D /* FBSDKLoginKit.framework */,
-			);
-			name = FB;
-			sourceTree = "<group>";
-		};
-		6DC81C281E2BD0DB0021BBCF /* ArtView */ = {
-			isa = PBXGroup;
-			children = (
-				6D58ABBC1F04BBEF00333C2B /* ArtistView.xib */,
-				6DC81C201E2BB86C0021BBCF /* ArtView.xib */,
-				6DC81C221E2BB9F70021BBCF /* ArtViewCell.xib */,
-			);
-			name = ArtView;
-			sourceTree = "<group>";
-		};
-		6DC81C291E2BD0E50021BBCF /* ArtistView */ = {
-			isa = PBXGroup;
-			children = (
-				6DC81C241E2BC4860021BBCF /* ArtistView.xib */,
-				6DC81C261E2BCF1D0021BBCF /* ArtistViewCell.xib */,
-				6D58ABC41F04BC7200333C2B /* ArtistViewCell.swift */,
-			);
-			name = ArtistView;
 			sourceTree = "<group>";
 		};
 		6DCF25DD1F072EE400B35B47 /* Intro */ = {
@@ -514,12 +413,10 @@
 			isa = PBXGroup;
 			children = (
 				6D58AC171F04C02100333C2B /* Flaintartist.entitlements */,
-				6D285E981F098154002CD7FE /* Showcase.mp4 */,
 				6D9EA4081E19DC5A0080D182 /* Framework */,
 				6DF28DC61E199C4500C8A3B0 /* Services */,
 				6DF28DBC1E199AA800C8A3B0 /* Constant */,
 				6DF28DC91E199CEB00C8A3B0 /* Model */,
-				6D1C782C1E19E82C00E2041C /* Nib */,
 				6D9EA41D1E19DE060080D182 /* 3D Scene */,
 				6D3AD0831EF57297007D6D7E /* Controller */,
 				6DF28DBF1E199B7200C8A3B0 /* Utils */,
@@ -577,8 +474,6 @@
 				6DACC0BA1EF6296200A649F6 /* Settings.swift */,
 				6D69DC7C1EF9F31A0099D03D /* ARCameraTrackingState.swift */,
 				6D356AA51F07628C0000A66D /* VideoPlayer.swift */,
-				6D74BBBC1F4F6F99005D958B /* SnapContainerViewController.swift */,
-				6D74BBBE1F4F6FC7005D958B /* VerticalScrollViewController.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -740,20 +635,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D58ABBD1F04BBEF00333C2B /* ArtistView.xib in Resources */,
-				6DC81C211E2BB86C0021BBCF /* ArtView.xib in Resources */,
-				6D285E991F098154002CD7FE /* Showcase.mp4 in Resources */,
-				6D58ABC91F04BCA100333C2B /* EditArtDetails.xib in Resources */,
 				6D58AC191F04C04800333C2B /* Assets.xcassets in Resources */,
-				6D1C78321E19E88200E2041C /* Details.xib in Resources */,
-				6D58ABBB1F04BBDD00333C2B /* HeaderView.xib in Resources */,
-				6D356AA41F073C6A0000A66D /* Size.xib in Resources */,
-				6DC81C251E2BC4860021BBCF /* ArtistView.xib in Resources */,
 				6D58AC1B1F04C0E500333C2B /* LaunchScreen.storyboard in Resources */,
 				6D58AC1D1F04C0EF00333C2B /* Main.storyboard in Resources */,
-				6D1C78301E19E86C00E2041C /* Types.xib in Resources */,
-				6DC81C271E2BCF1D0021BBCF /* ArtistViewCell.xib in Resources */,
-				6DC81C231E2BB9F70021BBCF /* ArtViewCell.xib in Resources */,
 				6D58AC151F04BFF500333C2B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -918,10 +802,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D58ABE71F04BDF500333C2B /* ContentPage.swift in Sources */,
-				6D58ABC51F04BC7300333C2B /* ArtistViewCell.swift in Sources */,
 				6DE906BF1F3969F6002DE25D /* MKRingProgressView.swift in Sources */,
 				6D58ABA21F04BA2100333C2B /* Constant.swift in Sources */,
-				6D58ABB31F04BB5600333C2B /* SwipeView.m in Sources */,
 				6D009C1B1EFAA33B00E780D8 /* Plane.swift in Sources */,
 				6DA15CB81F4E539A00A34D83 /* InfoVC.swift in Sources */,
 				6D58ABF71F04BED500333C2B /* Connection.swift in Sources */,
@@ -930,7 +812,6 @@
 				6D58AC011F04BF3200333C2B /* UploadPhotoCell.swift in Sources */,
 				6D58ABEF1F04BE3F00333C2B /* Time.swift in Sources */,
 				6DCF25DF1F072EFD00B35B47 /* IntroOneVC.swift in Sources */,
-				6D74BBBF1F4F6FC7005D958B /* VerticalScrollViewController.swift in Sources */,
 				6DACC0BB1EF6296200A649F6 /* Settings.swift in Sources */,
 				6D69DC7D1EF9F31A0099D03D /* ARCameraTrackingState.swift in Sources */,
 				6D356AA61F07628C0000A66D /* VideoPlayer.swift in Sources */,
@@ -946,7 +827,6 @@
 				6D58ABA01F04BA1000333C2B /* AuthService.swift in Sources */,
 				6D58AC0D1F04BF9D00333C2B /* FlexiblePageControl.swift in Sources */,
 				6D58AB9E1F04BA0300333C2B /* DataService.swift in Sources */,
-				6D74BBBD1F4F6F99005D958B /* SnapContainerViewController.swift in Sources */,
 				6D009C161EFA224400E780D8 /* FocusSquare.swift in Sources */,
 				6D58ABEB1F04BE1A00333C2B /* Share.swift in Sources */,
 				6D58ABDB1F04BD8300333C2B /* SettingsVC.swift in Sources */,
@@ -973,10 +853,8 @@
 				6D58ABFF1F04BF2B00333C2B /* EditProfileCell.swift in Sources */,
 				6D215DC41F113FF100205BF3 /* NavController.swift in Sources */,
 				6DF93F291EF9A317008CF579 /* TestVC.swift in Sources */,
-				6D4461C21E2DC21F003EE5BA /* SizeView.swift in Sources */,
 				6D58ABCF1F04BCEC00333C2B /* ArtRoomScene.swift in Sources */,
 				6D58ABF11F04BE5E00333C2B /* Camera.swift in Sources */,
-				6D58ABCB1F04BCB600333C2B /* EditArtDetails.swift in Sources */,
 				6D58ABDD1F04BD9300333C2B /* EditAccountVC.swift in Sources */,
 				6D58ABB01F04BB3700333C2B /* MGMessage.m in Sources */,
 			);
@@ -1142,7 +1020,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Flaintartist/Flaintartist-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -1169,7 +1046,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Kurbs.Flaintartist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Flaintartist/Flaintartist-Bridging-Header.h";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
@@ -1185,7 +1061,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Kurbs.FlaintartistTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Flaintartist.app/Flaintartist";
 			};
@@ -1202,7 +1077,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Kurbs.FlaintartistTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Flaintartist.app/Flaintartist";
 			};
@@ -1218,7 +1092,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Kurbs.FlaintartistUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = Flaintartist;
 			};
@@ -1234,7 +1107,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Kurbs.FlaintartistUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = Flaintartist;
 			};

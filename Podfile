@@ -6,18 +6,14 @@ target 'Flaintartist' do
   use_frameworks!
 
   # Pods for Flaintartist
-  pod 'Hero'
   pod 'Firebase'
   pod 'Firebase/Auth'
   pod 'FirebaseStorage'
   pod 'FirebaseDatabase'
-  pod 'Firebase/RemoteConfig'
-  pod 'ChameleonFramework'
   pod 'SDWebImage', '~>3.8'
   pod 'SwiftyUserDefaults'
   pod 'DZNEmptyDataSet'
   pod 'GSMessages'
-  pod 'SwiftMessages'
   pod 'TOCropViewController'
   pod 'IQKeyboardManager'
 

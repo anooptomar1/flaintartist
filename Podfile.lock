@@ -5,9 +5,6 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - ChameleonFramework (2.1.0):
-    - ChameleonFramework/Default (= 2.1.0)
-  - ChameleonFramework/Default (2.1.0)
   - DZNEmptyDataSet (1.8.1)
   - FBSDKCoreKit (4.23.0):
     - Bolts (~> 1.7)
@@ -21,9 +18,6 @@ PODS:
   - Firebase/Core (4.0.4):
     - FirebaseAnalytics (= 4.0.2)
     - FirebaseCore (= 4.0.4)
-  - Firebase/RemoteConfig (4.0.4):
-    - Firebase/Core
-    - FirebaseRemoteConfig (= 2.0.1)
   - FirebaseAnalytics (4.0.2):
     - FirebaseCore (~> 4.0)
     - FirebaseInstanceID (~> 2.0)
@@ -39,11 +33,6 @@ PODS:
     - FirebaseAnalytics (~> 4.0)
   - FirebaseInstanceID (2.0.0):
     - FirebaseCore (~> 4.0)
-  - FirebaseRemoteConfig (2.0.1):
-    - FirebaseAnalytics (~> 4.0)
-    - FirebaseInstanceID (~> 2.0)
-    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-    - Protobuf (~> 3.1)
   - FirebaseStorage (2.0.0):
     - FirebaseAnalytics (~> 4.0)
     - FirebaseCore (~> 4.0)
@@ -60,41 +49,33 @@ PODS:
   - GoogleToolboxForMac/NSString+URLArguments (2.1.1)
   - GSMessages (1.3.4)
   - GTMSessionFetcher/Core (1.1.11)
-  - Hero (0.3.6)
   - IQKeyboardManager (4.0.11)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
-  - Protobuf (3.3.0)
   - SDWebImage (3.8.2):
     - SDWebImage/Core (= 3.8.2)
   - SDWebImage/Core (3.8.2)
-  - SwiftMessages (3.4.0)
   - SwiftyUserDefaults (3.0.0)
   - TOCropViewController (2.0.12)
 
 DEPENDENCIES:
-  - ChameleonFramework
   - DZNEmptyDataSet
   - FBSDKLoginKit
   - Firebase
   - Firebase/Auth
-  - Firebase/RemoteConfig
   - FirebaseDatabase
   - FirebaseStorage
   - GSMessages
-  - Hero
   - IQKeyboardManager
   - SDWebImage (~> 3.8)
-  - SwiftMessages
   - SwiftyUserDefaults
   - TOCropViewController
 
 SPEC CHECKSUMS:
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   FBSDKCoreKit: d7829f5a69901cd7296105328e4c3c3fc7da6518
   FBSDKLoginKit: 6b92bd65f319d669d2b0730e49db495ef1660566
@@ -104,20 +85,16 @@ SPEC CHECKSUMS:
   FirebaseCore: cfc042628ef9f20debe09c0eb683135fcd404cb4
   FirebaseDatabase: d829b3a8c3e2ac7a16773c5df226966b0805dfc2
   FirebaseInstanceID: 9fbf536668f4d3f0880e7438456dabd1376e294b
-  FirebaseRemoteConfig: 328244399f64226cfdfa32efee596bb010ef5665
   FirebaseStorage: 8110a1ed2034c8fbfd83890d2acc9cdbbd99afec
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GSMessages: b26e37bb6017b11d61f2708684179d5e9495c063
   GTMSessionFetcher: 5ad62e8200fa00ed011fe5e08d27fef72c5b1429
-  Hero: d3c6f4dd80cdcdbb339be64e57ae3b5c3ab9938c
   IQKeyboardManager: 83eae5318483a34eb2069ef413d195b97605232e
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
-  Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
-  SwiftMessages: e20aa1557fde1525ea369361bec4943cc0d08e7c
   SwiftyUserDefaults: 0f1d45fc3aafb9064dac661e367f8f83fe21a4b4
   TOCropViewController: e6e31b38d785a901e5651a1e7fff71bcda6c5214
 
-PODFILE CHECKSUM: b444af4b40536c19969235204b2a94929855c4a4
+PODFILE CHECKSUM: 19eb0597ebb9407aeaa01f9f227a9a2ff61ec227
 
 COCOAPODS: 1.2.1

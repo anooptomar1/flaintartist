@@ -8,9 +8,7 @@
 
 
 import Firebase
-import Hero
 import SDWebImage
-import SwiftMessages
 import SwiftyUserDefaults
 
 extension ProfileVC {
@@ -133,7 +131,6 @@ extension ProfileVC {
     // MARK: - Views
     func setupViews() {
         v = UIImageView(frame: CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(30), height: CGFloat(30)))
-        v?.heroID = "profileImage"
         v?.contentMode = .scaleAspectFill
         v?.layer.masksToBounds = true
         v?.layer.cornerRadius = (v?.frame.width)! / 2
@@ -154,7 +151,7 @@ extension ProfileVC {
         pageControl.displayCount = 5
         
         pageControl.pageIndicatorTintColor = UIColor.lightGray
-        pageControl.currentPageIndicatorTintColor = UIColor.flatGrayColorDark()
+        pageControl.currentPageIndicatorTintColor = UIColor.gray
         pageControl.autoresizingMask = [.flexibleWidth]
         bottomView.addSubview(pageControl)
         pageControl.updateViewSize()
@@ -175,7 +172,7 @@ extension ProfileVC {
     func verifyConnection() {
         if currentReachabilityStatus == .notReachable {
             let alert = Alerts()
-            alert.showNotif(text: "No internet connection.", vc: self, backgroundColor: UIColor.flatRed(), textColor: UIColor.flatWhite(), autoHide: false)
+            alert.showNotif(text: "No internet connection.", vc: self, backgroundColor: UIColor.red, textColor: UIColor.lightGray, autoHide: false)
         }
         print(currentReachabilityStatus != .notReachable) //true connected
     }
