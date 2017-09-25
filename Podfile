@@ -6,6 +6,8 @@ target 'Flaintartist' do
   use_frameworks!
 
   # Pods for Flaintartist
+  pod 'IGListKit', '~> 3.0'
+  pod 'Reusable'
   pod 'Firebase'
   pod 'Firebase/Auth'
   pod 'FirebaseStorage'

@@ -7,10 +7,10 @@
 //
 
 import UIKit
+import IGListKit
 import FirebaseDatabase
-import FirebaseAuth
 
-struct Art  {
+class Art {
     
     var artID: String?
     var imgUrl: String?
@@ -35,46 +35,66 @@ struct Art  {
         self.postDate = postDate
     }
     
-    init(key: String, artData: Dictionary<String, AnyObject>) {
+    init(key: String, data: Dictionary<String, AnyObject>) {
         
         self.artID = key
         
-        if let title = artData["title"] as? String {
+        if let title = data["title"] as? String {
             self.title = title
         }
         
-        if let description = artData["description"] as? String {
+        if let description = data["description"] as? String {
             self.description = description
         }
         
-        if let type = artData["type"] as? String {
+        if let type = data["type"] as? String {
             self.type = type
         }
         
-        if let height = artData["height"] as? NSNumber {
+        if let height = data["height"] as? NSNumber {
             self.artHeight = height
         }
         
-        if let width = artData["width"] as? NSNumber {
+        if let width = data["width"] as? NSNumber {
             self.artWidth = width
         }
         
-        if let img = artData["imageUrl"] as? String {
+        if let img = data["imageUrl"] as? String {
             self.imgUrl = img
         }
         
-        if let postDate = artData["postDate"] as? NSNumber {
+        if let postDate = data["postDate"] as? NSNumber {
             self.postDate = postDate
         }
         
-        if let price = artData["price"] as? NSNumber {
+        if let price = data["price"] as? NSNumber {
             self.price = price
         }
-        
-        
         //_artRef = DataService.instance.REF_ARTS.child(self._artID)
     }
 }
+
+extension Art: Equatable {
+    
+    static public func ==(rhs: Art, lhs: Art) -> Bool {
+        return  rhs.artID == lhs.artID
+    }
+}
+
+extension Art: ListDiffable {
+    
+    public func diffIdentifier() -> NSObjectProtocol {
+        return artID! as NSObjectProtocol
+    }
+    
+    public func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
+        if self === object { return true }
+        guard let object = object as? Art else { return false }
+        
+        return self.artID == object.artID
+    }
+}
+
 
 
 
