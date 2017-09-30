@@ -9,7 +9,7 @@
 import UIKit
 import Reusable
 
-class UserInfoCell: UICollectionViewCell, NibReusable {
+final class UserInfoCell: UICollectionViewCell, NibReusable {
 
     @IBOutlet weak var imageView: UIImageView!
     var user: User?
@@ -22,13 +22,16 @@ class UserInfoCell: UICollectionViewCell, NibReusable {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        contentView.backgroundColor = UIColor.white
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(settingsVC)))
     }
     
      @objc func settingsVC() {
-        let vc =  SettingsVC()
+        let storyBoard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let nav = storyBoard.instantiateViewController(withIdentifier: "SettingsNav") as! UINavigationController
+        let vc = nav.topViewController as! SettingsVC
         vc.user = user
-        self.viewController?.present(vc, animated: true, completion: nil)
+        self.viewController?.present(nav, animated: true, completion: nil)
     }
 
     

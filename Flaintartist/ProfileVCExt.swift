@@ -1,18 +1,29 @@
-////
-////  ProfileVCExt.swift
-////  Flaintartist
-////
-////  Created by Kerby Jean on 2017-08-07.
-////  Copyright © 2017 Kerby Jean. All rights reserved.
-////
 //
+//  ProfileVCExt.swift
+//  Flaintartist
 //
-//import Firebase
-//import SDWebImage
-//import SwiftyUserDefaults
+//  Created by Kerby Jean on 2017-08-07.
+//  Copyright © 2017 Kerby Jean. All rights reserved.
 //
-//extension ProfileVC {
-//    
+
+
+import Firebase
+import SDWebImage
+import SwiftyUserDefaults
+
+extension ProfileVC  {
+
+}
+
+
+
+
+
+
+
+
+
+//
 //    func showRequestAlert(artImage: UIImage?, art: Art?, artRoomScene: ArtRoomScene) {
 //        
 //        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)

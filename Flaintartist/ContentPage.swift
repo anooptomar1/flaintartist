@@ -2,10 +2,9 @@
 //  ContentPage.swift
 //  Flaintartist
 //
-//  Created by Kerby Jean on 6/13/17.
+//  Created by Kerby Jean on 2017-09-27.
 //  Copyright © 2017 Kerby Jean. All rights reserved.
 //
-
 
 import UIKit
 
@@ -27,7 +26,6 @@ class ContentPage: UIViewController, UIPageViewControllerDataSource, UIPageViewC
     // MARK: -
     
     @IBAction func fbLogIn(_ sender: Any) {
-        
         AuthService.instance.facebookSignIn(viewController: self) { (errMsg, data) in
             guard errMsg == nil else {
                 //.indicator.stopAnimating()
@@ -45,18 +43,14 @@ class ContentPage: UIViewController, UIPageViewControllerDataSource, UIPageViewC
         
         // Setup the pages
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let page1: UIViewController! = storyboard.instantiateViewController(withIdentifier: "ViewOne")
-        let page2: UIViewController! = storyboard.instantiateViewController(withIdentifier: "ViewTwo")
         let page3: UIViewController! = storyboard.instantiateViewController(withIdentifier: "ViewThree")
-        pages.append(page1)
-        pages.append(page2)
         pages.append(page3)
         
         // Create the page container
         pageContainer = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         pageContainer.delegate = self
         pageContainer.dataSource = self
-        pageContainer.setViewControllers([page1], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
+        pageContainer.setViewControllers([page3], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
         
         // Add it to the view
         view.addSubview(pageContainer.view)
@@ -88,7 +82,7 @@ class ContentPage: UIViewController, UIPageViewControllerDataSource, UIPageViewC
         let previousIndex = abs((currentIndex - 1) % pages.count)
         return pages[previousIndex]
     }
-
+    
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         pendingIndex = pages.index(of: pendingViewControllers.first!)
@@ -99,7 +93,12 @@ class ContentPage: UIViewController, UIPageViewControllerDataSource, UIPageViewC
             currentIndex = pendingIndex
             if let index = currentIndex {
                 pageControl.currentPage = index
+                if index == 2 {
+                    //player?.play()
+                }
             }
+            print("INDEX:\( pageControl.currentPage)")
         }
     }
 }
+

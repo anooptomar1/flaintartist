@@ -1,10 +1,11 @@
 //
-//  File.swift
-//  FlexiblePageControl
+//  FlexiblePageControl.swift
+//  Flaintartist
 //
-//  Created by 島仁誠 on 2017/04/06.
-//  Copyright © 2017年 jinsei shima. All rights reserved.
+//  Created by Kerby Jean on 2017-09-27.
+//  Copyright © 2017 Kerby Jean. All rights reserved.
 //
+
 import UIKit
 
 public class FlexiblePageControl: UIView {
@@ -396,5 +397,6 @@ private class ItemView: UIView {
         })
     }
 }
+
 
 

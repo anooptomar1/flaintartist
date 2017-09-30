@@ -5,7 +5,6 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - DZNEmptyDataSet (1.8.1)
   - FBSDKCoreKit (4.23.0):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.23.0):
@@ -70,9 +69,9 @@ PODS:
   - SDWebImage/Core (3.8.2)
   - SwiftyUserDefaults (3.0.0)
   - TOCropViewController (2.0.12)
+  - YYText (1.0.7)
 
 DEPENDENCIES:
-  - DZNEmptyDataSet
   - FBSDKLoginKit
   - Firebase
   - Firebase/Auth
@@ -85,10 +84,10 @@ DEPENDENCIES:
   - SDWebImage (~> 3.8)
   - SwiftyUserDefaults
   - TOCropViewController
+  - YYText
 
 SPEC CHECKSUMS:
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   FBSDKCoreKit: d7829f5a69901cd7296105328e4c3c3fc7da6518
   FBSDKLoginKit: 6b92bd65f319d669d2b0730e49db495ef1660566
   Firebase: 1492bf04e1b73a7353b4fb2cf5a20bac9692f341
@@ -108,7 +107,8 @@ SPEC CHECKSUMS:
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   SwiftyUserDefaults: 0f1d45fc3aafb9064dac661e367f8f83fe21a4b4
   TOCropViewController: e6e31b38d785a901e5651a1e7fff71bcda6c5214
+  YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: 0054effddbb0c4aac437e43cafcb0fce44fbc362
+PODFILE CHECKSUM: 3b03428ece09772a61340e5978b8228c4bc418c6
 
 COCOAPODS: 1.2.1

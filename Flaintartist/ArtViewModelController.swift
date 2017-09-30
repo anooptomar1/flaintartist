@@ -29,5 +29,17 @@ class ArtViewModelController {
             }
         })
     }
+    
+    
+    func deleteArt(_ art: Art, completionBlock: @escaping (_ success: Bool, _ error: Error?) -> ()) {
+        DataService.instance.REF_ARTISTARTS.child((Auth.auth().currentUser!.uid)).child(art.artID!).removeValue { (error, ref) in
+            if error != nil {
+                completionBlock(false, error)
+            } else {
+                DataService.instance.REF_ARTS.child(art.artID!).removeValue()
+                completionBlock(true, nil)
+            }
+        }
+    }
 }
 

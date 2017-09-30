@@ -2,7 +2,7 @@
 //  AuthService.swift
 //  Flaintartist
 //
-//  Created by Kerby Jean on 1/26/17.
+//  Created by Kerby Jean on 2017-09-27.
 //  Copyright © 2017 Kerby Jean. All rights reserved.
 //
 
@@ -17,8 +17,8 @@ class AuthService {
     static var instance: AuthService {
         return _instance
     }
-
-
+    
+    
     
     
     func logIn(email: String, password: String, onComplete: Completion?){
@@ -31,8 +31,10 @@ class AuthService {
                 Analytics.setUserID(user?.uid)
                 Defaults[.key_uid] = user?.uid
                 Defaults[.email] = email
-                let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
-                appDel.logIn()
+                DispatchQueue.main.async {
+                    let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                    appDel.logIn()
+                }
             }
         })
     }
@@ -70,9 +72,9 @@ class AuthService {
             }
         }
     }
-
-
-
+    
+    
+    
     func firebaseAuth(_ credential: AuthCredential) {
         print("SECOND CREDENTIAL: \(credential)")
         var pictureUrl = ""
@@ -115,7 +117,7 @@ class AuthService {
                                     }
                                 })
                             }
-
+                            
                             DataService.instance.REF_USERS.child(uid).updateChildValues(userValues!, withCompletionBlock: { (error, ref) in
                                 if error != nil {
                                     print("ERROR: \(String(describing: error?.localizedDescription))")
@@ -129,18 +131,19 @@ class AuthService {
             }
         })
     }
-
+    
     
     
     func completeSignIn(id: String, userData: Dictionary<String, String>) {
-        print("completeSignIn")
         DataService.instance.createFirebaseDBUser(id, userData: userData)
         Defaults[.key_uid] = id
-        let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDel.logIn()
+        DispatchQueue.main.async {
+            let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDel.logIn()
+        }
     }
-
-
+    
+    
     
     func completeLogIn(_ credential: AuthCredential){
         Auth.auth().signIn(with: credential, completion: { (user, error) in
@@ -151,8 +154,10 @@ class AuthService {
                 print("Kurbs: Unable to authenticate with Firebase - \(String(describing: error))")
             } else {
                 Defaults[.key_uid] = uid
-                let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
-                appDel.logIn()
+                DispatchQueue.main.async {
+                    let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                    appDel.logIn()
+                }
             }
         })
     }
@@ -165,7 +170,7 @@ class AuthService {
                 print("ERROR:\(String(describing: error?.localizedDescription))")
                 self.handleFirebaseError(error: error! as NSError, onComplete: onComplete)
             } else {
-                DataService.instance.setUserInfo(name: name, user: user, password: password, pictureData: pictureData, userType: userType)
+                // DataService.instance.setUserInfo(name: name, user: user!, password: password, pictureData: pictureData, userType: userType)
             }
         })
     }
@@ -197,3 +202,4 @@ class AuthService {
         }
     }
 }
+

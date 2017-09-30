@@ -2,7 +2,7 @@
 //  CreateAccountVC.swift
 //  Flaintartist
 //
-//  Created by Kerby Jean on 3/30/17.
+//  Created by Kerby Jean on 2017-09-27.
 //  Copyright © 2017 Kerby Jean. All rights reserved.
 //
 
@@ -77,7 +77,7 @@ class CreateAccountVC: UIViewController, UITextFieldDelegate{
         return true
     }
     
-    func textChanged(sender: NSNotification) {
+    @objc func textChanged(sender: NSNotification) {
         if emailTextField.hasText && passwordTextField.hasText {
             doneBtn.isEnabled = true
             doneBtn.alpha = 1
@@ -87,3 +87,4 @@ class CreateAccountVC: UIViewController, UITextFieldDelegate{
         }
     }
 }
+

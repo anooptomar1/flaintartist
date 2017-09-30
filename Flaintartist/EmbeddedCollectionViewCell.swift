@@ -17,6 +17,8 @@ final class EmbeddedCollectionViewCell: UICollectionViewCell, Reusable {
         layout.scrollDirection = .horizontal
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.backgroundColor = .clear
+        view.isPagingEnabled = true
+        view.showsHorizontalScrollIndicator = false
         view.alwaysBounceVertical = false
         view.alwaysBounceHorizontal = true
         self.contentView.addSubview(view)
@@ -28,5 +30,3 @@ final class EmbeddedCollectionViewCell: UICollectionViewCell, Reusable {
         collectionView.frame = contentView.frame
     }
 }
-
-

@@ -54,7 +54,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>FlaintArtist uses this to customize your experience and let you explore more beauty around you.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>FlaintArtist would to have access to your Photo.</string>
+	<string>FlaintArtist would like to have access to your Photos.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

@@ -2,7 +2,7 @@
 //  Connection.swift
 //  Flaintartist
 //
-//  Created by Kerby Jean on 5/26/17.
+//  Created by Kerby Jean on 2017-09-27.
 //  Copyright © 2017 Kerby Jean. All rights reserved.
 //
 
@@ -62,3 +62,4 @@ extension NSObject:Utilities{
     }
     
 }
+

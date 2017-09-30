@@ -6,13 +6,6 @@
 //  Copyright © 2017 Kerby Jean. All rights reserved.
 //
 
-//
-//  View.swift
-//  Ti Goute
-//
-//  Created by Kerby Jean on 2017-08-05.
-//  Copyright © 2017 Flaint, Inc. All rights reserved.
-//
 
 import UIKit
 

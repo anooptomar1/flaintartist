@@ -2,7 +2,7 @@
 //  Share.swift
 //  Flaintartist
 //
-//  Created by Kerby Jean on 1/1/17.
+//  Created by Kerby Jean on 2017-09-27.
 //  Copyright © 2017 Kerby Jean. All rights reserved.
 //
 
@@ -35,13 +35,14 @@ class Share {
         }
     }
     
-
-//    func messengerShare(_ target: UIViewController, image: UIImage) {
-//        let options = FBSDKMessengerShareOptions()
-//        options.renderAsSticker = false
-//        FBSDKMessengerSharer.share(image, with: options)
-//    }
+    
+    //    func messengerShare(_ target: UIViewController, image: UIImage) {
+    //        let options = FBSDKMessengerShareOptions()
+    //        options.renderAsSticker = false
+    //        FBSDKMessengerSharer.share(image, with: options)
+    //    }
 }
+
 
 
 

@@ -2,45 +2,38 @@
 //  SettingsVC.swift
 //  Flaintartist
 //
-//  Created by Kerby Jean on 1/1/17.
+//  Created by Kerby Jean on 2017-09-27.
 //  Copyright © 2017 Kerby Jean. All rights reserved.
 //
 
 import UIKit
 import SDWebImage
 import FirebaseAuth
+import FBSDKLoginKit
 import SwiftyUserDefaults
 
-class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+final class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
-    var options: [String] = []
-    var userInfo : [AnyObject] = []
-    var user: Users!
-    var titles: [String] = []
+    private var options: [String] = []
+    var user: User!
+    lazy var loginVC = LoginViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.navigationItem.title = "Settings"
         tableView.delegate = self
         tableView.dataSource = self
-        options = ["Edit Account", "Privacy Policy", "Log Out"]
-        titles = ["Me", "Others"]
+        options = ["Edit account details", "Gallery code and link", "Privacy Policy", "Sign out"]
     }
     
     @IBAction func doneBtnTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        userInfo.removeAll()
-    }
-    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
-            return 55
+            return 96
         }
         return 50
     }
@@ -58,15 +51,10 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EditProfileCell", for: indexPath) as! EditProfileCell
-            cell.configureCell()
-            
+            cell.configureCell(user: user)
             return cell
         }
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell", for: indexPath) as! SettingsCell
-        if indexPath.row == 2 {
-            cell.optionLbl.textColor = UIColor.flatRedColorDark()
-        }
         cell.optionLbl.text = options[indexPath.row]
         return cell
     }
@@ -82,46 +70,21 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             performSegue(withIdentifier: "PrivacyVC", sender: nil)
         }
         
-        if indexPath.row == 2 {
+        if indexPath.row == 3 {
             logoutAlert()
         }
     }
     
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 0.1
-    }
-    
-
-    func reportProblemAlert(){
-        let problem = UIAlertController(title: "Report a Problem", message: "", preferredStyle: .alert)
-        let SomethingNotWorking = UIAlertAction(title: "Something Is Not Working", style: .default) { (UIAlertAction) in
-            let reportTitleSomething = ["Something Is Not Working", "Brieftly explain what happended."]
-            self.performSegue(withIdentifier: "FeedbackVC", sender: reportTitleSomething)
-        }
-        let generalFeedback = UIAlertAction(title: "General Feedback", style: .default) { (UIAlertAction) in
-            let reportTitleGeneral = ["General Feedback", "Brieftly explain what you love, or what could improve."]
-            self.performSegue(withIdentifier: "FeedbackVC", sender: reportTitleGeneral)
-        }
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (UIAlertAction) in
-            return
-        }
-        problem.addAction(SomethingNotWorking)
-        problem.addAction(generalFeedback)
-        problem.addAction(cancel)
-        present(problem, animated: true, completion: nil)
-    }
-    
-    
     func logoutAlert() {
-        let vc = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .alert)
+        let vc = UIAlertController(title: "Are you sure you want to sign out?", message: nil, preferredStyle: .actionSheet)
         let no = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let yes = UIAlertAction(title: "Log Out", style: .default) { (UIAlertAction) in
+        let yes = UIAlertAction(title: "Log out", style: .destructive) { (UIAlertAction) in
             
-                Defaults.remove(.key_uid)
-                let firebaseAuth = Auth.auth()
+            Defaults.remove(.key_uid)
+            let firebaseAuth = Auth.auth()
+            let loginManager = FBSDKLoginManager()
             do {
-                
+                loginManager.logOut()
                 try firebaseAuth.signOut()
                 DispatchQueue.main.async {
                     let controller = self.storyboard!.instantiateViewController(withIdentifier: "LogInNav")
@@ -140,6 +103,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "EditAccountVC" {
             let editAccountVC = segue.destination as! EditAccountVC
+            editAccountVC.user = self.user
             editAccountVC.hidesBottomBarWhenPushed = true
         } else if segue.identifier == "PrivacyVC" {
             let feedbackVC = segue.destination as! PrivacyVC
@@ -147,3 +111,4 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
+

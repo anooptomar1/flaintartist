@@ -2,14 +2,48 @@
 //  Alerts.swift
 //  Flaintartist
 //
-//  Created by Kerby Jean on 1/1/17.
+//  Created by Kerby Jean on 2017-09-27.
 //  Copyright © 2017 Kerby Jean. All rights reserved.
 //
 
 import UIKit
 import GSMessages
 
-class Alerts {
+final class Alerts {
+    
+    lazy var artVC = ArtViewModelController()
+    lazy var vc = EditVC()
+
+    
+    func artAlert(target: ProfileVC, art: Art) {
+        let alert = UIAlertController(title: "More", message: nil, preferredStyle: .actionSheet)
+        
+        let edit = UIAlertAction(title: "Edit", style: .default) { (action) in
+            self.vc.title = "Edit"
+            let nav = UINavigationController(rootViewController: self.vc)
+            self.vc.art.append(art)
+            target.present(nav, animated: true, completion: nil)
+        }
+
+        
+        let share = UIAlertAction(title: "Share", style: .default) { (action) in
+        }
+        
+        let delete = UIAlertAction(title: "Delete", style: .destructive) { (action) in
+            self.deteteArt(art: art, target: target)
+        }
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(edit)
+        alert.addAction(share)
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        target.present(alert, animated: true, completion: nil)
+    }
+    
+    @objc func back() {
+        vc.dismiss(animated: true, completion: nil)
+    }
     
     func showAlert(_ title: String, message: String, target: UIViewController) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -25,27 +59,27 @@ class Alerts {
         }
         alert.addAction(action)
         target.present(alert, animated: true, completion: nil)
-        
     }
     
-    
-    func deteteArt(_ target: ProfileVC)  {
+    private func deteteArt(art: Art, target: ProfileVC)  {
         let alert = UIAlertController(title: "", message: "Are you sure you want to remove it from your Gallery? After removing, the action is irreversible.", preferredStyle: .actionSheet)
-        
         let action = UIAlertAction(title: "Remove from My Gallery", style: .destructive) { (UIAlertAction) in
             //Function to Delete Art
-            //target.removeArt()
+            self.artVC.deleteArt(art, completionBlock: { (success, error) in
+                if !success {
+                    print("ERROR DELETING ART: \(String(describing: error?.localizedDescription))")
+                } else {
+                    
+                }
+            })
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alert.addAction(action)
         alert.addAction(cancel)
         target.present(alert, animated: true, completion: nil)
-        
     }
-    
- 
-    
+
     
     func showNotif(text: String, vc: UIViewController, backgroundColor: UIColor, textColor: UIColor, autoHide: Bool) {
         GSMessage.successBackgroundColor = backgroundColor
@@ -61,8 +95,8 @@ class Alerts {
             .textColor(textColor),
             .textNumberOfLines(1),
             .textPadding(30.0)
-            ])
+        ])
     }
-   
 }
+
 

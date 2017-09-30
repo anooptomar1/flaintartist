@@ -7,17 +7,22 @@
 //
 import UIKit
 import IGListKit
-import Firebase
-import SceneKit
-import SDWebImage
-import DZNEmptyDataSet
-import SwiftyUserDefaults
-
+import FirebaseAuth
 
 class ProfileVC: UIViewController, ListAdapterDataSource {
     
     lazy var loginVC = LoginViewController()
     private var user = [User]()
+    var art: Art?
+
+    let emptyLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.text = "You have no art yet. Click on the add (+) button to add one."
+        label.backgroundColor = .clear
+        return label
+    }()
     
     lazy var adapter: ListAdapter = {
         return ListAdapter(updater: ListAdapterUpdater(), viewController: self, workingRangeSize: 2)
@@ -25,7 +30,7 @@ class ProfileVC: UIViewController, ListAdapterDataSource {
     
     let collectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: ListCollectionViewLayout(stickyHeaders: false, topContentInset: 0, stretchToEdge: false)
+        collectionViewLayout: ListCollectionViewLayout(stickyHeaders: false, topContentInset: 0, stretchToEdge: true)
     )
     
     override func viewDidLoad() {
@@ -36,7 +41,7 @@ class ProfileVC: UIViewController, ListAdapterDataSource {
         adapter.dataSource = self
         retrieveUser()
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionView.frame = view.bounds
@@ -47,13 +52,12 @@ class ProfileVC: UIViewController, ListAdapterDataSource {
             if !success {
                 print("Failed to retrieve user")
             } else {
+                self.user = []
                 self.user.append(user)
                 self.adapter.performUpdates(animated: true)
             }
         }
-    }
-
-    
+    }    
     
     // MARK: ListAdapterDataSource
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
@@ -61,12 +65,13 @@ class ProfileVC: UIViewController, ListAdapterDataSource {
     }
     
     func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
-            return UserInfoSectionController()
+            return ToolsSectionController()
     }
     
     func emptyView(for listAdapter: ListAdapter) -> UIView? {
-        return nil
+        return emptyLabel
     }
+    
     
 //
 //    var user: Users?
@@ -263,13 +268,6 @@ class ProfileVC: UIViewController, ListAdapterDataSource {
 //            }
 //        }
 //    }
-
-    
-    //MARK: DZNEmptyDataSet
-    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        let attrs = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]
-        return NSAttributedString(string: "You have no artwork yet. Click on the ＋ button to add.", attributes: attrs)
-    }
 }
 
 
