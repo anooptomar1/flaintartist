@@ -8,7 +8,7 @@
 
 import UIKit
 import IGListKit
-import FirebaseDatabase
+import Firebase
 
 class User {
     
@@ -21,9 +21,8 @@ class User {
     var bio: String?
     var website: String?
     var userId: String?
-    var userRef: DatabaseReference?
+    //var userRef: DatabaseReference?
     var arts = [Art?]()
-    
     
     init(key: String, data: Dictionary<String, AnyObject>) {
         
@@ -60,8 +59,7 @@ class User {
         if let website = data["website"] as? String {
             self.website = website
         }
-        
-        self.userRef = DataService.instance.REF_USERS.child(self.userId!)
+        //self.userRef = DataService.instance.REF_USERS.child(self.userId!)
     }
 }
 

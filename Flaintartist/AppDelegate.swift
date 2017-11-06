@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
-        Database.database().isPersistenceEnabled = true
+        //Database.database().isPersistenceEnabled = true
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         IQKeyboardManager.shared().isEnabled = true
         
@@ -39,11 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
-    
-    //    func applicationDidEnterBackground(_ application: UIApplication) {
-    //        FIRMessaging.messaging().disconnect()
-    //    }
-    
+   
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
@@ -64,19 +60,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func userIsLoggingIn() {
         if let uid = Defaults[.key_uid] {
-            let usersRef = Database.database().reference().child("users").child(uid)
             if !uid.isEmpty {
-                usersRef.observeSingleEvent(of: .value, with: { (snapshot) in
-                    let profileVC = ProfileVC()
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let initialViewController = storyboard.instantiateViewController(withIdentifier: "ProfileNav") as! UINavigationController
-                    self.window?.rootViewController = initialViewController
-                    self.window?.makeKeyAndVisible()
-                    usersRef.removeAllObservers()
-                    if ( snapshot.value is NSNull ) {
-                        print("CAN'T LOG IN: snapshot not found)")
-                    }
-                })
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "ProfileNav") as! UINavigationController
+                self.window?.rootViewController = initialViewController
+                self.window?.makeKeyAndVisible()
             }
         }
     }

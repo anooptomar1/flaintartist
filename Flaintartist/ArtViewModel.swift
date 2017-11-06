@@ -24,8 +24,6 @@ struct ArtViewModel {
         title = art.title
         imgUrl = art.imgUrl
         description = art.description
-        price = art.price
-        type = art.type
         artHeight = art.artHeight
         artWidth = art.artWidth
         postDate = art.postDate

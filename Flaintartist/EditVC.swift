@@ -8,10 +8,15 @@
 
 import UIKit
 import IGListKit
+import Firebase
+import SwiftyUserDefaults
+
 
 class EditVC: UIViewController, ListAdapterDataSource {
     
     lazy var loginVC = LoginViewController()
+    lazy var alert = Alerts()
+
     var art = [Art]()
     
     lazy var adapter: ListAdapter = {
@@ -44,9 +49,20 @@ class EditVC: UIViewController, ListAdapterDataSource {
         dismiss(animated: true, completion: nil)
     }
     
-    
     @objc func save() {
-        let art = self.art[0] as? Art
+        let art = self.art[0]
+        let values = ["title": Defaults[.title], "description": Defaults[.description]]
+//        DataService.instance.REF_ARTISTARTS.child(Auth.auth().currentUser!.uid).child((art.artID)!).updateChildValues(values, withCompletionBlock: { (error, ref) in
+//            if error != nil {
+//                print("ERROR: \(String(describing: error?.localizedDescription))")
+//            } else {
+//                DataService.instance.REF_ARTS.child((art.artID)!).updateChildValues(values)
+//                self.alert.showNotif(text: "Art was edit successfully", vc: self, backgroundColor: UIColor(red: 0.0/255.0, green: 112.0/255.0 , blue: 201.0/255.0, alpha: 1.0) , textColor: UIColor.white, autoHide: true, position: .top)
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+//                    self.dismiss(animated: true, completion: nil)
+//                }
+//            }
+//        })
     }
     
 

@@ -10,10 +10,6 @@ import UIKit
 import SceneKit
 import IGListKit
 
-protocol RemoveSectionControllerDelegate: class {
-    func removeSectionControllerWantsRemoved(_ sectionController: ArtSectionController)
-}
-
 class ArtSectionController: ListSectionController, ListWorkingRangeDelegate {
     
     lazy var alert = Alerts()
@@ -44,8 +40,9 @@ class ArtSectionController: ListSectionController, ListWorkingRangeDelegate {
             guard let cell = collectionContext?.dequeueReusableCell(of: ArtCell.self, for: self, at: index) as? ArtCell, let url = URL(string: (art?.imgUrl)!) else {
                 fatalError()
             }
+            
+            cell.artID = art?.artID
             cell.configure(url: url)
-            cell.artRoomScene.boxnode.removeFromParentNode()
             return cell
         } else  {
             guard let cell = collectionContext?.dequeueReusableCell(of: ArtInfoCell.self, for: self, at: index) as? ArtInfoCell else {
@@ -71,7 +68,7 @@ class ArtSectionController: ListSectionController, ListWorkingRangeDelegate {
     func listAdapter(_ listAdapter: ListAdapter, sectionControllerWillEnterWorkingRange sectionController: ListSectionController) {
             guard let urlString = art?.imgUrl, let url = URL(string: urlString) else { return }
             DispatchQueue.main.async {
-            if let cell = self.collectionContext?.cellForItem(at: 1, sectionController: self) as? ArtCell {
+            if let cell = self.collectionContext?.cellForItem(at: 0, sectionController: self) as? ArtCell {
                 cell.configure(url: url)
             }
         }
@@ -79,28 +76,6 @@ class ArtSectionController: ListSectionController, ListWorkingRangeDelegate {
     
     
     func listAdapter(_ listAdapter: ListAdapter, sectionControllerDidExitWorkingRange sectionController: ListSectionController) {}
-    
-    
-//    func alert() {
-//        let alert = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
-//        let edit = UIAlertAction(title: "Edit", style: .default) { (action) in
-//
-//        }
-//        let share = UIAlertAction(title: "Share", style: .default) { (action) in
-//
-//        }
-//
-//        let delete = UIAlertAction(title: "Delete", style: .destructive) { (action) in
-//            //collectionContext.
-//        }
-//
-//        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-//        alert.addAction(edit)
-//        alert.addAction(share)
-//        alert.addAction(delete)
-//        alert.addAction(cancel)
-//        self.viewController?.present(alert, animated: true, completion: nil)
-//    }
     
 }
 

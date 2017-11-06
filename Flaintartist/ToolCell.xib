@@ -23,7 +23,7 @@
                         <constraints>
                             <constraint firstAttribute="width" constant="45" id="tWa-HB-fWJ"/>
                         </constraints>
-                        <state key="normal" image="Add"/>
+                        <state key="normal" image="Add-24"/>
                         <connections>
                             <action selector="addButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="tID-K6-hWf"/>
                         </connections>
@@ -38,11 +38,27 @@
                             <action selector="rotateButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="N7M-4N-ByL"/>
                         </connections>
                     </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tPa-2V-WDX">
+                        <rect key="frame" x="184" y="0.0" width="45" height="45"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="45" id="XPL-Kg-5UH"/>
+                            <constraint firstAttribute="width" constant="45" id="cag-vW-MaT"/>
+                        </constraints>
+                        <state key="normal" image="Marker-24">
+                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                        </state>
+                        <connections>
+                            <action selector="markerButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="jXP-zb-P6y"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="McA-b0-m5Q" secondAttribute="trailing" id="0KD-tx-1uL"/>
+                <constraint firstAttribute="bottom" secondItem="tPa-2V-WDX" secondAttribute="bottom" id="LJ0-Ma-RG4"/>
                 <constraint firstItem="McA-b0-m5Q" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="OzT-yK-0fE"/>
+                <constraint firstItem="McA-b0-m5Q" firstAttribute="leading" secondItem="tPa-2V-WDX" secondAttribute="trailing" constant="3" id="Rgi-uK-b6h"/>
+                <constraint firstItem="tPa-2V-WDX" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Uwf-Oq-Shu"/>
                 <constraint firstItem="cgM-XM-fFB" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="ZIu-vm-V6N"/>
                 <constraint firstAttribute="bottom" secondItem="McA-b0-m5Q" secondAttribute="bottom" id="Zwq-6m-UHl"/>
                 <constraint firstItem="cgM-XM-fFB" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="mEI-xj-iHx"/>
@@ -52,13 +68,15 @@
             <size key="customSize" width="277" height="-51"/>
             <connections>
                 <outlet property="addButton" destination="cgM-XM-fFB" id="YzO-JE-11j"/>
+                <outlet property="markerButton" destination="tPa-2V-WDX" id="Q5j-mQ-vbS"/>
                 <outlet property="rotateButton" destination="McA-b0-m5Q" id="Ux8-yb-BkY"/>
             </connections>
-            <point key="canvasLocation" x="-79.5" y="104"/>
+            <point key="canvasLocation" x="-79.5" y="103.5"/>
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="Add" width="30" height="30"/>
+        <image name="Add-24" width="24" height="24"/>
+        <image name="Marker-24" width="24" height="24"/>
         <image name="Rotate-24" width="24" height="24"/>
     </resources>
 </document>

@@ -15,7 +15,7 @@ final class ArtInfoCell: UICollectionViewCell {
         view.backgroundColor = .clear
         view.textAlignment = .left
         view.textColor = .darkText
-        view.font = .boldSystemFont(ofSize: 17)
+        view.font = .boldSystemFont(ofSize: 15)
         self.contentView.addSubview(view)
         return view
     }()
@@ -25,7 +25,7 @@ final class ArtInfoCell: UICollectionViewCell {
         view.backgroundColor = .clear
         view.textAlignment = .left
         view.textColor = UIColor.darkText
-        view.font = .systemFont(ofSize: 17)
+        view.font = .systemFont(ofSize: 15)
         self.contentView.addSubview(view)
         return view
     }()

@@ -12,6 +12,7 @@ import GSMessages
 final class Alerts {
     
     lazy var artVC = ArtViewModelController()
+    lazy var section = ToolsSectionController()
     lazy var vc = EditVC()
 
     
@@ -69,19 +70,18 @@ final class Alerts {
                 if !success {
                     print("ERROR DELETING ART: \(String(describing: error?.localizedDescription))")
                 } else {
-                    
+                    self.section.adapter.performUpdates(animated: true)
                 }
             })
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
         alert.addAction(action)
         alert.addAction(cancel)
         target.present(alert, animated: true, completion: nil)
     }
 
     
-    func showNotif(text: String, vc: UIViewController, backgroundColor: UIColor, textColor: UIColor, autoHide: Bool) {
+    func showNotif(text: String, vc: UIViewController, backgroundColor: UIColor, textColor: UIColor, autoHide: Bool, position: GSMessagePosition) {
         GSMessage.successBackgroundColor = backgroundColor
         vc.showMessage(text, type: .success, options: [
             .animation(.slide),
@@ -90,11 +90,10 @@ final class Alerts {
             .autoHideDelay(3.0),
             .height(30.0),
             .hideOnTap(true),
-            .position(.top),
+            .position(position),
             .textAlignment(.center),
             .textColor(textColor),
             .textNumberOfLines(1),
-            .textPadding(30.0)
         ])
     }
 }

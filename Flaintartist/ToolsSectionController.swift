@@ -9,18 +9,34 @@
 import UIKit
 import IGListKit
 
-class ToolsSectionController: ListSectionController, ListAdapterDataSource {
-    
+class ToolsSectionController: ListSectionController, ListAdapterDataSource, UIScrollViewDelegate {
+
     lazy var artViewVC = ArtViewModelController()
     private var user: User?
-    private var arts = [Art]()
+    var arts = [Art]()
     private var expanded = false
+    private var pageControl = FlexiblePageControl()
     
+    let emptyLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.text = "You have no art yet. Click on the add (+) button to add one."
+        label.backgroundColor = .clear
+        return label
+    }()
+ 
     lazy var adapter: ListAdapter = {
-        let adapter = ListAdapter(updater: ListAdapterUpdater(), viewController: self.viewController, workingRangeSize: 2)
+        let adapter = ListAdapter(updater: ListAdapterUpdater(), viewController: self.viewController, workingRangeSize: 0)
         adapter.dataSource = self
+        adapter.scrollViewDelegate = self
         return adapter
     }()
+    
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        pageControl.setProgress(contentOffsetX: scrollView.contentOffset.x, pageWidth: scrollView.bounds.width)
+    }
     
     override func sizeForItem(at index: Int) -> CGSize {
         let height: CGFloat = 90
@@ -35,6 +51,17 @@ class ToolsSectionController: ListSectionController, ListAdapterDataSource {
         super.init()
         self.inset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         loadArts()
+        NotificationCenter.default.addObserver(self, selector: #selector(markerActivated), name: markerIsActivated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(markerDesactivated), name: markerIsDesactivated, object: nil)
+    }
+    
+    
+    @objc func markerActivated() {
+        adapter.collectionView?.isScrollEnabled = false
+    }
+    
+    @objc func markerDesactivated() {
+        adapter.collectionView?.isScrollEnabled = true
     }
     
     func loadArts() {
@@ -43,6 +70,10 @@ class ToolsSectionController: ListSectionController, ListAdapterDataSource {
                 print("Error retrieving arts")
             } else {
                 self.arts = arts
+                DispatchQueue.main.async {
+                   self.pageControl.numberOfPages = self.arts.count
+                   self.pageControl.updateViewSize()
+                }
                 self.adapter.performUpdates(animated: true)
             }
         }
@@ -51,14 +82,15 @@ class ToolsSectionController: ListSectionController, ListAdapterDataSource {
     override func numberOfItems() -> Int {
         return 3
     }
+
+    
     
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         
         if index == 0 {
-            guard let cell = collectionContext?.dequeueReusableCell(withNibName: UserInfoCell.reuseIdentifier, bundle: Bundle.main, for: self, at: index) as? UserInfoCell else {
+            guard let cell = collectionContext?.dequeueReusableCell(of: UserInfoCell.self , for: self, at: index) as? UserInfoCell else {
                 fatalError()
             }
-            cell.imageView.sd_setImage(with: URL(string: (user?.profilePicUrl)!))
             cell.user = user
             return cell
         } else if index == 1 {
@@ -71,22 +103,12 @@ class ToolsSectionController: ListSectionController, ListAdapterDataSource {
             guard let cell = collectionContext?.dequeueReusableCell(withNibName: ToolCell.reuseIdentifier, bundle: Bundle.main, for: self, at: index) as? ToolCell else {
                 fatalError()
             }
+            cell.arts = self.arts
+            self.pageControl = cell.pageControl
             return cell
         }
     }
     
-    override func didSelectItem(at index: Int) {
-        if index == 3 {
-            print("SELECT")
-            guard let cell = collectionContext?.cellForItem(at: 2, sectionController: self) as? ArtInfoCell else {
-                fatalError()
-            }
-            cell.label.textColor = .darkText
-            cell.descriptionLabel.textColor = .darkText
-        }
-    }
-    
-     
     override func didUpdate(to object: Any) {
         self.user = object as? User
     }
@@ -100,8 +122,13 @@ class ToolsSectionController: ListSectionController, ListAdapterDataSource {
     }
 
     func emptyView(for listAdapter: ListAdapter) -> UIView? {
-        return nil 
+        if arts.count < 0 {
+            return emptyLabel
+        }
+        return nil
     }
     
-    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }

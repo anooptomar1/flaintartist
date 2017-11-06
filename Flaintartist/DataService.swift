@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import FirebaseDatabase
 import SwiftyUserDefaults
 
 class DataService {
@@ -22,27 +23,25 @@ class DataService {
         return Database.database().reference()
     }
     
-    var REF_NEW:  DatabaseReference {
-        return  REF_BASE.child("new")
-    }
-    
     var REF_USERS: DatabaseReference {
-        return  REF_BASE.child("users")
+        return REF_BASE.child("users")
     }
     
-    var REF_USER_CURRENT: DatabaseReference {
-        let uid = Defaults[.key_uid]
-        let user = REF_USERS.child(uid!)
-        return user
-    }
-    
-    var REF_ARTISTARTS: DatabaseReference {
-        return REF_BASE.child("artistArts")
-    }
+//    var REF_USER_CURRENT: DatabaseReference {
+//        if let uid = Defaults[.key_uid] {
+//
+//        }
+//        return REF_USERS.child(uid!)
+//    }
     
     var REF_ARTS: DatabaseReference {
         return REF_BASE.child("arts")
     }
+    
+    var REF_USERARTS: DatabaseReference {
+        return REF_BASE.child("userArts")
+    }
+    
     
     var REF_STORAGE: StorageReference {
         return Storage.storage().reference()
@@ -82,46 +81,60 @@ class DataService {
                 }
             })
             
-            let userInfo = ["email": email, "name": name, "website": website, "phoneNumber": phoneNumber, "profileImg": self.fileUrl!] as [String : Any]
-            let userRef = DataService.instance.REF_USER_CURRENT
-            userRef.updateChildValues(userInfo, withCompletionBlock: { (error, reference) in
-                if error != nil {
-                    print("ERROR:\(String(describing: error?.localizedDescription))")
-                } else {
-                    
-                }
-            }
-        )}
+            let userInfo : [String: Any] = ["email": email, "name": name, "website": website, "phoneNumber": phoneNumber, "profileImg": self.fileUrl!]
+            let userRef = DataService.instance.REF_USERS.child((Auth.auth().currentUser?.uid)!)
+            userRef.updateChildValues(userInfo)
+        }
+    }
+
+    
+    func createFirebaseDBUser(_ uid: String, userData: Dictionary<String, String>) {
+       REF_USERS.child((Auth.auth().currentUser?.uid)!).updateChildValues(userData)
     }
     
-    func setUserInfo(name: String, user: User!, password: String, pictureData: NSData!, userType: String){
-        self.saveUserInfo(name: name, user:user, password: password, userType: userType )
-    }
-    
-    func saveUserInfo(name: String, user: User!, password: String? = nil, userType: String){
-        let userInfo = ["name": name, "email": user.email!, "uid": user.userId, "userType": userType]
-        DataService.instance.REF_USERS.child(user.userId!).setValue(userInfo) { (error, ref) in
-            DataService.instance.REF_USERS.removeAllObservers()
-            if error == nil {
-                //AuthService.instance.logIn(email: user.email!, password: password!, onComplete: nil)
+    func createNewArt(title: String, description: String, data: Data, completion: @escaping (_ success: Bool, _ error: Error?) -> ())  {
+        let imgUID = NSUUID().uuidString
+        let metadata = StorageMetadata()
+            metadata.contentType = "image/jpeg"
+        let userUID = (Auth.auth().currentUser?.uid)!
+        REF_STORAGE.child("Arts").child(userUID).child(imgUID).putData(data, metadata: metadata) { (metaData, error) in
+            if let error = error {
+                completion(false, error)
+                return
             } else {
-                print(error!.localizedDescription)
+                let downloadURL = metaData?.downloadURL()!.absoluteString
+                if let url = downloadURL {
+                    let newArt: [String: Any] = [
+                        "userUID": userUID as AnyObject, "title": title as AnyObject, "description": description as AnyObject, "imageUrl":  url as AnyObject
+                    ]
+                    self.REF_USERARTS.childByAutoId().updateChildValues(newArt)
+                    completion(true, nil)
+                }
             }
         }
     }
-    
-    func createFirebaseDBUser(_ uid: String, userData: Dictionary<String, String>) {
-        let newUser = DataService.instance.REF_USERS.child(uid)
-        newUser.updateChildValues(userData)
-    }
-    
-    func createNewArt(_ art: Dictionary<String, AnyObject>) {
-        let userArt = DataService.instance.REF_ARTISTARTS.child((Auth.auth().currentUser?.uid)!).childByAutoId()
-        let key = userArt.key
-        let NewArt = DataService.instance.REF_ARTS.child(key)
-        //NewArt.updateChildValues(art)
-        userArt.updateChildValues(art)
-    }
+        
+//        func saveArtDrawing(_ artID: String, data: Data){
+//            let imgUID = NSUUID().uuidString
+//            let metadata = StorageMetadata()
+//            metadata.contentType = "image/jpeg"
+//            let userUID = (Auth.auth().currentUser?.uid)!
+//            REF_STORAGE.child("ArtDrawings").child(userUID).child(imgUID).putData(data, metadata: metadata) { (metaData, error) in
+//                if let error = error {
+//                    print("ERROR: \(error)")
+//                    //completion(false, error)
+//                    return
+//                } else {
+//                    let downloadURL = metaData?.downloadURL()!.absoluteString
+//                    if let url = downloadURL {
+//                        print("URL: \(url)")
+//                        let userArt = self.REF_ARTISTARTS.child(userUID).child(artID)
+//                        userArt.updateChildValues(["drawingUrl": url])
+//
+//                }
+//            }
+//        }
+//    }
 }
 
 

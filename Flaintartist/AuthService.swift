@@ -6,11 +6,10 @@
 //  Copyright © 2017 Kerby Jean. All rights reserved.
 //
 
-import FBSDKLoginKit
 import Firebase
 import SwiftyUserDefaults
 
-typealias Completion = (_ errMsg: String?, _ data: AnyObject?) -> Void
+typealias Completion = (_ success: Bool?, _ error: Error?) -> Void
 
 class AuthService {
     private static let _instance = AuthService()
@@ -18,16 +17,23 @@ class AuthService {
         return _instance
     }
     
+    var iCloudKeyStore: NSUbiquitousKeyValueStore = NSUbiquitousKeyValueStore()
+
     
-    
-    
-    func logIn(email: String, password: String, onComplete: Completion?){
+    func signIn(email: String, password: String, completion: @escaping Completion){
         Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
             if error != nil {
-                self.handleFirebaseError(error: error! as NSError, onComplete: onComplete)
+                completion(false, error)
+                //self.handleFirebaseError(error: error! as NSError, onComplete: onComplete)
             } else {
+            
+                
+                let credential = EmailAuthProvider.credential(withEmail: email, password: password)
+                user?.link(with: credential) { (user, error) in
+                    // ...
+                }
+                completion(true, nil)
                 //Successfully logged in
-                onComplete?(nil, user)
                 Analytics.setUserID(user?.uid)
                 Defaults[.key_uid] = user?.uid
                 Defaults[.email] = email
@@ -40,113 +46,11 @@ class AuthService {
     }
     
     
-    func facebookLogIn(viewController: UIViewController, onComplete: Completion?) {
-        let facebookLogin = FBSDKLoginManager()
-        
-        facebookLogin.logIn(withReadPermissions: ["email", "public_profile"], from: viewController) { (result, error) in
-            if error != nil {
-                print("Kurbs: Unable to authenticate with Facebook - \(String(describing: error))")
-            } else if result?.isCancelled == true {
-                print("Kurbs: User cancelled Facebook authentication")
-            } else {
-                print("Kurbs: Successfully authenticated with Facebook")
-                let credential = FacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
-                self.completeLogIn(credential)
-            }
-        }
-    }
-    
-    
-    
-    func facebookSignIn(viewController: UIViewController, onComplete: Completion?) {
-        let facebookLogin = FBSDKLoginManager()
-        facebookLogin.logIn(withReadPermissions: ["email", "public_profile"], from: viewController) { (result, error) in
-            if error != nil {
-                print("Kurbs: Unable to authenticate with Facebook - \(String(describing: error))")
-            } else if result?.isCancelled == true {
-                print("Kurbs: User cancelled Facebook authentication")
-            } else {
-                print("Kurbs: Successfully authenticated with Facebook")
-                let credential = FacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
-                self.firebaseAuth(credential)
-            }
-        }
-    }
-    
-    
-    
-    func firebaseAuth(_ credential: AuthCredential) {
-        print("SECOND CREDENTIAL: \(credential)")
-        var pictureUrl = ""
-        Auth.auth().signIn(with: credential, completion: { (user, error) in
-            print("SECOND: \(credential.provider)")
-            guard let uid = user?.uid else {
-                return
-            }
-            if error != nil {
-                print("Kurbs: Unable to authenticate with Firebase - \(String(describing: error))")
-            } else {
-                print("Kurbs: Successfully authenticated with Firebase")
-                if let user = user {
-                    let userData = ["provider": credential.provider]
-                    
-                    let profilePicRef = DataService.instance.REF_STORAGE.child("\(String(describing: user.uid))/\(Int(NSDate.timeIntervalSinceReferenceDate))")
-                    print("REF: \(profilePicRef)")
-                    let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, email, picture.width(300).height(300)"])
-                    graphRequest.start(completionHandler: { (connection, result, error) -> Void in
-                        if ((error) != nil) {
-                            print("Error: \(String(describing: error))")
-                        } else {
-                            let values: [String:AnyObject] = result as! [String : AnyObject]
-                            if let photURL = values["picture"] as? [String : AnyObject] {
-                                let photoData = photURL["data"] as? [String : AnyObject]
-                                let picUrl = photoData?["url"] as? String
-                                pictureUrl = picUrl!
-                            }
-                            
-                            Defaults[.name] = (values["name"] as? String)!
-                            let name = values["name"] as? String
-                            let email = values["email"] as? String
-                            let userValues = ["id": uid,"name": name, "email": email, "profileImg": pictureUrl] as? [String : String]
-                            if let imageData = NSData(contentsOf: URL(string: pictureUrl)! ) {
-                                _ = profilePicRef.putData(imageData as Data, metadata: nil, completion: { (metadata, error) in
-                                    if (error == nil) {
-                                        //let downloadUrl = metadata!.downloadURLs
-                                    } else {
-                                        print("Error saving facebook image: \(String(describing: error?.localizedDescription))")
-                                    }
-                                })
-                            }
-                            
-                            DataService.instance.REF_USERS.child(uid).updateChildValues(userValues!, withCompletionBlock: { (error, ref) in
-                                if error != nil {
-                                    print("ERROR: \(String(describing: error?.localizedDescription))")
-                                } else {
-                                    self.completeSignIn(id: user.uid, userData: userData)
-                                }
-                            })
-                        }
-                    })
-                }
-            }
-        })
-    }
-    
-    
-    
-    func completeSignIn(id: String, userData: Dictionary<String, String>) {
-        DataService.instance.createFirebaseDBUser(id, userData: userData)
-        Defaults[.key_uid] = id
-        DispatchQueue.main.async {
-            let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDel.logIn()
-        }
-    }
-    
-    
-    
     func completeLogIn(_ credential: AuthCredential){
         Auth.auth().signIn(with: credential, completion: { (user, error) in
+            user?.link(with: credential) { (user, error) in
+                print("USERRR: \(user?.email)")
+            }
             guard let uid = user?.uid else {
                 return
             }
@@ -164,41 +68,27 @@ class AuthService {
     
     
     // Sign Up
-    func signUp (name: String, email: String, password: String, pictureData: NSData? = nil, userType: String, onComplete: Completion?) {
+    func signUp (name: String, email: String, password: String, completion: @escaping Completion) {
         Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
             if error != nil {
                 print("ERROR:\(String(describing: error?.localizedDescription))")
-                self.handleFirebaseError(error: error! as NSError, onComplete: onComplete)
+                completion(false, error)
             } else {
-                // DataService.instance.setUserInfo(name: name, user: user!, password: password, pictureData: pictureData, userType: userType)
+
+               let userInfo = ["name": name, "email": email, "uid": user!.uid]
+                self.completeSignIn(id: user!.uid, userData: userInfo)
+                completion(true, nil)
             }
         })
     }
     
     
-    // Handle Errors
-    func handleFirebaseError(error: NSError, onComplete: Completion?) {
-        print(error.debugDescription)
-        if let errorCode = AuthErrorCode(rawValue: error.code) {
-            switch (errorCode) {
-            case .invalidEmail:
-                onComplete?("Invalid email address", nil)
-                break
-            case .wrongPassword:
-                onComplete?("Invalid password.", nil)
-                break
-            case .emailAlreadyInUse, .accountExistsWithDifferentCredential:
-                onComplete?("Could not create account. Email already in use.", nil)
-                break
-            case .networkError:
-                onComplete?("The internet connection appears to be offline.", nil)
-                break
-            case .userNotFound:
-                onComplete?("User not found.", nil)
-                break
-            default:
-                onComplete?("There was a problem authenticating. Try again.", nil)
-            }
+    func completeSignIn(id: String, userData: Dictionary<String, String>) {
+        DataService.instance.createFirebaseDBUser(id, userData: userData)
+        Defaults[.key_uid] = id
+        DispatchQueue.main.async {
+            let appDel : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDel.logIn()
         }
     }
 }

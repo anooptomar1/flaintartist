@@ -24,6 +24,7 @@ final class EditAccountVC: UITableViewController, UIImagePickerControllerDelegat
     var user: User?
     private var imageChanged: Bool = false
     lazy var imagePicker = UIImagePickerController()
+    lazy var alert = Alerts()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,9 +32,8 @@ final class EditAccountVC: UITableViewController, UIImagePickerControllerDelegat
         setupInfo()
     }
     
-    
     func setupInfo() {
-        profileImage.sd_setImage(with: URL(string: (user?.profilePicUrl)!))
+        profileImage.sd_setImage(with: URL(string: user?.profilePicUrl ?? "" ))
         nameField.text = user?.name ?? ""
         websiteField.text = user?.website ?? ""
         emailField.text = user?.email ?? ""
@@ -42,7 +42,6 @@ final class EditAccountVC: UITableViewController, UIImagePickerControllerDelegat
     
     
     @IBAction func doneBtnTapped(_ sender: Any) {
-        
         let activityIndicator = UIActivityIndicatorView()
         DispatchQueue.main.async {
             activityIndicator.hidesWhenStopped = true
@@ -60,6 +59,7 @@ final class EditAccountVC: UITableViewController, UIImagePickerControllerDelegat
         
         DataService.instance.saveCurrentUserInfo(name: name, website: website, email: email, phoneNumber: phoneNumber, data: data!)
         activityIndicator.stopAnimating()
+        
         _ = navigationController?.popToRootViewController(animated: true)
     }
     
@@ -114,9 +114,13 @@ final class EditAccountVC: UITableViewController, UIImagePickerControllerDelegat
         editPhotoAlert()
     }
     
-    
-    @IBAction func cancelBtnTapped(_ sender: Any) {
-        _ = navigationController?.popViewController(animated: true)
+
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return 0.5
+        } else {
+            return 40.0
+        }
     }
 }
 

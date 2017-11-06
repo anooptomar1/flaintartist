@@ -6,19 +6,20 @@ target 'Flaintartist' do
   use_frameworks!
 
   # Pods for Flaintartist
+  pod 'Firebase/Core'
+  pod 'FirebaseDatabase'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Firestore'
   pod 'YYText'
+  pod 'NXDrawKit'
   pod 'IGListKit', '~> 3.0'
   pod 'Reusable'
-  pod 'Firebase'
-  pod 'Firebase/Auth'
   pod 'FirebaseStorage'
-  pod 'FirebaseDatabase'
   pod 'SDWebImage', '~>3.8'
   pod 'SwiftyUserDefaults'
   pod 'GSMessages'
   pod 'TOCropViewController'
   pod 'IQKeyboardManager'
-
 
   
   # Facebook

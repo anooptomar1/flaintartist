@@ -8,7 +8,7 @@
 
 import UIKit
 import SDWebImage
-import FirebaseAuth
+import Firebase
 import FBSDKLoginKit
 import SwiftyUserDefaults
 
@@ -23,7 +23,7 @@ final class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSo
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        options = ["Edit account details", "Gallery code and link", "Privacy Policy", "Sign out"]
+        options = ["Edit account details", "Gallery code and link", "Privacy Policy", "Sign Out"]
     }
     
     @IBAction func doneBtnTapped(_ sender: Any) {
@@ -78,7 +78,7 @@ final class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSo
     func logoutAlert() {
         let vc = UIAlertController(title: "Are you sure you want to sign out?", message: nil, preferredStyle: .actionSheet)
         let no = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let yes = UIAlertAction(title: "Log out", style: .destructive) { (UIAlertAction) in
+        let yes = UIAlertAction(title: "Sign Out", style: .destructive) { (UIAlertAction) in
             
             Defaults.remove(.key_uid)
             let firebaseAuth = Auth.auth()
@@ -87,7 +87,7 @@ final class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSo
                 loginManager.logOut()
                 try firebaseAuth.signOut()
                 DispatchQueue.main.async {
-                    let controller = self.storyboard!.instantiateViewController(withIdentifier: "LogInNav")
+                    let controller = self.storyboard!.instantiateViewController(withIdentifier: "SignInNav") as! UINavigationController
                     self.present(controller, animated: true, completion: nil)
                 }
             } catch let signOutError as NSError {

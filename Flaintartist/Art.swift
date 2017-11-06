@@ -8,16 +8,14 @@
 
 import UIKit
 import IGListKit
-import FirebaseDatabase
+import Firebase
 
 class Art {
     
     var artID: String?
     var imgUrl: String?
     var title: String?
-    var price: NSNumber?
     var description: String?
-    var type: String?
     var artHeight: NSNumber?
     var artWidth: NSNumber?
     var postDate: NSNumber?
@@ -27,9 +25,7 @@ class Art {
         self.artID = artID
         self.imgUrl = imgUrl
         self.title = title
-        self.price = price
         self.description = description
-        self.type = type
         self.artHeight = height
         self.artWidth = width
         self.postDate = postDate
@@ -47,10 +43,6 @@ class Art {
             self.description = description
         }
         
-        if let type = data["type"] as? String {
-            self.type = type
-        }
-        
         if let height = data["height"] as? NSNumber {
             self.artHeight = height
         }
@@ -65,10 +57,6 @@ class Art {
         
         if let postDate = data["postDate"] as? NSNumber {
             self.postDate = postDate
-        }
-        
-        if let price = data["price"] as? NSNumber {
-            self.price = price
         }
         //_artRef = DataService.instance.REF_ARTS.child(self._artID)
     }
