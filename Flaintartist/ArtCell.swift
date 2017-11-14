@@ -12,7 +12,6 @@ import SpriteKit
 import SceneKit
 import Reusable
 import SDWebImage
-import NXDrawKit
 
 var canvassView: Canvas?
 

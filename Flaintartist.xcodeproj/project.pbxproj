@@ -74,6 +74,15 @@
 		6DF28DCB1E199D3300C8A3B0 /* Art.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF28DCA1E199D3300C8A3B0 /* Art.swift */; };
 		93B88644237F5B3480AF868F /* Pods_Flaintartist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62D73A7833A90BAFFD1E9D0D /* Pods_Flaintartist.framework */; };
 		D0CF0457EA55D1EC14422CF6 /* Pods_FlaintartistUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C7E5CA513FB08F5371E78CF /* Pods_FlaintartistUITests.framework */; };
+		D1EF8A5E1FBB69980067535C /* Pallete.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EF8A5D1FBB69980067535C /* Pallete.swift */; };
+		D1EF8A601FBB6A140067535C /* Brush.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EF8A5F1FBB6A140067535C /* Brush.swift */; };
+		D1EF8A621FBB6A350067535C /* Canvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EF8A611FBB6A350067535C /* Canvas.swift */; };
+		D1EF8A641FBB6A5B0067535C /* CircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EF8A631FBB6A5B0067535C /* CircleButton.swift */; };
+		D1EF8A661FBB6A840067535C /* Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EF8A651FBB6A840067535C /* Drawing.swift */; };
+		D1EF8A681FBB6AA60067535C /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EF8A671FBB6AA60067535C /* Session.swift */; };
+		D1EF8A6A1FBB6AD10067535C /* Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EF8A691FBB6AD10067535C /* Toolbar.swift */; };
+		D1EF8A6C1FBB6AF20067535C /* UIImageExtractExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EF8A6B1FBB6AF20067535C /* UIImageExtractExtension.swift */; };
+		D1EF8A6E1FBB6B150067535C /* UIViewFrameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EF8A6D1FBB6B150067535C /* UIViewFrameExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -175,6 +184,15 @@
 		6DF28DCA1E199D3300C8A3B0 /* Art.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Art.swift; sourceTree = "<group>"; };
 		70C4C6928DC945CFA85200F3 /* Pods-FlaintartistTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlaintartistTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FlaintartistTests/Pods-FlaintartistTests.release.xcconfig"; sourceTree = "<group>"; };
 		9D75A3219F4FA996FC3A0417 /* Pods-FlaintartistTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlaintartistTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlaintartistTests/Pods-FlaintartistTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D1EF8A5D1FBB69980067535C /* Pallete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pallete.swift; sourceTree = "<group>"; };
+		D1EF8A5F1FBB6A140067535C /* Brush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brush.swift; sourceTree = "<group>"; };
+		D1EF8A611FBB6A350067535C /* Canvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Canvas.swift; sourceTree = "<group>"; };
+		D1EF8A631FBB6A5B0067535C /* CircleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleButton.swift; sourceTree = "<group>"; };
+		D1EF8A651FBB6A840067535C /* Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawing.swift; sourceTree = "<group>"; };
+		D1EF8A671FBB6AA60067535C /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		D1EF8A691FBB6AD10067535C /* Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
+		D1EF8A6B1FBB6AF20067535C /* UIImageExtractExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtractExtension.swift; sourceTree = "<group>"; };
+		D1EF8A6D1FBB6B150067535C /* UIViewFrameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewFrameExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,6 +257,7 @@
 		6D1E05711E3BCFFB007CCC5C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D1EF8A5C1FBB69860067535C /* Drawing */,
 				6D4860E61F8929FA00433327 /* Register */,
 				6D9A98051F7899EF004CE1BF /* Profile */,
 				6D5BE4251F7E0C19004160B7 /* Edit */,
@@ -528,6 +547,22 @@
 			name = Info;
 			sourceTree = "<group>";
 		};
+		D1EF8A5C1FBB69860067535C /* Drawing */ = {
+			isa = PBXGroup;
+			children = (
+				D1EF8A5D1FBB69980067535C /* Pallete.swift */,
+				D1EF8A5F1FBB6A140067535C /* Brush.swift */,
+				D1EF8A611FBB6A350067535C /* Canvas.swift */,
+				D1EF8A631FBB6A5B0067535C /* CircleButton.swift */,
+				D1EF8A651FBB6A840067535C /* Drawing.swift */,
+				D1EF8A671FBB6AA60067535C /* Session.swift */,
+				D1EF8A691FBB6AD10067535C /* Toolbar.swift */,
+				D1EF8A6B1FBB6AF20067535C /* UIImageExtractExtension.swift */,
+				D1EF8A6D1FBB6B150067535C /* UIViewFrameExtension.swift */,
+			);
+			name = Drawing;
+			sourceTree = "<group>";
+		};
 		E8C4524ECCB19F3F8B32D9BB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -711,7 +746,6 @@
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/IGListKit/IGListKit.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework",
-				"${BUILT_PRODUCTS_DIR}/NXDrawKit/NXDrawKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/Reusable/Reusable.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
@@ -736,7 +770,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IGListKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManager.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NXDrawKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reusable.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
@@ -893,11 +926,14 @@
 			files = (
 				6D9A97FF1F789010004CE1BF /* ToolsSectionController.swift in Sources */,
 				6D3A6B651F7BCF1C0039364F /* Share.swift in Sources */,
+				D1EF8A601FBB6A140067535C /* Brush.swift in Sources */,
 				6D3A6B841F7BD39B0039364F /* DetailsVC.swift in Sources */,
 				6D8B20E61F81ABF900927E4D /* InputCell.swift in Sources */,
+				D1EF8A6C1FBB6AF20067535C /* UIImageExtractExtension.swift in Sources */,
 				6D3A6B711F7BD0590039364F /* TextFieldRect.swift in Sources */,
 				6D3A6B6F1F7BCFCB0039364F /* SettingsVC.swift in Sources */,
 				6DC08D3B1F8AF48F00878E2B /* NumTypes+Conversion.swift in Sources */,
+				D1EF8A6A1FBB6AD10067535C /* Toolbar.swift in Sources */,
 				6D3A6B7C1F7BD2C10039364F /* DataService.swift in Sources */,
 				6D3A6B751F7BD0C40039364F /* PrivacyVC.swift in Sources */,
 				6D4811931F7957F3007087AB /* ToolCell.swift in Sources */,
@@ -909,15 +945,19 @@
 				6D3A6B691F7BCF3F0039364F /* Alerts.swift in Sources */,
 				6DC08D381F8AF2DC00878E2B /* ReadData.swift in Sources */,
 				6D4811981F79CEAE007087AB /* TestCell.swift in Sources */,
+				D1EF8A5E1FBB69980067535C /* Pallete.swift in Sources */,
+				D1EF8A681FBB6AA60067535C /* Session.swift in Sources */,
 				6DBD18461F3931BA005B0712 /* ProfileVCExt.swift in Sources */,
 				6D5BE4241F7DFA9F004160B7 /* EditVC.swift in Sources */,
 				6D0142351F48F0E200358580 /* ArtViewModelController.swift in Sources */,
 				6D5BE4271F7E0CEC004160B7 /* EditSectionController.swift in Sources */,
 				6D8B20DE1F81318D00927E4D /* RegisterSectionController.swift in Sources */,
 				6D3A6B591F7BCDB50039364F /* SettingsCell.swift in Sources */,
+				D1EF8A621FBB6A350067535C /* Canvas.swift in Sources */,
 				6D3A6B631F7BCF030039364F /* Connection.swift in Sources */,
 				6D3A6B6B1F7BCF5C0039364F /* Time.swift in Sources */,
 				6D3A6B8C1F7BD4D30039364F /* ChooseArtVC.swift in Sources */,
+				D1EF8A661FBB6A840067535C /* Drawing.swift in Sources */,
 				6D3A6B821F7BD35C0039364F /* EditProfileCell.swift in Sources */,
 				6D3A6B7E1F7BD2EA0039364F /* EditAccountVC.swift in Sources */,
 				6D3A6B5B1F7BCDF40039364F /* SignInVC.swift in Sources */,
@@ -937,6 +977,8 @@
 				6D9A98021F789129004CE1BF /* LoginViewController.swift in Sources */,
 				6DC08D4C1F8BF5FB00878E2B /* OverlayScene.swift in Sources */,
 				6DBD18481F39372E005B0712 /* View.swift in Sources */,
+				D1EF8A641FBB6A5B0067535C /* CircleButton.swift in Sources */,
+				D1EF8A6E1FBB6B150067535C /* UIViewFrameExtension.swift in Sources */,
 				6D3A6B801F7BD3270039364F /* RegisterVC.swift in Sources */,
 				6D3A6B731F7BD0890039364F /* User.swift in Sources */,
 				6DCBA3951F7AAB0E00BD6D71 /* ArtInfoCell.swift in Sources */,

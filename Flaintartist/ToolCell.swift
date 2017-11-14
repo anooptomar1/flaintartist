@@ -8,7 +8,6 @@
 
 import UIKit
 import Reusable
-import NXDrawKit
 
 weak var palettteView: Palette?
 

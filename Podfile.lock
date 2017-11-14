@@ -95,7 +95,6 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
-  - NXDrawKit (0.6.1)
   - Protobuf (3.4.0)
   - Reusable (4.0.0):
     - Reusable/Storyboard (= 4.0.0)
@@ -119,7 +118,6 @@ DEPENDENCIES:
   - GSMessages
   - IGListKit (~> 3.0)
   - IQKeyboardManager
-  - NXDrawKit
   - Reusable
   - SDWebImage (~> 3.8)
   - SwiftyUserDefaults
@@ -150,7 +148,6 @@ SPEC CHECKSUMS:
   IQKeyboardManager: 077b7f691dfa9d69db9cff66f2bed68ebfc02d9b
   leveldb-library: 44ef425bfde64f5b41daef86b38db2d13edbbee1
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
-  NXDrawKit: a287045ea335673d6e1e693d80d44073d8726514
   Protobuf: 03eef2ee0b674770735cf79d9c4d3659cf6908e8
   Reusable: 98e5fff1e0e2e00872199699b276dde08ee56c07
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
@@ -158,6 +155,6 @@ SPEC CHECKSUMS:
   TOCropViewController: f88194a084f6afe1fd6f21a3f0edda7dd097e38b
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: 6accdc7d73ae635f6775e573ee07b48132e3f287
+PODFILE CHECKSUM: 4362e0e75e00ba63bb0608b3968f5ef15f364660
 
 COCOAPODS: 1.3.1
