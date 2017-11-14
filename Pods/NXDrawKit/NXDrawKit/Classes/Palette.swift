@@ -54,7 +54,7 @@ open class Palette: UIView {
     }
     
     @objc open func setup() {
-        self.backgroundColor = UIColor.blue
+        self.backgroundColor = UIColor.clear
         self.setupColorView()
 //        self.setupAlphaView()
 //        self.setupWidthView()
@@ -81,7 +81,7 @@ open class Palette: UIView {
         }
         
         self.totalHeight = button!.frame.maxX + self.buttonPadding;
-        self.colorPaletteView?.frame = CGRect(x: 0, y: 0, width: 300, height:  45)
+        self.colorPaletteView?.frame = CGRect(x: 0, y: 0, width: self.frame.width, height:  45)
     }
     
     fileprivate func colorButtonRect(index: NSInteger, diameter: CGFloat, padding: CGFloat) -> CGRect {

@@ -15,8 +15,7 @@ open class ToolBar: UIView {
     @objc open weak var redoButton: UIButton?
     @objc open weak var saveButton: UIButton?
     @objc open weak var clearButton: UIButton?
-    
-    fileprivate weak var lineView: UIView?
+    @objc open weak var lineView: CALayer?
 
     // MARK: - Public Methods
     public init() {
@@ -43,11 +42,10 @@ open class ToolBar: UIView {
         self.imageView = imageView
         self.addSubview(imageView)
         
-        let lineView = UIView()
-        lineView.backgroundColor =  UIColor(red: 200/255.0, green: 199/255.0, blue: 204/255.0, alpha: 1)
-        self.addSubview(lineView)
+        let lineView = CALayer()
+        lineView.backgroundColor =  UIColor(red: 200/255.0, green: 199/255.0, blue: 204/255.0, alpha: 1).cgColor
+        self.layer.addSublayer(lineView)
         self.lineView = lineView
-        self.lineView?.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
         
         var button: UIButton = self.button("Clear")
         self.addSubview(button)
@@ -68,24 +66,24 @@ open class ToolBar: UIView {
     
     fileprivate func setupLayout() {
         
-        self.imageView?.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        self.imageView?.frame = CGRect(x: 10, y: 10, width: 30, height: 30)
         self.imageView?.clipsToBounds = true
         self.imageView?.layer.cornerRadius = (self.imageView?.frame.height)!/2
         
         let height: CGFloat = 0.5
         
-        self.lineView?.frame = CGRect(x: 0, y: (self.lineView?.bounds.size.height)! - height, width: bounds.size.width, height: height)
+        self.lineView?.frame = CGRect(x: 0, y: (self.bounds.size.height) - height, width: bounds.size.width, height: height)
         
-        self.undoButton?.frame = CGRect(x: 15, y: 0, width: self.height * 0.5, height: self.height * 0.5)
+        self.undoButton?.frame = CGRect(x: (self.imageView?.frame.maxX)! + 20, y: 0, width: self.height * 0.5, height: self.height * 0.5)
         self.undoButton?.center = CGPoint(x: (self.undoButton?.center.x)!, y: self.height / 2.0)
 
-        self.redoButton?.frame = CGRect(x: (self.undoButton?.frame)!.maxX + 20, y: 0, width: self.height * 0.5, height: self.height * 0.5)
+        self.redoButton?.frame = CGRect(x: (self.undoButton?.frame)!.maxX + 20, y: 10, width: self.height * 0.5, height: self.height * 0.5)
         self.redoButton?.center = CGPoint(x: (self.redoButton?.center.x)!, y: self.height / 2.0)
 
-        self.saveButton?.frame = CGRect(x: self.width - (self.width * 0.1) - 15, y: 0, width: self.width * 0.1, height: self.width * 0.1)
+        self.saveButton?.frame = CGRect(x: self.width - (self.width * 0.1) - 15, y: 10, width: self.width * 0.1, height: self.width * 0.1)
         self.saveButton?.center = CGPoint(x: (self.saveButton?.center.x)!, y: self.height / 2.0)
 
-        self.clearButton?.frame = CGRect(x: (self.saveButton?.frame)!.minX - (self.width * 0.1) - 15, y: 0, width: self.width * 0.1, height: self.width * 0.1)
+        self.clearButton?.frame = CGRect(x: (self.saveButton?.frame)!.minX - (self.width * 0.1) - 15, y: 10, width: self.width * 0.1, height: self.width * 0.1)
         self.clearButton?.center = CGPoint(x: (self.clearButton?.center.x)!, y: self.height / 2.0)
     }
     
